@@ -1,20 +1,34 @@
 <template>
   <div class="resultados">
     <div class="result-container">
-      <h1>Resultados do Questionário</h1>
-      <p>Sua compatibilidade com outros perfis é:</p>
-      
-      <div v-if="compatibilidade === 'alta'" class="result high">
-        Compatibilidade Alta! 🎉
-      </div>
-      <div v-else-if="compatibilidade === 'media'" class="result medium">
-        Compatibilidade Média.
-      </div>
-      <div v-else class="result low">
-        Compatibilidade Baixa.
+      <h1>Combinações Compatíveis</h1>
+
+      <p class="intro">
+        Aqui estão os usuários mais compatíveis com você, com base nas suas respostas:
+      </p>
+
+      <div v-if="listaCompatibilidade.length === 0">
+        Nenhum outro usuário respondeu ao questionário ainda.
       </div>
 
-      <router-link to="/" class="btn">Voltar à Home</router-link>
+      <div
+        v-for="(item, index) in listaCompatibilidade"
+        :key="index"
+        class="card"
+      >
+        <h3>{{ item.username }}</h3>
+        <p>Pontuação de compatibilidade: <strong>{{ item.score }} / 30</strong></p>
+
+        <div class="bar">
+          <div
+            class="bar-fill"
+            :style="{ width: (item.score / 30) * 100 + '%' }"
+          ></div>
+        </div>
+      </div>
+
+      <router-link class="btn" to="/dashboard">Voltar</router-link>
+
     </div>
   </div>
 </template>
@@ -23,108 +37,95 @@
 export default {
   data() {
     return {
-      compatibilidade: ''
+      listaCompatibilidade: []
     };
   },
   mounted() {
-    let score = 0;
+    this.calcular();
+  },
+  methods: {
+    calcular() {
+      const atual = JSON.parse(localStorage.getItem("currentUser"));
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    // Lê as 10 respostas do LocalStorage
-    for (let i = 1; i <= 10; i++) {
-      const resposta = localStorage.getItem(`pergunta${i}`);
-      
-      switch(resposta) {
-        case 'forte':
-        case 'musica':
-        case 'sempre':
-        case 'diariamente':
-        case 'sociais':
-        case 'liderar':
-        case 'sim':
-        case 'muito':
-          score += 3; break;
-        case 'media':
-        case 'servico':
-        case 'às_vezes':
-        case 'ocasionalmente':
-        case 'ambos':
-        case 'depende':
-        case 'moderado':
-          score += 2; break;
-        case 'fraca':
-        case 'ensino':
-        case 'raramente':
-        case 'nao_muito':
-        case 'nao':
-        case 'pouco':
-          score += 1; break;
+      const outros = users.filter(u => u.username !== atual.username && u.respostas.length > 0);
+
+      const lista = [];
+
+      for (const user of outros) {
+        let score = 0;
+
+        for (let i = 0; i < 10; i++) {
+          const diff = Math.abs(atual.respostas[i] - user.respostas[i]);
+
+          if (diff === 0) score += 3;
+          else if (diff === 1) score += 2;
+          else score += 1;
+        }
+
+        lista.push({ username: user.username, score });
       }
-    }
 
-    // Define compatibilidade
-    if (score >= 25) this.compatibilidade = 'alta';
-    else if (score >= 18) this.compatibilidade = 'media';
-    else this.compatibilidade = 'baixa';
+      // Ordenar do mais compatível para o menos
+      this.listaCompatibilidade = lista.sort((a, b) => b.score - a.score);
+    }
   }
 };
 </script>
 
 <style scoped>
 .resultados {
-  background: #e6fffa;
   min-height: 100vh;
+  background: #e6fffa;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
 .result-container {
-  background-color: white;
+  background: #fff;
+  width: 600px;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px #0003;
 }
 
-h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.intro {
+  margin-bottom: 25px;
 }
 
-p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-}
-
-.result {
+.card {
+  background: #f7fafc;
   padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
-.high { background-color: #48bb78; color: white; }
-.medium { background-color: #f6e05e; color: black; }
-.low { background-color: #e53e3e; color: white; }
-
-button, .btn {
+.bar {
   width: 100%;
-  padding: 12px;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 5px;
-  background-color: #3182ce;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
+  height: 12px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
 }
 
-button:hover, .btn:hover {
-  background-color: #2b6cb0;
+.bar-fill {
+  height: 12px;
+  background: #38b2ac;
+}
+
+.btn {
+  display: block;
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  background: #3182ce;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.btn:hover {
+  background: #2b6cb0;
 }
 </style>
