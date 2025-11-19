@@ -1,36 +1,38 @@
 <template>
-  <div class="auth-form">
-    <h2>Cadastrar</h2>
-    <form @submit.prevent="register">
-      <input v-model="username" placeholder="Usuário" required />
-      <input v-model="password" type="password" placeholder="Senha" required />
-      <button type="submit">Cadastrar</button>
-    </form>
+  <div class="page-container">
+    <div class="card">
+      <h1>Criar Conta</h1>
+
+      <form @submit.prevent="register">
+        <div>
+          <label>Nome completo</label>
+          <input type="text" v-model="nome" required />
+        </div>
+
+        <div>
+          <label>Email</label>
+          <input type="email" v-model="email" required />
+        </div>
+
+        <div>
+          <label>Senha</label>
+          <input type="password" v-model="senha" required />
+        </div>
+
+        <button type="submit">Cadastrar</button>
+      </form>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      username: '',
-      password: ''
-    }
-  },
-  methods: {
-    register() {
-      let users = JSON.parse(localStorage.getItem('users') || '[]');
+<script setup>
+import { ref } from "vue";
 
-      if (users.find(u => u.username === this.username)) {
-        alert("Usuário já existe!");
-        return;
-      }
+const nome = ref("");
+const email = ref("");
+const senha = ref("");
 
-      users.push({ username: this.username, password: this.password, respostas: [] });
-      localStorage.setItem('users', JSON.stringify(users));
-      alert("Cadastro realizado!");
-      this.$router.push('/login');
-    }
-  }
-}
+const register = () => {
+  console.log("Cadastro:", nome.value, email.value, senha.value);
+};
 </script>

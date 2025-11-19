@@ -1,35 +1,32 @@
 <template>
-  <div class="auth-form">
-    <h2>Login</h2>
-    <form @submit.prevent="login">
-      <input v-model="username" placeholder="Usuário" required />
-      <input v-model="password" type="password" placeholder="Senha" required />
-      <button type="submit">Login</button>
-    </form>
+  <div class="page-container">
+    <div class="card">
+      <h1>Entrar</h1>
+
+      <form @submit.prevent="login">
+        <div>
+          <label>Email</label>
+          <input type="email" v-model="email" required />
+        </div>
+
+        <div>
+          <label>Senha</label>
+          <input type="password" v-model="password" required />
+        </div>
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      username: '',
-      password: ''
-    }
-  },
-  methods: {
-    login() {
-      let users = JSON.parse(localStorage.getItem('users') || '[]');
-      const user = users.find(u => u.username === this.username && u.password === this.password);
+<script setup>
+import { ref } from "vue";
 
-      if (!user) {
-        alert("Usuário ou senha inválidos!");
-        return;
-      }
+const email = ref("");
+const password = ref("");
 
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      this.$router.push('/dashboard');
-    }
-  }
-}
+const login = () => {
+  console.log("login:", email.value, password.value);
+};
 </script>
