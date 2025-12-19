@@ -1,0 +1,226 @@
+/* ==========================
+   CONTAINER PRINCIPAL
+========================== */
+#app-container {
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+/* ==========================
+   TELAS
+========================== */
+.screen {
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+
+/* ==========================
+   PROGRESSO
+========================== */
+.progress {
+  background: #ddd;
+  height: 10px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+.progress-bar {
+  height: 10px;
+  background: #58a700;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+/* ==========================
+   CARTÕES DE PERGUNTA
+========================== */
+.question-card {
+  background: white;
+  padding: 30px;
+  margin: 20px 0;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ==========================
+   BOTÕES DE RESPOSTA
+========================== */
+.answers button {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: #58a700;
+  color: white;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.answers button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.answers button:active {
+  transform: scale(0.97);
+}
+
+/* ==========================
+   GRID DE DONS
+========================== */
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+/* ==========================
+   CARTÕES DE DONS
+========================== */
+.gift {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.gift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.gift-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.gift-details {
+  margin-top: 10px;
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.gift-details p {
+  margin: 5px 0 10px;
+  font-weight: bold;
+}
+
+.gift-details ul {
+  list-style: none; /* remove bolinhas */
+  padding-left: 0;  /* remove indent padrão */
+  margin: 0;
+}
+
+.gift-details li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+  padding-left: 10px; /* leve indent para parecer subitem */
+  position: relative;
+}
+
+.gift-details li::before {
+  content: "•"; /* bolinha customizada */
+  color: #58a700; /* cor da bolinha */
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* ==========================
+   TRANSIÇÕES
+========================== */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.4s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.25s ease;
+}
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+}
+.expand-enter-to,
+.expand-leave-from {
+  opacity: 1;
+  max-height: 500px;
+}
+
+/* ==========================
+   BOTÕES GERAIS
+========================== */
+.btn-primary {
+  background: #58a700;
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #449900;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #58a700;
+  border: 2px solid #58a700;
+  padding: 15px;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #f0fff0;
+}
+
+/* ==========================
+   BOTÃO VOLTAR
+========================== */
+.btn-secondary.back {
+  width: auto;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+}
+
+/* ==========================
+   CONTADOR DE PERGUNTAS
+========================== */
+.counter {
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}

@@ -4,6 +4,7 @@
     <nav>
       <router-link to="/">Início</router-link>
       <router-link to="/questionario">Questionário</router-link>
+      <router-link to="/testedons">Teste de Dons</router-link>
       <router-link to="/login" class="btn">Entrar</router-link>
     </nav>
   </header>
@@ -19,7 +20,23 @@
   justify-content: space-between;
   align-items: center;
 }
-.logo { font-size: 1.2rem; font-weight: 700; }
-nav a { margin-left: 18px; color: white; text-decoration: none; font-weight: 500; }
-.btn { background: #f4d35e; padding: 8px 12px; border-radius: 6px; color: #111; }
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+nav a {
+  margin-left: 18px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn {
+  background: #f4d35e;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #111;
+}
 </style>

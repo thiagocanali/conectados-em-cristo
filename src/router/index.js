@@ -6,12 +6,14 @@ import CadastroPage from '../views/CadastroPage.vue'
 import QuestionarioPage from '../views/QuestionarioPage.vue'
 import ResultadosPage from '../views/ResultadosPage.vue'
 import DashboardPage from '../views/DashboardPage.vue'
+import TesteDonsPage from '@/views/TesteDonsPage.vue'
 
 const routes = [
   { path: '/', component: HomePage },
   { path: '/login', component: LoginPage },
   { path: '/cadastro', component: CadastroPage },
   { path: '/questionario', component: QuestionarioPage },
+  { path: '/testedons', component: TesteDonsPage },
   { path: '/resultados', component: ResultadosPage },
   { path: '/dashboard', component: DashboardPage }
 ]
