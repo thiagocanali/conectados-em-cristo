@@ -5,6 +5,7 @@
       <router-link to="/">Início</router-link>
       <router-link to="/questionario">Questionário</router-link>
       <router-link to="/testedons">Teste de Dons</router-link>
+      <router-link to="/testepersonalidade">Teste de Personalidade</router-link>
       <router-link to="/login" class="btn">Entrar</router-link>
     </nav>
   </header>

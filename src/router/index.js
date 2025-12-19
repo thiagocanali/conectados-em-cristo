@@ -7,6 +7,7 @@ import QuestionarioPage from '../views/QuestionarioPage.vue'
 import ResultadosPage from '../views/ResultadosPage.vue'
 import DashboardPage from '../views/DashboardPage.vue'
 import TesteDonsPage from '@/views/TesteDonsPage.vue'
+import TestePersonalidade from '@/views/TestePersonalidade.vue'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -14,6 +15,7 @@ const routes = [
   { path: '/cadastro', component: CadastroPage },
   { path: '/questionario', component: QuestionarioPage },
   { path: '/testedons', component: TesteDonsPage },
+  { path: '/testepersonalidade', component: TestePersonalidade },
   { path: '/resultados', component: ResultadosPage },
   { path: '/dashboard', component: DashboardPage }
 ]
