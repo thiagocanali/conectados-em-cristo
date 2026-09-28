@@ -36,10 +36,7 @@ import AppNavbar from "./components/AppNavbar.vue";
 /* ===== ÁREA PRINCIPAL ===== */
 .main-content {
   flex: 1;
-  padding: 2rem;
-  max-width: 1000px;
   width: 100%;
-  margin: 0 auto;
 }
 
 /* ===== TIPOGRAFIA GLOBAL ===== */
