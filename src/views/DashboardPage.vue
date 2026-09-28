@@ -2,6 +2,9 @@
   <div class="dashboard">
     <h1>Olá, {{ currentUser.username }}</h1>
     <div class="buttons">
+      <router-link to="/perfil" class="btn">Meu Perfil</router-link>
+      <router-link to="/descoberta" class="btn">Descobrir Pessoas</router-link>
+      <router-link to="/salvos" class="btn">Perfis Salvos</router-link>
       <router-link to="/questionario" class="btn">Preencher Questionário</router-link>
       <router-link to="/resultados" class="btn">Ver Combinações</router-link>
       <button @click="logout" class="btn">Sair</button>
