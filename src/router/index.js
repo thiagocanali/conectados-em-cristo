@@ -8,6 +8,9 @@ import ResultadosPage from '../views/ResultadosPage.vue'
 import DashboardPage from '../views/DashboardPage.vue'
 import TesteDonsPage from '@/views/TesteDonsPage.vue'
 import TestePersonalidade from '@/views/TestePersonalidade.vue'
+import PerfilPage from '@/views/PerfilPage.vue'
+import DescobertaPage from '@/views/DescobertaPage.vue'
+import SalvosPage from '@/views/SalvosPage.vue'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -17,7 +20,10 @@ const routes = [
   { path: '/testedons', component: TesteDonsPage },
   { path: '/testepersonalidade', component: TestePersonalidade },
   { path: '/resultados', component: ResultadosPage },
-  { path: '/dashboard', component: DashboardPage }
+  { path: '/dashboard', component: DashboardPage },
+  { path: '/perfil', component: PerfilPage },
+  { path: '/descoberta', component: DescobertaPage },
+  { path: '/salvos', component: SalvosPage }
 ]
 
 const router = createRouter({
