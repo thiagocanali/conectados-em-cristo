@@ -41,22 +41,22 @@ Data da decisão
 ## ADRs Registradas
 
 ### Infraestrutura e Arquitetura
-- (Vazio — aguardando decisões)
+- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
 
 ### Frontend
-- (Vazio — aguardando decisões)
+- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
 
 ### Backend
-- (Vazio — aguardando decisões)
+- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
 
 ### Banco de Dados
-- (Vazio — aguardando decisões)
+- [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — Proposto
 
 ### Segurança
-- (Vazio — aguardando decisões)
+- [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — Proposto
 
 ### Moderação
-- (Vazio — aguardando decisões)
+- (Aguardando decisão específica)
 
 ## Princípios para Tomada de Decisão
 
