@@ -1,56 +1,51 @@
 <template>
-  <div class="page-container">
-    <div class="card">
-      <h1>Teste de Personalidade</h1>
-
-      <!-- Quiz -->
-      <div v-if="!finished">
-        <!-- Pergunta atual -->
-        <p class="prompt">{{ currentPrompt.prompt }}</p>
-
-        <!-- Opções empilhadas -->
-        <div class="btn-vertical-group">
-          <button
-            v-for="option in prompt_values"
-            :key="option.value"
-            class="btn btn-block"
-            :class="[selected === option.value ? 'active' : '', option.class]"
-            @click="select(option.value)"
-          >
-            {{ option.value }}
-          </button>
-        </div>
-
-        <!-- Barra de progresso -->
-        <div class="progress-bar-container">
-          <div class="progress-bar-fill" :style="{ width: progress + '%' }"></div>
-        </div>
-
-        <!-- Botão Próxima/Enviar -->
-        <div class="buttons">
-          <button
-            class="btn btn-primary"
-            :disabled="!selected"
-            @click="next"
-          >
-            {{ isLast ? 'Enviar' : 'Próxima' }}
-          </button>
-        </div>
+  <div class="personalidade-page">
+    <div class="pers-card fade-in-up" v-if="!finished">
+      <div class="pers-header">
+        <p class="eyebrow"><span aria-hidden="true">&#9774;</span> Autoconhecimento</p>
+        <h1>Teste de Personalidade</h1>
       </div>
 
-      <!-- Resultados -->
-      <div v-if="finished" class="results">
-        <p v-html="resultText"></p>
-        <div class="buttons">
-          <button class="btn btn-secondary" @click="reset">Refazer Teste</button>
-        </div>
+      <p class="prompt">{{ currentPrompt.prompt }}</p>
+
+      <div class="options">
+        <button
+          v-for="option in prompt_values"
+          :key="option.value"
+          class="option-btn"
+          :class="[selected === option.value ? 'active' : '', option.class]"
+          @click="select(option.value)"
+        >
+          {{ option.value }}
+        </button>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" :style="{ width: progress + '%' }"></div>
+      </div>
+
+      <div class="pers-actions">
+        <button class="btn-primary" :disabled="!selected" @click="next">
+          {{ isLast ? 'Enviar' : 'Próxima' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="pers-card fade-in-up" v-if="finished">
+      <div class="pers-header">
+        <p class="eyebrow"><span aria-hidden="true">&#9774;</span> Resultado</p>
+        <h1>Sua Personalidade</h1>
+      </div>
+      <div class="result-box" v-html="resultText"></div>
+      <div class="pers-actions">
+        <button class="btn-secondary" @click="reset">Refazer Teste</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 const prompts = [
   { prompt: 'Tenho dificuldade em me apresentar para outras pessoas', weight: -1 },
@@ -63,177 +58,189 @@ const prompts = [
   { prompt: 'Acho fácil me aproximar de um grupo de pessoas e participar da conversa', weight: 1 },
   { prompt: 'Ser adaptável é mais importante do que ser organizado', weight: 1 },
   { prompt: 'Me importo mais em não deixar ninguém chateado do que em ganhar um debate', weight: 1 },
-  { prompt: 'Freqüentemente não sinto necessidade de me justificar com os outros', weight: 1 },
+  { prompt: 'Frequentemente não sinto necessidade de me justificar com os outros', weight: 1 },
   { prompt: 'Prefiro improvisar do que gastar tempo elaborando um plano detalhado', weight: 1 }
-];
+]
 
 const prompt_values = [
-  { value: 'Concordo Fortemente', class: 'btn-strongly-agree', weight: 5 },
-  { value: 'Concordo', class: 'btn-agree', weight: 3 },
-  { value: 'Neutro', class: 'btn-neutral', weight: 0 },
-  { value: 'Discordo', class: 'btn-disagree', weight: -3 },
-  { value: 'Discordo Fortemente', class: 'btn-strongly-disagree', weight: -5 }
-];
+  { value: 'Concordo Fortemente', class: 'opt-strong-agree', weight: 5 },
+  { value: 'Concordo', class: 'opt-agree', weight: 3 },
+  { value: 'Neutro', class: 'opt-neutral', weight: 0 },
+  { value: 'Discordo', class: 'opt-disagree', weight: -3 },
+  { value: 'Discordo Fortemente', class: 'opt-strong-disagree', weight: -5 }
+]
 
-const currentIndex = ref(0);
-const selected = ref(null);
-const answers = ref([]);
-const finished = ref(false);
-const resultText = ref('');
+const currentIndex = ref(0)
+const selected = ref(null)
+const answers = ref([])
+const finished = ref(false)
+const resultText = ref('')
 
-const currentPrompt = computed(() => prompts[currentIndex.value]);
-const isLast = computed(() => currentIndex.value === prompts.length - 1);
-const progress = computed(() => ((currentIndex.value) / prompts.length) * 100);
+const currentPrompt = computed(() => prompts[currentIndex.value])
+const isLast = computed(() => currentIndex.value === prompts.length - 1)
+const progress = computed(() => (currentIndex.value / prompts.length) * 100)
 
-function select(value) {
-  selected.value = value;
-}
+function select(value) { selected.value = value }
 
 function next() {
-  answers.value.push(selected.value);
-  selected.value = null;
-
+  answers.value.push(selected.value)
+  selected.value = null
   if (isLast.value) {
-    calculateResult();
-    finished.value = true;
+    calculateResult()
+    finished.value = true
   } else {
-    currentIndex.value++;
+    currentIndex.value++
   }
 }
 
 function calculateResult() {
-  let total = 0;
+  let total = 0
   answers.value.forEach((val, i) => {
     if (val) {
-      const option = prompt_values.find(o => o.value === val);
-      total += option.weight * prompts[i].weight;
+      const option = prompt_values.find(o => o.value === val)
+      total += option.weight * prompts[i].weight
     }
-  });
-
-  if(total < 0) {
-    resultText.value = `<b>Você é introvertido!</b><br><br>
-      Introvertidos gostam de pensar antes de falar, preferem grupos pequenos de amigos e precisam de tempo sozinhos para recarregar energia.`;
-  } else if(total > 0) {
-    resultText.value = `<b>Você é extrovertido!</b><br><br>
-      Extrovertidos se energizam ao estar com outras pessoas e gostam de socializar para recarregar suas energias.`;
+  })
+  if (total < 0) {
+    resultText.value = `<strong>Você é introvertido!</strong><br><br>
+      Introvertidos gostam de pensar antes de falar, preferem grupos pequenos de amigos e precisam de tempo sozinhos para recarregar energia.`
+  } else if (total > 0) {
+    resultText.value = `<strong>Você é extrovertido!</strong><br><br>
+      Extrovertidos se energizam ao estar com outras pessoas e gostam de socializar para recarregar suas energias.`
   } else {
-    resultText.value = `<b>Você é ambivertido!</b><br><br>
-      Ambivertidos apresentam características de introversão e extroversão, equilibrando socialização e tempo sozinho.`;
+    resultText.value = `<strong>Você é ambivertido!</strong><br><br>
+      Ambivertidos apresentam características de introversão e extroversão, equilibrando socialização e tempo sozinho.`
   }
 }
 
 function reset() {
-  currentIndex.value = 0;
-  selected.value = null;
-  answers.value = [];
-  finished.value = false;
-  resultText.value = '';
+  currentIndex.value = 0
+  selected.value = null
+  answers.value = []
+  finished.value = false
+  resultText.value = ''
 }
 </script>
 
 <style scoped>
-.page-container {
+.personalidade-page {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: calc(100vh - 140px);
+  padding: 48px 24px;
+  background: var(--cream);
 }
-
-.card {
-  background: white;
-  padding: 30px 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 600px;
+.pers-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 580px;
   width: 100%;
-  text-align: center;
+  padding: 40px 32px;
 }
 
-h1 {
-  font-size: clamp(1.8rem, 4vw, 2.2rem);
-  margin-bottom: 25px;
-  color: #1a202c;
-}
+.pers-header { margin-bottom: 28px; }
+.pers-header h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 12px 0 0; }
 
 .prompt {
   font-size: 1.1rem;
-  margin-bottom: 15px;
-  font-weight: 500;
-  text-align: left;
-}
-
-/* Opções empilhadas verticalmente */
-.btn-vertical-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.btn-block {
-  width: 100%;
-}
-
-.btn {
-  padding: 12px 15px;
-  border-radius: 8px;
   font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+
+.option-btn {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
 }
-
-.btn:hover {
+.option-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-sm);
+}
+.option-btn.active {
+  box-shadow: inset 0 0 0 2px var(--terra);
 }
 
-.btn.active {
-  box-shadow: inset 0 0 0 2px #3182ce;
-}
+.opt-strong-agree { background: var(--success-bg); color: var(--success); }
+.opt-agree { background: #e8f0ea; color: var(--green-deep); }
+.opt-neutral { background: var(--cream-dark); color: var(--text-dark); }
+.opt-disagree { background: #f5e6e4; color: #a04038; }
+.opt-strong-disagree { background: var(--error-bg); color: var(--error); }
 
-/* Cores */
-.btn-strongly-agree { background-color: #89d298; color: white; }
-.btn-agree { background-color: #c6f1c6; color: #1a202c; }
-.btn-neutral { background-color: #e2e8f0; color: #1a202c; }
-.btn-disagree { background-color: #f6b8b8; color: #1a202c; }
-.btn-strongly-disagree { background-color: #e28181; color: white; }
-
-.buttons {
-  margin-top: 20px;
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-.btn-primary { background-color: #3182ce; color: white; }
-.btn-primary:hover { background-color: #2b6cb0; }
-
-.btn-secondary { background-color: #48bb78; color: white; }
-.btn-secondary:hover { background-color: #38a169; }
-
-/* Barra de progresso */
 .progress-bar-container {
   width: 100%;
-  height: 10px;
-  background-color: #e2e8f0;
-  border-radius: 5px;
-  margin: 15px 0;
+  height: 6px;
+  background: var(--cream-dark);
+  border-radius: 10px;
+  margin: 20px 0;
   overflow: hidden;
 }
-
 .progress-bar-fill {
   height: 100%;
-  background-color: #3182ce;
-  width: 0%;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--terra), var(--terra-light));
+  border-radius: 10px;
+  transition: width 0.3s var(--ease);
 }
 
-.results {
+.pers-actions { display: flex; gap: 14px; justify-content: center; }
+
+.btn-primary {
+  background: var(--terra);
+  color: white;
+  padding: 13px 28px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background var(--t-base);
+}
+.btn-primary:hover { background: var(--terra-dark); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--terra);
+  padding: 13px 28px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--terra);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background var(--t-base);
+}
+.btn-secondary:hover { background: var(--cream-dark); }
+
+.result-box {
   text-align: left;
-  line-height: 1.6;
-  margin-top: 20px;
+  line-height: 1.7;
+  font-size: 0.98rem;
+  color: var(--text-body);
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.result-box :deep(strong) {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .pers-card { padding: 32px 22px; }
+  .pers-actions { flex-direction: column; }
 }
 </style>

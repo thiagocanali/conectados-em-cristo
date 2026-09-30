@@ -1,17 +1,21 @@
 <template>
-  <div class="salvos">
-    <h1>Perfis Salvos</h1>
-    <p class="subtitulo">Pessoas que você quer conhecer com calma e oração.</p>
-
-    <div v-if="salvos.length === 0" class="vazio">
-      <p>Você ainda não salvou nenhum perfil.</p>
-      <router-link to="/descoberta" class="btn">Descobrir pessoas</router-link>
+  <div class="salvos-page page-narrow">
+    <div class="salvos-header fade-in-up">
+      <p class="eyebrow"><span aria-hidden="true">&#9733;</span> Perfis guardados</p>
+      <h1>Perfis Salvos</h1>
+      <p class="salvos-subtitle">Pessoas que você quer conhecer com calma e oração.</p>
     </div>
 
-    <ul v-else class="lista">
-      <li v-for="(p, i) in salvos" :key="p.nome" class="item">
+    <div v-if="salvos.length === 0" class="salvos-empty fade-in-up">
+      <div class="empty-icon" aria-hidden="true">&#9733;</div>
+      <p>Você ainda não salvou nenhum perfil.</p>
+      <router-link to="/descoberta" class="btn-primary">Descobrir pessoas</router-link>
+    </div>
+
+    <ul v-else class="salvos-list fade-in-up">
+      <li v-for="(p, i) in salvos" :key="p.nome + i" class="salvo-item">
         <div class="avatar">{{ p.nome.charAt(0) }}</div>
-        <div class="info">
+        <div class="salvo-info">
           <strong>{{ p.nome }}, {{ p.idade }}</strong>
           <span>{{ p.cidade }} · {{ p.denominacao }}</span>
         </div>
@@ -19,7 +23,7 @@
       </li>
     </ul>
 
-    <router-link to="/dashboard" class="voltar">← Voltar ao painel</router-link>
+    <router-link to="/dashboard" class="back-link">&larr; Voltar ao painel</router-link>
   </div>
 </template>
 
@@ -40,15 +44,67 @@ export default {
 </script>
 
 <style scoped>
-.salvos { max-width: 520px; margin: 0 auto; padding: 40px 20px; }
-.subtitulo { color: #555; margin-bottom: 20px; }
-.vazio { text-align: center; padding: 40px 0; color: #718096; }
-.lista { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.item { display: flex; align-items: center; gap: 12px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; }
-.avatar { width: 44px; height: 44px; border-radius: 50%; background-color: #3182ce; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-.info { flex: 1; display: flex; flex-direction: column; text-align: left; }
-.info span { color: #718096; font-size: 0.85rem; }
-.remover { background: none; border: none; color: #c53030; cursor: pointer; font-size: 0.85rem; }
-.btn { display: inline-block; margin-top: 15px; padding: 12px 20px; background-color: #3182ce; color: white; border-radius: 5px; text-decoration: none; font-weight: bold; }
-.voltar { display: inline-block; margin-top: 20px; color: #3182ce; text-decoration: none; }
+.salvos-header { margin-bottom: 32px; }
+.salvos-header h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 14px 0 8px; }
+.salvos-subtitle { color: var(--text-muted); font-size: 0.92rem; }
+
+.salvos-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.salvo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  transition: border-color var(--t-base);
+}
+.salvo-item:hover { border-color: var(--terra-light); }
+
+.avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: var(--cream);
+  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.salvo-info { flex: 1; display: flex; flex-direction: column; text-align: left; }
+.salvo-info strong { color: var(--ink); font-size: 0.95rem; }
+.salvo-info span { color: var(--text-muted); font-size: 0.82rem; }
+
+.remover {
+  background: none;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: opacity var(--t-fast);
+}
+.remover:hover { opacity: 0.7; }
+
+.salvos-empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+.empty-icon { font-size: 3rem; color: var(--terra-light); margin-bottom: 16px; }
+.salvos-empty p { margin-bottom: 20px; color: var(--text-muted); }
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 32px;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+.back-link:hover { color: var(--terra); }
 </style>

@@ -1,23 +1,180 @@
 <template>
-  <header class="navbar">
-    <router-link to="/" class="brand" aria-label="Conectados em Cristo - início">
-      <span class="brand-mark" aria-hidden="true">✦</span>
-      <span>Conectados <b>em Cristo</b></span>
-    </router-link>
-    <nav aria-label="Navegação principal">
-      <router-link to="/questionario">Questionário</router-link>
-      <router-link to="/testedons">Dons</router-link>
-      <router-link to="/testepersonalidade">Personalidade</router-link>
-      <router-link to="/login" class="btn">Entrar</router-link>
-    </nav>
+  <header class="navbar" :class="{ scrolled }">
+    <div class="navbar-inner">
+      <router-link to="/" class="brand" aria-label="Conectados em Cristo - início">
+        <span class="brand-mark" aria-hidden="true">&#10022;</span>
+        <span class="brand-text">Conectados <b>em Cristo</b></span>
+      </router-link>
+
+      <nav class="nav-desktop" aria-label="Navegação principal">
+        <router-link to="/questionario">Questionário</router-link>
+        <router-link to="/testedons">Dons</router-link>
+        <router-link to="/testepersonalidade">Personalidade</router-link>
+        <router-link to="/descoberta">Descobrir</router-link>
+        <router-link to="/login" class="btn-nav">Entrar</router-link>
+      </nav>
+
+      <button
+        class="nav-toggle"
+        @click="mobileOpen = !mobileOpen"
+        :aria-expanded="mobileOpen"
+        aria-label="Menu"
+      >
+        <span :class="{ open: mobileOpen }"></span>
+        <span :class="{ open: mobileOpen }"></span>
+        <span :class="{ open: mobileOpen }"></span>
+      </button>
+    </div>
+
+    <transition name="slide-down">
+      <nav v-if="mobileOpen" class="nav-mobile" aria-label="Navegação mobile">
+        <router-link to="/questionario" @click="mobileOpen = false">Questionário</router-link>
+        <router-link to="/testedons" @click="mobileOpen = false">Dons</router-link>
+        <router-link to="/testepersonalidade" @click="mobileOpen = false">Personalidade</router-link>
+        <router-link to="/descoberta" @click="mobileOpen = false">Descobrir</router-link>
+        <router-link to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link>
+      </nav>
+    </transition>
   </header>
 </template>
 
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const scrolled = ref(false)
+const mobileOpen = ref(false)
+
+const handleScroll = () => {
+  scrolled.value = window.scrollY > 20
+}
+
+onMounted(() => window.addEventListener('scroll', handleScroll))
+onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+</script>
+
 <style scoped>
-.navbar { width: 100%; padding: 18px max(24px, calc((100% - 1180px) / 2)); background: #f8f6f1; color: #294237; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e3e0d8; }
-.brand { display: flex; align-items: center; gap: 10px; color: #294237; text-decoration: none; font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: -.02em; white-space: nowrap; }
-.brand b { color: #b06d43; font-weight: 500; }.brand-mark { color: #b06d43; font-size: 1.25rem; }
-nav { display: flex; align-items: center; gap: 25px; } nav a { color: #66736b; text-decoration: none; font-size: .82rem; font-weight: 700; } nav a:hover { color: #b06d43; }
-.btn { color: white !important; background: #294237; padding: 10px 18px; border-radius: 3px; }.btn:hover { background: #b06d43; }
-@media (max-width: 700px) { .navbar { padding: 15px 20px; } nav { gap: 12px; } nav a:not(.btn) { display: none; } }
+.navbar {
+  width: 100%;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background var(--t-base), box-shadow var(--t-base);
+}
+.navbar.scrolled {
+  background: rgba(248, 246, 241, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(32, 53, 44, 0.06);
+}
+
+.navbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green-deep);
+  text-decoration: none;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.brand b { color: var(--terra); font-weight: 500; }
+.brand-mark { color: var(--terra); font-size: 1.3rem; }
+
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-desktop a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: color var(--t-fast);
+}
+.nav-desktop a:hover { color: var(--terra); }
+.nav-desktop a.router-link-exact-active { color: var(--terra); }
+
+.btn-nav {
+  color: white !important;
+  background: var(--green-deep);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  transition: background var(--t-base) !important;
+}
+.btn-nav:hover { background: var(--terra); }
+
+/* Mobile toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+.nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--green-deep);
+  transition: transform var(--t-base), opacity var(--t-base);
+}
+.nav-toggle span.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle span.open:nth-child(2) { opacity: 0; }
+.nav-toggle span.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.nav-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--cream-light);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 32px 20px;
+}
+.nav-mobile a {
+  padding: 14px 0;
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.nav-mobile a:last-child { border-bottom: none; }
+.btn-nav-mobile {
+  margin-top: 8px;
+  text-align: center;
+  background: var(--green-deep);
+  color: white !important;
+  border-radius: var(--radius-sm);
+  padding: 14px !important;
+}
+
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: all var(--t-base);
+}
+.slide-down-enter-from, .slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+@media (max-width: 820px) {
+  .nav-desktop { display: none; }
+  .nav-toggle { display: flex; }
+}
+@media (min-width: 821px) {
+  .nav-mobile { display: none; }
+}
 </style>

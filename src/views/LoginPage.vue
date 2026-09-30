@@ -1,127 +1,102 @@
 <template>
-  <div class="page-container">
-    <div class="card">
-      <h1>Entrar</h1>
+  <div class="auth-page">
+    <div class="auth-card fade-in-up">
+      <div class="auth-header">
+        <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Bem-vindo de volta</p>
+        <h1>Entrar</h1>
+        <p class="auth-subtitle">Que Deus guie seus passos hoje.</p>
+      </div>
 
-      <form @submit.prevent="login">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" v-model="email" required />
+      <form @submit.prevent="login" class="auth-form">
+        <div class="field-group">
+          <label class="field-label">E-mail</label>
+          <input type="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
         </div>
 
-        <div class="form-group">
-          <label>Senha</label>
-          <input type="password" v-model="password" required />
+        <div class="field-group">
+          <label class="field-label">Senha</label>
+          <input type="password" v-model="password" class="field-input" placeholder="Sua senha" required />
         </div>
 
-        <button type="submit" class="btn">Entrar</button>
+        <p v-if="error" class="auth-error">{{ error }}</p>
+
+        <button type="submit" class="btn-primary auth-submit">Entrar</button>
       </form>
 
-      <p class="redirect">
-        Não tem conta? <router-link to="/cadastro">Cadastrar</router-link>
+      <p class="auth-redirect">
+        Não tem conta? <router-link to="/cadastro">Criar conta</router-link>
       </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const email = ref("");
-const password = ref("");
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+const error = ref('')
 
 const login = () => {
-  console.log("login:", email.value, password.value);
-};
+  error.value = ''
+  const users = JSON.parse(localStorage.getItem('users') || '[]')
+  const user = users.find(u => u.email === email.value && u.senha === password.value)
+
+  if (user) {
+    localStorage.setItem('currentUser', JSON.stringify(user))
+    router.push('/dashboard')
+  } else {
+    error.value = 'E-mail ou senha incorretos.'
+  }
+}
 </script>
 
 <style scoped>
-.page-container {
+.auth-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: calc(100vh - 140px);
+  padding: 48px 24px;
+  background: var(--cream);
 }
-
-.card {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 400px;
+.auth-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 420px;
   width: 100%;
+  padding: 44px 36px;
+}
+.auth-header { text-align: center; margin-bottom: 32px; }
+.auth-header h1 { font-size: 2.2rem; margin: 14px 0 6px; }
+.auth-subtitle { color: var(--text-muted); font-size: 0.88rem; }
+
+.auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-submit { width: 100%; margin-top: 8px; }
+
+.auth-error {
+  color: var(--error);
+  font-size: 0.85rem;
   text-align: center;
-}
-
-h1 {
-  font-size: clamp(1.8rem, 5vw, 2.2rem);
-  margin-bottom: 25px;
-  color: #1a202c;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-label {
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #4a5568;
-}
-
-input {
+  background: var(--error-bg);
   padding: 10px 14px;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border 0.3s, box-shadow 0.3s;
+  border-radius: var(--radius-sm);
 }
 
-input:focus {
-  outline: none;
-  border-color: #3182ce;
-  box-shadow: 0 0 5px rgba(49,130,206,0.3);
-}
-
-.btn {
-  padding: 12px 24px;
-  width: 100%;
-  background-color: #3182ce;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 10px;
-}
-
-.btn:hover {
-  background-color: #2b6cb0;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
-}
-
-.redirect {
-  margin-top: 15px;
+.auth-redirect {
+  margin-top: 24px;
+  text-align: center;
   font-size: 0.9rem;
-  color: #4a5568;
+  color: var(--text-muted);
 }
+.auth-redirect a { font-weight: 700; }
 
-.redirect a {
-  color: #3182ce;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.redirect a:hover {
-  text-decoration: underline;
+@media (max-width: 480px) {
+  .auth-card { padding: 32px 24px; }
+  .auth-header h1 { font-size: 1.8rem; }
 }
 </style>

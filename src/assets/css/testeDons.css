@@ -1,226 +1,199 @@
 /* ==========================
-   CONTAINER PRINCIPAL
+   TESTE DE DONS — DESIGN SYSTEM
 ========================== */
 #app-container {
-  max-width: 800px;
-  margin: auto;
-  font-family: Arial, sans-serif;
-  padding: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  padding: 60px 24px 80px;
 }
 
-/* ==========================
-   TELAS
-========================== */
-.screen {
-  display: none;
-}
-.screen.active {
-  display: block;
+/* TELAS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* HEADER */
+#app-container h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
-/* ==========================
-   PROGRESSO
-========================== */
+#app-container > .screen.active > p:first-of-type {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+/* PROGRESSO */
 .progress {
-  background: #ddd;
-  height: 10px;
+  background: var(--cream-dark);
+  height: 8px;
   border-radius: 10px;
-  margin: 15px 0;
+  margin: 20px 0;
+  overflow: hidden;
 }
 .progress-bar {
-  height: 10px;
-  background: #58a700;
+  height: 100%;
+  background: linear-gradient(90deg, var(--terra), var(--terra-light));
   border-radius: 10px;
-  transition: width 0.3s ease;
+  transition: width 0.3s var(--ease);
 }
 
-/* ==========================
-   CARTÕES DE PERGUNTA
-========================== */
-.question-card {
-  background: white;
-  padding: 30px;
-  margin: 20px 0;
-  border-radius: 12px;
+.counter {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 10px 0;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  letter-spacing: 0.04em;
 }
 
-/* ==========================
-   BOTÕES DE RESPOSTA
-========================== */
+/* CARTÕES DE PERGUNTA */
+.question-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  padding: 36px 28px;
+  margin: 20px 0;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  font-size: 1.1rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.question-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+/* BOTÕES DE RESPOSTA */
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .answers button {
   width: 100%;
-  padding: 15px;
-  margin: 5px 0;
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.92rem;
   cursor: pointer;
-  background: #58a700;
-  color: white;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: var(--cream-light);
+  color: var(--green-deep);
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
 }
-
 .answers button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+  background: var(--green-deep);
+  color: var(--cream);
 }
+.answers button:active { transform: scale(0.98); }
 
-.answers button:active {
-  transform: scale(0.97);
-}
+/* GRID DE DONS */
+.grid { display: grid; gap: 14px; margin-top: 24px; }
 
-/* ==========================
-   GRID DE DONS
-========================== */
-.grid {
-  display: grid;
-  gap: 15px;
-}
-
-/* ==========================
-   CARTÕES DE DONS
-========================== */
 .gift {
-  background: #fff;
-  padding: 25px 20px;
-  border-radius: 12px;
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  padding: 22px 20px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
 }
-
 .gift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--terra-light);
 }
 
 .gift-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.gift-header span {
+  color: var(--terra);
+  font-size: 0.88rem;
 }
 
-.gift-details {
-  margin-top: 10px;
-  padding: 15px 20px;
-  border-top: 1px solid #eee;
-  border-radius: 8px;
-  background: #f9f9f9;
+.gift ul {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
 }
-
-.gift-details p {
-  margin: 5px 0 10px;
-  font-weight: bold;
-}
-
-.gift-details ul {
-  list-style: none; /* remove bolinhas */
-  padding-left: 0;  /* remove indent padrão */
-  margin: 0;
-}
-
-.gift-details li {
+.gift li {
   margin-bottom: 6px;
   line-height: 1.5;
-  padding-left: 10px; /* leve indent para parecer subitem */
+  padding-left: 16px;
   position: relative;
+  font-size: 0.88rem;
+  color: var(--text-body);
 }
-
-.gift-details li::before {
-  content: "•"; /* bolinha customizada */
-  color: #58a700; /* cor da bolinha */
+.gift li::before {
+  content: "\2022";
+  color: var(--terra);
   position: absolute;
   left: 0;
   top: 0;
+  font-weight: 700;
 }
 
-/* ==========================
-   TRANSIÇÕES
-========================== */
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.4s ease;
-}
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
+/* TRANSITIONS */
+.fade-slide-enter-active, .fade-slide-leave-active { transition: all 0.4s var(--ease); }
+.fade-slide-enter-from { opacity: 0; transform: translateY(20px); }
+.fade-slide-leave-to { opacity: 0; transform: translateY(-20px); }
 
-.expand-enter-active,
-.expand-leave-active {
-  transition: all 0.25s ease;
-}
-.expand-enter-from,
-.expand-leave-to {
-  opacity: 0;
-  max-height: 0;
-}
-.expand-enter-to,
-.expand-leave-from {
-  opacity: 1;
-  max-height: 500px;
-}
-
-/* ==========================
-   BOTÕES GERAIS
-========================== */
+/* BOTÕES GERAIS */
 .btn-primary {
-  background: #58a700;
+  background: var(--terra);
   color: white;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: var(--radius-md);
   border: none;
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: background var(--t-base);
 }
+.btn-primary:hover { background: var(--terra-dark); }
 
-.btn-primary:hover {
-  background: #449900;
+.btn-primary.warning {
+  background: var(--warning);
 }
+.btn-primary.warning:hover { background: #b08615; }
 
 .btn-secondary {
   background: transparent;
-  color: #58a700;
-  border: 2px solid #58a700;
-  padding: 15px;
-  border-radius: 12px;
+  color: var(--terra);
+  border: 1.5px solid var(--terra);
+  padding: 14px;
+  border-radius: var(--radius-md);
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: background var(--t-base);
 }
+.btn-secondary:hover { background: var(--cream-dark); }
 
-.btn-secondary:hover {
-  background: #f0fff0;
-}
-
-/* ==========================
-   BOTÃO VOLTAR
-========================== */
 .btn-secondary.back {
   width: auto;
-  padding: 8px 15px;
-  font-size: 0.9rem;
-}
-
-/* ==========================
-   CONTADOR DE PERGUNTAS
-========================== */
-.counter {
-  font-weight: bold;
-  margin: 10px 0;
-  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.82rem;
 }

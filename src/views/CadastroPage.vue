@@ -1,28 +1,41 @@
 <template>
-  <div class="page-container">
-    <div class="card">
-      <h1>Criar Conta</h1>
+  <div class="auth-page">
+    <div class="auth-card fade-in-up">
+      <div class="auth-header">
+        <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Comece sua jornada</p>
+        <h1>Criar Conta</h1>
+        <p class="auth-subtitle">Para maiores de 18 anos. Relacionamentos com propósito.</p>
+      </div>
 
-      <form @submit.prevent="register">
-        <div class="form-group">
-          <label>Nome completo</label>
-          <input type="text" v-model="nome" required />
+      <form @submit.prevent="register" class="auth-form">
+        <div class="field-group">
+          <label class="field-label">Nome completo</label>
+          <input type="text" v-model="nome" class="field-input" placeholder="Seu nome" required />
         </div>
 
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" v-model="email" required />
+        <div class="field-group">
+          <label class="field-label">E-mail</label>
+          <input type="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
         </div>
 
-        <div class="form-group">
-          <label>Senha</label>
-          <input type="password" v-model="senha" required />
+        <div class="field-group">
+          <label class="field-label">Senha</label>
+          <input type="password" v-model="senha" class="field-input" placeholder="Crie uma senha" required minlength="6" />
+          <span class="field-hint">Mínimo de 6 caracteres</span>
         </div>
 
-        <button type="submit" class="btn btn-secondary">Cadastrar</button>
+        <label class="auth-check">
+          <input type="checkbox" v-model="maiorIdade" required />
+          <span>Confirmo que tenho 18 anos ou mais</span>
+        </label>
+
+        <p v-if="error" class="auth-error">{{ error }}</p>
+        <p v-if="success" class="auth-success">{{ success }}</p>
+
+        <button type="submit" class="btn-primary auth-submit">Criar conta</button>
       </form>
 
-      <p class="redirect">
+      <p class="auth-redirect">
         Já tem conta? <router-link to="/login">Entrar</router-link>
       </p>
     </div>
@@ -30,113 +43,108 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const nome = ref("");
-const email = ref("");
-const senha = ref("");
+const router = useRouter()
+const nome = ref('')
+const email = ref('')
+const senha = ref('')
+const maiorIdade = ref(false)
+const error = ref('')
+const success = ref('')
 
 const register = () => {
-  console.log("Cadastro:", nome.value, email.value, senha.value);
-};
+  error.value = ''
+  success.value = ''
+
+  const users = JSON.parse(localStorage.getItem('users') || '[]')
+
+  if (users.find(u => u.email === email.value)) {
+    error.value = 'Este e-mail já está cadastrado.'
+    return
+  }
+
+  const newUser = {
+    username: nome.value,
+    email: email.value,
+    senha: senha.value,
+    respostas: []
+  }
+
+  users.push(newUser)
+  localStorage.setItem('users', JSON.stringify(users))
+  localStorage.setItem('currentUser', JSON.stringify(newUser))
+  success.value = 'Conta criada! Redirecionando...'
+  setTimeout(() => router.push('/perfil'), 1000)
+}
 </script>
 
 <style scoped>
-.page-container {
+.auth-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: calc(100vh - 140px);
+  padding: 48px 24px;
+  background: var(--cream);
 }
-
-.card {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-width: 400px;
+.auth-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 440px;
   width: 100%;
-  text-align: center;
+  padding: 44px 36px;
 }
+.auth-header { text-align: center; margin-bottom: 32px; }
+.auth-header h1 { font-size: 2.2rem; margin: 14px 0 6px; }
+.auth-subtitle { color: var(--text-muted); font-size: 0.85rem; }
 
-h1 {
-  font-size: clamp(1.8rem, 5vw, 2.2rem);
-  margin-bottom: 25px;
-  color: #1a202c;
-}
+.auth-form { display: flex; flex-direction: column; gap: 18px; }
 
-.form-group {
+.field-hint { font-size: 0.75rem; color: var(--text-muted); }
+
+.auth-check {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-label {
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #4a5568;
-}
-
-input {
-  padding: 10px 14px;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-
-input:focus {
-  outline: none;
-  border-color: #3182ce;
-  box-shadow: 0 0 5px rgba(49,130,206,0.3);
-}
-
-.btn {
-  padding: 12px 24px;
-  width: 100%;
-  background-color: #3182ce;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-dark);
   cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 10px;
+}
+.auth-check input { margin-top: 3px; accent-color: var(--terra); }
+
+.auth-submit { width: 100%; margin-top: 8px; }
+
+.auth-error {
+  color: var(--error);
+  font-size: 0.85rem;
+  text-align: center;
+  background: var(--error-bg);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+.auth-success {
+  color: var(--success);
+  font-size: 0.85rem;
+  text-align: center;
+  background: var(--success-bg);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
 }
 
-.btn:hover {
-  background-color: #2b6cb0;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
-}
-
-/* Botão secundário para cadastro */
-.btn-secondary {
-  background-color: #48bb78;
-}
-
-.btn-secondary:hover {
-  background-color: #38a169;
-}
-
-.redirect {
-  margin-top: 15px;
+.auth-redirect {
+  margin-top: 24px;
+  text-align: center;
   font-size: 0.9rem;
-  color: #4a5568;
+  color: var(--text-muted);
 }
+.auth-redirect a { font-weight: 700; }
 
-.redirect a {
-  color: #3182ce;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.redirect a:hover {
-  text-decoration: underline;
+@media (max-width: 480px) {
+  .auth-card { padding: 32px 24px; }
+  .auth-header h1 { font-size: 1.8rem; }
 }
 </style>

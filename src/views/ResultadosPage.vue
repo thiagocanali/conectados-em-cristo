@@ -1,72 +1,61 @@
 <template>
-  <div class="resultados">
-    <div class="result-container">
+  <div class="resultados-page page-wrapper">
+    <div class="res-header fade-in-up">
+      <p class="eyebrow"><span aria-hidden="true">&#9776;</span> Compatibilidade</p>
       <h1>Combinações Compatíveis</h1>
+      <p class="res-subtitle">Pessoas que demonstram alinhamento com suas respostas. A decisão é sempre sua.</p>
+    </div>
 
-      <p class="intro">
-        Aqui estão os usuários mais compatíveis com você, com base nas suas respostas:
-      </p>
+    <div v-if="listaCompatibilidade.length === 0" class="res-empty fade-in-up">
+      <div class="empty-icon" aria-hidden="true">&#9776;</div>
+      <p>Nenhum outro usuário respondeu ao questionário ainda.</p>
+      <p class="empty-sub">Convide amigos para participar da comunidade!</p>
+    </div>
 
-      <div v-if="listaCompatibilidade.length === 0">
-        Nenhum outro usuário respondeu ao questionário ainda.
-      </div>
-
-      <div
-        v-for="(item, index) in listaCompatibilidade"
-        :key="index"
-        class="card"
-      >
-        <h3>{{ item.username }}</h3>
-        <p>Pontuação de compatibilidade: <strong>{{ item.score }} / 30</strong></p>
-
+    <div v-else class="res-list fade-in-up">
+      <div v-for="(item, index) in listaCompatibilidade" :key="index" class="res-card">
+        <div class="res-card-header">
+          <div class="avatar">{{ item.username.charAt(0) }}</div>
+          <div>
+            <h3>{{ item.username }}</h3>
+            <p>Pontuação de compatibilidade: <strong>{{ item.score }} / 30</strong></p>
+          </div>
+        </div>
         <div class="bar">
-          <div
-            class="bar-fill"
-            :style="{ width: (item.score / 30) * 100 + '%' }"
-          ></div>
+          <div class="bar-fill" :style="{ width: (item.score / 30) * 100 + '%' }"></div>
         </div>
       </div>
-
-      <router-link class="btn" to="/dashboard">Voltar</router-link>
-
     </div>
+
+    <router-link to="/dashboard" class="back-link">&larr; Voltar ao painel</router-link>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      listaCompatibilidade: []
-    };
+    return { listaCompatibilidade: [] };
   },
-  mounted() {
-    this.calcular();
-  },
+  mounted() { this.calcular(); },
   methods: {
     calcular() {
       const atual = JSON.parse(localStorage.getItem("currentUser"));
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      if (!atual || !atual.respostas || atual.respostas.length === 0) return;
 
-      const outros = users.filter(u => u.username !== atual.username && u.respostas.length > 0);
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const outros = users.filter(u => u.email !== atual.email && u.respostas && u.respostas.length > 0);
 
       const lista = [];
-
       for (const user of outros) {
         let score = 0;
-
         for (let i = 0; i < 10; i++) {
           const diff = Math.abs(atual.respostas[i] - user.respostas[i]);
-
           if (diff === 0) score += 3;
           else if (diff === 1) score += 2;
           else score += 1;
         }
-
         lista.push({ username: user.username, score });
       }
-
-      // Ordenar do mais compatível para o menos
       this.listaCompatibilidade = lista.sort((a, b) => b.score - a.score);
     }
   }
@@ -74,58 +63,76 @@ export default {
 </script>
 
 <style scoped>
-.resultados {
-  min-height: 100vh;
-  background: #e6fffa;
+.res-header { margin-bottom: 36px; }
+.res-header h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 14px 0 8px; }
+.res-subtitle { color: var(--text-muted); font-size: 0.92rem; max-width: 500px; }
+
+.res-list {
+  max-width: 560px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.res-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: border-color var(--t-base);
+}
+.res-card:hover { border-color: var(--terra-light); }
+
+.res-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: var(--cream);
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: var(--font-serif);
+  display: flex;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
-
-.result-container {
-  background: #fff;
-  width: 600px;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px #0003;
-}
-
-.intro {
-  margin-bottom: 25px;
-}
-
-.card {
-  background: #f7fafc;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
+.res-card-header h3 { font-size: 1.3rem; margin: 0; }
+.res-card-header p { font-size: 0.85rem; color: var(--text-muted); margin: 2px 0 0; }
+.res-card-header strong { color: var(--terra); }
 
 .bar {
   width: 100%;
-  height: 12px;
-  background: #ddd;
+  height: 8px;
+  background: var(--cream-dark);
   border-radius: 10px;
   overflow: hidden;
-  margin-top: 10px;
 }
-
 .bar-fill {
-  height: 12px;
-  background: #38b2ac;
+  height: 100%;
+  background: linear-gradient(90deg, var(--terra), var(--terra-light));
+  border-radius: 10px;
+  transition: width 0.6s var(--ease);
 }
 
-.btn {
-  display: block;
-  margin-top: 20px;
-  padding: 10px;
+.res-empty {
   text-align: center;
-  background: #3182ce;
-  color: white;
-  border-radius: 6px;
+  padding: 60px 20px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.empty-icon { font-size: 3rem; color: var(--terra-light); margin-bottom: 16px; }
+.empty-sub { color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 0; }
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 36px;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 0.88rem;
   text-decoration: none;
+  transition: color var(--t-fast);
 }
-.btn:hover {
-  background: #2b6cb0;
-}
+.back-link:hover { color: var(--terra); }
 </style>
