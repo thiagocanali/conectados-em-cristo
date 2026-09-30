@@ -8,12 +8,19 @@
 
     <div v-if="listaCompatibilidade.length === 0" class="res-empty fade-in-up">
       <div class="empty-icon" aria-hidden="true">&#9776;</div>
-      <p>Nenhum outro usuário respondeu ao questionário ainda.</p>
-      <p class="empty-sub">Convide amigos para participar da comunidade!</p>
+      <template v-if="!hasAnswers">
+        <p>Você ainda não respondeu ao questionário.</p>
+        <p class="empty-sub">Complete suas respostas para ver combinações compatíveis.</p>
+        <router-link to="/questionario" class="btn-primary">Responder questionário</router-link>
+      </template>
+      <template v-else>
+        <p>Nenhuma combinação disponível por enquanto.</p>
+        <p class="empty-sub">Quando outras pessoas responderem, as combinações aparecerão aqui.</p>
+      </template>
     </div>
 
     <div v-else class="res-list fade-in-up">
-      <div v-for="(item, index) in listaCompatibilidade" :key="index" class="res-card">
+      <div v-for="item in listaCompatibilidade" :key="item.email" class="res-card">
         <div class="res-card-header">
           <div class="avatar">{{ item.username.charAt(0) }}</div>
           <div>
@@ -21,7 +28,7 @@
             <p>Pontuação de compatibilidade: <strong>{{ item.score }} / 30</strong></p>
           </div>
         </div>
-        <div class="bar">
+        <div class="bar" role="progressbar" :aria-label="`Compatibilidade com ${item.username}`" aria-valuemin="0" aria-valuemax="30" :aria-valuenow="item.score">
           <div class="bar-fill" :style="{ width: (item.score / 30) * 100 + '%' }"></div>
         </div>
       </div>
@@ -36,14 +43,20 @@ export default {
   data() {
     return { listaCompatibilidade: [] };
   },
+  computed: {
+    hasAnswers() {
+      const current = JSON.parse(localStorage.getItem("currentUser") || "null");
+      return Array.isArray(current?.respostas) && current.respostas.length === 10;
+    }
+  },
   mounted() { this.calcular(); },
   methods: {
     calcular() {
-      const atual = JSON.parse(localStorage.getItem("currentUser"));
-      if (!atual || !atual.respostas || atual.respostas.length === 0) return;
+      const atual = JSON.parse(localStorage.getItem("currentUser") || "null");
+      if (!Array.isArray(atual?.respostas) || atual.respostas.length !== 10) return;
 
       const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const outros = users.filter(u => u.email !== atual.email && u.respostas && u.respostas.length > 0);
+      const outros = users.filter(user => user.email !== atual.email && Array.isArray(user.respostas) && user.respostas.length === 10);
 
       const lista = [];
       for (const user of outros) {
@@ -54,7 +67,7 @@ export default {
           else if (diff === 1) score += 2;
           else score += 1;
         }
-        lista.push({ username: user.username, score });
+        lista.push({ email: user.email, username: user.username, score });
       }
       this.listaCompatibilidade = lista.sort((a, b) => b.score - a.score);
     }
@@ -123,6 +136,7 @@ export default {
 }
 .empty-icon { font-size: 3rem; color: var(--terra-light); margin-bottom: 16px; }
 .empty-sub { color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 0; }
+.res-empty .btn-primary { margin-top: 18px; }
 
 .back-link {
   display: block;

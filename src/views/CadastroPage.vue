@@ -9,18 +9,18 @@
 
       <form @submit.prevent="register" class="auth-form">
         <div class="field-group">
-          <label class="field-label">Nome completo</label>
-          <input type="text" v-model="nome" class="field-input" placeholder="Seu nome" required />
+          <label for="signup-name" class="field-label">Nome completo</label>
+          <input id="signup-name" type="text" v-model="nome" class="field-input" placeholder="Seu nome" autocomplete="name" required />
         </div>
 
         <div class="field-group">
-          <label class="field-label">E-mail</label>
-          <input type="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
+          <label for="signup-email" class="field-label">E-mail</label>
+          <input id="signup-email" type="email" v-model="email" class="field-input" placeholder="seu@email.com" autocomplete="email" required />
         </div>
 
         <div class="field-group">
-          <label class="field-label">Senha</label>
-          <input type="password" v-model="senha" class="field-input" placeholder="Crie uma senha" required minlength="6" />
+          <label for="signup-password" class="field-label">Senha</label>
+          <input id="signup-password" type="password" v-model="senha" class="field-input" placeholder="Crie uma senha" autocomplete="new-password" required minlength="6" />
           <span class="field-hint">Mínimo de 6 caracteres</span>
         </div>
 
@@ -29,8 +29,8 @@
           <span>Confirmo que tenho 18 anos ou mais</span>
         </label>
 
-        <p v-if="error" class="auth-error">{{ error }}</p>
-        <p v-if="success" class="auth-success">{{ success }}</p>
+        <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
+        <p v-if="success" class="auth-success" role="status" aria-live="polite">{{ success }}</p>
 
         <button type="submit" class="btn-primary auth-submit">Criar conta</button>
       </form>

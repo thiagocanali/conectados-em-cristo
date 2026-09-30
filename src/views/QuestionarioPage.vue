@@ -4,6 +4,12 @@
       <p class="eyebrow"><span aria-hidden="true">&#10070;</span> Compatibilidade</p>
       <h1>Questionário de Compatibilidade</h1>
       <p class="quest-subtitle">Responda com sinceridade. Suas respostas ajudam a encontrar pessoas alinhadas com seus valores.</p>
+      <div class="quest-progress">
+        <p aria-live="polite">{{ respondidas }} de {{ perguntas.length }} perguntas respondidas</p>
+        <div class="quest-progress-track" role="progressbar" :aria-valuenow="respondidas" :aria-valuemin="0" :aria-valuemax="perguntas.length" :aria-label="`${respondidas} de ${perguntas.length} perguntas respondidas`">
+          <span :style="{ width: `${(respondidas / perguntas.length) * 100}%` }"></span>
+        </div>
+      </div>
     </div>
 
     <form @submit.prevent="salvarRespostas" class="quest-form fade-in-up">
@@ -31,7 +37,11 @@
 export default {
   data() {
     return {
-      respostas: Array(10).fill(""),
+      respostas: (() => {
+        const current = JSON.parse(localStorage.getItem("currentUser") || "null");
+        const draft = JSON.parse(sessionStorage.getItem("questionarioDraft") || "null");
+        return current?.respostas?.length === 10 ? [...current.respostas] : draft?.length === 10 ? [...draft] : Array(10).fill("");
+      })(),
       perguntas: [
         { texto: "Como você descreve sua fé cristã?", opcoes: [
           { valor: 3, label: "Forte" }, { valor: 2, label: "Média" }, { valor: 1, label: "Fraca" }
@@ -66,16 +76,30 @@ export default {
       ]
     };
   },
+  computed: {
+    respondidas() {
+      return this.respostas.filter(resposta => resposta !== "").length;
+    }
+  },
   methods: {
     salvarRespostas() {
-      const current = JSON.parse(localStorage.getItem("currentUser"));
-      let users = JSON.parse(localStorage.getItem("users") || "[]");
-      const index = users.findIndex(u => u.email === current.email);
-      if (index !== -1) {
-        users[index].respostas = [...this.respostas];
-        localStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("currentUser", JSON.stringify(users[index]));
+      const current = JSON.parse(localStorage.getItem("currentUser") || "null");
+      if (!current) {
+        sessionStorage.setItem("questionarioDraft", JSON.stringify(this.respostas));
+        this.$router.push({ path: "/login", query: { redirect: "/questionario" } });
+        return;
       }
+
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const index = users.findIndex(user => user.email === current.email);
+      const updatedUser = { ...current, respostas: [...this.respostas] };
+      if (index !== -1) {
+        users[index] = { ...users[index], respostas: [...this.respostas] };
+        localStorage.setItem("users", JSON.stringify(users));
+        Object.assign(updatedUser, users[index]);
+      }
+      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      sessionStorage.removeItem("questionarioDraft");
       this.$router.push("/resultados");
     }
   }
@@ -86,6 +110,10 @@ export default {
 .quest-header { margin-bottom: 40px; }
 .quest-header h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 14px 0 8px; }
 .quest-subtitle { color: var(--text-muted); font-size: 0.95rem; max-width: 520px; }
+.quest-progress { max-width: 520px; margin-top: 24px; }
+.quest-progress p { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+.quest-progress-track { height: 6px; overflow: hidden; border-radius: 99px; background: var(--cream-dark); }
+.quest-progress-track span { display: block; height: 100%; border-radius: inherit; background: var(--terra); transition: width var(--t-base); }
 
 .quest-form {
   max-width: 620px;
@@ -132,6 +160,6 @@ export default {
 
 @media (max-width: 520px) {
   .field-select { margin-left: 0; max-width: 100%; }
-  .quest-submit { align-self: stretch; }
+  .quest-submit { align-self: stretch; min-height: 48px; }
 }
 </style>

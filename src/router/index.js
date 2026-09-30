@@ -19,16 +19,23 @@ const routes = [
   { path: '/questionario', component: QuestionarioPage },
   { path: '/testedons', component: TesteDonsPage },
   { path: '/testepersonalidade', component: TestePersonalidade },
-  { path: '/resultados', component: ResultadosPage },
-  { path: '/dashboard', component: DashboardPage },
-  { path: '/perfil', component: PerfilPage },
-  { path: '/descoberta', component: DescobertaPage },
-  { path: '/salvos', component: SalvosPage }
+  { path: '/resultados', component: ResultadosPage, meta: { requiresAuth: true } },
+  { path: '/dashboard', component: DashboardPage, meta: { requiresAuth: true } },
+  { path: '/perfil', component: PerfilPage, meta: { requiresAuth: true } },
+  { path: '/descoberta', component: DescobertaPage, meta: { requiresAuth: true } },
+  { path: '/salvos', component: SalvosPage, meta: { requiresAuth: true } },
+  { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(), // Usa hash -> mais compatível com GitHub Pages
+  history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach(to => {
+  if (to.matched.some(route => route.meta.requiresAuth) && !localStorage.getItem('currentUser')) {
+    return { path: '/login', query: { redirect: to.fullPath } }
+  }
 })
 
 export default router

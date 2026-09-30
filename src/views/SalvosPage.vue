@@ -19,7 +19,7 @@
           <strong>{{ p.nome }}, {{ p.idade }}</strong>
           <span>{{ p.cidade }} · {{ p.denominacao }}</span>
         </div>
-        <button class="remover" @click="remover(i)">Remover</button>
+        <button class="remover" @click="remover(i)" :aria-label="`Remover ${p.nome} dos perfis salvos`">Remover</button>
       </li>
     </ul>
 
@@ -30,14 +30,22 @@
 <script>
 export default {
   data() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const storageKey = `${currentUser ? `user:${currentUser.email}:` : 'guest:'}perfisSalvos`;
+    if (currentUser && users.length === 1 && users[0].email === currentUser.email && !localStorage.getItem(storageKey)) {
+      const legacyValue = localStorage.getItem('perfisSalvos');
+      if (legacyValue) localStorage.setItem(storageKey, legacyValue);
+    }
     return {
-      salvos: JSON.parse(localStorage.getItem('perfisSalvos')) || []
+      storageKey,
+      salvos: JSON.parse(localStorage.getItem(storageKey) || '[]')
     }
   },
   methods: {
     remover(i) {
       this.salvos.splice(i, 1);
-      localStorage.setItem('perfisSalvos', JSON.stringify(this.salvos));
+      localStorage.setItem(this.storageKey, JSON.stringify(this.salvos));
     }
   }
 }
@@ -83,6 +91,8 @@ export default {
   border: none;
   color: var(--error);
   cursor: pointer;
+  min-height: 44px;
+  padding: 8px;
   font-size: 0.82rem;
   font-weight: 600;
   transition: opacity var(--t-fast);

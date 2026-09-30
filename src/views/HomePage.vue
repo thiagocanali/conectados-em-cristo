@@ -1,5 +1,5 @@
 <template>
-  <main class="home">
+  <div class="home">
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy fade-in-up">
@@ -73,7 +73,7 @@
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">&#9888;</div>
           <h3>Segurança primeiro</h3>
-          <p>Verificação de e-mail, denúncias e moderação para um ambiente seguro e respeitoso.</p>
+          <p>Denúncia e bloqueio locais ajudam a gerenciar perfis neste protótipo, sem equipe de moderação conectada.</p>
         </article>
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">&#9825;</div>
@@ -90,14 +90,13 @@
           <p class="eyebrow light">Segurança e privacidade</p>
           <h2>Um espaço onde você pode confiar no processo</h2>
           <p class="security-text">
-            Não prometemos que verificação significa caráter. Mas oferecemos ferramentas
-            para que você conheça pessoas com mais clareza e segurança — no seu tempo.
+            Esta versão ainda não conta com autenticação ou moderação remota. Cadastro e interações ficam neste navegador; evite compartilhar informações sensíveis.
           </p>
           <ul class="security-list">
-            <li><span aria-hidden="true">&#10003;</span> E-mail verificado</li>
-            <li><span aria-hidden="true">&#10003;</span> Bloqueio e denúncia</li>
-            <li><span aria-hidden="true">&#10003;</span> Moderação ativa</li>
-            <li><span aria-hidden="true">&#10003;</span> Privacidade por padrão</li>
+            <li><span aria-hidden="true">&#10003;</span> Dados armazenados neste navegador</li>
+            <li><span aria-hidden="true">&#10003;</span> Bloqueios aplicados localmente</li>
+            <li><span aria-hidden="true">&#10003;</span> Denúncias sem envio a uma equipe</li>
+            <li><span aria-hidden="true">&#10003;</span> Sem verificação de e-mail</li>
           </ul>
         </div>
       </div>
@@ -125,7 +124,7 @@
         <router-link to="/cadastro" class="btn-primary cta-btn">Criar conta gratuita <span aria-hidden="true">&rarr;</span></router-link>
       </div>
     </section>
-  </main>
+  </div>
 </template>
 
 <script setup>
@@ -144,11 +143,11 @@ const faqItems = [
   },
   {
     q: 'Minhas informações estão seguras?',
-    a: 'Privacidade é prioridade. Seus dados são classificados e você controla o que aparece no seu perfil. Informações sensíveis não são expostas.'
+    a: 'Nesta versão, dados de cadastro e perfil ficam armazenados no navegador e não há autenticação de servidor. Evite usar informações sensíveis ou uma senha que você utiliza em outros serviços.'
   },
   {
     q: 'Posso bloquear ou denunciar alguém?',
-    a: 'Sim. Todo perfil pode ser bloqueado ou denunciado a qualquer momento. Nossa equipe de moderação analisa cada denúncia.'
+    a: 'As opções de bloqueio e denúncia atuam apenas neste navegador. As denúncias não são enviadas a uma equipe de moderação nesta versão.'
   }
 ]
 </script>

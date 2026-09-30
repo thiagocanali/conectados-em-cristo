@@ -7,7 +7,7 @@
         <p class="desc-subtitle">Conheça com calma, com propósito e com oração.</p>
       </div>
 
-      <div v-if="perfis.length === 0" class="desc-empty fade-in-up">
+      <div v-if="indice >= perfisDisponiveis.length" class="desc-empty fade-in-up">
         <div class="empty-icon" aria-hidden="true">&#9825;</div>
         <p>Você viu todos os perfis disponíveis por enquanto.</p>
         <p class="empty-sub">Volte mais tarde — novas pessoas podem estar esperando.</p>
@@ -39,7 +39,10 @@
           </button>
         </div>
 
-        <button class="denunciar" @click="denunciar">Denunciar ou bloquear</button>
+        <div class="safety-actions">
+          <button class="denunciar" @click="denunciar">Denunciar perfil</button>
+          <button class="denunciar" @click="bloquear">Bloquear perfil</button>
+        </div>
       </div>
 
       <router-link to="/dashboard" class="back-link">&larr; Voltar ao painel</router-link>
@@ -50,8 +53,20 @@
 <script>
 export default {
   data() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const storagePrefix = currentUser ? `user:${currentUser.email}:` : 'guest:';
+    if (currentUser && users.length === 1 && users[0].email === currentUser.email) {
+      ['perfisSalvos', 'interesses', 'denuncias', 'perfisBloqueados'].forEach(key => {
+        const scopedKey = `${storagePrefix}${key}`;
+        const legacyValue = localStorage.getItem(key);
+        if (!localStorage.getItem(scopedKey) && legacyValue) localStorage.setItem(scopedKey, legacyValue);
+      });
+    }
     return {
       indice: 0,
+      storagePrefix,
+      bloqueados: JSON.parse(localStorage.getItem(`${storagePrefix}perfisBloqueados`) || '[]'),
       perfis: [
         { nome: 'Mariana', idade: 27, cidade: 'Curitiba / PR', denominacao: 'Evangélica', objetivo: 'Casamento', sobre: 'Sirvo no ministério de louvor e amo estudar a Palavra. Busco um relacionamento com propósito e diálogo aberto.' },
         { nome: 'Lucas', idade: 30, cidade: 'São Paulo / SP', denominacao: 'Protestante', objetivo: 'Namoro com propósito', sobre: 'Engenheiro, líder de jovens na igreja. Valorizo família, honestidade e crescimento mútuo na fé.' },
@@ -60,33 +75,39 @@ export default {
     }
   },
   computed: {
-    atual() { return this.perfis[this.indice]; }
+    perfisDisponiveis() { return this.perfis.filter(perfil => !this.bloqueados.includes(perfil.nome)); },
+    atual() { return this.perfisDisponiveis[this.indice]; }
   },
   methods: {
     proximo() { this.indice++; },
     passar() { this.proximo(); },
     salvarPerfil() {
-      const salvos = JSON.parse(localStorage.getItem('perfisSalvos')) || [];
+      const salvos = JSON.parse(localStorage.getItem(`${this.storagePrefix}perfisSalvos`) || '[]');
       if (!salvos.find(p => p.nome === this.atual.nome)) {
         salvos.push(this.atual);
-        localStorage.setItem('perfisSalvos', JSON.stringify(salvos));
+        localStorage.setItem(`${this.storagePrefix}perfisSalvos`, JSON.stringify(salvos));
       }
       this.proximo();
     },
     demonstrarInteresse() {
-      const interesses = JSON.parse(localStorage.getItem('interesses')) || [];
+      const interesses = JSON.parse(localStorage.getItem(`${this.storagePrefix}interesses`) || '[]');
       interesses.push(this.atual.nome);
-      localStorage.setItem('interesses', JSON.stringify(interesses));
+      localStorage.setItem(`${this.storagePrefix}interesses`, JSON.stringify(interesses));
       this.proximo();
     },
     denunciar() {
-      const motivo = prompt('Descreva o motivo da denúncia (ou escreva "bloquear" para apenas bloquear):');
-      if (motivo) {
-        const denuncias = JSON.parse(localStorage.getItem('denuncias')) || [];
-        denuncias.push({ perfil: this.atual.nome, motivo, data: new Date().toISOString() });
-        localStorage.setItem('denuncias', JSON.stringify(denuncias));
+      const motivo = prompt('Descreva o motivo da denúncia:');
+      if (motivo?.trim()) {
+        const denuncias = JSON.parse(localStorage.getItem(`${this.storagePrefix}denuncias`) || '[]');
+        denuncias.push({ perfil: this.atual.nome, motivo: motivo.trim(), data: new Date().toISOString() });
+        localStorage.setItem(`${this.storagePrefix}denuncias`, JSON.stringify(denuncias));
         this.proximo();
       }
+    },
+    bloquear() {
+      if (!confirm(`Deseja bloquear ${this.atual.nome}? Este perfil não aparecerá novamente neste navegador.`)) return;
+      this.bloqueados.push(this.atual.nome);
+      localStorage.setItem(`${this.storagePrefix}perfisBloqueados`, JSON.stringify(this.bloqueados));
     }
   }
 }
@@ -138,8 +159,9 @@ export default {
 
 .sobre { color: var(--text-body); line-height: 1.65; font-size: 0.95rem; margin-bottom: 24px; }
 
-.acoes { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.desc-action { padding: 12px 18px; font-size: 0.85rem; }
+.acoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.desc-action { width: 100%; min-height: 48px; padding: 12px 10px; font-size: 0.85rem; }
+.safety-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 20px; }
 .btn-save {
   background: var(--warning-bg);
   color: var(--warning);
@@ -149,7 +171,7 @@ export default {
 
 .denunciar {
   display: block;
-  margin: 20px auto 0;
+  margin: 0;
   background: none;
   border: none;
   color: var(--error);
@@ -181,4 +203,9 @@ export default {
   transition: color var(--t-fast);
 }
 .back-link:hover { color: var(--terra); }
+@media (max-width: 560px) {
+  .desc-card { padding: 28px 20px; }
+  .acoes { grid-template-columns: 1fr; }
+  .card-top { align-items: flex-start; }
+}
 </style>

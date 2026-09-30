@@ -11,14 +11,16 @@
         <router-link to="/testedons">Dons</router-link>
         <router-link to="/testepersonalidade">Personalidade</router-link>
         <router-link to="/descoberta">Descobrir</router-link>
-        <router-link to="/login" class="btn-nav">Entrar</router-link>
+        <router-link :to="authPath" class="btn-nav">{{ authLabel }}</router-link>
       </nav>
 
       <button
+        ref="menuToggle"
         class="nav-toggle"
         @click="mobileOpen = !mobileOpen"
         :aria-expanded="mobileOpen"
-        aria-label="Menu"
+        :aria-label="mobileOpen ? 'Fechar menu' : 'Abrir menu'"
+        aria-controls="mobile-navigation"
       >
         <span :class="{ open: mobileOpen }"></span>
         <span :class="{ open: mobileOpen }"></span>
@@ -27,29 +29,52 @@
     </div>
 
     <transition name="slide-down">
-      <nav v-if="mobileOpen" class="nav-mobile" aria-label="Navegação mobile">
+      <nav v-show="mobileOpen" id="mobile-navigation" class="nav-mobile" aria-label="Navegação mobile">
         <router-link to="/questionario" @click="mobileOpen = false">Questionário</router-link>
         <router-link to="/testedons" @click="mobileOpen = false">Dons</router-link>
         <router-link to="/testepersonalidade" @click="mobileOpen = false">Personalidade</router-link>
         <router-link to="/descoberta" @click="mobileOpen = false">Descobrir</router-link>
-        <router-link to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link>
+        <router-link :to="authPath" @click="mobileOpen = false" class="btn-nav-mobile">{{ authLabel }}</router-link>
       </nav>
     </transition>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const scrolled = ref(false)
 const mobileOpen = ref(false)
+const menuToggle = ref(null)
+const isSignedIn = ref(Boolean(localStorage.getItem('currentUser')))
+const authPath = computed(() => isSignedIn.value ? '/dashboard' : '/login')
+const authLabel = computed(() => isSignedIn.value ? 'Meu painel' : 'Entrar')
+
+watch(() => route.fullPath, () => {
+  isSignedIn.value = Boolean(localStorage.getItem('currentUser'))
+  mobileOpen.value = false
+})
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 20
 }
+const handleKeydown = event => {
+  if (event.key === 'Escape' && mobileOpen.value) {
+    mobileOpen.value = false
+    menuToggle.value?.focus()
+  }
+}
 
-onMounted(() => window.addEventListener('scroll', handleScroll))
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('keydown', handleKeydown)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped>
@@ -119,9 +144,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 .nav-toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
+  width: 44px;
+  height: 44px;
   background: transparent;
   border: none;
+  border-radius: var(--radius-sm);
   padding: 8px;
   cursor: pointer;
 }

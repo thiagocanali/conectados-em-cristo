@@ -28,8 +28,8 @@
         <!-- TESTE -->
         <transition name="fade-slide">
             <section v-if="screen === 'test' && currentQuestion" class="screen active">
-                <div class="progress">
-                    <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+                <div class="progress" role="progressbar" :aria-valuenow="currentQuestionIndex + 1" :aria-valuemin="1" :aria-valuemax="totalQuestions" aria-label="Progresso do teste">
+                    <div class="progress-bar" aria-hidden="true" :style="{ width: progress + '%' }"></div>
                 </div>
 
                 <p class="counter">
@@ -40,7 +40,7 @@
                     {{ currentQuestion.text }}
                 </div>
 
-                <div class="answers">
+                <div class="answers" role="group" :aria-label="currentQuestion.text">
                     <button @click="answer(4)">Muito</button>
                     <button @click="answer(2)">Às vezes</button>
                     <button @click="answer(1)">Raramente</button>
@@ -72,20 +72,22 @@
                 <h1>{{ libraryMode ? 'Biblioteca de Dons' : 'Resultados' }}</h1>
 
                 <div class="grid">
-                    <div v-for="gift in giftsList" :key="gift.key" class="gift" @click="toggleGift(gift.key)">
-                        <div class="gift-header">
-                            <strong>{{ gift.name }}</strong>
-                            <span v-if="!libraryMode">
-                                {{ gift.score }} / {{ gift.max }}
+                    <article v-for="gift in giftsList" :key="gift.key" class="gift">
+                        <button class="gift-toggle" type="button" @click="toggleGift(gift.key)" :aria-expanded="Boolean(openGifts[gift.key])" :aria-controls="`gift-${gift.key}`">
+                            <span class="gift-header">
+                                <strong>{{ gift.name }}</strong>
+                                <span v-if="!libraryMode">
+                                    {{ gift.score }} / {{ gift.max }}
+                                </span>
                             </span>
-                        </div>
+                        </button>
 
-                        <ul v-if="openGifts[gift.key]">
+                        <ul v-show="openGifts[gift.key]" :id="`gift-${gift.key}`">
                             <li v-for="alt in gift.alternatives" :key="alt">
                                 {{ alt }}
                             </li>
                         </ul>
-                    </div>
+                    </article>
                 </div>
 
                 <button v-if="!libraryMode" class="btn-secondary" @click="restart">
@@ -121,7 +123,7 @@ export default {
             return this.questions[this.currentQuestionIndex] || null;
         },
         progress() {
-            return (this.currentQuestionIndex / this.totalQuestions) * 100;
+            return ((this.currentQuestionIndex + 1) / this.totalQuestions) * 100;
         },
         currentCuriosity() {
             return this.curiosities[

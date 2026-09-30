@@ -6,21 +6,22 @@
         <h1>Teste de Personalidade</h1>
       </div>
 
-      <p class="prompt">{{ currentPrompt.prompt }}</p>
+      <p class="prompt" role="heading" aria-level="2">{{ currentPrompt.prompt }}</p>
 
-      <div class="options">
+      <div class="options" role="group" :aria-label="currentPrompt.prompt">
         <button
           v-for="option in prompt_values"
           :key="option.value"
           class="option-btn"
           :class="[selected === option.value ? 'active' : '', option.class]"
+          :aria-pressed="selected === option.value"
           @click="select(option.value)"
         >
           {{ option.value }}
         </button>
       </div>
 
-      <div class="progress-bar-container">
+      <div class="progress-bar-container" role="progressbar" :aria-valuenow="currentIndex + 1" :aria-valuemin="1" :aria-valuemax="prompts.length" aria-label="Progresso do teste">
         <div class="progress-bar-fill" :style="{ width: progress + '%' }"></div>
       </div>
 
@@ -36,7 +37,10 @@
         <p class="eyebrow"><span aria-hidden="true">&#9774;</span> Resultado</p>
         <h1>Sua Personalidade</h1>
       </div>
-      <div class="result-box" v-html="resultText"></div>
+      <div class="result-box" aria-live="polite">
+        <strong>{{ resultTitle }}</strong>
+        <p>{{ resultDescription }}</p>
+      </div>
       <div class="pers-actions">
         <button class="btn-secondary" @click="reset">Refazer Teste</button>
       </div>
@@ -74,11 +78,12 @@ const currentIndex = ref(0)
 const selected = ref(null)
 const answers = ref([])
 const finished = ref(false)
-const resultText = ref('')
+const resultTitle = ref('')
+const resultDescription = ref('')
 
 const currentPrompt = computed(() => prompts[currentIndex.value])
 const isLast = computed(() => currentIndex.value === prompts.length - 1)
-const progress = computed(() => (currentIndex.value / prompts.length) * 100)
+const progress = computed(() => ((currentIndex.value + 1) / prompts.length) * 100)
 
 function select(value) { selected.value = value }
 
@@ -102,14 +107,14 @@ function calculateResult() {
     }
   })
   if (total < 0) {
-    resultText.value = `<strong>Você é introvertido!</strong><br><br>
-      Introvertidos gostam de pensar antes de falar, preferem grupos pequenos de amigos e precisam de tempo sozinhos para recarregar energia.`
+    resultTitle.value = 'Você é introvertido!'
+    resultDescription.value = 'Introvertidos gostam de pensar antes de falar, preferem grupos pequenos de amigos e precisam de tempo sozinhos para recarregar energia.'
   } else if (total > 0) {
-    resultText.value = `<strong>Você é extrovertido!</strong><br><br>
-      Extrovertidos se energizam ao estar com outras pessoas e gostam de socializar para recarregar suas energias.`
+    resultTitle.value = 'Você é extrovertido!'
+    resultDescription.value = 'Extrovertidos se energizam ao estar com outras pessoas e gostam de socializar para recarregar suas energias.'
   } else {
-    resultText.value = `<strong>Você é ambivertido!</strong><br><br>
-      Ambivertidos apresentam características de introversão e extroversão, equilibrando socialização e tempo sozinho.`
+    resultTitle.value = 'Você é ambivertido!'
+    resultDescription.value = 'Ambivertidos apresentam características de introversão e extroversão, equilibrando socialização e tempo sozinho.'
   }
 }
 
@@ -118,7 +123,8 @@ function reset() {
   selected.value = null
   answers.value = []
   finished.value = false
-  resultText.value = ''
+  resultTitle.value = ''
+  resultDescription.value = ''
 }
 </script>
 
@@ -194,33 +200,7 @@ function reset() {
 }
 
 .pers-actions { display: flex; gap: 14px; justify-content: center; }
-
-.btn-primary {
-  background: var(--terra);
-  color: white;
-  padding: 13px 28px;
-  border-radius: var(--radius-md);
-  border: none;
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  transition: background var(--t-base);
-}
-.btn-primary:hover { background: var(--terra-dark); }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.btn-secondary {
-  background: transparent;
-  color: var(--terra);
-  padding: 13px 28px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--terra);
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  transition: background var(--t-base);
-}
-.btn-secondary:hover { background: var(--cream-dark); }
+.pers-actions button { min-height: 48px; }
 
 .result-box {
   text-align: left;
@@ -232,12 +212,15 @@ function reset() {
   padding: 24px;
   margin-bottom: 20px;
 }
-.result-box :deep(strong) {
+.result-box strong {
+  display: block;
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 500;
+  margin-bottom: 12px;
 }
+.result-box p { line-height: inherit; }
 
 @media (max-width: 480px) {
   .pers-card { padding: 32px 22px; }
