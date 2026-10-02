@@ -1,7 +1,7 @@
 # ADR-0005: Autenticação e sessões do MVP
 
 ## Contexto
-A plataforma terá dados pessoais e relacionamentos entre usuários. A documentação define verificação de e-mail, controle de sessão, autorização por recurso e MFA opcional, mas a implementação ainda não começou.
+A plataforma planejada terá dados pessoais e relacionamentos entre usuários. O protótipo atual implementa cadastro e login somente no navegador, armazenando senhas sem hash em `localStorage`; isso não é autenticação segura e não deve ser usado em produção. Não há provedor ou sessão de servidor implementados.
 
 ## Problema
 Como autenticar usuários sem expor dados pessoais ou criar uma solução de segurança própria prematuramente?
@@ -12,7 +12,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 - **Login social como único método**: reduz fricção; não atende necessariamente ao público e à estratégia de e-mail verificado.
 
 ## Decisão
-**Proposta, ainda não aceita:** usar uma solução especializada compatível com Next.js, mantendo e-mail e senha como fluxo base, e tratando MFA e provedores adicionais como etapas posteriores. A solução concreta depende da integração aprovada e da revisão de segurança.
+**Pendente:** avaliar um provedor especializado quando a stack e as integrações forem aprovadas. A menção anterior a Next.js não determina a stack do projeto. Nenhum provedor, fluxo de verificação ou mecanismo de sessão está escolhido ou implementado.
 
 ## Consequências
 - Positivas: menor superfície de código sensível e melhor governança de sessões.
@@ -23,7 +23,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 2026-09-28
 
 ## Status
-Proposto
+Pendente; provedor não escolhido.
 
 ## Próximos passos
 - Confirmar provedor e integração do projeto.

@@ -1,5 +1,13 @@
 # Plano do MVP — Conectados em Cristo
 
+> Status: proposta não aprovada e não implementada como produto de produção. O repositório contém um protótipo frontend local; consulte `PROJECT_CONTEXT.md` para o estado real.
+
+## Decisões de produto em aberto
+- Prazo: este documento estima 8 semanas; `requirements.md` indica 6 meses. Nenhum prazo foi aprovado.
+- Idiomas: aqui consta apenas português no MVP; `requirements.md` pede português, inglês e espanhol. Escopo de idiomas não decidido.
+- Mensagens: excluídas deste MVP, mas aparecem no roadmap aspiracional de `INSTR.md`. Escopo e fase do chat não decididos.
+- Tecnologias de backend, banco, hospedagem, e-mail, storage, autenticação e moderação listadas abaixo são alternativas, não seleções aprovadas.
+
 ## Escopo do MVP
 
 O MVP (Minimum Viable Product) focará nas funcionalidades essenciais para validar a hipótese central: usuários cristãos buscam relacionamentos profundos e significativos em uma plataforma focada em compatibilidade, segurança e fé.
@@ -129,16 +137,12 @@ O MVP (Minimum Viable Product) focará nas funcionalidades essenciais para valid
 
 **Total: 8 semanas (2 meses)**
 
-## Dependências Técnicas
+## Alternativas técnicas para avaliação (não aprovadas)
 
-- Backend: Node.js + Express/TypeScript
-- Frontend: Vue.js 3 (avaliar migração Next.js)
-- Banco: PostgreSQL
-- Hosting: Vercel + AWS (avaliar)
-- Email: Sendgrid/Resend
-- Storage: S3/Vercel Blob
-- Autenticação: JWT
-- Moderação: Manual + Keywords
+- Backend: Node.js + Express/TypeScript ou outra opção a decidir
+- Frontend: Vue.js 3/Vue CLI está implementado no protótipo; eventual migração requer aprovação
+- Banco, hospedagem, e-mail, armazenamento, autenticação e moderação: sem escolha
+- Ver ADRs 0003–0005; o protótipo atual não implementa esses serviços
 
 ## Riscos e Mitigações
 
@@ -152,8 +156,9 @@ O MVP (Minimum Viable Product) focará nas funcionalidades essenciais para valid
 
 ## Próximos Passos
 
-1. [ ] Aprovação do escopo MVP
-2. [ ] Definição exata de tecnologias
-3. [ ] Criação de design mockups
-4. [ ] Setup do repositório backend
-5. [ ] Início do desenvolvimento Sprint 1
+1. [ ] Resolver os conflitos de prazo, idiomas e chat com o responsável pelo produto
+2. [ ] Aprovar o escopo MVP
+3. [ ] Definir tecnologias exatas
+4. [ ] Criar mockups de design
+5. [ ] Configurar o repositório do backend
+6. [ ] Iniciar o desenvolvimento dos sprints aprovados

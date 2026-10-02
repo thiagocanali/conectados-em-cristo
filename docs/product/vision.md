@@ -1,5 +1,7 @@
 # Visão de Produto — Conectados em Cristo
 
+> Documento aspiracional de produto. As capacidades descritas não indicam que a implementação exista; consulte `PROJECT_CONTEXT.md` para o estado do protótipo.
+
 ## Proposição de Valor
 
 **Para:** Cristãos solteiros que buscam relacionamentos significativos
@@ -56,9 +58,9 @@ Apresentar:
 - Áreas ainda desconhecidas
 - Convite para conversa genuína
 
-## Foco MVP
+## Foco MVP proposto (escopo ainda não aprovado)
 
-### Core Features
+### Capacidades candidatas
 - Autenticação confiável
 - Perfil detalhado
 - Questionário de compatibilidade

@@ -48,9 +48,27 @@ Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Event
 ### Pilares de Design
 **PERFIL + COMPATIBILIDADE + SEGURANÇA + PROPÓSITO**
 
+## Estado Atual da Aplicação
+
+O repositório contém um protótipo navegável, não um MVP de produção. As funcionalidades abaixo executam no navegador e usam dados locais; não existe API, backend, banco de dados, autenticação de servidor, moderação remota ou comunidade compartilhada.
+
+### Implementado no protótipo
+- Home e navegação por hash com Vue Router.
+- Cadastro e login locais; senhas ficam em texto puro no `localStorage`, portanto não há segurança de autenticação de produção.
+- Perfil e respostas do questionário persistidos localmente.
+- Resultados de compatibilidade calculados apenas entre contas salvas no mesmo navegador.
+- Descoberta baseada em perfis fixos no código; interesse, bloqueio, denúncia e perfis salvos são registros locais, não ações enviadas a outros usuários ou moderadores.
+- Testes locais de dons e personalidade.
+
+### Ainda não implementado
+- API, backend, banco de dados e compartilhamento de contas/perfis entre dispositivos.
+- Autenticação segura, verificação de e-mail, recuperação de senha e autorização no servidor.
+- Descoberta de usuários reais, chat, notificações, uploads, pagamentos e painel/moderação remota.
+- Testes automatizados de unidade, integração e E2E.
+
 ## Funcionalidades Principais (Planejadas)
 
-### MVP
+### MVP proposto, ainda não aprovado
 - [ ] Autenticação segura
 - [ ] Criação de perfil completo
 - [ ] Questionário de compatibilidade
@@ -60,7 +78,7 @@ Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Event
 - [ ] Sistema de moderação básico
 - [ ] Salvação de perfis
 
-### V2 (Futuro)
+### Candidatas para fases posteriores (fase não aprovada)
 - [ ] Mensagens
 - [ ] Verificação de identidade
 - [ ] Moderação avançada
@@ -68,25 +86,29 @@ Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Event
 - [ ] Análise comportamental
 - [ ] Internacionalização
 
-## Arquitetura (Decisões Pendentes)
+## Arquitetura
 
-### Stack Tecnológico
-**Frontend:** Vue.js 3 (atual), avaliar Next.js/React para v2
-**Backend:** Node.js + TypeScript (planejado)
-**Banco:** PostgreSQL (planejado)
-**Infraestrutura:** Vercel/AWS (avaliar)
+### Implementação atual
+**Frontend:** Vue 3, Vue Router 4 e CSS próprio, compilados pelo Vue CLI 5. A aplicação usa `createWebHashHistory`; o estado e dados de demonstração ficam em `localStorage`/`sessionStorage`. Pinia e Tailwind estão instalados como dependências, mas não são usados. Deploy está configurado para GitHub Pages e Vercel; o destino de produção ativo precisa ser confirmado.
+
+### Arquitetura futura proposta
+Backend Node.js/TypeScript, PostgreSQL, autenticação gerenciada, armazenamento e serviços externos ainda não foram escolhidos nem implementados. Next.js/React consta apenas como hipótese de migração, sem decisão aceita.
 
 ### Decisões em Aberto
-- [ ] Migração para Next.js/React ou manter Vue.js?
+- [ ] Manter Vue CLI/Vue Router ou aprovar uma migração de frontend?
+- [ ] Escolher e aprovar backend, banco de dados e provedor de autenticação antes de armazenar dados reais.
+- [ ] Resolver divergências de escopo do produto: prazo do MVP (8 semanas em `docs/product/mvp.md` versus 6 meses em `docs/product/requirements.md`), idiomas no MVP (somente português versus PT/EN/ES) e momento do chat (fora do MVP em alguns documentos, presente no roadmap aspiracional de `INSTR.md`).
 - [ ] Backend em Node.js ou alternativa?
 - [ ] PostgreSQL em Neon, Supabase ou AWS?
 - [ ] Que provedor para armazenamento de imagens?
 - [ ] CDN e cache estratégia?
 - [ ] Fila de processamento para moderação?
 
-## Estrutura de Dados (Preliminar)
+## Modelo de Dados Futuro (Conceitual; Não Implementado)
 
-### Tabelas Principais
+As entidades abaixo são ideias de domínio, não tabelas existentes ou um esquema aprovado.
+
+### Entidades candidatas
 - `users` — Dados de autenticação e conta
 - `profiles` — Perfil completo do usuário
 - `faith_data` — Dados sobre fé
@@ -107,7 +129,7 @@ Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Event
 
 ## Segurança
 
-### Implementações Obrigatórias
+### Requisitos de segurança futuros (não implementados)
 - Email verificado
 - CAPTCHA
 - Rate limiting
@@ -130,9 +152,9 @@ Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Event
 **Identidade verificada ≠ Caráter verificado**
 Nunca comunicar que alguém é "confiável" apenas por verificação.
 
-## Moderação
+## Moderação Planejada (Sem Serviço Remoto Ativo)
 
-### Políticas
+### Políticas candidatas
 - Proibição de conteúdo sexual explícito
 - Proibição de golpes e manipulação
 - Proibição de exploração
@@ -147,32 +169,32 @@ Nunca comunicar que alguém é "confiável" apenas por verificação.
 - Apelação
 
 ## Tecnologias Atuais
-- **Frontend:** Vue.js 3, Tailwind CSS 4, Vue Router 4, Pinia 3
-- **Build:** Vite, Babel, ESLint
-- **Hosting:** GitHub Pages (atual)
+- **Frontend:** Vue.js 3 e Vue Router 4; CSS próprio
+- **Build:** Vue CLI 5 (`vue-cli-service`), Babel e ESLint
+- **Dependências sem uso identificado:** Pinia 3 e Tailwind CSS 4
+- **Deploy configurado:** GitHub Pages e Vercel; ambiente de produção ativo não confirmado
 - **VCS:** Git, GitHub
 
 ## Status Atual
-- [x] Instruções mestras definidas
-- [x] Estrutura inicial (Vue.js)
-- [ ] Documentação completa
-- [ ] Decisões arquiteturais registradas
-- [ ] Backend estruturado
-- [ ] Banco de dados criado
-- [ ] Autenticação implementada
-- [ ] Perfil implementado
-- [ ] Sistema de compatibilidade
-- [ ] Moderação
-- [ ] Testes
+- [x] Protótipo frontend com rotas e fluxos locais
+- [x] Design system inicial aplicado
+- [ ] MVP de produção aprovado
+- [ ] ADRs de stack, persistência e autenticação aceitos
+- [ ] Backend e banco de dados
+- [ ] Autenticação segura e autorização no servidor
+- [ ] Dados e perfis compartilhados entre usuários
+- [ ] Descoberta e moderação remotas
+- [ ] Testes automatizados e validação E2E
 
-## Roadmap de Alto Nível
+## Roadmap Proposto (Sem Fases Aprovadas)
 
-### Fase 0: Fundação (Atual)
-- Decisões arquiteturais
-- Documentação
-- Setup do projeto
+A alocação de mensagens e internacionalização por fase depende da resolução das decisões listadas acima.
 
-### Fase 1: MVP
+### Fase Atual: Protótipo local
+- Interface Vue funcional com dados do navegador
+- Documentação e decisões de produto/arquitetura ainda em revisão
+
+### Próxima fase proposta: MVP de produção
 - Autenticação
 - Perfil
 - Questionário
@@ -218,8 +240,8 @@ Nunca comunicar que alguém é "confiável" apenas por verificação.
 - `/docs/decisions` — Architecture Decision Records (ADRs)
 
 ## Próximos Passos
-1. Registrar decisões arquiteturais iniciais (ADRs)
-2. Criar documentação de product e requirements
-3. Definir schema do banco de dados
-4. Estruturar backend
-5. Implementar autenticação
+1. Resolver prazo, idiomas e escopo de mensagens com o responsável pelo produto
+2. Aprovar o escopo de produção do MVP
+3. Avaliar e aprovar stack, persistência e autenticação nos ADRs
+4. Definir modelo de dados e controles de privacidade
+5. Planejar backend e testes antes de armazenar dados reais

@@ -1,5 +1,8 @@
 # Visão geral da API
 
+## Estado atual
+Não existe API implementada neste repositório. Este documento registra princípios para uma integração futura; endpoints, provedores e contratos ainda não foram definidos.
+
 ## Objetivo
 Descrever os princípios dos contratos de integração da plataforma.
 
@@ -21,4 +24,4 @@ Autenticação, perfis, descoberta, interesses, bloqueios, denúncias, moderaç�
 ## TODOs
 - Definir contratos após a escolha da stack e dos casos de uso do MVP.
 
-Status: rascunho.
+Status: API não implementada; contratos futuros pendentes.

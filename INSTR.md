@@ -1,4 +1,7 @@
 CONECTADOS EM CRISTO — PROMPT MESTRE DO PROJETO
+
+> Este arquivo registra a visão e os requisitos aspiracionais do produto, não o estado implementado. Para stack, funcionalidades executáveis e decisões aceitas, consulte `PROJECT_CONTEXT.md` e os ADRs. Não trate propostas deste documento como funcionalidades já entregues.
+
 Você será o agente principal responsável por planejar, projetar, desenvolver, documentar, testar e evoluir uma plataforma cristã de relacionamentos chamada:
 
 CONECTADOS EM CRISTO

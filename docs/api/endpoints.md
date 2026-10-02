@@ -1,5 +1,8 @@
 # Endpoints
 
+## Estado atual
+Não há servidor ou endpoints implementados neste repositório. Este inventário só deve ser preenchido após a aprovação dos casos de uso e dos contratos da API.
+
 ## Objetivo
 Manter o inventário dos endpoints públicos e internos da plataforma.
 
@@ -20,4 +23,4 @@ Manter o inventário dos endpoints públicos e internos da plataforma.
 - Criar a tabela de endpoints quando os fluxos do MVP forem implementados.
 - Associar cada endpoint a autenticação, autorização, validação e testes.
 
-Status: rascunho.
+Status: endpoints não implementados; inventário futuro pendente.

@@ -1,5 +1,13 @@
 # Requisitos de Produto — Conectados em Cristo
 
+> Status: rascunho aspiracional; nenhum conjunto de requisitos foi aprovado para produção. O protótipo atual é local e não satisfaz os requisitos de backend, autenticação ou operação listados aqui.
+
+## Conflitos que exigem decisão de produto
+- Prazo do MVP: este documento indica 6 meses; `mvp.md` estima 8 semanas.
+- Idiomas: este documento exige PT/EN/ES; `mvp.md` limita o MVP a português.
+- Chat: `mvp.md` exclui mensagens; `INSTR.md` inclui chat no roadmap aspiracional do MVP.
+- Estes conflitos permanecem sem resolução; não os tratar como escopo aprovado.
+
 ## Requisitos Funcionais do MVP
 
 ### REQ-AUTH: Autenticação
@@ -119,8 +127,8 @@
 
 ### Manutenibilidade
 - **REQ-MAINTAIN-001:** Código com testes unitários (>80% coverage)
-- **REQ-MAINTAIN-001:** Documentação atualizada
-- **REQ-MAINTAIN-001:** Código review obrigatório antes de merge
+- **REQ-MAINTAIN-002:** Documentação atualizada
+- **REQ-MAINTAIN-003:** Revisão de código obrigatória antes de merge
 
 ## Restrições
 

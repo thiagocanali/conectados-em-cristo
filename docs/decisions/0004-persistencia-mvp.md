@@ -1,7 +1,7 @@
 # ADR-0004: Persistência do MVP
 
 ## Contexto
-O produto exige dados de perfil, preferências, consentimentos, denúncias e trilhas de auditoria. Nenhum banco ou esquema funcional foi confirmado nesta fase.
+O produto planejado exige dados de perfil, preferências, consentimentos, denúncias e trilhas de auditoria. O protótipo atual persiste dados no `localStorage`/`sessionStorage`; não há banco, API ou esquema funcional de servidor.
 
 ## Problema
 Como escolher a persistência sem criar tabelas ou contratos prematuros?
@@ -12,7 +12,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 - **Persistência local ou somente em memória**: útil apenas para protótipos visuais; não atende ao produto real.
 
 ## Decisão
-**Proposta, ainda não aceita:** avaliar PostgreSQL gerenciado como opção principal para o MVP. A escolha final deve considerar o provedor disponível, RLS ou escopo por usuário, migrações, backups e custos.
+**Pendente:** PostgreSQL gerenciado é uma alternativa para avaliação, não uma escolha. Persistência local atende apenas ao protótipo e não deve armazenar dados reais; a decisão de produção precisa considerar provedor, isolamento por usuário, migrações, backups, restauração e custos.
 
 ## Consequências
 - Positivas: consistência e clareza para entidades relacionais.
@@ -23,7 +23,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 2026-09-28
 
 ## Status
-Proposto
+Pendente; PostgreSQL não aprovado.
 
 ## Próximos passos
 - Confirmar integração disponível no projeto.

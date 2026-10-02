@@ -1,5 +1,8 @@
 # Autenticação da API
 
+## Estado atual
+Não existe API ou sessão de servidor implementada. Os requisitos abaixo são para uma integração futura, não descrevem autenticação ativa.
+
 ## Objetivo
 Registrar os requisitos de autenticação e sessão para os consumidores da API.
 
@@ -20,4 +23,4 @@ Criação de conta, login, verificação de email, recuperação de acesso, ence
 ## TODOs
 - Alinhar este documento ao modelo de autenticação escolhido.
 
-Status: rascunho.
+Status: API de autenticação não implementada.

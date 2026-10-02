@@ -1,7 +1,7 @@
 # ADR-0003: Stack técnica do MVP
 
 ## Contexto
-O projeto está na fase de fundação documental e ainda não possui implementação funcional. A stack precisa atender ao MVP com simplicidade, segurança, baixo custo e possibilidade de evolução internacional.
+O repositório já contém um protótipo funcional em Vue 3, Vue Router 4 e Vue CLI 5. Não há backend ou banco de dados. A stack de produção ainda precisa ser definida com simplicidade, segurança, baixo custo e possibilidade de evolução internacional.
 
 ## Problema
 Como avaliar a stack sem transformar uma hipótese em decisão irreversível antes da validação do produto?
@@ -12,7 +12,7 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 - **Outro framework full-stack**: pode atender ao produto; ainda não foi comparado com evidências do projeto.
 
 ## Decisão
-**Proposta, ainda não aceita:** usar Next.js, React, TypeScript e Tailwind CSS como hipótese inicial de implementação. A decisão final depende da validação técnica do repositório e do primeiro incremento funcional.
+**Pendente:** Next.js/React/TypeScript/Tailwind permanecem alternativas para avaliação, não uma decisão de migração. O código atual usa Vue 3/Vue CLI; manter ou substituir essa stack requer uma decisão explícita após comparar necessidades, custos e impacto.
 
 ## Consequências
 - Positivas: ciclo curto de desenvolvimento e uma base comum para UI e APIs.
@@ -23,9 +23,9 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 2026-09-28
 
 ## Status
-Proposto
+Pendente; proposta de Next.js não adotada.
 
 ## Próximos passos
-- Confirmar a estrutura real do repositório.
-- Criar um vertical slice de perfil com testes.
-- Revisar a decisão antes de iniciar funcionalidades de escala.
+- Comparar a stack atual com as alternativas de produção.
+- Aprovar ou rejeitar explicitamente uma migração antes de implementá-la.
+- Rever backend, persistência, autenticação e testes em ADRs próprios.

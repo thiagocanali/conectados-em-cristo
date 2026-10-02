@@ -1,6 +1,12 @@
 # Arquitetura do Sistema — Conectados em Cristo
 
-## Visão Geral
+## Estado implementado
+
+O repositório executa uma SPA Vue 3 com Vue Router 4, Vue CLI 5, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
+
+## Arquitetura alvo (proposta, não implementada)
+
+O diagrama e os componentes a seguir representam uma hipótese de arquitetura futura. Provedores e tecnologias permanecem pendentes, conforme ADRs 0003–0005.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -47,20 +53,14 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Componentes
+## Componentes da arquitetura alvo
 
 ### 1. Frontend
-- **Tecnologia:** Vue.js 3, Tailwind CSS, Vue Router, Pinia
-- **Tipo:** Single Page Application (SPA)
-- **Hospedagem:** Vercel ou GitHub Pages (avaliação)
-- **Build:** Vite (otimizado para performance)
-- **Responsabilidades:**
-  - Renderização de UI
-  - Validação de input frontend
-  - State management (Pinia)
-  - Comunicação com API
-  - Autenticação local (token storage)
-  - Cache local (localStorage, sessão storage)
+- **Implementado:** Vue 3, Vue Router 4, Vue CLI 5, CSS próprio e hash routing.
+- **Dependências sem uso identificado:** Pinia e Tailwind CSS.
+- **Deploy configurado:** GitHub Pages e Vercel; ambiente ativo não confirmado.
+- **Não implementado:** cliente de API, estado de autenticação de servidor ou sincronização remota.
+- **Decisão futura:** manter a stack atual ou aprovar uma migração; ver ADR-0003.
 
 ### 2. API Gateway / WAF
 - **Tecnologia:** Cloudflare Workers ou AWS WAF
@@ -232,7 +232,7 @@ Arquitetura modular com serviços específicos.
 - **Uptime:** UptimeRobot
 - **Performance:** New Relic
 
-## Fluxos Principais
+## Fluxos alvo (não implementados)
 
 ### Fluxo de Autenticação
 ```
@@ -245,7 +245,7 @@ Arquitetura modular com serviços específicos.
 7. POST /auth/verify-email
 8. Backend marca email como verificado
 9. Frontend recebe token JWT
-10. Token armazenado em sessionStorage (httpOnly via cookie)
+10. Token de sessão é entregue em cookie `HttpOnly`, `Secure` e `SameSite` (proposta; não implementado).
 11. Todas as requisições posteriores incluem token
 ```
 
@@ -319,8 +319,8 @@ Arquitetura modular com serviços específicos.
 
 ## Próximos Passos
 
-1. [ ] Definir stack exato (Next.js vs Vue, Node vs Nest, etc)
-2. [ ] Criar ADRs para cada decisão
-3. [ ] Desenhar diagrama ER do banco
-4. [ ] Especificar esquema de autenticação (JWT payload)
-5. [ ] Criar especificação de APIs (OpenAPI/Swagger)
+1. [ ] Aprovar ou rejeitar explicitamente as propostas nos ADRs 0003–0005
+2. [ ] Resolver conflitos do MVP em `docs/product/mvp.md` e `docs/product/requirements.md`
+3. [ ] Definir modelo de dados e classificação de privacidade após escolha da persistência
+4. [ ] Definir sessão e autorização após escolha da autenticação
+5. [ ] Especificar contratos de API depois de aprovar os fluxos do MVP
