@@ -1,225 +1,451 @@
-# CONECTADOS EM CRISTO — Contexto do Projeto
+Conectados em Cristo
+1. Visão
 
-## Visão
-Uma plataforma cristã de relacionamentos que conecta pessoas solteiras com propósito, focando em conhecimento profundo, compatibilidade genuína e segurança, antes de crescimento.
+Conectados em Cristo é uma comunidade digital cristã criada para aproximar pessoas por meio da fé, interesses, propósito e experiências compartilhadas.
 
-## Missão
-Facilitar encontros significativos entre cristãos solteiros que buscam relacionamentos sérios e com propósito em Cristo.
+A plataforma não é um aplicativo de namoro cristão.
 
-## Slogan
-"Relacionamentos com propósito em Cristo."
+Relacionamentos amorosos são uma das possibilidades da plataforma, mas não seu objetivo exclusivo.
 
-## Fluxo de Experiência
-Conhecer → Compreender → Conversar → Discernir → Relacionar-se → Eventualmente formar uma família
+O usuário pode entrar para:
 
-## Público-alvo
+conhecer pessoas;
 
-### Fase Inicial
-- Idade: 18-60 anos
-- Estado civil: Solteiros
-- Fé: Cristãos (católicos, ortodoxos, protestantes/evangélicos)
-- Orientação: Heterossexual
-- Localização: Global
+fazer amizades;
 
-### Idiomas Planejados
-1. Português (v1)
-2. Inglês (v2)
-3. Espanhol (v2)
-4. Outros (futuro)
+participar de comunidades;
 
-## Princípios de Produto
+compartilhar hobbies;
 
-### Prioridades
-1. **Segurança antes de crescimento**
-2. **Privacidade antes de monetização**
-3. **Relacionamentos antes de vício**
-4. **Qualidade antes de quantidade**
-5. **Transparência antes de manipulação**
-6. **Pessoas antes de métricas**
-7. **Verdade antes de aparência**
+participar de atividades;
 
-### Valores de Comunicação
-- Simplicidade na experiência
-- Autenticidade nas interações
-- Discernimento nas conexões
-- Propósito cristão central
-- Maturidade nas relações
+jogar;
 
-### Pilares de Design
-**PERFIL + COMPATIBILIDADE + SEGURANÇA + PROPÓSITO**
+estudar a Bíblia;
 
-## Funcionalidades Principais (Planejadas)
+acompanhar devocionais;
 
-### MVP
-- [ ] Autenticação segura
-- [ ] Criação de perfil completo
-- [ ] Questionário de compatibilidade
-- [ ] Sistema de descoberta (não apenas swipe)
-- [ ] Demonstração de interesse
-- [ ] Bloqueio e denúncia
-- [ ] Sistema de moderação básico
-- [ ] Salvação de perfis
+compartilhar pedidos de oração;
 
-### V2 (Futuro)
-- [ ] Mensagens
-- [ ] Verificação de identidade
-- [ ] Moderação avançada
-- [ ] Notificações
-- [ ] Análise comportamental
-- [ ] Internacionalização
+participar de eventos;
 
-## Arquitetura (Decisões Pendentes)
+conversar sobre interesses;
 
-### Stack Tecnológico
-**Frontend:** Vue.js 3 (atual), avaliar Next.js/React para v2
-**Backend:** Node.js + TypeScript (planejado)
-**Banco:** PostgreSQL (planejado)
-**Infraestrutura:** Vercel/AWS (avaliar)
+desenvolver relacionamentos com propósito.
 
-### Decisões em Aberto
-- [ ] Migração para Next.js/React ou manter Vue.js?
-- [ ] Backend em Node.js ou alternativa?
-- [ ] PostgreSQL em Neon, Supabase ou AWS?
-- [ ] Que provedor para armazenamento de imagens?
-- [ ] CDN e cache estratégia?
-- [ ] Fila de processamento para moderação?
+A ideia central é:
 
-## Estrutura de Dados (Preliminar)
+Comunidade primeiro. Conexões depois. Relacionamentos como consequência.
 
-### Tabelas Principais
-- `users` — Dados de autenticação e conta
-- `profiles` — Perfil completo do usuário
-- `faith_data` — Dados sobre fé
-- `personality_data` — Dados sobre personalidade
-- `relationship_goals` — Objetivos relacionais
-- `lifestyle_data` — Dados sobre estilo de vida
-- `interactions` — Visualizações, interesse, bloqueio, denúncia
-- `matches` — Sistema de compatibilidade
-- `messages` — Mensagens (futuro)
-- `moderation_logs` — Logs de moderação
-- `verification_status` — Status de verificação
+2. Princípios do produto
+2.1 Pessoas antes de métricas
 
-### Classificação de Privacidade
-- **Público:** Nome, foto, idade, cidade (aprox), profissão
-- **Restrito:** Dados de fé, personalidade, objetivos (apenas para perfis interessados)
-- **Privado:** Dados pessoais sensíveis, histórico, localização exata
-- **Interno:** Scores de compatibilidade, flags de segurança, histórico de moderação
+O produto deve otimizar para experiências humanas saudáveis, não para maximizar:
 
-## Segurança
+tempo de tela;
 
-### Implementações Obrigatórias
-- Email verificado
-- CAPTCHA
-- Rate limiting
-- Detecção de contas duplicadas
-- Análise comportamental
-- Controle de sessão
-- MFA opcional
-- Logs completos
-- Monitoramento ativo
-- Proteção contra abuso
+quantidade de matches;
 
-### Proteção contra Fraude
-- Detecção de catfishing
-- Análise de fotos
-- Identificação de duplicatas
-- Proteção contra bots
-- Detecção de padrões anormais
+curtidas;
 
-### Importante
-**Identidade verificada ≠ Caráter verificado**
-Nunca comunicar que alguém é "confiável" apenas por verificação.
+notificações;
 
-## Moderação
+mensagens;
 
-### Políticas
-- Proibição de conteúdo sexual explícito
-- Proibição de golpes e manipulação
-- Proibição de exploração
-- Proibição de discurso de ódio
-- Tolerância zero com abuso
+usuários conectados simultaneamente.
 
-### Mecanismos
-- Relatórios de usuários
-- Análise automatizada
-- Review manual
-- Ações progressivas
-- Apelação
+2.2 Segurança antes de crescimento
 
-## Tecnologias Atuais
-- **Frontend:** Vue.js 3, Tailwind CSS 4, Vue Router 4, Pinia 3
-- **Build:** Vite, Babel, ESLint
-- **Hosting:** GitHub Pages (atual)
-- **VCS:** Git, GitHub
+Nenhuma funcionalidade deve ser implementada sem considerar:
 
-## Status Atual
-- [x] Instruções mestras definidas
-- [x] Estrutura inicial (Vue.js)
-- [ ] Documentação completa
-- [ ] Decisões arquiteturais registradas
-- [ ] Backend estruturado
-- [ ] Banco de dados criado
-- [ ] Autenticação implementada
-- [ ] Perfil implementado
-- [ ] Sistema de compatibilidade
-- [ ] Moderação
-- [ ] Testes
+privacidade;
 
-## Roadmap de Alto Nível
+abuso;
 
-### Fase 0: Fundação (Atual)
-- Decisões arquiteturais
-- Documentação
-- Setup do projeto
+fraude;
 
-### Fase 1: MVP
-- Autenticação
-- Perfil
-- Questionário
-- Descoberta
-- Moderação básica
+assédio;
 
-### Fase 2: Expansão
-- Mensagens
-- Verificação de identidade
-- Moderação avançada
-- Internacionalização (EN, ES)
+spam;
 
-### Fase 3: Escalabilidade
-- Análise avançada
-- Recomendações
-- Analytics
-- Otimizações de performance
+catfishing;
 
-## Regras Fundamentais de Desenvolvimento
+exposição indevida;
 
-1. Entenda o objetivo antes de codificar
-2. Consulte a documentação existente
-3. Verifique decisões arquiteturais prévias
-4. Evite soluções duplicadas
-5. Atualize documentação após decisões
-6. Mantenha consistência arquitetural
-7. Teste segurança e UX
-8. Revise antes de mergear
+segurança em encontros presenciais.
 
-## Arquivos de Documentação
+2.3 Comunidade antes de namoro
 
-- `/docs/product` — Vision, requirements, roadmap
-- `/docs/architecture` — Decisões técnicas
-- `/docs/database` — Schema e dicionário de dados
-- `/docs/security` — Modelo de segurança
-- `/docs/moderation` — Políticas e processos
-- `/docs/ux` — Design system, acessibilidade
-- `/docs/business` — Modelo, monetização, i18n
-- `/docs/legal` — Privacidade, termos, compliance
-- `/docs/api` — Documentação de API
-- `/docs/testing` — Estratégia de testes
-- `/docs/operations` — Deploy, monitoramento, backups
-- `/docs/decisions` — Architecture Decision Records (ADRs)
+O usuário não deve precisar estar procurando relacionamento para encontrar valor na plataforma.
 
-## Próximos Passos
-1. Registrar decisões arquiteturais iniciais (ADRs)
-2. Criar documentação de product e requirements
-3. Definir schema do banco de dados
-4. Estruturar backend
-5. Implementar autenticação
+2.4 Fé sem superficialidade
+
+"Ser cristão" não deve ser tratado apenas como um campo no perfil.
+
+A plataforma deve permitir que usuários expressem:
+
+crenças;
+
+valores;
+
+práticas;
+
+interesses;
+
+objetivos;
+
+visão de relacionamento;
+
+participação comunitária.
+
+2.5 Compatibilidade não é destino
+
+Qualquer mecanismo de compatibilidade deve ser apresentado como uma ferramenta de descoberta, nunca como uma afirmação de que duas pessoas "foram feitas uma para a outra".
+
+2.6 Verificação não significa caráter
+
+Uma pessoa verificada é uma pessoa cuja informação foi verificada em determinado aspecto.
+
+Verificação de identidade não significa:
+
+boa intenção;
+
+maturidade;
+
+caráter;
+
+compatibilidade;
+
+segurança absoluta.
+
+2.7 Privacidade por padrão
+
+Informações pessoais devem ser minimizadas e protegidas.
+
+Nunca expor publicamente por padrão:
+
+telefone;
+
+e-mail;
+
+endereço;
+
+localização exata;
+
+informações sensíveis;
+
+dados de autenticação.
+
+3. Pilares
+
+O produto possui cinco pilares:
+
+COMUNIDADE
+
+Pessoas encontram grupos, interesses e atividades.
+
+FÉ
+
+A experiência possui identidade cristã real.
+
+PROPÓSITO
+
+A plataforma incentiva conexões significativas e intencionais.
+
+CONEXÃO
+
+Usuários podem construir amizades e relacionamentos.
+
+SEGURANÇA
+
+Privacidade, moderação e proteção contra abuso fazem parte da experiência desde o início.
+
+4. Experiência principal
+
+A experiência ideal é:
+
+ENTRAR
+  ↓
+CRIAR PERFIL
+  ↓
+ESCOLHER INTERESSES
+  ↓
+DESCOBRIR COMUNIDADES
+  ↓
+PARTICIPAR
+  ↓
+CONHECER PESSOAS
+  ↓
+CRIAR AMIZADES
+  ↓
+CONSTRUIR CONFIANÇA
+  ↓
+EVENTUALMENTE DESENVOLVER UM RELACIONAMENTO
+
+
+O relacionamento não deve ser necessário para justificar a existência do usuário na plataforma.
+
+5. O que o usuário pode fazer
+Comunidade
+
+participar de comunidades;
+
+criar comunidades quando autorizado;
+
+publicar;
+
+comentar;
+
+reagir;
+
+participar de discussões.
+
+Atividades
+
+quizzes;
+
+jogos;
+
+estudos;
+
+desafios;
+
+grupos de oração;
+
+atividades relacionadas a hobbies;
+
+encontros.
+
+Fé
+
+devocionais;
+
+planos de leitura;
+
+estudos;
+
+pedidos de oração;
+
+conteúdo cristão.
+
+Pessoas
+
+descobrir usuários;
+
+encontrar pessoas com interesses semelhantes;
+
+fazer amizades;
+
+demonstrar interesse romântico;
+
+conversar.
+
+Eventos
+
+descobrir eventos;
+
+participar;
+
+criar eventos quando autorizado;
+
+encontrar comunidades locais.
+
+6. Home
+
+A página inicial não deve ser uma lista de possíveis parceiros.
+
+A experiência deve começar com:
+
+O que você gostaria de fazer hoje?
+
+Possíveis entradas:
+
+📖 Continuar devocional
+
+🧠 Jogar quiz
+
+👥 Ver comunidades
+
+🎯 Ver atividades
+
+🙏 Pedidos de oração
+
+🎵 Explorar hobbies
+
+📍 Eventos
+
+👤 Conhecer pessoas
+
+❤️ Conhecer alguém com intenção de relacionamento
+
+7. Descoberta de pessoas
+
+A descoberta deve considerar diferentes tipos de conexão:
+
+amizade;
+
+interesses;
+
+comunidade;
+
+fé;
+
+atividades;
+
+localização aproximada;
+
+relacionamento.
+
+O sistema deve explicar por que determinada pessoa foi sugerida.
+
+Exemplo:
+
+Vocês têm 5 interesses em comum.
+
+Participam de 2 comunidades semelhantes.
+
+Ambos demonstraram interesse em estudos bíblicos.
+
+Evitar apresentar uma porcentagem como:
+
+"87% compatível"
+
+sem contexto.
+
+8. Segurança
+
+A segurança é uma parte estrutural da plataforma.
+
+O sistema deve considerar:
+
+autenticação segura;
+
+confirmação de e-mail;
+
+confirmação de telefone;
+
+MFA;
+
+proteção contra bots;
+
+rate limiting;
+
+prevenção contra spam;
+
+detecção de contas duplicadas;
+
+análise de comportamento;
+
+denúncias;
+
+bloqueios;
+
+moderação;
+
+auditoria;
+
+proteção de sessão;
+
+verificação de identidade opcional;
+
+sistema de apelação.
+
+A segurança deve possuir uma interface própria:
+
+Minha Segurança
+
+9. Filosofia de gamificação
+
+Evitar:
+
+ranking de popularidade;
+
+ranking de beleza;
+
+número público de curtidas;
+
+competição por seguidores;
+
+mecanismos projetados para gerar dependência.
+
+Priorizar:
+
+participação;
+
+aprendizado;
+
+colaboração;
+
+leitura;
+
+oração;
+
+atividades;
+
+contribuição comunitária.
+
+Exemplos:
+
+🏅 Participou de 5 atividades
+
+🏅 Completou um plano de leitura
+
+🏅 Participou de uma comunidade
+
+🏅 Completou 10 quizzes
+
+As conquistas não devem representar valor moral ou espiritual da pessoa.
+
+10. Segurança em encontros presenciais
+
+Eventos presenciais devem considerar:
+
+localização aproximada;
+
+organizador identificado;
+
+limites de participantes;
+
+denúncias;
+
+regras da comunidade;
+
+informações de emergência;
+
+possibilidade de bloquear participantes;
+
+proteção de dados pessoais.
+
+A plataforma nunca deve divulgar automaticamente a localização exata dos usuários.
+
+11. Arquitetura conceitual
+USER
+ ├── PROFILE
+ ├── FAITH
+ ├── INTERESTS
+ ├── COMMUNITIES
+ ├── ACTIVITIES
+ ├── EVENTS
+ ├── FRIENDSHIPS
+ ├── RELATIONSHIPS
+ ├── MESSAGES
+ ├── PRAYER
+ └── CONTENT
+
+                    ↓
+
+              SAFETY LAYER
+
+ ├── VERIFICATION
+ ├── REPORTS
+ ├── BLOCKS
+ ├── MODERATION
+ ├── RISK SIGNALS
+ ├── SECURITY EVENTS
+ └── AUDIT LOGS
+
+12. Regra de ouro
+
+O Conectados em Cristo deve continuar sendo útil mesmo para uma pessoa que nunca queira namorar ninguém.
+
+Essa é uma das principais métricas conceituais do produto.
