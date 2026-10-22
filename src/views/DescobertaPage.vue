@@ -9,8 +9,8 @@
 
       <div v-if="!atual" class="desc-empty fade-in-up">
         <div class="empty-icon" aria-hidden="true">&#9825;</div>
-        <p>Você viu todos os perfis disponíveis por enquanto.</p>
-        <p class="empty-sub">Volte mais tarde — novas pessoas podem estar esperando.</p>
+        <p>{{ totalPerfis === 0 ? 'Ainda não há outros perfis completos disponíveis.' : 'Você viu todos os perfis disponíveis por enquanto.' }}</p>
+        <p class="empty-sub">{{ totalPerfis === 0 ? 'Quando outras pessoas criarem um perfil neste navegador, elas poderão aparecer aqui.' : 'Volte mais tarde — novas pessoas podem estar esperando.' }}</p>
         <router-link to="/dashboard" class="btn-secondary">Voltar ao painel</router-link>
       </div>
 
@@ -50,9 +50,11 @@
 <script>
 export default {
   data() {
+    const perfis = this.loadProfiles()
     return {
       indice: 0,
-      perfis: this.loadProfiles()
+      perfis,
+      totalPerfis: perfis.length
     }
   },
   computed: {
@@ -81,10 +83,14 @@ export default {
       if (!current || !current.email) return []
       const blocked = this.readList('bloqueados')
       const reports = this.readList('denuncias')
-      const excluded = new Set(blocked.map(item => item.email).filter(Boolean))
-      reports.forEach(item => { if (item.bloqueado && item.email) excluded.add(item.email) })
+      const currentEmail = String(current.email).trim().toLowerCase()
+      const excluded = new Set(blocked.map(item => String(item.email || '').trim().toLowerCase()).filter(Boolean))
+      reports.forEach(item => { if (item.bloqueado && item.email) excluded.add(String(item.email).trim().toLowerCase()) })
       return users
-        .filter(user => user.email && user.email !== current.email && !excluded.has(user.email) && user.perfil && user.perfil.nome && Number(user.perfil.idade) >= 18)
+        .filter(user => {
+          const email = String(user.email || '').trim().toLowerCase()
+          return email && email !== currentEmail && !excluded.has(email) && user.perfil && user.perfil.nome && Number(user.perfil.idade) >= 18
+        })
         .map(user => ({ ...user.perfil, email: user.email, nome: user.perfil.nome || user.nome || user.username }))
         .filter(profile => profile.nome)
     },
@@ -102,7 +108,12 @@ export default {
     demonstrarInteresse() {
       if (!this.atual) return;
       const interesses = this.readList('interesses');
-      if (!interesses.includes(this.atual.nome)) interesses.push(this.atual.nome);
+      const email = String(this.atual.email || '').trim().toLowerCase()
+      const jaRegistrado = interesses.some(item => {
+        if (item && typeof item === 'object') return String(item.email || '').trim().toLowerCase() === email
+        return item === this.atual.nome
+      })
+      if (!jaRegistrado) interesses.push({ email, nome: this.atual.nome, data: new Date().toISOString() });
       localStorage.setItem(this.storageKey('interesses'), JSON.stringify(interesses));
       this.proximo();
     },
