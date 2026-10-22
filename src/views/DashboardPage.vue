@@ -1,129 +1,41 @@
 <template>
   <div class="dashboard-page page-wrapper">
     <div class="dash-header fade-in-up">
-      <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Seu espaço</p>
+      <p class="eyebrow">✦ Sua caminhada</p>
       <h1>Olá, {{ userName }}</h1>
-      <p class="dash-subtitle">Escolha o que você deseja fazer hoje.</p>
+      <p class="dash-subtitle">Um espaço para fortalecer sua fé, cultivar amizades e caminhar com outras pessoas.</p>
     </div>
-
     <div class="dash-grid fade-in-up">
-      <router-link to="/perfil" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#9673;</div>
-        <h3>Meu Perfil</h3>
-        <p>Edite suas informações pessoais, fé e propósito.</p>
-      </router-link>
-
-      <router-link to="/descoberta" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#9825;</div>
-        <h3>Descobrir Pessoas</h3>
-        <p>Conheça perfis com calma, propósito e oração.</p>
-      </router-link>
-
-      <router-link to="/salvos" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#9733;</div>
-        <h3>Perfis Salvos</h3>
-        <p>Pessoas que você quer conhecer com mais calma.</p>
-      </router-link>
-
-      <router-link to="/questionario" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#10070;</div>
-        <h3>Questionário</h3>
-        <p>Responda perguntas para encontrar compatibilidades.</p>
-      </router-link>
-
-      <router-link to="/resultados" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#9776;</div>
-        <h3>Combinações</h3>
-        <p>Veja pessoas compatíveis com suas respostas.</p>
-      </router-link>
-
-      <router-link to="/testedons" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#10022;</div>
-        <h3>Dons Espirituais</h3>
-        <p>Descubra como Deus te capacitou para servir.</p>
-      </router-link>
-
-      <router-link to="/testepersonalidade" class="dash-card">
-        <div class="dash-icon" aria-hidden="true">&#9774;</div>
-        <h3>Personalidade</h3>
-        <p>Entenda melhor como você se relaciona.</p>
-      </router-link>
-
-      <button @click="logout" class="dash-card dash-card-exit">
-        <div class="dash-icon" aria-hidden="true">&larr;</div>
-        <h3>Sair</h3>
-        <p>Encerrar sua sessão com segurança.</p>
-      </button>
+      <router-link to="/oracoes" class="dash-card prayer-card"><div class="dash-icon" aria-hidden="true">♡</div><h3>Pedidos de oração</h3><p>Conheça o espaço de oração e os princípios de cuidado mútuo.</p></router-link>
+      <router-link to="/perfil" class="dash-card"><div class="dash-icon" aria-hidden="true">◎</div><h3>Meu perfil</h3><p>Compartilhe seus interesses e aquilo que deseja contar sobre você.</p></router-link>
+      <router-link to="/descoberta" class="dash-card"><div class="dash-icon" aria-hidden="true">♧</div><h3>Conhecer pessoas</h3><p>Encontre pessoas com interesses em comum e abra espaço para novas amizades.</p></router-link>
+      <router-link to="/salvos" class="dash-card"><div class="dash-icon" aria-hidden="true">☆</div><h3>Conexões salvas</h3><p>Revisite perfis que deseja conhecer melhor.</p></router-link>
+      <router-link to="/testedons" class="dash-card"><div class="dash-icon" aria-hidden="true">✧</div><h3>Dons espirituais</h3><p>Explore maneiras de servir e contribuir com a comunidade.</p></router-link>
+      <router-link to="/testepersonalidade" class="dash-card"><div class="dash-icon" aria-hidden="true">◈</div><h3>Autoconhecimento</h3><p>Reflita sobre sua personalidade e a forma como se relaciona.</p></router-link>
+      <router-link to="/questionario" class="dash-card"><div class="dash-icon" aria-hidden="true">⌁</div><h3>Questionário</h3><p>Organize suas preferências e interesses de conexão.</p></router-link>
+      <router-link to="/resultados" class="dash-card"><div class="dash-icon" aria-hidden="true">≋</div><h3>Sugestões de conexão</h3><p>Consulte os resultados com base nas respostas disponíveis.</p></router-link>
+      <button @click="logout" class="dash-card dash-card-exit"><div class="dash-icon" aria-hidden="true">←</div><h3>Sair</h3><p>Encerrar sua sessão.</p></button>
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  data() {
-    return {
-      currentUser: null
-    }
-  },
-  computed: {
-    userName() {
-      return this.currentUser?.username || 'amigo(a)'
-    }
-  },
+  data() { return { currentUser: null } },
+  computed: { userName() { return this.currentUser?.username || 'amigo(a)' } },
   mounted() {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    if (!this.currentUser) {
-      this.$router.push('/login')
-    }
+    try { this.currentUser = JSON.parse(localStorage.getItem('currentUser')) } catch { this.currentUser = null }
+    if (!this.currentUser) this.$router.push('/login')
   },
   methods: {
     logout() {
       localStorage.removeItem('currentUser')
-      this.$router.push('/')
+      this.$router.push('/login')
     }
   }
 }
 </script>
-
 <style scoped>
-.dash-header { margin-bottom: 40px; }
-.dash-header h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin: 14px 0 6px; }
-.dash-subtitle { color: var(--text-muted); font-size: 0.95rem; }
-
-.dash-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.dash-card {
-  background: var(--cream-light);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
-  text-align: left;
-  font-family: inherit;
-  color: inherit;
-}
-.dash-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--terra-light);
-}
-.dash-icon { font-size: 1.6rem; color: var(--terra); margin-bottom: 8px; }
-.dash-card h3 { font-size: 1.3rem; margin: 0; }
-.dash-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
-
-.dash-card-exit {
-  border-color: var(--border);
-  cursor: pointer;
-}
-.dash-card-exit .dash-icon { color: var(--text-muted); }
-.dash-card-exit:hover { border-color: var(--error); }
-.dash-card-exit:hover .dash-icon { color: var(--error); }
+.dash-header { margin-bottom: 36px; }.dash-header h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); margin: 12px 0 8px; }.dash-subtitle { max-width: 620px; color: var(--text-body); line-height: 1.7; }
+.dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }.dash-card { display: block; min-height: 210px; padding: 25px; text-align: left; color: var(--text-body); background: var(--cream-light); border: 1px solid var(--border); border-radius: var(--radius-lg); text-decoration: none; transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base); }.dash-card:hover { transform: translateY(-3px); border-color: var(--terra-light); box-shadow: var(--shadow-md); }.dash-icon { color: var(--terra); font-size: 1.8rem; margin-bottom: 18px; }.dash-card h3 { font: 1.5rem var(--font-serif); margin-bottom: 8px; }.dash-card p { font-size: .88rem; line-height: 1.65; }.prayer-card { border-color: var(--terra-light); background: #f7efe5; }.dash-card-exit { font: inherit; cursor: pointer; }.dash-card-exit:hover { background: var(--error-bg); border-color: var(--error); }
+@media (max-width: 850px) { .dash-grid { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 560px) { .dash-grid { grid-template-columns: 1fr; }.dash-card { min-height: 0; } }
 </style>
