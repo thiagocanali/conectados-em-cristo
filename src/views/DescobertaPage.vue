@@ -64,7 +64,7 @@ export default {
     storageKey(base) {
       let user = null
       try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
-      return user && user.email ? `${base}:${user.email}` : base
+      return user && user.email ? `${base}:${String(user.email).trim().toLowerCase()}` : base
     },
     readList(base) {
       try {
@@ -99,7 +99,7 @@ export default {
     salvarPerfil() {
       if (!this.atual) return;
       const salvos = this.readList('perfisSalvos');
-      if (!salvos.find(p => (p.email && p.email === this.atual.email) || (!p.email && p.nome === this.atual.nome))) {
+      if (!salvos.find(p => (p.email && String(p.email).trim().toLowerCase() === String(this.atual.email || '').trim().toLowerCase()) || (!p.email && p.nome === this.atual.nome))) {
         salvos.push(this.atual);
         localStorage.setItem(this.storageKey('perfisSalvos'), JSON.stringify(salvos));
       }
@@ -128,7 +128,7 @@ export default {
         localStorage.setItem(this.storageKey('denuncias'), JSON.stringify(denuncias))
         if (bloquear && this.atual.email) {
           const bloqueados = this.readList('bloqueados')
-          if (!bloqueados.some(item => item.email === this.atual.email)) bloqueados.push({ email: this.atual.email, nome: this.atual.nome, data: new Date().toISOString() })
+          if (!bloqueados.some(item => String(item.email || '').trim().toLowerCase() === String(this.atual.email).trim().toLowerCase())) bloqueados.push({ email: String(this.atual.email).trim().toLowerCase(), nome: this.atual.nome, data: new Date().toISOString() })
           localStorage.setItem(this.storageKey('bloqueados'), JSON.stringify(bloqueados))
         }
         this.proximo();
