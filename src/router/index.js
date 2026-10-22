@@ -12,7 +12,7 @@ import DescobertaPage from '@/views/DescobertaPage.vue'
 import SalvosPage from '@/views/SalvosPage.vue'
 import PrayerRequestsPage from '../views/PrayerRequestsPage.vue'
 
-const privateRoutes = ['/dashboard', '/perfil', '/questionario', '/resultados', '/salvos'];
+const privateRoutes = ['/dashboard', '/perfil', '/questionario', '/resultados', '/salvos', '/testedons', '/testepersonalidade', '/descoberta'];
 
 const routes = [
   { path: '/', component: HomePage },

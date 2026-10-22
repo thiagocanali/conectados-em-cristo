@@ -52,15 +52,11 @@ export default {
   data() {
     return {
       indice: 0,
-      perfis: [
-        { nome: 'Mariana', idade: 27, cidade: 'Curitiba / PR', denominacao: 'Evangélica', objetivo: 'Casamento', sobre: 'Sirvo no ministério de louvor e amo estudar a Palavra. Busco um relacionamento com propósito e diálogo aberto.' },
-        { nome: 'Lucas', idade: 30, cidade: 'São Paulo / SP', denominacao: 'Protestante', objetivo: 'Namoro com propósito', sobre: 'Engenheiro, líder de jovens na igreja. Valorizo família, honestidade e crescimento mútuo na fé.' },
-        { nome: 'Ana Clara', idade: 25, cidade: 'Belo Horizonte / MG', denominacao: 'Católica', objetivo: 'Amizade com propósito', sobre: 'Apaixonada por missões e por café. Acredito que todo bom relacionamento começa com uma boa amizade.' }
-      ]
+      perfis: this.loadProfiles()
     }
   },
   computed: {
-    atual() { return this.perfis[this.indice]; }
+    atual() { return this.perfis[this.indice] || null; }
   },
   methods: {
     storageKey(base) {
@@ -74,12 +70,30 @@ export default {
         return Array.isArray(value) ? value : []
       } catch { return [] }
     },
+    loadProfiles() {
+      let current = null
+      let users = []
+      try {
+        current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+        users = Array.isArray(storedUsers) ? storedUsers : []
+      } catch { return [] }
+      if (!current || !current.email) return []
+      const blocked = this.readList('bloqueados')
+      const reports = this.readList('denuncias')
+      const excluded = new Set(blocked.map(item => item.email).filter(Boolean))
+      reports.forEach(item => { if (item.bloqueado && item.email) excluded.add(item.email) })
+      return users
+        .filter(user => user.email && user.email !== current.email && !excluded.has(user.email) && user.perfil && user.perfil.nome && Number(user.perfil.idade) >= 18)
+        .map(user => ({ ...user.perfil, email: user.email, nome: user.perfil.nome || user.nome || user.username }))
+        .filter(profile => profile.nome)
+    },
     proximo() { if (this.indice < this.perfis.length) this.indice++; },
     passar() { this.proximo(); },
     salvarPerfil() {
       if (!this.atual) return;
       const salvos = this.readList('perfisSalvos');
-      if (!salvos.find(p => p.nome === this.atual.nome)) {
+      if (!salvos.find(p => (p.email && p.email === this.atual.email) || (!p.email && p.nome === this.atual.nome))) {
         salvos.push(this.atual);
         localStorage.setItem(this.storageKey('perfisSalvos'), JSON.stringify(salvos));
       }
@@ -94,11 +108,18 @@ export default {
     },
     denunciar() {
       if (!this.atual) return;
-      const motivo = prompt('Descreva o motivo da denúncia (ou escreva "bloquear" para apenas bloquear):');
+      const motivo = prompt('Descreva o motivo da denúncia. Para bloquear, comece com a palavra bloquear:');
       if (motivo) {
         const denuncias = this.readList('denuncias');
-        denuncias.push({ perfil: this.atual.nome, motivo, data: new Date().toISOString() });
-        localStorage.setItem(this.storageKey('denuncias'), JSON.stringify(denuncias));
+        const bloquear = motivo.trim().toLowerCase().startsWith('bloquear')
+        const descricao = motivo.trim().replace(/^bloquear\s*:*/i, '').trim()
+        denuncias.push({ email: this.atual.email, perfil: this.atual.nome, motivo: bloquear ? (descricao || 'Bloqueio solicitado') : motivo, bloqueado: bloquear, data: new Date().toISOString() })
+        localStorage.setItem(this.storageKey('denuncias'), JSON.stringify(denuncias))
+        if (bloquear && this.atual.email) {
+          const bloqueados = this.readList('bloqueados')
+          if (!bloqueados.some(item => item.email === this.atual.email)) bloqueados.push({ email: this.atual.email, nome: this.atual.nome, data: new Date().toISOString() })
+          localStorage.setItem(this.storageKey('bloqueados'), JSON.stringify(bloqueados))
+        }
         this.proximo();
       }
     }

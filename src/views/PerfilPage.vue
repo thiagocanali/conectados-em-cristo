@@ -93,7 +93,19 @@ export default {
     salvar() {
       const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
       if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
-      localStorage.setItem(`perfil:${currentUser.email}`, JSON.stringify(this.perfil));
+      const normalizedProfile = { ...this.perfil, nome: this.perfil.nome.trim(), email: currentUser.email }
+      localStorage.setItem(`perfil:${currentUser.email}`, JSON.stringify(normalizedProfile))
+      let users = []
+      try {
+        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+        users = Array.isArray(storedUsers) ? storedUsers : []
+      } catch { users = [] }
+      const index = users.findIndex(user => user.email === currentUser.email)
+      const updatedUser = { ...currentUser, username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
+      if (index >= 0) users[index] = { ...users[index], username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
+      else users.push(updatedUser)
+      localStorage.setItem('users', JSON.stringify(users))
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser))
       this.salvo = true;
       setTimeout(() => { this.salvo = false; }, 3000);
     }
