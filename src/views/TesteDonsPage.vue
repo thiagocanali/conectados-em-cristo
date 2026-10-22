@@ -138,18 +138,23 @@ export default {
             }));
         },
         hasSavedProgress() {
-            return !!localStorage.getItem("testeDonsProgress");
+            return !!localStorage.getItem(this.storageKey());
         },
         hasSavedResults() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress") || "{}");
+            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
             return p.finished;
         },
         savedIndex() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress") || "{}");
+            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
             return p.index || 0;
         }
     },
     methods: {
+        storageKey() {
+            let user = null;
+            try { user = JSON.parse(localStorage.getItem("currentUser") || "null"); } catch { user = null; }
+            return user && user.email ? `testeDonsProgress:${user.email}` : "testeDonsProgress";
+        },
         initScores() {
             Object.keys(this.gifts).forEach(key => {
                 this.scores[key] = 0;
@@ -161,7 +166,7 @@ export default {
         },
         save(finished = false) {
             localStorage.setItem(
-                "testeDonsProgress",
+                this.storageKey(),
                 JSON.stringify({
                     index: this.currentQuestionIndex,
                     scores: this.scores,
@@ -171,13 +176,13 @@ export default {
         },
         startNewGame() {
             if (!confirm("Deseja iniciar um novo teste?")) return;
-            localStorage.removeItem("testeDonsProgress");
+            localStorage.removeItem(this.storageKey());
             this.initScores();
             this.currentQuestionIndex = 0;
             this.screen = "test";
         },
         continueGame() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress"));
+            const p = JSON.parse(localStorage.getItem(this.storageKey()));
             this.scores = p.scores;
             this.currentQuestionIndex = p.index;
             this.screen = "test";
@@ -211,7 +216,7 @@ export default {
         restart() {
             if (confirm("Apagar todos os dados?")) {
                 // 1. Remove o progresso
-                localStorage.removeItem("testeDonsProgress");
+                localStorage.removeItem(this.storageKey());
 
                 // 2. Reinicializa o estado interno
                 this.initScores();
@@ -233,7 +238,7 @@ export default {
             this.screen = "results";
         },
         viewSavedResults() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress"));
+            const p = JSON.parse(localStorage.getItem(this.storageKey()));
             this.scores = p.scores;
             this.screen = "results";
         },

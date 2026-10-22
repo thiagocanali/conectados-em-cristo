@@ -79,20 +79,21 @@ export default {
   data() {
     return {
       salvo: false,
-      perfil: JSON.parse(localStorage.getItem('perfil')) || {
-        nome: '',
-        idade: null,
-        cidade: '',
-        denominacao: '',
-        tempoFe: '',
-        objetivo: '',
-        sobre: ''
-      }
+      perfil: this.loadProfile()
     }
   },
   methods: {
+    loadProfile() {
+      let currentUser = null
+      try { currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { currentUser = null }
+      const key = currentUser && currentUser.email ? `perfil:${currentUser.email}` : 'perfil'
+      const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', objetivo: '', sobre: '' }
+      try { return { ...emptyProfile, ...(JSON.parse(localStorage.getItem(key) || 'null') || {}) } } catch { return emptyProfile }
+    },
     salvar() {
-      localStorage.setItem('perfil', JSON.stringify(this.perfil));
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
+      if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
+      localStorage.setItem(`perfil:${currentUser.email}`, JSON.stringify(this.perfil));
       this.salvo = true;
       setTimeout(() => { this.salvo = false; }, 3000);
     }

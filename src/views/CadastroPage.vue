@@ -58,16 +58,29 @@ const register = () => {
   error.value = ''
   success.value = ''
 
-  const users = JSON.parse(localStorage.getItem('users') || '[]')
+  if (!maiorIdade.value) {
+    error.value = 'É necessário confirmar que você tem 18 anos ou mais.'
+    return
+  }
 
-  if (users.find(u => u.email === email.value)) {
+  let users = []
+  try {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+    users = Array.isArray(storedUsers) ? storedUsers : []
+  } catch {
+    users = []
+  }
+  const normalizedEmail = email.value.trim().toLowerCase()
+
+  if (users.some(u => (u.email || '').trim().toLowerCase() === normalizedEmail)) {
     error.value = 'Este e-mail já está cadastrado.'
     return
   }
 
   const newUser = {
-    username: nome.value,
-    email: email.value,
+    username: nome.value.trim(),
+    nome: nome.value.trim(),
+    email: normalizedEmail,
     senha: senha.value,
     respostas: []
   }
@@ -76,7 +89,7 @@ const register = () => {
   localStorage.setItem('users', JSON.stringify(users))
   localStorage.setItem('currentUser', JSON.stringify(newUser))
   success.value = 'Conta criada! Redirecionando...'
-  setTimeout(() => router.push('/perfil'), 1000)
+  router.push('/perfil')
 }
 </script>
 
