@@ -79,15 +79,7 @@ export default {
   data() {
     return {
       salvo: false,
-      perfil: this.loadProfile(),
-        nome: '',
-        idade: null,
-        cidade: '',
-        denominacao: '',
-        tempoFe: '',
-        objetivo: '',
-        sobre: ''
-      }
+      perfil: this.loadProfile()
     }
   },
   methods: {
