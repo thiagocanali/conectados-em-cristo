@@ -63,31 +63,42 @@ export default {
     atual() { return this.perfis[this.indice]; }
   },
   methods: {
+    storageKey(base) {
+      let user = null
+      try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
+      return user && user.email ? `${base}:${user.email}` : base
+    },
+    readList(base) {
+      try {
+        const value = JSON.parse(localStorage.getItem(this.storageKey(base)) || '[]')
+        return Array.isArray(value) ? value : []
+      } catch { return [] }
+    },
     proximo() { if (this.indice < this.perfis.length) this.indice++; },
     passar() { this.proximo(); },
     salvarPerfil() {
       if (!this.atual) return;
-      const salvos = JSON.parse(localStorage.getItem('perfisSalvos') || '[]');
+      const salvos = this.readList('perfisSalvos');
       if (!salvos.find(p => p.nome === this.atual.nome)) {
         salvos.push(this.atual);
-        localStorage.setItem('perfisSalvos', JSON.stringify(salvos));
+        localStorage.setItem(this.storageKey('perfisSalvos'), JSON.stringify(salvos));
       }
       this.proximo();
     },
     demonstrarInteresse() {
       if (!this.atual) return;
-      const interesses = JSON.parse(localStorage.getItem('interesses') || '[]');
+      const interesses = this.readList('interesses');
       if (!interesses.includes(this.atual.nome)) interesses.push(this.atual.nome);
-      localStorage.setItem('interesses', JSON.stringify(interesses));
+      localStorage.setItem(this.storageKey('interesses'), JSON.stringify(interesses));
       this.proximo();
     },
     denunciar() {
       if (!this.atual) return;
       const motivo = prompt('Descreva o motivo da denúncia (ou escreva "bloquear" para apenas bloquear):');
       if (motivo) {
-        const denuncias = JSON.parse(localStorage.getItem('denuncias') || '[]');
+        const denuncias = this.readList('denuncias');
         denuncias.push({ perfil: this.atual.nome, motivo, data: new Date().toISOString() });
-        localStorage.setItem('denuncias', JSON.stringify(denuncias));
+        localStorage.setItem(this.storageKey('denuncias'), JSON.stringify(denuncias));
         this.proximo();
       }
     }
