@@ -44,6 +44,8 @@ export default {
       try {
         const value = JSON.parse(localStorage.getItem(this.storageKey()) || 'null')
         if (Array.isArray(value)) return value
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        if (user && user.email) return []
         const legacy = JSON.parse(localStorage.getItem('perfisSalvos') || '[]')
         return Array.isArray(legacy) ? legacy : []
       } catch { return [] }
