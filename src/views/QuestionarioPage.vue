@@ -31,7 +31,7 @@
 export default {
   data() {
     return {
-      respostas: Array(10).fill(""),
+      respostas: this.loadAnswers(),
       perguntas: [
         { texto: "Como você descreve sua fé cristã?", opcoes: [
           { valor: 3, label: "Forte" }, { valor: 2, label: "Média" }, { valor: 1, label: "Fraca" }
@@ -67,14 +67,31 @@ export default {
     };
   },
   methods: {
+    loadAnswers() {
+      try {
+        const current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        return Array.isArray(current?.respostas) && current.respostas.length === 10 ? [...current.respostas] : Array(10).fill('')
+      } catch { return Array(10).fill('') }
+    },
     salvarRespostas() {
-      const current = JSON.parse(localStorage.getItem("currentUser"));
-      let users = JSON.parse(localStorage.getItem("users") || "[]");
+      let current = null
+      let users = []
+      try {
+        current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+        users = Array.isArray(storedUsers) ? storedUsers : []
+      } catch { current = null; users = [] }
+      if (!current || !current.email) { this.$router.push('/login'); return }
+      const answers = this.respostas.map(value => Number(value))
+      if (answers.length !== 10 || answers.some(value => ![1, 2, 3].includes(value))) return
       const index = users.findIndex(u => u.email === current.email);
       if (index !== -1) {
-        users[index].respostas = [...this.respostas];
+        users[index].respostas = answers;
         localStorage.setItem("users", JSON.stringify(users));
         localStorage.setItem("currentUser", JSON.stringify(users[index]));
+      } else {
+        current.respostas = answers;
+        localStorage.setItem('currentUser', JSON.stringify(current));
       }
       this.$router.push("/resultados");
     }
