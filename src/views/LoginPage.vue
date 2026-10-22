@@ -41,12 +41,19 @@ const error = ref('')
 
 const login = () => {
   error.value = ''
-  const users = JSON.parse(localStorage.getItem('users') || '[]')
-  const user = users.find(u => u.email === email.value && u.senha === password.value)
+  let users = []
+  try {
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+    users = Array.isArray(storedUsers) ? storedUsers : []
+  } catch {
+    users = []
+  }
+  const normalizedEmail = email.value.trim().toLowerCase()
+  const user = users.find(u => (u.email || '').trim().toLowerCase() === normalizedEmail && u.senha === password.value)
 
   if (user) {
     localStorage.setItem('currentUser', JSON.stringify(user))
-    router.push('/dashboard')
+    router.push(typeof router.currentRoute.value.query.redirect === 'string' ? router.currentRoute.value.query.redirect : '/dashboard')
   } else {
     error.value = 'E-mail ou senha incorretos.'
   }
