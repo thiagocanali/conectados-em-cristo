@@ -50,10 +50,11 @@
 <script>
 export default {
   data() {
+    const perfis = this.loadProfiles()
     return {
       indice: 0,
-      perfis: this.loadProfiles(),
-      totalPerfis: this.loadProfiles().length
+      perfis,
+      totalPerfis: perfis.length
     }
   },
   computed: {
