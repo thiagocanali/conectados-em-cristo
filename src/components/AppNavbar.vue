@@ -2,18 +2,37 @@
   <header class="navbar" :class="{ scrolled }">
     <div class="navbar-inner">
       <router-link to="/" class="brand" aria-label="Conectados em Cristo - início"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-text">Conectados <b>em Cristo</b></span></router-link>
-      <nav class="nav-desktop" aria-label="Navegação principal"><router-link to="/oracoes">Orações</router-link><router-link to="/descoberta">Conexões</router-link><router-link to="/testedons">Dons</router-link><router-link to="/dashboard">Minha jornada</router-link><router-link to="/login" class="btn-nav">Entrar</router-link></nav>
+      <nav class="nav-desktop" aria-label="Navegação principal"><router-link to="/oracoes">Orações</router-link><router-link to="/descoberta">Conexões</router-link><router-link to="/testedons">Dons</router-link><router-link to="/dashboard">Minha jornada</router-link><router-link v-if="!loggedIn" to="/login" class="btn-nav">Entrar</router-link><button v-else type="button" class="btn-nav" @click="logout">Sair</button></nav>
       <button class="nav-toggle" @click="mobileOpen = !mobileOpen" :aria-expanded="mobileOpen" aria-label="Abrir ou fechar menu"><span :class="{ open: mobileOpen }"></span><span :class="{ open: mobileOpen }"></span><span :class="{ open: mobileOpen }"></span></button>
     </div>
-    <transition name="slide-down"><nav v-if="mobileOpen" class="nav-mobile" aria-label="Navegação mobile"><router-link to="/oracoes" @click="mobileOpen = false">Orações</router-link><router-link to="/descoberta" @click="mobileOpen = false">Conexões</router-link><router-link to="/testedons" @click="mobileOpen = false">Dons espirituais</router-link><router-link to="/dashboard" @click="mobileOpen = false">Minha jornada</router-link><router-link to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link></nav></transition>
+    <transition name="slide-down"><nav v-if="mobileOpen" class="nav-mobile" aria-label="Navegação mobile"><router-link to="/oracoes" @click="mobileOpen = false">Orações</router-link><router-link to="/descoberta" @click="mobileOpen = false">Conexões</router-link><router-link to="/testedons" @click="mobileOpen = false">Dons espirituais</router-link><router-link to="/dashboard" @click="mobileOpen = false">Minha jornada</router-link><router-link v-if="!loggedIn" to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link><button v-else type="button" class="btn-nav-mobile" @click="logout">Sair</button></nav></transition>
   </header>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const scrolled = ref(false)
 const mobileOpen = ref(false)
+const loggedIn = ref(false)
+const refreshSession = () => {
+  try {
+    const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
+    loggedIn.value = Boolean(user && user.email)
+  } catch { loggedIn.value = false }
+}
+const logout = () => {
+  localStorage.removeItem('currentUser')
+  refreshSession()
+  mobileOpen.value = false
+  router.push('/login')
+}
+watch(() => router.currentRoute.value.fullPath, refreshSession)
 const handleScroll = () => { scrolled.value = window.scrollY > 20 }
-onMounted(() => window.addEventListener('scroll', handleScroll))
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  refreshSession()
+})
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 <style scoped>
