@@ -39,17 +39,22 @@ export default {
   mounted() { this.calcular(); },
   methods: {
     calcular() {
-      const atual = JSON.parse(localStorage.getItem("currentUser"));
-      if (!atual || !atual.respostas || atual.respostas.length === 0) return;
+      let atual = null
+      let users = []
+      try {
+        atual = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+        users = Array.isArray(storedUsers) ? storedUsers : []
+      } catch { this.listaCompatibilidade = []; return }
+      if (!atual || !Array.isArray(atual.respostas) || atual.respostas.length !== 10) return
 
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const outros = users.filter(u => u.email !== atual.email && u.respostas && u.respostas.length > 0);
+      const outros = users.filter(u => u.email !== atual.email && Array.isArray(u.respostas) && u.respostas.length === 10);
 
       const lista = [];
       for (const user of outros) {
         let score = 0;
         for (let i = 0; i < 10; i++) {
-          const diff = Math.abs(atual.respostas[i] - user.respostas[i]);
+          const diff = Math.abs(Number(atual.respostas[i]) - Number(user.respostas[i]));
           if (diff === 0) score += 3;
           else if (diff === 1) score += 2;
           else score += 1;
