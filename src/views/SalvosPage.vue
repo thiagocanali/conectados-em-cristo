@@ -31,13 +31,26 @@
 export default {
   data() {
     return {
-      salvos: JSON.parse(localStorage.getItem('perfisSalvos')) || []
+      salvos: this.loadSavedProfiles()
     }
   },
   methods: {
+    storageKey() {
+      let user = null
+      try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
+      return user && user.email ? `perfisSalvos:${user.email}` : 'perfisSalvos'
+    },
+    loadSavedProfiles() {
+      try {
+        const value = JSON.parse(localStorage.getItem(this.storageKey()) || 'null')
+        if (Array.isArray(value)) return value
+        const legacy = JSON.parse(localStorage.getItem('perfisSalvos') || '[]')
+        return Array.isArray(legacy) ? legacy : []
+      } catch { return [] }
+    },
     remover(i) {
       this.salvos.splice(i, 1);
-      localStorage.setItem('perfisSalvos', JSON.stringify(this.salvos));
+      localStorage.setItem(this.storageKey(), JSON.stringify(this.salvos));
     }
   }
 }
