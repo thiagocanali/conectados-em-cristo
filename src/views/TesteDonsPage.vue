@@ -141,11 +141,11 @@ export default {
             return !!localStorage.getItem(this.storageKey());
         },
         hasSavedResults() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress") || "{}");
+            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
             return p.finished;
         },
         savedIndex() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress") || "{}");
+            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
             return p.index || 0;
         }
     },
@@ -182,7 +182,7 @@ export default {
             this.screen = "test";
         },
         continueGame() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress"));
+            const p = JSON.parse(localStorage.getItem(this.storageKey()));
             this.scores = p.scores;
             this.currentQuestionIndex = p.index;
             this.screen = "test";
@@ -216,7 +216,7 @@ export default {
         restart() {
             if (confirm("Apagar todos os dados?")) {
                 // 1. Remove o progresso
-                localStorage.removeItem("testeDonsProgress");
+                localStorage.removeItem(this.storageKey());
 
                 // 2. Reinicializa o estado interno
                 this.initScores();
@@ -238,7 +238,7 @@ export default {
             this.screen = "results";
         },
         viewSavedResults() {
-            const p = JSON.parse(localStorage.getItem("testeDonsProgress"));
+            const p = JSON.parse(localStorage.getItem(this.storageKey()));
             this.scores = p.scores;
             this.screen = "results";
         },
