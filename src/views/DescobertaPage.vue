@@ -7,7 +7,7 @@
         <p class="desc-subtitle">Conheça com calma, com propósito e com oração.</p>
       </div>
 
-      <div v-if="perfis.length === 0" class="desc-empty fade-in-up">
+      <div v-if="!atual" class="desc-empty fade-in-up">
         <div class="empty-icon" aria-hidden="true">&#9825;</div>
         <p>Você viu todos os perfis disponíveis por enquanto.</p>
         <p class="empty-sub">Volte mais tarde — novas pessoas podem estar esperando.</p>
@@ -63,10 +63,11 @@ export default {
     atual() { return this.perfis[this.indice]; }
   },
   methods: {
-    proximo() { this.indice++; },
+    proximo() { if (this.indice < this.perfis.length) this.indice++; },
     passar() { this.proximo(); },
     salvarPerfil() {
-      const salvos = JSON.parse(localStorage.getItem('perfisSalvos')) || [];
+      if (!this.atual) return;
+      const salvos = JSON.parse(localStorage.getItem('perfisSalvos') || '[]');
       if (!salvos.find(p => p.nome === this.atual.nome)) {
         salvos.push(this.atual);
         localStorage.setItem('perfisSalvos', JSON.stringify(salvos));
@@ -74,15 +75,17 @@ export default {
       this.proximo();
     },
     demonstrarInteresse() {
-      const interesses = JSON.parse(localStorage.getItem('interesses')) || [];
-      interesses.push(this.atual.nome);
+      if (!this.atual) return;
+      const interesses = JSON.parse(localStorage.getItem('interesses') || '[]');
+      if (!interesses.includes(this.atual.nome)) interesses.push(this.atual.nome);
       localStorage.setItem('interesses', JSON.stringify(interesses));
       this.proximo();
     },
     denunciar() {
+      if (!this.atual) return;
       const motivo = prompt('Descreva o motivo da denúncia (ou escreva "bloquear" para apenas bloquear):');
       if (motivo) {
-        const denuncias = JSON.parse(localStorage.getItem('denuncias')) || [];
+        const denuncias = JSON.parse(localStorage.getItem('denuncias') || '[]');
         denuncias.push({ perfil: this.atual.nome, motivo, data: new Date().toISOString() });
         localStorage.setItem('denuncias', JSON.stringify(denuncias));
         this.proximo();
