@@ -13,7 +13,7 @@
     </div>
 
     <ul v-else class="salvos-list fade-in-up">
-      <li v-for="(p, i) in salvos" :key="p.nome + i" class="salvo-item">
+      <li v-for="(p, i) in salvos"  :key="(p.email || p.nome) + i" class="salvo-item">
         <div class="avatar">{{ p.nome.charAt(0) }}</div>
         <div class="salvo-info">
           <strong>{{ p.nome }}, {{ p.idade }}</strong>
@@ -38,7 +38,7 @@ export default {
     storageKey() {
       let user = null
       try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
-      return user && user.email ? `perfisSalvos:${user.email}` : 'perfisSalvos'
+      return user && user.email ? `perfisSalvos:${String(user.email).trim().toLowerCase()}` : 'perfisSalvos'
     },
     loadSavedProfiles() {
       try {
