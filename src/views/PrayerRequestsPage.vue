@@ -1,0 +1,15 @@
+<template>
+  <main class="prayer-page page-wrapper">
+    <header class="page-heading"><p class="eyebrow">♡ Oração e cuidado mútuo</p><h1>Pedidos de oração</h1><p class="intro">Um espaço para acolher, interceder e caminhar junto com respeito e esperança.</p></header>
+    <section class="notice" aria-labelledby="privacy-title"><span aria-hidden="true" class="notice-icon">ⓘ</span><div><h2 id="privacy-title">Estamos preparando este espaço com cuidado.</h2><p>Os pedidos de oração podem conter informações pessoais e sensíveis. O envio e a visualização compartilhada ainda não estão disponíveis nesta versão. Para proteger sua privacidade, não publique detalhes pessoais aqui até que os controles de acesso estejam implementados.</p></div></section>
+    <section class="principles" aria-labelledby="principles-title"><h2 id="principles-title">Como queremos cuidar uns dos outros</h2><div class="principle-grid">
+      <article><span aria-hidden="true">♡</span><h3>Orar sem competir</h3><p>Intercessão não é uma disputa por números, curtidas ou reconhecimento.</p></article>
+      <article><span aria-hidden="true">⌂</span><h3>Respeitar a privacidade</h3><p>Cada pessoa deve decidir o que compartilhar e com quem compartilhar.</p></article>
+      <article><span aria-hidden="true">✧</span><h3>Acolher com respeito</h3><p>Oferecer presença e encorajamento sem prometer resultados ou julgar a caminhada de ninguém.</p></article>
+    </div></section>
+    <div class="page-actions"><router-link to="/" class="btn-secondary">Voltar ao início</router-link><router-link to="/cadastro" class="btn-primary">Fazer parte da comunidade</router-link></div>
+  </main>
+</template>
+<style scoped>
+.prayer-page { min-height: 65vh; }.page-heading { max-width: 760px; margin: 0 auto 42px; text-align: center; }.page-heading h1 { font-size: clamp(2.7rem, 6vw, 4.5rem); margin: 12px 0; }.intro { font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: auto; }.notice { display: flex; align-items: flex-start; gap: 18px; max-width: 850px; margin: 0 auto; padding: 26px; border: 1px solid var(--terra-pale); background: var(--cream-light); border-radius: var(--radius-lg); }.notice-icon { color: var(--terra-dark); font-size: 1.5rem; }.notice h2 { font: 1.6rem var(--font-serif); margin-bottom: 8px; }.notice p { line-height: 1.75; font-size: .9rem; }.principles { max-width: 1000px; margin: 70px auto 0; }.principles > h2 { font-size: 2rem; margin-bottom: 25px; }.principle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }.principle-grid article { padding: 24px; border-top: 2px solid var(--terra-light); background: var(--cream-light); }.principle-grid article > span { color: var(--terra); font-size: 1.7rem; }.principle-grid h3 { font: 1.45rem var(--font-serif); margin: 12px 0 8px; }.principle-grid p { font-size: .88rem; line-height: 1.7; }.page-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 42px; }@media (max-width: 700px) { .principle-grid { grid-template-columns: 1fr; }.notice { padding: 20px; }.principles { margin-top: 50px; } }
+</style>
