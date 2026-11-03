@@ -3,7 +3,10 @@
 ## Objetivo
 Definir como validar comportamento, segurança e qualidade da plataforma.
 
-## Escopo
+## Estado atual
+`package.json` disponibiliza `npm run build` e `npm run lint`. Não há script ou suíte automatizada de unidade, integração, contrato, acessibilidade ou E2E configurada. A revisão visual manual não substitui esses testes.
+
+## Escopo planejado
 Testes unitários, integração, contrato, acessibilidade, segurança e ponta a ponta.
 
 ## Princípios
@@ -18,6 +21,8 @@ Testes unitários, integração, contrato, acessibilidade, segurança e ponta a 
 - Critérios de aprovação do pipeline.
 
 ## TODOs
-- Transformar os fluxos do MVP em casos de teste rastreáveis.
+- Resolver o framework de testes e adicionar testes executáveis para fluxos críticos.
+- Transformar os fluxos aprovados do MVP em casos de teste rastreáveis.
+- Configurar execução no pipeline e critérios de aprovação.
 
-Status: rascunho.
+Status: planejamento; cobertura automatizada ainda não configurada.
