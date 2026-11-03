@@ -12,7 +12,7 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 - **Outro framework full-stack**: pode atender ao produto; ainda não foi comparado com evidências do projeto.
 
 ## Decisão
-**Proposta, ainda não aceita:** usar Next.js, React, TypeScript e Tailwind CSS como hipótese inicial de implementação. A decisão final depende da validação técnica do repositório e do primeiro incremento funcional.
+**Hipótese registrada, decisão pendente:** Next.js, React, TypeScript e Tailwind CSS foram considerados, mas não foram aprovados. A aplicação atual usa Vue 3, Vue Router 4 e Vue CLI 5; qualquer migração exige comparação técnica e decisão explícita. A decisão final depende da validação técnica do repositório e do primeiro incremento funcional.
 
 ## Consequências
 - Positivas: ciclo curto de desenvolvimento e uma base comum para UI e APIs.
@@ -23,7 +23,7 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 2026-09-28
 
 ## Status
-Proposto
+Pendente
 
 ## Próximos passos
 - Confirmar a estrutura real do repositório.
