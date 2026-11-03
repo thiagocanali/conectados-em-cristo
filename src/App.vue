@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="app-container">
+  <div id="app" class="app-container">\n    <button class="skip-link" type="button" @click="focusMainContent">Pular para o conteúdo</button>
     <AppNavbar />
-    <main class="main-content">
+    <main id="main-content" ref="mainContent" class="main-content" tabindex="-1">
       <router-view />
     </main>
     <AppFooter />
@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-import AppNavbar from "./components/AppNavbar.vue";
-import AppFooter from "./components/AppFooter.vue";
+import { ref } from "vue";\nimport AppNavbar from "./components/AppNavbar.vue";
+import AppFooter from "./components/AppFooter.vue";\n\nconst mainContent = ref(null);\nconst focusMainContent = () => mainContent.value?.focus();
 </script>
 
 <style>
