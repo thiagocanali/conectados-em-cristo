@@ -10,7 +10,7 @@
 
 ## Escopo do MVP
 
-O MVP (Minimum Viable Product) focará nas funcionalidades essenciais para validar a hipótese central: usuários cristãos buscam relacionamentos profundos e significativos em uma plataforma focada em compatibilidade, segurança e fé.
+O MVP (Minimum Viable Product), caso aprovado, deverá validar a hipótese central do produto: pessoas cristãs encontram valor em uma comunidade digital baseada em fé, interesses e propósito. A experiência deve apoiar amizades, participação comunitária e outras conexões significativas; relacionamentos amorosos são uma possibilidade, não o objetivo exclusivo.
 
 ## Features Incluídas no MVP
 
