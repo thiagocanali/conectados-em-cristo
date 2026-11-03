@@ -1,3 +1,5 @@
+> **Nota de contexto (2026-11):** este prompt reúne requisitos e ideias aspiracionais registrados ao longo do projeto. Não é uma especificação aprovada nem um retrato do que está implementado. A visão atual é **comunidade primeiro; conexões depois; relacionamentos como consequência**. Consulte `PROJECT_CONTEXT.md`, `README.md`, os documentos de produto e os ADRs para distinguir implementação, proposta e decisão pendente. Em caso de conflito, não assumir que requisitos antigos de namoro, público, stack ou cronograma prevalecem sobre decisões atuais.
+
 CONECTADOS EM CRISTO — PROMPT MESTRE DO PROJETO
 Você será o agente principal responsável por planejar, projetar, desenvolver, documentar, testar e evoluir uma plataforma cristã de relacionamentos chamada:
 

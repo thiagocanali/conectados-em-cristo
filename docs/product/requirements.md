@@ -1,3 +1,5 @@
+> **Status:** documento de requisitos aspiracionais, não aprovado. Os itens abaixo não indicam funcionalidades existentes nem compromisso de entrega. A direção atual do produto é comunidade primeiro; conexões depois; relacionamentos como consequência. Requisitos de namoro, compatibilidade e descoberta devem ser reavaliados dentro desse escopo mais amplo antes de priorização.
+
 # Requisitos de Produto — Conectados em Cristo
 
 ## Requisitos Funcionais do MVP

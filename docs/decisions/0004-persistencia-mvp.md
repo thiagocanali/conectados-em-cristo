@@ -12,7 +12,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 - **Persistência local ou somente em memória**: útil apenas para protótipos visuais; não atende ao produto real.
 
 ## Decisão
-**Proposta, ainda não aceita:** avaliar PostgreSQL gerenciado como opção principal para o MVP. A escolha final deve considerar o provedor disponível, RLS ou escopo por usuário, migrações, backups e custos.
+**Hipótese registrada, decisão pendente:** PostgreSQL gerenciado é uma opção a avaliar, não uma escolha aprovada. O protótipo atual usa apenas armazenamento local do navegador. A escolha final deve considerar o provedor disponível, RLS ou escopo por usuário, migrações, backups e custos.
 
 ## Consequências
 - Positivas: consistência e clareza para entidades relacionais.
@@ -23,7 +23,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 2026-09-28
 
 ## Status
-Proposto
+Pendente
 
 ## Próximos passos
 - Confirmar integração disponível no projeto.

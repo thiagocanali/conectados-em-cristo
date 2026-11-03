@@ -12,7 +12,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 - **Login social como único método**: reduz fricção; não atende necessariamente ao público e à estratégia de e-mail verificado.
 
 ## Decisão
-**Proposta, ainda não aceita:** usar uma solução especializada compatível com Next.js, mantendo e-mail e senha como fluxo base, e tratando MFA e provedores adicionais como etapas posteriores. A solução concreta depende da integração aprovada e da revisão de segurança.
+**Hipótese registrada, decisão pendente:** um provedor especializado pode reduzir a responsabilidade de implementar autenticação, mas nenhum fornecedor ou fluxo foi aprovado. O login atual é demonstrativo e executado no navegador. A solução concreta depende da integração aprovada e da revisão de segurança.
 
 ## Consequências
 - Positivas: menor superfície de código sensível e melhor governança de sessões.
@@ -23,7 +23,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 2026-09-28
 
 ## Status
-Proposto
+Pendente
 
 ## Próximos passos
 - Confirmar provedor e integração do projeto.
