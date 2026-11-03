@@ -1,43 +1,65 @@
-# conectados-em-cristo
+# Conectados em Cristo
 
-## Project setup
-```
+**Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
+
+O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar pessoas por meio da fé, interesses, propósito e experiências compartilhadas. Amizades e relacionamentos amorosos podem surgir, mas ninguém precisa estar procurando namoro para encontrar valor na plataforma.
+
+## Estado atual do projeto
+
+Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vue CLI 5, CSS próprio e rotas em hash.
+
+Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
+
+> **Aviso:** não use o protótipo para armazenar dados sensíveis, senhas reutilizadas ou informações pessoais reais. A autenticação local não oferece segurança de produção.
+
+## O que o protótipo permite experimentar
+
+- Criar uma conta demonstrativa e entrar/sair.
+- Criar e editar perfil local.
+- Explorar perfis de demonstração e perfis locais.
+- Registrar interesses, bloqueios, denúncias e perfis salvos localmente.
+- Responder ao questionário e visualizar resultados indicativos entre contas do mesmo navegador.
+- Experimentar testes locais de dons e personalidade.
+
+Essas ações não conectam usuários reais nem enviam denúncias a uma equipe de moderação.
+
+## Stack identificada
+
+- Vue 3
+- Vue Router 4
+- Vue CLI 5 / `vue-cli-service`
+- CSS próprio
+- Babel e ESLint
+
+Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. A configuração inclui GitHub Pages e Vercel; o destino de produção ativo precisa ser confirmado.
+
+## Desenvolvimento local
+
+Requisitos: Node.js e npm compatíveis com as dependências do projeto.
+
+```sh
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
+## Validação e build
+
+```sh
+npm run lint
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+Não há suíte automatizada de testes unitários, integração ou E2E configurada atualmente.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Antes de qualquer lançamento real
 
+O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Não há provedores ou credenciais de backend configurados neste repositório.
 
-## Estado funcional e limites do protótipo
+## Documentação
 
-O projeto é atualmente um protótipo Vue executado inteiramente no navegador. Cadastro, sessão, perfis, questionários, perfis salvos, bloqueios e preferências usam `localStorage`; portanto, os dados existem apenas no navegador e no dispositivo em que foram criados. Limpar os dados do navegador remove essas informações e usuários em navegadores/dispositivos diferentes não se enxergam.
-
-**Não use este protótipo para armazenar dados sensíveis ou como autenticação de produção.** O armazenamento local não fornece autenticação segura, autorização no servidor, sincronização entre dispositivos, recuperação de senha ou moderação centralizada. As senhas do protótipo não são protegidas por um serviço de autenticação. Pedidos de oração compartilhados permanecem desativados.
-
-### Fluxos locais disponíveis
-
-1. Criar uma conta de demonstração e entrar/sair.
-2. Criar ou editar o perfil e torná-lo disponível à descoberta local.
-3. Descobrir outros perfis criados no mesmo navegador, salvar perfis, registrar interesse e bloquear perfis.
-4. Responder ao questionário e calcular uma pontuação indicativa entre contas locais com respostas completas.
-5. Continuar o teste de dons com progresso armazenado por conta.
-
-### Para uso real
-
-Antes de convidar usuários, integrar um provedor de autenticação e uma API/backend com banco de dados, autorização por usuário, validação server-side, recuperação de conta, regras de privacidade, moderação de denúncias e backups. Não colocar chaves administrativas ou segredos no bundle frontend. A integração depende da escolha e configuração do provedor; nenhuma credencial de backend está configurada neste repositório.
+- [Contexto do projeto](PROJECT_CONTEXT.md) — visão, princípios e estado real do protótipo.
+- [Arquitetura do sistema](docs/architecture/system-architecture.md) — implementação atual e arquitetura futura proposta.
+- [Plano do MVP](docs/product/mvp.md) — proposta ainda não aprovada.
+- [Roadmap](docs/product/roadmap.md) — decisões e próximos passos sem cronograma aprovado.
+- [ADRs](docs/decisions/README.md) — decisões arquiteturais e seus status.
+- [Estratégia de testes](docs/testing/test-strategy.md) — capacidades atuais e plano de validação.
