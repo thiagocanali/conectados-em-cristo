@@ -8,24 +8,24 @@
 
     <form @submit.prevent="salvar" class="perfil-form fade-in-up">
       <div class="field-group">
-        <label class="field-label">Nome completo</label>
-        <input v-model="perfil.nome" type="text" class="field-input" placeholder="Seu nome" required />
+        <label for="profile-name" class="field-label">Nome completo</label>
+        <input id="profile-name" autocomplete="name" v-model="perfil.nome" type="text" class="field-input" placeholder="Seu nome" required />
       </div>
 
       <div class="form-row">
         <div class="field-group">
-          <label class="field-label">Idade</label>
-          <input v-model.number="perfil.idade" type="number" min="18" max="99" class="field-input" placeholder="18+" required />
+          <label for="profile-age" class="field-label">Idade</label>
+          <input id="profile-age" v-model.number="perfil.idade" type="number" min="18" max="99" class="field-input" placeholder="18+" required />
         </div>
         <div class="field-group">
-          <label class="field-label">Cidade / Estado</label>
-          <input v-model="perfil.cidade" type="text" class="field-input" placeholder="Ex.: São Paulo / SP" />
+          <label for="profile-city" class="field-label">Cidade / Estado</label>
+          <input id="profile-city" autocomplete="address-level2" v-model="perfil.cidade" type="text" class="field-input" placeholder="Ex.: São Paulo / SP" />
         </div>
       </div>
 
       <div class="field-group">
-        <label class="field-label">Denominação</label>
-        <select v-model="perfil.denominacao" class="field-select">
+        <label for="profile-denomination" class="field-label">Denominação</label>
+        <select id="profile-denomination" v-model="perfil.denominacao" class="field-select">
           <option value="">Selecione</option>
           <option>Católica</option>
           <option>Evangélica</option>
@@ -36,8 +36,8 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Há quanto tempo é cristão(ã)?</label>
-        <select v-model="perfil.tempoFe" class="field-select">
+        <label for="profile-faith-duration" class="field-label">Há quanto tempo é cristão(ã)?</label>
+        <select id="profile-faith-duration" v-model="perfil.tempoFe" class="field-select">
           <option value="">Selecione</option>
           <option>Menos de 1 ano</option>
           <option>1 a 5 anos</option>
@@ -48,8 +48,8 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Objetivo de relacionamento</label>
-        <select v-model="perfil.objetivo" class="field-select">
+        <label for="profile-goal" class="field-label">Objetivo de relacionamento</label>
+        <select id="profile-goal" v-model="perfil.objetivo" class="field-select">
           <option value="">Selecione</option>
           <option>Amizade com propósito</option>
           <option>Namoro com propósito</option>
@@ -58,14 +58,14 @@
       </div>
 
       <div class="field-group">
-        <label class="field-label">Sobre você</label>
-        <textarea v-model="perfil.sobre" rows="4" class="field-textarea" placeholder="Fale sobre sua caminhada com Deus, seus valores e o que você busca..."></textarea>
+        <label for="profile-about" class="field-label">Sobre você</label>
+        <textarea id="profile-about" v-model="perfil.sobre" rows="4" class="field-textarea" placeholder="Fale sobre sua caminhada com Deus, seus valores e o que você busca..."></textarea>
       </div>
 
       <button type="submit" class="btn-primary perfil-submit">
         Salvar Perfil
       </button>
-      <p v-if="salvo" class="perfil-ok">
+      <p v-if="salvo" class="perfil-ok" role="status" aria-live="polite">
         <span aria-hidden="true">&#10003;</span> Perfil salvo com sucesso!
       </p>
     </form>

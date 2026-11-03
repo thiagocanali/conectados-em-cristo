@@ -9,16 +9,16 @@
 
       <form @submit.prevent="login" class="auth-form">
         <div class="field-group">
-          <label class="field-label">E-mail</label>
-          <input type="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
+          <label for="login-email" class="field-label">E-mail</label>
+          <input id="login-email" type="email" autocomplete="username" v-model="email" class="field-input" placeholder="seu@email.com" required />
         </div>
 
         <div class="field-group">
-          <label class="field-label">Senha</label>
-          <input type="password" v-model="password" class="field-input" placeholder="Sua senha" required />
+          <label for="login-password" class="field-label">Senha</label>
+          <input id="login-password" type="password" autocomplete="current-password" v-model="password" class="field-input" placeholder="Sua senha" required />
         </div>
 
-        <p v-if="error" class="auth-error">{{ error }}</p>
+        <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
 
         <button type="submit" class="btn-primary auth-submit">Entrar</button>
       </form>
@@ -53,7 +53,8 @@ const login = () => {
 
   if (user) {
     localStorage.setItem('currentUser', JSON.stringify(user))
-    router.push(typeof router.currentRoute.value.query.redirect === 'string' ? router.currentRoute.value.query.redirect : '/dashboard')
+    const redirect = router.currentRoute.value.query.redirect
+    router.push(typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '/dashboard')
   } else {
     error.value = 'E-mail ou senha incorretos.'
   }
