@@ -5,35 +5,54 @@
       <nav class="nav-desktop" aria-label="Navegação principal"><router-link to="/oracoes">Orações</router-link><router-link to="/descoberta">Conexões</router-link><router-link to="/testedons">Dons</router-link><router-link to="/dashboard">Minha jornada</router-link><router-link v-if="!loggedIn" to="/login" class="btn-nav">Entrar</router-link><button v-else type="button" class="btn-nav" @click="logout">Sair</button></nav>
       <button class="nav-toggle" @click="mobileOpen = !mobileOpen" :aria-expanded="mobileOpen" aria-label="Abrir ou fechar menu"><span :class="{ open: mobileOpen }"></span><span :class="{ open: mobileOpen }"></span><span :class="{ open: mobileOpen }"></span></button>
     </div>
-    <transition name="slide-down"><nav v-if="mobileOpen" class="nav-mobile" aria-label="Navegação mobile"><router-link to="/oracoes" @click="mobileOpen = false">Orações</router-link><router-link to="/descoberta" @click="mobileOpen = false">Conexões</router-link><router-link to="/testedons" @click="mobileOpen = false">Dons espirituais</router-link><router-link to="/dashboard" @click="mobileOpen = false">Minha jornada</router-link><router-link v-if="!loggedIn" to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link><button v-else type="button" class="btn-nav-mobile" @click="logout">Sair</button></nav></transition>
+    <transition name="slide-down"><nav v-show="mobileOpen" id="mobile-navigation" class="nav-mobile" aria-label="Navegação mobile"><router-link to="/oracoes" @click="mobileOpen = false">Orações</router-link><router-link to="/descoberta" @click="mobileOpen = false">Conexões</router-link><router-link to="/testedons" @click="mobileOpen = false">Dons espirituais</router-link><router-link to="/dashboard" @click="mobileOpen = false">Minha jornada</router-link><router-link v-if="!loggedIn" to="/login" @click="mobileOpen = false" class="btn-nav-mobile">Entrar</router-link><button v-else type="button" class="btn-nav-mobile" @click="logout">Sair</button></nav></transition>
   </header>
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const scrolled = ref(false)
 const mobileOpen = ref(false)
+const menuToggle = ref(null)
 const loggedIn = ref(false)
+
 const refreshSession = () => {
   try {
     const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
     loggedIn.value = Boolean(user && user.email)
-  } catch { loggedIn.value = false }
+  } catch {
+    loggedIn.value = false
+  }
 }
+
 const logout = () => {
   localStorage.removeItem('currentUser')
   refreshSession()
   mobileOpen.value = false
   router.push('/login')
 }
-watch(() => router.currentRoute.value.fullPath, refreshSession)
+
 const handleScroll = () => { scrolled.value = window.scrollY > 20 }
+const handleKeydown = event => {
+  if (event.key === 'Escape' && mobileOpen.value) {
+    mobileOpen.value = false
+    menuToggle.value?.focus()
+  }
+}
+
+watch(() => router.currentRoute.value.fullPath, refreshSession)
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('keydown', handleKeydown)
   refreshSession()
 })
-onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 <style scoped>
 .navbar { width: 100%; background: var(--cream); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; transition: background var(--t-base), box-shadow var(--t-base); }.navbar.scrolled { background: rgba(248,246,241,.95); backdrop-filter: blur(10px); box-shadow: 0 2px 12px rgba(32,53,44,.06); }.navbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }.brand { display: flex; align-items: center; gap: 10px; color: var(--green-deep); text-decoration: none; font-family: var(--font-serif); font-size: 1.15rem; letter-spacing: -.02em; white-space: nowrap; }.brand b { color: var(--terra); font-weight: 500; }.brand-mark { color: var(--terra); font-size: 1.3rem; }
