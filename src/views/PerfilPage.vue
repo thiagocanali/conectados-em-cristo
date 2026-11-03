@@ -86,15 +86,25 @@ export default {
     loadProfile() {
       let currentUser = null
       try { currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { currentUser = null }
-      const key = currentUser && currentUser.email ? `perfil:${String(currentUser.email).trim().toLowerCase()}` : 'perfil'
+      const normalizedEmail = currentUser?.email ? String(currentUser.email).trim().toLowerCase() : ''
+      const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
+      const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
       const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', objetivo: '', sobre: '' }
-      try { return { ...emptyProfile, ...(JSON.parse(localStorage.getItem(key) || 'null') || {}) } } catch { return emptyProfile }
+      try {
+        let stored = localStorage.getItem(key)
+        if (stored === null && legacyKey !== key) {
+          stored = localStorage.getItem(legacyKey)
+          if (stored !== null) localStorage.setItem(key, stored)
+        }
+        return { ...emptyProfile, ...(JSON.parse(stored || 'null') || {}) }
+      } catch { return emptyProfile }
     },
     salvar() {
       const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
       if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
       const normalizedProfile = { ...this.perfil, nome: this.perfil.nome.trim(), email: currentUser.email }
-      localStorage.setItem(`perfil:${currentUser.email}`, JSON.stringify(normalizedProfile))
+      const profileKey = `perfil:${String(currentUser.email).trim().toLowerCase()}`
+      localStorage.setItem(profileKey, JSON.stringify(normalizedProfile))
       let users = []
       try {
         const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
