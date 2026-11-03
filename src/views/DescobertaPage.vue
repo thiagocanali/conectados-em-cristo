@@ -68,8 +68,26 @@ export default {
     },
     readList(base) {
       try {
-        const value = JSON.parse(localStorage.getItem(this.storageKey(base)) || '[]')
-        return Array.isArray(value) ? value : []
+        const key = this.storageKey(base)
+        const value = localStorage.getItem(key)
+        if (value !== null) {
+          const parsed = JSON.parse(value)
+          return Array.isArray(parsed) ? parsed : []
+        }
+
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        if (user && user.email) {
+          const legacyKey = `${base}:${user.email}`
+          const legacyValue = localStorage.getItem(legacyKey)
+          if (legacyValue !== null) {
+            const parsed = JSON.parse(legacyValue)
+            if (Array.isArray(parsed)) {
+              localStorage.setItem(key, JSON.stringify(parsed))
+              return parsed
+            }
+          }
+        }
+        return []
       } catch { return [] }
     },
     loadProfiles() {
