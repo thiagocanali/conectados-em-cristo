@@ -13,7 +13,7 @@
     </div>
 
     <ul v-else class="salvos-list fade-in-up">
-      <li v-for="(p, i) in salvos" :key="p.nome + i" class="salvo-item">
+      <li v-for="(p, i) in salvos"  :key="(p.email || p.nome) + i" class="salvo-item">
         <div class="avatar">{{ p.nome.charAt(0) }}</div>
         <div class="salvo-info">
           <strong>{{ p.nome }}, {{ p.idade }}</strong>
@@ -38,14 +38,31 @@ export default {
     storageKey() {
       let user = null
       try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
-      return user && user.email ? `perfisSalvos:${user.email}` : 'perfisSalvos'
+      return user && user.email ? `perfisSalvos:${String(user.email).trim().toLowerCase()}` : 'perfisSalvos'
     },
     loadSavedProfiles() {
       try {
-        const value = JSON.parse(localStorage.getItem(this.storageKey()) || 'null')
-        if (Array.isArray(value)) return value
+        const key = this.storageKey()
+        const value = localStorage.getItem(key)
+        if (value !== null) {
+          const parsed = JSON.parse(value)
+          return Array.isArray(parsed) ? parsed : []
+        }
+
         const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
-        if (user && user.email) return []
+        if (user && user.email) {
+          const legacyKey = `perfisSalvos:${user.email}`
+          const legacyValue = localStorage.getItem(legacyKey)
+          if (legacyValue !== null) {
+            const parsed = JSON.parse(legacyValue)
+            if (Array.isArray(parsed)) {
+              localStorage.setItem(key, JSON.stringify(parsed))
+              return parsed
+            }
+          }
+          return []
+        }
+
         const legacy = JSON.parse(localStorage.getItem('perfisSalvos') || '[]')
         return Array.isArray(legacy) ? legacy : []
       } catch { return [] }
