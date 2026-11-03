@@ -1,13 +1,15 @@
+> **Direção atual do produto:** comunidade primeiro; conexões depois; relacionamentos como consequência. A visão abaixo é aspiracional e não representa funcionalidades já implementadas nem um escopo de MVP aprovado.
+
 # Visão de Produto — Conectados em Cristo
 
 ## Proposição de Valor
 
-**Para:** Cristãos solteiros que buscam relacionamentos significativos
-**Que:** Desejam conhecer pessoas com propósito espiritual compartilhado
-**Conectados em Cristo é:** Uma plataforma de relacionamentos cristã
-**Que:** Prioriza conhecimento profundo, compatibilidade genuína e segurança
+**Para:** Pessoas cristãs que desejam construir comunidade, compartilhar a fé e desenvolver conexões significativas
+**Que:** Buscam pertencimento, amizade, convivência e conexões com propósito espiritual compartilhado
+**Conectados em Cristo é:** Uma comunidade digital cristã
+**Que:** Prioriza comunhão, participação, conhecimento mútuo, segurança e conexões genuínas
 **Diferentemente de:** Apps de encontro casual que focam em swipe e aparência
-**Nossa vantagem:** Integramos fé, valores, personalidade e objetivos em um sistema de compatibilidade explicável, mantendo segurança como prioridade central.
+**Nossa proposta:** criar um ambiente em que a fé e a vida comunitária sejam o centro. Amizades e relacionamentos podem surgir naturalmente, sem reduzir a experiência a encontros ou compatibilidade amorosa.
 
 ## Princípios de Design
 
