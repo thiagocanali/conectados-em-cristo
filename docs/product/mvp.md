@@ -1,283 +1,164 @@
-MVP — Conectados em Cristo
-Objetivo
-
-Validar se uma comunidade cristã digital pode gerar conexões significativas sem depender exclusivamente de namoro.
-
-O MVP não deve tentar implementar todas as funcionalidades da visão final.
-
-Fase 0 — Fundação
-Identidade
-
-cadastro;
-
-login;
-
-recuperação de conta;
-
-confirmação de e-mail;
-
-sessão segura;
-
-perfil básico.
-
-Perfil
-
-Campos iniciais:
-
-nome;
-
-idade;
-
-cidade/região;
-
-foto;
-
-descrição;
-
-interesses;
-
-objetivos dentro da comunidade;
-
-informações de fé escolhidas pelo usuário.
-
-Privacidade
-
-perfil público/privado;
-
-controle de descoberta;
-
-bloqueio;
-
-controle de mensagens;
-
-gerenciamento de sessões.
-
-Fase 1 — Interesses
-
-Criar sistema de interesses.
-
-Categorias:
-
-fé;
-
-música;
-
-esportes;
-
-tecnologia;
-
-livros;
-
-filmes;
-
-viagens;
-
-culinária;
-
-arte;
-
-games;
-
-natureza;
-
-carreira;
-
-voluntariado.
-
-Usuários podem selecionar interesses.
-
-O sistema utiliza esses interesses para:
-
-comunidades;
-
-atividades;
-
-descoberta de pessoas;
-
-recomendações.
-
-Fase 2 — Comunidades
-
-Implementar:
-
-criação de comunidade;
-
-entrada/saída;
-
-membros;
-
-administradores;
-
-posts;
-
-comentários;
-
-reações;
-
-denúncias;
-
-moderação.
-
-Exemplos:
-
-Jovens Cristãos;
-
-Estudos Bíblicos;
-
-Música;
-
-Tecnologia;
-
-Esportes;
-
-Livros;
-
-Fotografia.
-
-Fase 3 — Atividades
-
-Implementar:
-
-atividades;
-
-participação;
-
-limite de participantes;
-
-data/hora;
-
-descrição;
-
-comunidade relacionada.
-
-Primeiras atividades:
-
-quiz bíblico;
-
-estudo;
-
-discussão;
-
-grupo de oração;
-
-atividade relacionada a hobby.
-
-Fase 4 — Conexões
-
-Implementar:
-
-descoberta de pessoas;
-
-amizade;
-
-bloqueio;
-
-interesse romântico;
-
-mensagens.
-
-Separar explicitamente:
-
-AMIZADE
-≠
-INTERESSE ROMÂNTICO
-
-Fase 5 — Segurança
-
-Implementar desde o MVP:
-
-rate limiting;
-
-CAPTCHA quando necessário;
-
-bloqueio;
-
-denúncia;
-
-moderação;
-
-logs de segurança;
-
-controle de sessão;
-
-proteção contra spam;
-
-proteção contra abuso.
-
-Funcionalidades avançadas podem vir posteriormente:
-
-verificação de identidade;
-
-detecção de fraude;
-
-análise comportamental;
-
-detecção de contas coordenadas.
-
-O que NÃO colocar no primeiro MVP
-
-Evitar construir inicialmente:
-
-algoritmo complexo de matchmaking;
-
-feed extremamente sofisticado;
-
-marketplace;
-
-sistema de assinaturas complexo;
-
-vídeo;
-
-live streaming;
-
-gamificação pesada;
-
-dezenas de jogos;
-
-inteligência artificial em todas as partes do produto.
-
-Primeiro validar:
-
-As pessoas participam?
-
-Elas retornam?
-
-Criam amizades?
-
-Participam das comunidades?
-
-As atividades geram interação?
-
-A plataforma é percebida como segura?
-
-Métricas iniciais
-
-Não utilizar apenas métricas de crescimento.
-
-Acompanhar:
-
-usuários que completam o perfil;
-
-usuários que entram em uma comunidade;
-
-usuários que participam de uma atividade;
-
-usuários que fazem uma amizade;
-
-usuários que retornam;
-
-denúncias;
-
-bloqueios;
-
-tempo até primeira interação significativa;
-
-atividades concluídas;
-
-participação em comunidades.
-
-Uma métrica especialmente importante:
-
-Percentual de usuários que encontram valor sem utilizar a área de relacionamento.
-
-Se esse número for relevante, a hipótese central do produto está funcionando.
+# Plano do MVP — Conectados em Cristo
+
+> Status: proposta não aprovada e não implementada como produto de produção. O repositório contém um protótipo frontend local; consulte `PROJECT_CONTEXT.md` para o estado real.
+
+## Decisões de produto em aberto
+- Prazo: este documento estima 8 semanas; `requirements.md` indica 6 meses. Nenhum prazo foi aprovado.
+- Idiomas: aqui consta apenas português no MVP; `requirements.md` pede português, inglês e espanhol. Escopo de idiomas não decidido.
+- Mensagens: excluídas deste MVP, mas aparecem no roadmap aspiracional de `INSTR.md`. Escopo e fase do chat não decididos.
+- Tecnologias de backend, banco, hospedagem, e-mail, storage, autenticação e moderação listadas abaixo são alternativas, não seleções aprovadas.
+
+## Escopo do MVP
+
+O MVP (Minimum Viable Product) focará nas funcionalidades essenciais para validar a hipótese central: usuários cristãos buscam relacionamentos profundos e significativos em uma plataforma focada em compatibilidade, segurança e fé.
+
+## Features Incluídas no MVP
+
+### Sprint 1: Fundação
+- [ ] Setup inicial do projeto (backend, frontend, banco)
+- [ ] Autenticação com email/senha
+- [ ] Verificação de email
+- [ ] Gestão de sessão
+- [ ] Admin panel básico
+
+### Sprint 2: Perfil e Onboarding
+- [ ] Criação de perfil
+- [ ] Upload de fotos
+- [ ] Preenchimento de dados básicos
+- [ ] Preenchimento de dados de fé
+- [ ] Preview do perfil
+- [ ] Edição de perfil
+
+### Sprint 3: Questionário
+- [ ] Questionário de compatibilidade
+- [ ] Salvamento progressivo
+- [ ] Resumo de respostas
+- [ ] Atualização de respostas
+
+### Sprint 4: Descoberta
+- [ ] Lista de perfis
+- [ ] Filtros básicos (idade, localização, fé)
+- [ ] Visualização de perfil completo
+- [ ] Ordenação por compatibilidade
+
+### Sprint 5: Interações
+- [ ] Demonstrar interesse
+- [ ] Passar perfil
+- [ ] Salvar perfil
+- [ ] Bloquear perfil
+- [ ] Denunciar perfil
+
+### Sprint 6: Compatibilidade e Match
+- [ ] Cálculo de compatibilidade
+- [ ] Exibição de compatibilidade
+- [ ] Notificação de mutual interest
+- [ ] Histórico de interações
+
+### Sprint 7: Moderação Básica
+- [ ] Painel de denúncias
+- [ ] Revisão de perfis denunciados
+- [ ] Ação: avisar, suspender, banir
+- [ ] Logs de moderação
+
+### Sprint 8: Polish e QA
+- [ ] Testes de segurança
+- [ ] Testes de usabilidade
+- [ ] Otimizações de performance
+- [ ] Documentação final
+
+## Features NÃO no MVP
+
+- ❌ Mensagens entre usuários
+- ❌ Notificações push
+- ❌ Análise comportamental avançada
+- ❌ Verificação de identidade avançada (foto + documento)
+- ❌ Internacionalização (apenas PT)
+- ❌ Moderação com IA
+- ❌ Recomendações algoritmos
+- ❌ Pagamentos/Freemium
+- ❌ Social features (seguir, comentar)
+- ❌ Stories ou feed
+- ❌ Video chat
+- ❌ Badges ou gamification
+
+## User Stories Prioritárias
+
+### Como novo usuário, quero...
+- Registrar-me com email e senha (10 pontos)
+- Verificar meu email (5 pontos)
+- Criar meu perfil completo (13 pontos)
+- Ver como meu perfil aparece para outros (5 pontos)
+- Responder questionário de compatibilidade (13 pontos)
+- Descobrir pessoas compatíveis (13 pontos)
+- Demonstrar interesse em alguém (3 pontos)
+- Ver quem demonstrou interesse em mim (5 pontos)
+- Saber por que sou compatível com alguém (8 pontos)
+- Bloquear ou denunciar perfil suspeito (5 pontos)
+
+### Como usuário voltando, quero...
+- Fazer login facilmente (3 pontos)
+- Atualizar meu perfil (5 pontos)
+- Ver meu histórico de interações (5 pontos)
+- Receber notificação de novo interesse (8 pontos)
+- Deletar minha conta (5 pontos)
+
+### Como moderador/admin, quero...
+- Ver todas as denúncias (5 pontos)
+- Revisar perfil denunciado (5 pontos)
+- Tomar ação: avisar, suspender, banir (8 pontos)
+- Ver logs de moderação (5 pontos)
+- Desativar contas fraudulentas (3 pontos)
+
+## Critérios de Sucesso do MVP
+
+### Funcional
+- [ ] 100% das features core funcionam sem crashes
+- [ ] Zero vulnerabilidades críticas de segurança
+- [ ] Taxa de erro < 0.1%
+
+### Experiência
+- [ ] Onboarding completo em < 10 minutos
+- [ ] Primeira descoberta em < 2 minutos após onboarding
+- [ ] Interface responsiva em desktop e mobile
+- [ ] Sem lentidão aparente em ações comuns
+
+### Negócio
+- [ ] 100+ beta testes
+- [ ] NPS > 40
+- [ ] Taxa de conclusão de onboarding > 70%
+- [ ] Taxa de preenchimento de perfil > 80%
+
+## Timeline Estimada
+
+- Sprint 1-2: 2 semanas (fundação + perfil)
+- Sprint 3-4: 2 semanas (questionário + descoberta)
+- Sprint 5-6: 2 semanas (interações + compatibilidade)
+- Sprint 7-8: 2 semanas (moderação + polish)
+
+**Total: 8 semanas (2 meses)**
+
+## Alternativas técnicas para avaliação (não aprovadas)
+
+- Backend: Node.js + Express/TypeScript ou outra opção a decidir
+- Frontend: Vue.js 3/Vue CLI está implementado no protótipo; eventual migração requer aprovação
+- Banco, hospedagem, e-mail, armazenamento, autenticação e moderação: sem escolha
+- Ver ADRs 0003–0005; o protótipo atual não implementa esses serviços
+
+## Riscos e Mitigações
+
+| Risco | Probabilidade | Impacto | Mitigação |
+|-------|---------------|--------|-----------|
+| Vulnerabilidade de segurança descoberta | Média | Alto | Teste de penetração early, security review |
+| Performance suficiente não atingida | Baixa | Médio | Load testing desde early, otimizações |
+| Usuários não entendem compatibilidade | Média | Médio | UX testing, design intuitivo |
+| Taxa de abandono alta | Média | Alto | Analytics, feedback, iterações rápidas |
+| Mudança de escopo | Alta | Alto | Planejamento claro, frozen scope |
+
+## Próximos Passos
+
+1. [ ] Resolver os conflitos de prazo, idiomas e chat com o responsável pelo produto
+2. [ ] Aprovar o escopo MVP
+3. [ ] Definir tecnologias exatas
+4. [ ] Criar mockups de design
+5. [ ] Configurar o repositório do backend
+6. [ ] Iniciar o desenvolvimento dos sprints aprovados
