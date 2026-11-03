@@ -32,7 +32,7 @@ Qual opção foi escolhida e por quê?
 Data da decisão
 
 ## Status
-- Proposto
+- Pendente
 - Aceito
 - Descontinuado
 - Substituído por ADR-XXX
@@ -40,23 +40,11 @@ Data da decisão
 
 ## ADRs Registradas
 
-### Infraestrutura e Arquitetura
-- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
+- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Pendente; Next.js não adotado
+- [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — Pendente; PostgreSQL não aprovado
+- [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — Pendente; provedor não escolhido
 
-### Frontend
-- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
-
-### Backend
-- [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Proposto
-
-### Banco de Dados
-- [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — Proposto
-
-### Segurança
-- [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — Proposto
-
-### Moderação
-- (Aguardando decisão específica)
+Nenhuma decisão de stack, banco ou autenticação foi aceita. Ainda não há ADR específica para moderação.
 
 ## Princípios para Tomada de Decisão
 
@@ -79,4 +67,6 @@ Data da decisão
 
 | ADR | Título | Status | Data |
 |-----|--------|--------|------|
-| (Nenhum ADR registrado ainda) | | | |
+| 0003 | Stack técnica do MVP | Pendente | 2026-09-28 |
+| 0004 | Persistência do MVP | Pendente | 2026-09-28 |
+| 0005 | Autenticação e sessões do MVP | Pendente | 2026-09-28 |

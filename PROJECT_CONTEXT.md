@@ -1,3 +1,41 @@
+# Conectados em Cristo — Contexto do Projeto
+
+> **Estado do documento:** a visão e os princípios abaixo descrevem o produto pretendido. Eles não significam que as funcionalidades estejam implementadas. Para o estado técnico executável, consulte esta seção e o [README](README.md).
+
+## Estado atual da aplicação
+
+O repositório contém um protótipo frontend local, não um MVP de produção.
+
+- **Frontend:** Vue 3, Vue Router 4, Vue CLI 5, CSS próprio e navegação com hash.
+- **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
+- **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
+- **Segurança:** cadastro e login locais não são autenticação de produção. Não armazenar dados sensíveis nem senhas reutilizadas.
+- **Validação:** existem scripts de lint e build; não há suíte automatizada de unidade, integração ou E2E configurada.
+- **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
+
+### Fluxos demonstrativos existentes
+
+- Cadastro e login locais.
+- Edição de perfil e respostas de questionário.
+- Descoberta baseada em perfis de demonstração e dados locais.
+- Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador.
+- Testes locais de dons e personalidade.
+
+Os fluxos não representam uma comunidade online real: ações locais não são compartilhadas com outras pessoas nem encaminhadas a moderadores.
+
+### Decisões que continuam abertas
+
+- Escopo e critérios de aceite do primeiro MVP de produção.
+- Manter a stack Vue atual ou aprovar uma migração.
+- Backend, banco de dados, autenticação e hospedagem.
+- Modelo de privacidade, autorização e moderação.
+- Prazo, idiomas e momento de funcionalidades como mensagens.
+- Framework e cobertura dos testes automatizados.
+
+Não tratar tecnologias, diagramas, endpoints, tabelas, prazos ou funcionalidades descritos como propostas como decisões aprovadas. Consulte os ADRs 0003–0005 e os documentos de produto.
+
+---
+
 Conectados em Cristo
 1. Visão
 
