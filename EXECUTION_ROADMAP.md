@@ -14,8 +14,10 @@ Tarefas:
 - [x] Confirmar pipeline atual (lint, 5 testes unitários, build e deploy estático).
 - [x] Executar auditoria de dependências no estado do lockfile.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
-- [ ] Validar posicionamento e escopo de MVP com o responsável.
+- [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
+- [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
 - [ ] Aprovar ADRs de stack, persistência e autenticação.
+- [ ] Especificar papéis, permissões, visibilidade e fluxo de entrada das comunidades curadas.
 - [ ] Definir critérios e orçamento de beta.
 
 Critério de saída: escopo do MVP e decisões essenciais aprovados; nenhum risco crítico de entendimento sobre dados/segurança.
@@ -64,8 +66,10 @@ Critérios: perfil persistente em backend, validação server-side, campos opcio
 Objetivo: entregar valor sem depender de namoro.
 
 Tarefas:
-- Catálogo de comunidades e categorias.
-- Comunidades públicas e privadas/por aprovação.
+- Catálogo de comunidades e categorias, inicialmente criadas e curadas pela administração.
+- Comunidades públicas e privadas/por aprovação, com entrada ou solicitação conforme configuração.
+- Designação administrativa de moderadores e publicação de regras antes de abrir cada comunidade.
+- Criação de comunidades por usuários permanece fora do beta inicial.
 - Regras, papéis de membro, administrador e moderador.
 - Entrar/sair e convites/aprovação.
 - Publicações, comentários e reações com paginação.
