@@ -289,3 +289,117 @@ Durante a implementação:
 ## 13. Fora do escopo desta especificação
 
 Este documento não escolhe fornecedores, não aprova custos, não define arquitetura final, não provisiona serviços e não autoriza migração ou alteração de dados. Também não afirma que qualquer recurso descrito já esteja implementado.
+
+
+## 14. Matriz de permissões — proposta para revisão
+
+Legenda: **P** permitido; **C** condicionado à regra/escopo; **N** negado. Esta matriz detalha o modelo aprovado sem ampliar os papéis.
+
+| Ação | Visitante | Membro | Moderador atribuído | Administrador |
+|---|---:|---:|---:|---:|
+| Ver apresentação e catálogo listado | P | P | P | P |
+| Ver metadados de comunidade não listada | N | C | C | P |
+| Ver posts/comentários de comunidade | N | C¹ | C¹ | C² |
+| Entrar em comunidade aberta | N | P | P | P |
+| Solicitar entrada em comunidade privada | N | P | P | P |
+| Aprovar/recusar solicitação | N | N | C³ | P |
+| Publicar/comentar/reagir | N | C¹ | C¹ | C¹ |
+| Editar/excluir próprio conteúdo | N | C⁴ | C⁴ | C⁴ |
+| Denunciar conteúdo/usuário | N | P | P | P |
+| Ver fila de denúncias | N | N | C⁵ | P |
+| Moderar conteúdo | N | N | C⁵ | P |
+| Designar/remover moderadores | N | N | N | P |
+| Criar/editar/pausar/arquivar comunidade | N | N | N | P |
+| Consultar trilha de auditoria | N | N | C⁶ | P |
+| Alterar/apagar trilha de auditoria | N | N | N | N⁷ |
+
+Condições:
+1. Exige vínculo ativo, comunidade ativa, conteúdo visível e ausência de restrição aplicável. A autorização deve ser conferida no servidor em toda leitura e operação.
+2. Acesso administrativo a conteúdo de membro não deve ser automático ou irrestrito. Proposta: acesso somente quando necessário para suporte, segurança ou moderação, com justificativa e registro auditável.
+3. Moderador só decide solicitações na comunidade atribuída. Se não houver moderador atribuído ou houver conflito de interesse, encaminhar ao administrador.
+4. Edição/exclusão de conteúdo ainda é decisão pendente (F-02/F-09). Até aprovação, não habilitar essas ações no beta.
+5. Apenas no escopo atribuído e na medida necessária para tratar a denúncia. Não permitir consulta global por conveniência.
+6. Acesso limitado aos eventos necessários à comunidade atribuída; ocultar dados pessoais desnecessários e identidade de denunciantes sempre que possível.
+7. Nem mesmo administrador deve editar ou apagar eventos históricos. Correções devem ocorrer por novo evento compensatório, com controle de acesso e retenção definida. A retenção e os meios de proteção contra adulteração precisam ser especificados.
+
+### Matriz de autorização por recurso
+
+| Recurso | Condição mínima de leitura | Condição mínima de escrita |
+|---|---|---|
+| Catálogo | Comunidade ativa e listada; apenas campos públicos | Apenas administrador cria/edita metadados |
+| Comunidade não listada | Convite/acesso explícito ou papel administrativo autorizado | Conforme modo de entrada e vínculo |
+| Membros | Próprio vínculo; para lista, regra explícita da comunidade | Administração altera vínculos; usuário pode solicitar/entrar/sair conforme regra |
+| Solicitações | Solicitante vê apenas as próprias; moderador atribuído/admin vê as do escopo | Solicitante cria/cancela a própria; moderador atribuído/admin decide |
+| Publicações | Membro ativo e conteúdo visível na comunidade | Membro ativo cria; ações de edição/remoção dependem de política aprovada |
+| Comentários | Mesma autorização da publicação pai | Membro ativo com acesso à publicação |
+| Reações | Mesma autorização da publicação pai | Membro ativo; no máximo uma reação ativa por usuário/publicação |
+| Denúncias | Denunciante vê confirmação/estado mínimo da própria denúncia; equipe autorizada vê fila conforme escopo | Membro cria; equipe autorizada altera estado e registra decisão |
+| Auditoria | Administrador; moderador apenas eventos do próprio escopo | Sistema registra eventos; nenhum papel edita eventos históricos |
+
+### Regras de precedência e negação
+
+1. Comunidade arquivada ou pausada bloqueia novas entradas e novas publicações; regras de leitura histórica dependem da política de retenção e não devem ser presumidas.
+2. Vínculo `removed` ou `banned` prevalece sobre a antiga condição de membro ativo.
+3. Sessão válida não substitui vínculo ativo nem permissão específica.
+4. Ser moderador não concede automaticamente permissão de membro; se o moderador também participar, deverá possuir vínculo de membro separado.
+5. Ser administrador não deve implicar leitura irrestrita e invisível de dados privados. Acesso excepcional deve ter finalidade, justificativa e auditoria.
+6. Bloqueio, suspensão ou restrição aplicável deve ser avaliado em cada endpoint e em consultas derivadas (feed, busca, comentários, reações e notificações).
+7. Em falha de consulta de permissões, serviço indisponível ou estado inconsistente, negar a ação sensível e registrar erro operacional sem expor dados.
+8. Respostas de erro não devem confirmar a existência de conteúdo privado para quem não tem autorização.
+
+## 15. Cenários negativos obrigatórios de autorização
+
+| Cenário | Resultado esperado |
+|---|---|
+| Visitante solicita endpoint de posts por URL direta | Negado; nenhum conteúdo retornado |
+| Membro de A altera ID para acessar post de B | Negado, sem vazamento de metadados privados |
+| Membro removido reutiliza sessão anterior | Leitura e escrita negadas após revalidação do vínculo |
+| Moderador A tenta abrir fila de B | Negado e evento de tentativa não autorizada registrado |
+| Moderador tenta designar outro moderador | Negado |
+| Moderador tenta editar regras/configuração global | Negado |
+| Membro tenta aprovar a própria solicitação | Negado |
+| Solicitante tenta consultar solicitações de terceiros | Negado |
+| Usuário repete entrada ou reação | Operação idempotente; sem duplicidade |
+| Usuário bloqueado tenta interagir por endpoint direto | Negado pela regra server-side |
+| Comunidade pausada recebe nova publicação | Negado |
+| Comunidade arquivada recebe nova solicitação/entrada | Negado |
+| Usuário tenta acessar denúncia de outra pessoa | Negado, salvo equipe autorizada no escopo |
+| Papel administrativo é removido durante sessão ativa | Permissões revogadas na próxima checagem; não confiar apenas no token antigo |
+| Falha ao carregar política de autorização | Negar por padrão, sem fallback permissivo |
+
+Os testes devem verificar status/resposta, ausência de dados no corpo, ausência de efeitos colaterais e geração de auditoria quando aplicável. Não basta verificar que o botão desapareceu na interface.
+
+## 16. Propostas de padrão para as decisões F-01 a F-10
+
+As opções abaixo são **recomendações para discussão, não decisões aprovadas**. Nenhuma delas deve ser tratada como autorização para implementação.
+
+| ID | Padrão recomendado | Justificativa | Confirmação necessária |
+|---|---|---|---|
+| F-01 Bloqueio | Bloqueio entre contas com efeito em descoberta e interações entre as duas contas em toda a plataforma; não remove conteúdo de grupos nem substitui moderação | Comportamento previsível e consistente; evita usar bloqueio pessoal para apagar conteúdo comunitário | Confirmar escopo global e exceções de segurança |
+| F-02 Limites/edição | Texto simples; limites iniciais conservadores e configuráveis; permitir edição própria por janela curta, mantendo histórico/auditoria; exclusão lógica e ocultação imediata quando reportado | Equilibra correção de erro e integridade de evidência | Definir números, janela e quem pode restaurar |
+| F-03 Política/sanções | Política pública em níveis: orientação, advertência, remoção/ocultação, restrição temporária, suspensão; ameaça/risco grave pode ser escalado imediatamente | Proporcionalidade, previsibilidade e possibilidade de recurso | Aprovar categorias, gravidade, exceções e autoridade por sanção |
+| F-04 Operação/SLA | Beta fechado apenas com cobertura humana declarada; priorização por risco, confirmação de recebimento imediata e prazo operacional definido antes de convidar usuários | Não prometer 24x7 sem equipe; evita denúncia sem resposta | Nomear responsáveis, horários e metas por severidade |
+| F-05 Retenção | Coletar o mínimo; prazo documentado por categoria; preservar evidência somente quando necessário e com acesso restrito; exclusão/anonimização após prazo salvo obrigação legítima | Reduz exposição e acúmulo de dados sensíveis | Validar prazos e obrigações com assessoria jurídica |
+| F-06 Elegibilidade | Beta inicial 18+, sem afirmar que checkbox sozinho comprova idade; coletar somente dado mínimo necessário | Reduz riscos relacionados a menores, sem falsa garantia de verificação | Confirmar idade e mecanismo de verificação com revisão jurídica |
+| F-07 Catálogo | Público: nome, categoria, descrição, regras, modo de entrada e contagem agregada; nunca lista de membros/posts. Não listada: apenas por convite ou acesso administrativo | Separa descoberta da exposição de pessoas e conteúdo | Confirmar campos públicos e política de convite |
+| F-08 Moderador-membro | Permitir que moderador seja membro, mas impedir que decida denúncia/solicitação em que esteja envolvido; encaminhar conflito a outro moderador/admin | Mantém participação sem conflito de interesse | Confirmar regra de impedimento e escalonamento |
+| F-09 Conteúdo | Autor pode editar por janela curta e solicitar exclusão; remoção não elimina evidência sob denúncia ativa; registrar versões mínimas e motivo de ação administrativa | Protege autoria, correção e investigação | Definir janela, retenção e exceções |
+| F-10 Reações | Começar com uma reação positiva simples (ex.: “Apoiar”) por usuário/publicação, podendo remover/trocar; sem placar competitivo ou ranking | Menos complexidade e menor incentivo a métricas de popularidade | Confirmar rótulo, semântica e se reação única atende ao produto |
+
+### Regra para transformar proposta em decisão
+
+O responsável pelo produto deve aprovar, rejeitar ou ajustar cada F-01 a F-10. Após confirmação, registrar a decisão em `OPEN_DECISIONS.md` e atualizar esta especificação. Até lá, as propostas permanecem não vinculantes.
+
+## 17. Dependências para iniciar implementação comunitária
+
+A matriz não elimina os bloqueadores técnicos e operacionais já registrados. Antes de dados reais:
+- autenticação e sessão reais;
+- modelo de autorização server-side e testes de isolamento;
+- banco e migrações com constraints para impedir vínculos, solicitações e reações duplicadas;
+- trilha de auditoria com acesso restrito;
+- fila persistente de denúncias e processo humano de resposta;
+- política de privacidade, retenção, exclusão e revisão jurídica;
+- monitoramento, backup e restauração;
+- revisão de segurança e acessibilidade.
+
+A primeira fatia vertical recomendada, após decisões e arquitetura aprovadas, é catálogo + detalhe de comunidade + entrada/solicitação, com API, persistência, autorização e testes negativos. Publicações e moderação devem vir depois que a base de identidade e vínculos estiver segura.
