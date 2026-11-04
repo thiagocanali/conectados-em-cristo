@@ -16,9 +16,13 @@
 
 **Recomendação:** A, com beta geograficamente/organizacionalmente controlado. Isso preserva a promessa comunitária e permite operar com segurança.
 
-### D-02 — Comunidade no MVP
+### D-02 — Modelo de comunidades no beta
 
-**Pergunta:** quais espaços devem existir primeiro?
+**Status: APROVADA EM 2026-11-04.**
+
+**Decisão:** comunidades curadas pela administração no beta inicial. A equipe será responsável por criar e organizar comunidades, definir categorias e regras e designar moderadores. Participantes poderão entrar ou solicitar participação conforme a configuração de cada comunidade. A criação livre por usuários fica para uma fase posterior, condicionada à capacidade de moderação, controles de segurança e revisão operacional.
+
+**Pergunta original:** quais espaços devem existir primeiro?
 
 - A — Comunidades temáticas com membros, regras, publicações, comentários e denúncia.
 - B — Um espaço comunitário central moderado, sem criação de grupos pelos usuários.
@@ -209,7 +213,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 |---|---|---|
 | Posicionamento | Comunidade cristã ampla, para adultos de diferentes denominações; não exigir intenção romântica | O recorte de idade e a estratégia do beta ainda precisam de validação operacional/jurídica |
 | Princípio do produto | **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.** | Diretriz central para priorização e UX |
-| Núcleo do MVP | Cadastro, perfis, comunidades, publicações, comentários e reações | O desenho detalhado de comunidades, papéis e permissões continua pendente |
+| Núcleo do MVP | Cadastro, perfis, comunidades, publicações, comentários e reações | Modelo de comunidades curadas no beta aprovado; papéis e permissões detalhados ainda precisam de especificação |
 | Descoberta individual | Fora do primeiro MVP | Pode ser reavaliada em fase posterior |
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
@@ -221,7 +225,7 @@ Pedidos de oração permanecem como objetivo de produto, mas sua disponibilizaç
 
 ### Decisões que continuam abertas
 
-- D-02: modelo de comunidades no beta (curadas, centralizadas ou criação pelos usuários).
+- D-02: **aprovada** — comunidades curadas pela administração no beta; criação livre por usuários somente em fase posterior, após controles e capacidade de moderação.
 - D-03: formato e governança do conteúdo espiritual e dos pedidos de oração.
 - D-06: compatibilidade e afinidades futuras.
 - D-08: canais e preferências de notificação.
