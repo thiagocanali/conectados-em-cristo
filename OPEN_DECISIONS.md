@@ -1,8 +1,8 @@
 # Decisões em Aberto — Conectados em Cristo
 
 - Data: 2026-11-04
-- Status: aguardando aprovação do responsável pelo produto.
-- Regra: recomendações abaixo não são decisões aprovadas nem autorização para contratar serviços ou migrar tecnologia.
+- Status: direção estratégica inicial aprovada em 2026-11-04; decisões de execução, segurança, operação e fornecedores permanecem pendentes.
+- Regra: somente as decisões explicitamente registradas na seção 10 estão aprovadas. Recomendações restantes não autorizam contratação, provisionamento ou migração.
 
 ## 1. Posicionamento e público
 
@@ -199,4 +199,35 @@ As decisões devem ser respondidas pelo identificador (D-01 a D-22). Respostas p
 2. Atualizar `docs/product/mvp.md`, `docs/product/roadmap.md`, `PROJECT_CONTEXT.md` e `README.md`.
 3. Só então iniciar a fase de fundação e provisionar serviços.
 
-**Estado atual: nenhuma das decisões estratégicas acima foi aprovada por este documento.**
+**Estado atual:** decisões parciais aprovadas e registradas na seção 10. Os demais itens continuam pendentes.
+
+## 10. Registro de decisões aprovadas — 2026-11-04
+
+Após revisão da direção proposta, o responsável pelo produto aprovou a seguinte base:
+
+| Tema | Decisão aprovada | Limite / observação |
+|---|---|---|
+| Posicionamento | Comunidade cristã ampla, para adultos de diferentes denominações; não exigir intenção romântica | O recorte de idade e a estratégia do beta ainda precisam de validação operacional/jurídica |
+| Princípio do produto | **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.** | Diretriz central para priorização e UX |
+| Núcleo do MVP | Cadastro, perfis, comunidades, publicações, comentários e reações | O desenho detalhado de comunidades, papéis e permissões continua pendente |
+| Descoberta individual | Fora do primeiro MVP | Pode ser reavaliada em fase posterior |
+| Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
+| Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
+| Frontend | Manter Vue 3 e evoluir incrementalmente | Não reescrever em Next.js; migração Vue CLI → Vite ainda depende de plano técnico, testes e PR isolada |
+
+### Escopo condicionado: pedidos de oração
+
+Pedidos de oração permanecem como objetivo de produto, mas sua disponibilização a usuários reais fica condicionada à implementação e validação de controles de privacidade, consentimento, autorização por público, denúncia, moderação e exclusão. Não coletar pedidos reais no protótipo atual.
+
+### Decisões que continuam abertas
+
+- D-02: modelo de comunidades no beta (curadas, centralizadas ou criação pelos usuários).
+- D-03: formato e governança do conteúdo espiritual e dos pedidos de oração.
+- D-06: compatibilidade e afinidades futuras.
+- D-08: canais e preferências de notificação.
+- D-09: idiomas além do português brasileiro.
+- D-10: região e formato do beta.
+- D-12 a D-17: backend, banco, autenticação, storage, e-mail, hospedagem e orçamento.
+- D-18 a D-22: capacidade de moderação, idade mínima, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta.
+
+A aprovação desta direção não autoriza contratação de serviços, provisionamento de infraestrutura, migração de dados ou mudanças irreversíveis. Antes da Fase 1, fechar as decisões técnicas e operacionais bloqueadoras e registrar ADRs.
