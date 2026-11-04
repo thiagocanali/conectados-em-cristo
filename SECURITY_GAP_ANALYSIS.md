@@ -1,0 +1,127 @@
+# Análise de Lacunas de Segurança — Conectados em Cristo
+
+- Data: 2026-11-04
+- Baseline: `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
+- Escopo: inspeção estática do código, configuração, lockfile, documentação e execução de `npm audit`.
+- Não é pentest nem atestado de conformidade.
+
+## 1. Conclusão
+
+**O protótipo não deve receber dados pessoais reais, senhas reutilizadas ou conteúdo privado.** O cadastro persiste senhas em texto puro no armazenamento do navegador; a sessão é simulável; não há servidor para impor autorização; denúncias e bloqueios não são operacionais.
+
+## 2. Riscos prioritários
+
+| Risco | Severidade | Evidência | Requisito antes do beta |
+|---|---|---|---|
+| Senhas em texto puro | Crítica | `CadastroPage.vue`: `senha` salva no objeto `users` e `currentUser` | Remover auth local; provedor/server-side; nunca persistir senha no browser |
+| Autorização client-side | Crítica | `router.beforeEach` confia em `localStorage.currentUser` | Autorização no backend por recurso, usuário e papel |
+| Dados apenas locais | Alta | Perfil, interações e respostas em localStorage | Banco remoto, escopo por usuário e integridade |
+| Denúncia sem operador | Alta | `DescobertaPage.vue` registra localmente | Fila persistente, acesso restrito, SLA, moderação e auditoria |
+| Bloqueio local | Alta | Filtragem apenas no navegador | Bloqueio server-side aplicado a descoberta/conteúdo/interação |
+| Dados religiosos sem governança | Alta | Perfil/questionário capturam fé, denominação, leitura bíblica, oração | Minimização, finalidade/base legal, controles de acesso, retenção e transparência |
+| Vulnerabilidades de dependências | Alta | `npm audit` no lockfile auditado | Corrigir advisories com versões compatíveis e reauditar |
+| Upload sem proteção | Alta futura | Não existe upload hoje | Validação real, tamanho, MIME, scan, storage privado e moderação |
+| Ausência de backup/restore | Alta futura | Sem banco/backup operacional | Backup criptografado e restauração testada |
+| Sem observabilidade/resposta a incidente | Alta | Docs são apenas rascunhos | Alertas, logs minimizados, responsáveis e runbooks |
+
+## 3. Auditoria de dependências
+
+No lockfile do commit auditado:
+- Relatório completo: **54 vulnerabilidades** — 3 críticas, 30 altas, 19 moderadas e 2 baixas.
+- `npm audit --omit=dev`: **5 registros de pacote em alta severidade**, nenhum crítico reportado nesse recorte.
+- Pacotes de produção identificados: `vue@3.5.24`, `@vue/server-renderer@3.5.24`, `postcss@8.5.6`, `source-map-js@1.2.1` e `nanoid@3.3.11`.
+- O relatório marcou correção disponível para os cinco registros. A ocorrência de Vue/server-renderer está relacionada à renderização SSR; o projeto atual é SPA client-side, mas a dependência deve ser corrigida.
+- O relatório completo também apontou dependências transitivas críticas, incluindo `proxy-addr`, `shell-quote` e `websocket-driver`.
+
+Os números são um snapshot de 2026-11-04 e podem mudar com advisories novos. Não executar `npm audit fix --force`. Avaliar caminhos de dependência, faixa corrigida, breaking changes e ambiente afetado. A auditoria de dependências não prova exploração do site.
+
+## 4. Modelo de ameaça inicial
+
+Ativos:
+- Credenciais e sessão.
+- Identidade, e-mail e dados de perfil.
+- Dados religiosos, preferências e objetivos.
+- Conteúdo de comunidades e pedidos de oração.
+- Fotos, denúncias, evidências e decisões de moderação.
+- Dados administrativos e trilha de auditoria.
+
+Atores/ameaças:
+- Atacante externo tentando tomar contas, enumerar usuários ou explorar dependências.
+- Usuário abusivo publicando spam, assédio, golpes ou conteúdo impróprio.
+- Fraudador/catfish tentando obter dinheiro ou dados privados.
+- Membro tentando acessar comunidade/recurso sem permissão.
+- Moderador/administrador com privilégio excessivo ou conta comprometida.
+- Exposição acidental por logs, backups, storage público ou permissões mal configuradas.
+
+## 5. Controles obrigatórios de arquitetura
+
+### Identidade e sessão
+- Provedor de autenticação ou backend revisado.
+- Hash forte gerenciado pelo provedor; sem senha em localStorage/sessionStorage.
+- Verificação de e-mail, recuperação segura, revogação de sessões e MFA opcional.
+- Cookies HttpOnly/Secure/SameSite quando aplicável e defesa CSRF.
+- Rate limit, proteção contra enumeração e abuso.
+
+### Autorização
+- Negação por padrão.
+- Checagem server-side em cada recurso.
+- RBAC para funções administrativas e checagem de vínculo para comunidades.
+- Testes negativos: alterar IDs, acessar conteúdo privado, usar sessão revogada.
+- RLS como defesa adicional se o banco/provedor suportar; nunca confiar apenas no frontend.
+
+### Dados e privacidade
+- Inventário de dados, finalidade, base legal, categoria, acesso e retenção.
+- Dados religiosos tratados com proteção adequada como potencial dado sensível pela LGPD.
+- Localização aproximada; endereço/telefone/e-mail privados por padrão.
+- Exportação, correção, exclusão e processo de atendimento.
+- Logs sem credenciais, tokens, conteúdo privado ou PII desnecessária.
+
+### Conteúdo e moderação
+- Validação server-side, limites de frequência e tamanho.
+- Denúncias persistentes e protegidas.
+- Bloqueio aplicado em todos os endpoints relevantes.
+- Revisão humana para sanções graves e processo de apelação.
+- Upload seguro com inspeção, limites, storage privado e URLs assinadas.
+
+### Operação
+- Segredos fora do Git.
+- Ambientes separados.
+- Backups criptografados e restore testado.
+- Logs, métricas, alertas e runbooks.
+- Plano de incidente, comunicação e análise pós-incidente.
+
+## 6. LGPD e privacidade
+
+A plataforma pode tratar dados pessoais e dados pessoais sensíveis, incluindo informações sobre convicção religiosa. Antes de lançamento:
+- Definir controlador, operadores, finalidades e bases legais com assessoria jurídica.
+- Avaliar necessidade de consentimento específico e destacado quando aplicável.
+- Elaborar aviso de privacidade, termos, política de retenção e fluxo de direitos.
+- Documentar compartilhamentos, subprocessadores, transferência internacional e resposta a incidentes.
+- Minimizar perguntas e separar dados de conta de dados de perfil.
+- Não afirmar conformidade apenas por existir uma checkbox.
+
+Este documento é análise técnica inicial, não parecer jurídico.
+
+## 7. Critérios de segurança para beta/produção
+
+- [ ] Nenhuma senha em storage do browser.
+- [ ] Autenticação, sessão e recuperação testadas.
+- [ ] Autorização server-side e isolamento entre usuários testados.
+- [ ] Rate limiting e proteção anti-abuso.
+- [ ] Denúncia persistente, fila, SLA, ação e apelação.
+- [ ] Bloqueio efetivo no servidor.
+- [ ] Papéis administrativos e audit log.
+- [ ] Upload seguro, se habilitado.
+- [ ] Direitos LGPD e políticas revisados.
+- [ ] Backups e restauração testados.
+- [ ] Observabilidade e resposta a incidentes.
+- [ ] Nenhuma vulnerabilidade crítica/alta sem mitigação aprovada e documentada.
+- [ ] Revisão manual de segurança e testes de acessibilidade.
+
+## 8. Ações imediatas recomendadas
+
+1. Não coletar dados reais no protótipo.
+2. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
+3. Aprovar arquitetura de identidade e backend.
+4. Desenhar threat model e classificação de dados antes de schema.
+5. Implementar o primeiro fluxo real com testes de autorização.
