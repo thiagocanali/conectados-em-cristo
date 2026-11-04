@@ -17,7 +17,8 @@ Tarefas:
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
 - [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
 - [ ] Aprovar ADRs de stack, persistência e autenticação.
-- [ ] Especificar papéis, permissões, visibilidade e fluxo de entrada das comunidades curadas.
+- [x] Aprovar modelo-base de papéis, permissões, visibilidade e entrada das comunidades curadas.
+- [ ] Especificar matriz detalhada de ações, exceções, SLAs, apelação e retenção de denúncias.
 - [ ] Definir critérios e orçamento de beta.
 
 Critério de saída: escopo do MVP e decisões essenciais aprovados; nenhum risco crítico de entendimento sobre dados/segurança.
@@ -67,10 +68,12 @@ Objetivo: entregar valor sem depender de namoro.
 
 Tarefas:
 - Catálogo de comunidades e categorias, inicialmente criadas e curadas pela administração.
-- Comunidades públicas e privadas/por aprovação, com entrada ou solicitação conforme configuração.
+- Comunidades públicas descobertas no catálogo, com entrada conforme regras; privadas com solicitação e aprovação.
+- Visitantes consultam somente informações públicas de apresentação/catálogo; publicações exigem autenticação e autorização.
 - Designação administrativa de moderadores e publicação de regras antes de abrir cada comunidade.
 - Criação de comunidades por usuários permanece fora do beta inicial.
-- Regras, papéis de membro, administrador e moderador.
+- Papéis separados: administrador global, moderador limitado às comunidades atribuídas e membro com participação autorizada.
+- Denúncias persistidas em fila central restrita e auditável; bloqueios efetivos server-side.
 - Entrar/sair e convites/aprovação.
 - Publicações, comentários e reações com paginação.
 - Bloqueio e denúncia de conteúdo/usuário.
