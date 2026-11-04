@@ -47,7 +47,7 @@ P0 significa bloqueador da fundação segura do MVP; P1 significa primeira exper
 7. Pedidos de oração somente quando houver controle de público, consentimento e moderação suficientes.
 8. Suporte, privacidade, termos e canal de segurança.
 
-O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, comunidades, publicações, comentários e reações. O desenho operacional (modelo de comunidades, papéis, permissões, moderação e beta) ainda precisa ser detalhado e validado com potenciais participantes e moderadores. Pedidos de oração são um objetivo aprovado de produto, mas só poderão receber dados reais depois de controles de privacidade, consentimento, autorização, denúncia, moderação e exclusão. O MVP não inclui chat privado, compatibilidade algorítmica ou descoberta romântica como requisito de lançamento inicial.
+O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, comunidades, publicações, comentários e reações. **Modelo de beta aprovado:** comunidades criadas e curadas pela administração, com categorias, regras e moderadores designados pela equipe. Participantes poderão entrar ou solicitar participação conforme a configuração de cada comunidade. A criação livre de comunidades por usuários fica para uma fase posterior, condicionada à capacidade de moderação e à validação dos controles de segurança. **Modelo-base de permissões aprovado:** administrador da plataforma cria/configura comunidades e designa moderadores; moderador atua somente nos espaços atribuídos e revisa denúncias; membro participa e interage nos espaços em que foi aceito; visitante consulta apenas informações públicas de apresentação/catálogo, sem interagir. Comunidades públicas são descobertas no catálogo e permitem entrada conforme regras; comunidades privadas exigem solicitação e aprovação. Publicações não ficam abertas à internet: exigem autenticação e autorização. Denúncias devem chegar a uma fila central restrita e auditável; bloqueios devem ser aplicados server-side. A matriz detalhada de ações, exceções, SLAs, apelação e retenção ainda precisa ser especificada antes da implementação. Pedidos de oração são um objetivo aprovado de produto, mas só poderão receber dados reais depois de controles de privacidade, consentimento, autorização, denúncia, moderação e exclusão. O MVP não inclui chat privado, compatibilidade algorítmica ou descoberta romântica como requisito de lançamento inicial.
 
 ### Por que não começar pelo chat ou pelo algoritmo
 
@@ -60,10 +60,11 @@ O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, com
 
 **Recomendação:** plataforma ampla para adultos cristãos, sem exigir intenção romântica. Recursos de relacionamento, se aprovados, devem ser uma área opcional e explicitamente opt-in, com limites de idade, preferências e controles separados.
 
-Decisão pendente:
+Decisões ainda pendentes:
 - A plataforma permitirá qualquer adulto cristão ou terá recorte etário/temático?
-- Haverá comunidade geral e comunidades temáticas, incluindo grupos para solteiros?
-- Conteúdo/atividade será visível a não participantes, membros ou apenas grupos aprovados?
+- Quais categorias de comunidades existirão no beta, incluindo eventual comunidade geral e grupos temáticos?
+- Quais metadados do catálogo de comunidades serão públicos e quais dados do perfil serão visíveis a membros versus não participantes?
+
 
 ## 5. Critérios de sucesso centrados nas pessoas
 

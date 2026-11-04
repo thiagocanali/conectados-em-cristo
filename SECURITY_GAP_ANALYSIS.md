@@ -64,6 +64,8 @@ Atores/ameaças:
 
 ### Autorização
 - Negação por padrão.
+- Separar administrador global de moderador com escopo limitado às comunidades atribuídas; membros só executam ações nos espaços em que têm vínculo válido.
+- Catálogo público não implica publicações públicas: exigir autenticação e autorização para conteúdo e interações.
 - Checagem server-side em cada recurso.
 - RBAC para funções administrativas e checagem de vínculo para comunidades.
 - Testes negativos: alterar IDs, acessar conteúdo privado, usar sessão revogada.
@@ -78,8 +80,9 @@ Atores/ameaças:
 
 ### Conteúdo e moderação
 - Validação server-side, limites de frequência e tamanho.
-- Denúncias persistentes e protegidas.
-- Bloqueio aplicado em todos os endpoints relevantes.
+- Denúncias persistentes em fila central, com acesso restrito e trilha de auditoria.
+- Bloqueio aplicado em todos os endpoints relevantes, não apenas por ocultação no cliente.
+- Comunidades privadas exigem aprovação; comunidades públicas podem ser descobertas e permitir entrada conforme suas regras.
 - Revisão humana para sanções graves e processo de apelação.
 - Upload seguro com inspeção, limites, storage privado e URLs assinadas.
 
