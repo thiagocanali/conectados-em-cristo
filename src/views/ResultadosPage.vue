@@ -39,6 +39,10 @@
 </template>
 
 <script>
+import safeStorage from "@/utils/safeStorage";
+
+const { parseStoredJson } = safeStorage;
+
 export default {
   data() {
     return { listaCompatibilidade: [] };
