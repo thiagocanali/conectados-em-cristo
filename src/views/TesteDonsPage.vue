@@ -102,9 +102,9 @@
 <script>
 import testeDonsData from "@/data/testeDonsData";
 import safeStorage from "@/utils/safeStorage";
+import "@/assets/css/testeDons.css";
 
 const { parseStoredJson, isValidDonsProgress } = safeStorage;
-import "@/assets/css/testeDons.css";
 
 export default {
     name: "TesteDonsPage",
