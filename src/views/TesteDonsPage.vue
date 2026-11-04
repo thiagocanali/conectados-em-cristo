@@ -100,7 +100,10 @@
 </template>
 
 <script>
-import testeDonsData from "@/data/testeDonsData";\nimport safeStorage from "@/utils/safeStorage";\n\nconst { parseStoredJson, isValidDonsProgress } = safeStorage;
+import testeDonsData from "@/data/testeDonsData";
+import safeStorage from "@/utils/safeStorage";
+
+const { parseStoredJson, isValidDonsProgress } = safeStorage;
 import "@/assets/css/testeDons.css";
 
 export default {
@@ -167,7 +170,7 @@ export default {
         },
         storageKey() {
             let user = null;
-            try { user = JSON.parse(localStorage.getItem("currentUser") || "null"); } catch { user = null; }
+            try { user = parseStoredJson(localStorage.getItem("currentUser"), null); } catch { user = null; }
             return user && user.email ? `testeDonsProgress:${user.email}` : "testeDonsProgress";
         },
         initScores() {
