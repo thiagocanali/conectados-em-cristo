@@ -1,5 +1,5 @@
 <template>
-  <main class="prayer-page page-wrapper">
+  <div class="prayer-page page-wrapper">
     <header class="page-heading"><p class="eyebrow">♡ Oração e cuidado mútuo</p><h1>Pedidos de oração</h1><p class="intro">Um espaço para acolher, interceder e caminhar junto com respeito e esperança.</p></header>
     <section class="notice" aria-labelledby="privacy-title"><span aria-hidden="true" class="notice-icon">ⓘ</span><div><h2 id="privacy-title">Estamos preparando este espaço com cuidado.</h2><p>Os pedidos de oração podem conter informações pessoais e sensíveis. O envio e a visualização compartilhada ainda não estão disponíveis nesta versão. Para proteger sua privacidade, não publique detalhes pessoais aqui até que os controles de acesso estejam implementados.</p></div></section>
     <section class="principles" aria-labelledby="principles-title"><h2 id="principles-title">Como queremos cuidar uns dos outros</h2><div class="principle-grid">

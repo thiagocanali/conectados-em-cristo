@@ -101,7 +101,10 @@
 
 <script>
 import testeDonsData from "@/data/testeDonsData";
+import safeStorage from "@/utils/safeStorage";
 import "@/assets/css/testeDons.css";
+
+const { parseStoredJson, isValidDonsProgress } = safeStorage;
 
 export default {
     name: "TesteDonsPage",
@@ -140,21 +143,34 @@ export default {
             }));
         },
         hasSavedProgress() {
-            return !!localStorage.getItem(this.storageKey());
+            const progress = this.readSavedProgress();
+            return Boolean(progress && !progress.finished);
         },
         hasSavedResults() {
-            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
-            return p.finished;
+            const progress = this.readSavedProgress();
+            return Boolean(progress && progress.finished);
         },
         savedIndex() {
-            const p = JSON.parse(localStorage.getItem(this.storageKey()) || "{}");
-            return p.index || 0;
+            const progress = this.readSavedProgress();
+            return progress ? progress.index : 0;
         }
     },
     methods: {
+        readSavedProgress() {
+            let rawValue;
+            try {
+                rawValue = localStorage.getItem(this.storageKey());
+            } catch {
+                return null;
+            }
+
+            const progress = parseStoredJson(rawValue, null);
+            const giftKeys = Object.keys(this.gifts);
+            return isValidDonsProgress(progress, this.totalQuestions, giftKeys) ? progress : null;
+        },
         storageKey() {
             let user = null;
-            try { user = JSON.parse(localStorage.getItem("currentUser") || "null"); } catch { user = null; }
+            try { user = parseStoredJson(localStorage.getItem("currentUser"), null); } catch { user = null; }
             return user && user.email ? `testeDonsProgress:${user.email}` : "testeDonsProgress";
         },
         initScores() {
@@ -184,9 +200,14 @@ export default {
             this.screen = "test";
         },
         continueGame() {
-            const p = JSON.parse(localStorage.getItem(this.storageKey()));
-            this.scores = p.scores;
-            this.currentQuestionIndex = p.index;
+            const progress = this.readSavedProgress();
+            if (!progress || progress.finished) {
+                alert("Não foi possível recuperar o progresso salvo. Inicie um novo teste.");
+                return;
+            }
+
+            this.scores = { ...progress.scores };
+            this.currentQuestionIndex = progress.index;
             this.screen = "test";
         },
         answer(value) {
@@ -240,8 +261,13 @@ export default {
             this.screen = "results";
         },
         viewSavedResults() {
-            const p = JSON.parse(localStorage.getItem(this.storageKey()));
-            this.scores = p.scores;
+            const progress = this.readSavedProgress();
+            if (!progress || !progress.finished) {
+                alert("Não foi possível recuperar os resultados salvos.");
+                return;
+            }
+
+            this.scores = { ...progress.scores };
             this.screen = "results";
         },
         goToWelcome() {

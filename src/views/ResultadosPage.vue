@@ -39,14 +39,24 @@
 </template>
 
 <script>
+import safeStorage from "@/utils/safeStorage";
+
+const { parseStoredJson } = safeStorage;
+
 export default {
   data() {
     return { listaCompatibilidade: [] };
   },
   computed: {
     hasAnswers() {
-      const current = JSON.parse(localStorage.getItem('currentUser') || 'null');
-      return Array.isArray(current?.respostas) && current.respostas.length === 10;
+      try {
+        const current = parseStoredJson(localStorage.getItem('currentUser'), null);
+        return Array.isArray(current?.respostas)
+          && current.respostas.length === 10
+          && current.respostas.every(Number.isFinite);
+      } catch {
+        return false;
+      }
     }
   },
   mounted() { this.calcular(); },
@@ -55,13 +65,28 @@ export default {
       let atual = null
       let users = []
       try {
-        atual = JSON.parse(localStorage.getItem('currentUser') || 'null')
-        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+        atual = parseStoredJson(localStorage.getItem('currentUser'), null)
+        const storedUsers = parseStoredJson(localStorage.getItem('users'), [])
         users = Array.isArray(storedUsers) ? storedUsers : []
-      } catch { this.listaCompatibilidade = []; return }
-      if (!atual || !Array.isArray(atual.respostas) || atual.respostas.length !== 10) return
+      } catch {
+        this.listaCompatibilidade = [];
+        return;
+      }
+      if (!atual || !Array.isArray(atual.respostas) || atual.respostas.length !== 10
+        || !atual.respostas.every(Number.isFinite)) {
+        this.listaCompatibilidade = [];
+        return;
+      }
 
-      const outros = users.filter(u => u.email !== atual.email && Array.isArray(u.respostas) && u.respostas.length === 10);
+      const outros = users.filter(user => (
+        user && typeof user === 'object'
+        && typeof user.email === 'string'
+        && typeof user.username === 'string'
+        && user.email !== atual.email
+        && Array.isArray(user.respostas)
+        && user.respostas.length === 10
+        && user.respostas.every(Number.isFinite)
+      ));
 
       const lista = [];
       for (const user of outros) {
