@@ -3,7 +3,7 @@
 - Data: 2026-11-04
 - Baseline: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status do escopo do MVP: pendente de aprovação.
+- Status: direção estratégica aprovada em 2026-11-04; detalhes operacionais e critérios de segurança do MVP ainda precisam ser fechados.
 
 ## 1. Diagnóstico
 
@@ -36,7 +36,7 @@ P0 significa bloqueador da fundação segura do MVP; P1 significa primeira exper
 
 ## 3. Proposta de escopo comunitário inicial
 
-### Núcleo mínimo recomendado para discussão
+### Núcleo aprovado como direção do MVP
 
 1. Conta real, e-mail verificado, sessão segura, recuperação e exclusão.
 2. Perfil mínimo, progressivo e com visibilidade configurável.
@@ -47,7 +47,7 @@ P0 significa bloqueador da fundação segura do MVP; P1 significa primeira exper
 7. Pedidos de oração somente quando houver controle de público, consentimento e moderação suficientes.
 8. Suporte, privacidade, termos e canal de segurança.
 
-Esse recorte deve ser validado com potenciais participantes e moderadores antes de ser congelado. Não inclui chat privado, compatibilidade algorítmica ou descoberta romântica como requisito de lançamento inicial.
+O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, comunidades, publicações, comentários e reações. O desenho operacional (modelo de comunidades, papéis, permissões, moderação e beta) ainda precisa ser detalhado e validado com potenciais participantes e moderadores. Pedidos de oração são um objetivo aprovado de produto, mas só poderão receber dados reais depois de controles de privacidade, consentimento, autorização, denúncia, moderação e exclusão. O MVP não inclui chat privado, compatibilidade algorítmica ou descoberta romântica como requisito de lançamento inicial.
 
 ### Por que não começar pelo chat ou pelo algoritmo
 
