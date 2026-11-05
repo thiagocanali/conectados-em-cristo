@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; F-01 e F-02 aprovadas em 2026-11-05; F-03 a F-10 continuam pendentes**
+- Status: **rascunho funcional revisado; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 a F-10 continuam pendentes**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -380,7 +380,7 @@ A tabela distingue decisões de produto já aprovadas de propostas ainda pendent
 |---|---|---|---|
 | F-01 Bloqueio — **APROVADA** | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados | Comportamento previsível e consistente; preserva governança comunitária | Detalhar exceções operacionais, desbloqueio, notificações e limites antiabuso antes da implementação |
 | F-02 Limites/edição — **APROVADA (2026-11-05)** | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica; preservação restrita de evidência de denúncia ativa | Equilibra correção de erro e integridade de evidência | Definir números, janela, tratamento de conteúdo denunciado, restauração e histórico; alinhar a F-05/F-09 |
-| F-03 Política/sanções | Política pública em níveis: orientação, advertência, remoção/ocultação, restrição temporária, suspensão; ameaça/risco grave pode ser escalado imediatamente | Proporcionalidade, previsibilidade e possibilidade de recurso | Aprovar categorias, gravidade, exceções e autoridade por sanção |
+| F-03 Política/sanções — **APROVADA (2026-11-05, modelo geral)** | Escada proporcional: orientação, advertência, remoção/ocultação, restrição temporária, suspensão temporária e suspensão permanente excepcional; ações justificadas/auditáveis, contestáveis e com poderes locais/globais delimitados | Proporcionalidade, previsibilidade, segurança e possibilidade de recurso | Definir categorias, gravidade, exceções, durações, autoridade por ação e procedimento/prazos de recurso |
 | F-04 Operação/SLA | Beta fechado apenas com cobertura humana declarada; priorização por risco, confirmação de recebimento imediata e prazo operacional definido antes de convidar usuários | Não prometer 24x7 sem equipe; evita denúncia sem resposta | Nomear responsáveis, horários e metas por severidade |
 | F-05 Retenção | Coletar o mínimo; prazo documentado por categoria; preservar evidência somente quando necessário e com acesso restrito; exclusão/anonimização após prazo salvo obrigação legítima | Reduz exposição e acúmulo de dados sensíveis | Validar prazos e obrigações com assessoria jurídica |
 | F-06 Elegibilidade | Beta inicial 18+, sem afirmar que checkbox sozinho comprova idade; coletar somente dado mínimo necessário | Reduz riscos relacionados a menores, sem falsa garantia de verificação | Confirmar idade e mecanismo de verificação com revisão jurídica |
@@ -391,7 +391,7 @@ A tabela distingue decisões de produto já aprovadas de propostas ainda pendent
 
 ### Regra para transformar proposta em decisão
 
-O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01 e F-02 foram aprovadas em 2026-11-05 e devem ser tratadas como requisitos de produto; F-03 a F-10 permanecem propostas não vinculantes até decisão explícita. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
+O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01, F-02 e F-03 foram aprovadas em 2026-11-05 e devem ser tratadas como requisitos de produto; F-04 a F-10 permanecem propostas não vinculantes até decisão explícita. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
 
 ## 17. Dependências para iniciar implementação comunitária
 
@@ -418,12 +418,13 @@ Esta revisão compara a especificação funcional, o registro de decisões e o r
 - A seção 5.6 reflete a proposta F-10 ainda pendente: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação.
 - F-01 foi aprovada em 2026-11-05 e sincronizada entre `OPEN_DECISIONS.md`, a seção de bloqueio e a tabela de propostas; sua implementação continua condicionada aos pré-requisitos técnicos.
 - F-02 foi aprovada em 2026-11-05 no modelo geral de texto simples, limites configuráveis, janela curta de edição e exclusão lógica; números e regras operacionais continuam pendentes, com dependência explícita de F-05/F-09.
+- F-03 foi aprovada em 2026-11-05 no modelo geral de sanções proporcionais, ações justificadas/auditáveis e contestáveis, com moderadores limitados às comunidades atribuídas e suspensões globais reservadas à administração; categorias, gravidade, prazos, autoridade detalhada e rito de recurso permanecem pendentes.
 - A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
 - A matriz de permissões continua identificada como proposta; as condições de edição/exclusão devem respeitar o modelo F-02 aprovado e os detalhes ainda pendentes de F-05/F-09.
 
 ### Pontos que continuam bloqueando implementação com dados reais
 
-1. Aprovação explícita ou ajuste das propostas F-03 a F-10. F-01 e F-02 já foram aprovadas, mas ambas ainda exigem implementação server-side e testes antes de dados reais.
+1. Aprovação explícita ou ajuste das propostas F-04 a F-10. F-01, F-02 e F-03 já foram aprovadas, mas exigem implementação server-side, governança detalhada e testes antes de dados reais.
 2. Decisões técnicas D-12 a D-17 e ADRs de backend, banco, autenticação, storage, e-mail e hospedagem. Nenhuma stack ou fornecedor está selecionado por este documento.
 3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, idade mínima, revisão jurídica, orçamento e critérios de beta.
 4. Política de conteúdo, SLAs, apelações, retenção e direitos dos titulares, com revisão jurídica quando necessária.
