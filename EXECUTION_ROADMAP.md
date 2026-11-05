@@ -79,7 +79,7 @@ Tarefas:
 - Papéis separados: administrador global, moderador limitado às comunidades atribuídas e membro com participação autorizada.
 - Denúncias persistidas em fila central restrita e auditável; bloqueios efetivos server-side.
 - Entrar/sair e convites/aprovação.
-- Publicações, comentários e reações com paginação, conforme F-02/F-09/F-10 aprovadas.
+- Publicações, comentários e reações com paginação, conforme decisões F-02/F-09/F-10, respeitando o status individual de aprovação de cada pacote.
 - Bloqueio e denúncia de conteúdo/usuário.
 - Moderação e auditoria antes de abrir conteúdo a usuários externos.
 
