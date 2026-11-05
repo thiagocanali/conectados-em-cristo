@@ -1,12 +1,12 @@
 # Roadmap de Execução — Conectados em Cristo
 
-- Data: 2026-11-04
-- Status: proposta de fases e critérios; sem cronograma aprovado.
+- Data: 2026-11-05
+- Status: proposta de fases e critérios revisada; sem cronograma aprovado.
 - Princípio: cada fase termina com evidência, testes, documentação e revisão de segurança.
 
 ## Fase 0 — Auditoria e planejamento
 
-**Estado:** auditoria documental e estática concluída nesta entrega; decisões estratégicas aguardam responsável.
+**Estado:** auditoria documental/estática e revisão de consistência dos documentos concluídas; propostas F-01 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
 
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
@@ -16,12 +16,14 @@ Tarefas:
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
 - [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
-- [ ] Aprovar ADRs de stack, persistência e autenticação.
-- [x] Aprovar modelo-base de papéis, permissões, visibilidade e entrada das comunidades curadas.
-- [ ] Especificar matriz detalhada de ações, exceções, SLAs, apelação e retenção de denúncias.
-- [ ] Definir critérios e orçamento de beta.
+- [ ] Aprovar, rejeitar ou ajustar formalmente cada proposta F-01 a F-10; documentação detalhada não equivale a aprovação.
+- [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
+- [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
+- [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
+- [ ] Aprovar ADRs de backend, banco, autenticação, storage, e-mail e hospedagem sem pressupor fornecedores.
+- [ ] Definir critérios, capacidade operacional e orçamento do beta.
 
-Critério de saída: escopo do MVP e decisões essenciais aprovados; nenhum risco crítico de entendimento sobre dados/segurança.
+Critério de saída: escopo do MVP e decisões bloqueadoras de produto, operação e arquitetura aprovados; ADRs registrados; nenhum risco crítico de entendimento sobre dados/segurança.
 
 ## Fase 1 — Fundação tecnológica
 
@@ -29,15 +31,15 @@ Objetivo: criar ambientes, API, persistência e identidade reais.
 
 Tarefas:
 - Modernizar toolchain frontend com migração reversível e testes.
-- Definir monólito modular Node/TypeScript.
-- Configurar PostgreSQL, migrations, seed sintético e backups.
-- Integrar autenticação e e-mail transacional.
+- Selecionar e registrar em ADR a arquitetura de backend (monólito modular é uma alternativa a avaliar, não uma decisão tomada).
+- Selecionar e registrar em ADR o banco e a estratégia de migrations, seed sintético e backups (PostgreSQL é uma alternativa a avaliar, não uma decisão tomada).
+- Selecionar provedores de autenticação e e-mail transacional após avaliação de requisitos, custo, privacidade e operação.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI para lint, unit, integração, build e scan de dependências.
 - Ambientes local, preview e homologação.
 
-Dependências: decisões de stack, provedores, domínio, dados e segurança.
+Dependências: aprovação das decisões D-12 a D-17, ADRs, domínio, classificação de dados e requisitos de segurança.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.
@@ -75,11 +77,11 @@ Tarefas:
 - Papéis separados: administrador global, moderador limitado às comunidades atribuídas e membro com participação autorizada.
 - Denúncias persistidas em fila central restrita e auditável; bloqueios efetivos server-side.
 - Entrar/sair e convites/aprovação.
-- Publicações, comentários e reações com paginação.
+- Publicações, comentários e reações com paginação, conforme F-02/F-09/F-10 aprovadas.
 - Bloqueio e denúncia de conteúdo/usuário.
 - Moderação e auditoria antes de abrir conteúdo a usuários externos.
 
-Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis.
+Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; não implementar recomendações F-01 a F-10 sem aprovação explícita.
 
 ## Fase 4 — Segurança operacional e administração
 
