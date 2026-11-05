@@ -1220,3 +1220,122 @@ Adotar **moderador também pode ser membro, mas nunca decide casos em que esteja
 - **Aprovar** a participação com impedimento e encaminhamento;
 - **Rejeitar** e proibir moderadores de serem membros das comunidades atribuídas;
 - **Ajustar** critérios de conflito, fallback ou limites de acesso.
+
+## 20. Pacote de decisão — F-09: edição, exclusão e preservação de conteúdo
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Como permitir que autores corrijam ou removam suas publicações e comentários sem comprometer a integridade de denúncias, a segurança da comunidade, a transparência da moderação ou os direitos de titulares?
+
+### Recomendação para análise
+
+Adotar **edição própria por uma janela curta e configurável, seguida de bloqueio de edição; permitir solicitação de exclusão com ocultação do conteúdo e tratamento de retenções excepcionais documentadas**.
+
+A janela não deve receber um prazo numérico nesta proposta. O valor deverá ser definido após avaliação de UX, risco de abuso, operação e retenção. A política deve diferenciar remoção visível ao público, exclusão efetiva dos dados e preservação excepcional de evidências.
+
+### Edição pelo autor
+
+- O autor pode editar somente o próprio conteúdo e somente dentro da janela aprovada.
+- A autorização deve ser conferida no servidor em cada operação.
+- A edição não pode alterar autoria, comunidade ou identificador do recurso.
+- Após a janela, correções relevantes devem seguir o fluxo de exclusão/republicação ou solicitação à moderação, conforme política a aprovar.
+- Conteúdo denunciado ou sob análise pode ter edição temporariamente suspensa para evitar alteração de evidência, com aviso claro ao autor quando isso não comprometer a investigação.
+- A interface deve indicar quando o conteúdo foi editado, sem expor histórico detalhado a todos os membros por padrão.
+
+### Histórico e integridade
+
+O sistema deve manter somente o histórico estritamente necessário para segurança, moderação e integridade, com acesso restrito e prazo definido em F-05.
+
+- Não criar histórico público de todas as versões por padrão.
+- Registrar autor, recurso, horário e tipo da alteração.
+- Proteger versões anteriores contra alteração pelo autor e por moderadores sem permissão específica.
+- Evitar cópias redundantes do conteúdo em logs, notificações e telemetria.
+- Definir como versões são descartadas ou anonimizadas ao fim da retenção aplicável.
+
+### Exclusão solicitada pelo autor
+
+A experiência deve permitir solicitar a remoção de uma publicação ou comentário próprio.
+
+O fluxo proposto:
+
+1. Autenticar o solicitante e verificar autoria no servidor.
+2. Ocultar o conteúdo das superfícies comuns assim que a solicitação for aceita, salvo impedimento técnico/jurídico documentado.
+3. Revogar acesso por URL direta, feed, busca, cache de aplicação e endpoints relacionados.
+4. Verificar se existe denúncia ativa, investigação, obrigação legal ou outra justificativa válida para retenção excepcional.
+5. Se não houver exceção, executar exclusão ou anonimização conforme a política de retenção.
+6. Se houver exceção, preservar somente o mínimo necessário, com acesso restrito, finalidade, responsável e prazo/revisão registrados.
+7. Informar ao titular o resultado, inclusive quando parte dos dados precisar permanecer retida e a justificativa puder ser comunicada.
+8. Aplicar a exclusão também aos ciclos de backup conforme política documentada, sem prometer remoção instantânea de cópias de segurança.
+
+A solicitação de exclusão não deve ser tratada como garantia de eliminação imediata de todo registro em qualquer circunstância. Exceções precisam ser específicas, proporcionais, revisáveis e alinhadas à orientação jurídica aplicável.
+
+### Conteúdo associado a denúncia ou investigação
+
+Quando houver denúncia ativa ou investigação legítima:
+
+- ocultar o conteúdo das superfícies comuns, quando necessário para reduzir exposição e dano;
+- preservar evidência mínima necessária à análise;
+- restringir a evidência a revisores autorizados e não impedidos, conforme F-08;
+- registrar motivo, escopo, responsável e revisão da retenção excepcional;
+- impedir que o autor ou moderador comum altere ou elimine a evidência preservada;
+- não usar a retenção como justificativa para manter o conteúdo publicamente disponível;
+- ao encerrar a finalidade de preservação, reavaliar e eliminar/anonimizar conforme F-05.
+
+Uma denúncia não deve gerar retenção automática e indefinida. A existência, o encerramento e a necessidade de preservação devem ser avaliados e registrados.
+
+### Conteúdo de terceiros e respostas
+
+Excluir uma publicação não deve apagar automaticamente comentários de terceiros que possuam finalidade e autoria próprias. A interface pode substituir o conteúdo removido por indicação neutra, desde que isso não revele dados desnecessários.
+
+Comentários, respostas ou referências que se tornem incompreensíveis ou exponham dados pessoais após a exclusão devem ser avaliados separadamente. A regra final deve evitar tanto a exclusão em cascata indiscriminada quanto a permanência de dados pessoais sem finalidade.
+
+### Relação com direitos do titular e F-05
+
+F-09 não substitui o processo geral de atendimento aos direitos dos titulares. Deve integrar-se a F-05 e distinguir:
+- remoção de exibição;
+- exclusão lógica;
+- exclusão física;
+- anonimização;
+- retenção excepcional de evidência;
+- expiração em backups.
+
+Prazos, bases legais, comunicação e exceções devem ser validados na política de retenção e com revisão jurídica antes de usuários reais.
+
+### Alternativas consideradas
+
+**A — Exclusão física imediata em todos os casos.** Simples de explicar, mas pode destruir evidência necessária a uma denúncia ou obrigação legítima e não contempla ciclos de backup.
+
+**B — Ocultação sem exclusão efetiva.** Facilita a implementação, mas pode manter dados indefinidamente sem finalidade clara e prejudicar direitos do titular.
+
+**C — Ocultação rápida, exclusão/anonimização conforme política e retenção excepcional mínima e auditada.** Equilibra experiência do usuário, segurança e governança; recomendada para análise.
+
+### Critérios mínimos de aceite futuros
+
+F-09 somente poderá ser considerada implementada quando:
+
+- janela de edição estiver aprovada, documentada e configurável;
+- autor não conseguir editar conteúdo de terceiros nem contornar a janela por API;
+- alterações relevantes tiverem registro de auditoria proporcional;
+- solicitação de exclusão tiver fluxo rastreável e confirmação de autoria;
+- conteúdo removido não puder ser recuperado por URL direta, busca, feed ou endpoint alternativo por usuários sem autorização;
+- denúncia ativa gerar avaliação explícita, e não retenção automática indefinida;
+- evidências retidas tiverem acesso restrito, justificativa, responsável e revisão;
+- moderadores impedidos não puderem acessar evidências conforme F-08;
+- exclusão/anonimização e expiração de backups estiverem alinhadas à F-05;
+- comentários de terceiros forem tratados sem exclusão em cascata indevida;
+- testes cobrirem edição fora da janela, edição de conteúdo alheio, exclusão sem denúncia, exclusão com denúncia ativa, fim da retenção, URL direta e acesso indevido a evidências.
+
+### Relação com outras decisões
+
+F-09 depende de F-02 (limites e edição), F-03 (sanções e recursos), F-04 (operação de moderação), F-05 (retenção e exclusão), F-08 (impedimento e acesso a evidências) e da política geral de direitos dos titulares. Não definir prazos ou exceções isoladamente desta governança.
+
+### Recomendação de produto
+
+Adotar **edição própria por janela curta configurável; ocultação rápida quando a remoção for solicitada; exclusão ou anonimização conforme F-05; e retenção excepcional mínima de evidência apenas enquanto houver finalidade legítima documentada**.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** o modelo de janela curta, ocultação e retenção excepcional controlada;
+- **Rejeitar** e escolher outro fluxo de edição/exclusão;
+- **Ajustar** janela, histórico, tratamento de denúncias ou comunicação ao titular.
