@@ -176,7 +176,7 @@ Sem uma pessoa/processo responsável, não abrir publicação pública, chat ou 
 
 ### D-19 — Idade mínima
 
-**Recomendação:** 18+ no beta inicial, sujeito a revisão jurídica. Confirmar se haverá verificação de idade além de checkbox.
+**Status: APROVADA EM 2026-11-05 — regra geral do beta.** Idade mínima de 18 anos, com informação clara antes do cadastro. O mecanismo de verificação, os critérios para verificação adicional e o fluxo de suspeitas permanecem sujeitos a definição operacional e revisão jurídica antes do beta.
 
 ### D-20 — Documentos legais
 
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F--07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
