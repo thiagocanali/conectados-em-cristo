@@ -262,7 +262,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
 | F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
 | F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
-| F-06 | Elegibilidade | Beta inicial restrito a maiores de 18 anos; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
+| F-06 | Elegibilidade | Beta inicial restrito a pessoas com 18 anos ou mais; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
 | F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
 | F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
@@ -867,7 +867,7 @@ Isso **não significa que um checkbox seja suficiente para impedir um menor de m
 
 ### Controles mínimos propostos
 
-1. **Regra explícita de elegibilidade:** informar claramente que o beta é destinado a maiores de 18 anos.
+1. **Regra explícita de elegibilidade:** informar claramente que o beta é destinado a pessoas com 18 anos ou mais.
 2. **Validação no cadastro:** impedir cadastro quando a informação fornecida indicar idade inferior ao mínimo.
 3. **Persistência mínima:** armazenar apenas o atributo necessário para demonstrar elegibilidade, evitando retenção desnecessária da data completa de nascimento.
 4. **Rechecagem no servidor:** endpoints protegidos devem considerar o estado de elegibilidade da conta.
@@ -948,7 +948,7 @@ F-06 somente poderá ser considerada implementada quando:
 
 ### Recomendação de produto
 
-Adotar **18+ para o beta inicial**, com coleta mínima e autodeclaração/atributo de elegibilidade como ponto de partida, deixando verificação reforçada como opção futura condicionada a risco real, necessidade e revisão jurídica.
+Manter **18 anos ou mais para o beta inicial**, com coleta mínima e mecanismo de verificação proporcional ainda a definir. Não presumir que autodeclaração isolada seja suficiente; qualquer verificação adicional deve ser justificada por risco e necessidade, com revisão jurídica.
 
 **Registro da decisão (2026-11-05):** modelo geral aprovado: beta 18+, informação clara da idade mínima, verificação proporcional sem presumir que checkbox comprove idade, coleta mínima, análise humana de suspeitas e revisão jurídica antes do beta.
 
