@@ -252,14 +252,14 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 e F-02 foram aprovadas em 2026-11-05. F-03 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01, F-02 e F-03 foram aprovadas em 2026-11-05. F-04 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
 |---|---|---|---|---|
 | F-01 | Bloqueio entre usuários | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | **Aprovada (2026-11-05)** |
 | F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | **Aprovada (2026-11-05)** |
-| F-03 | Política e sanções | Escala proporcional: orientação, advertência, remoção/ocultação, restrição temporária e suspensão; escalonamento imediato de risco grave | Governança, poderes de moderação, comunicação e recurso | Pendente |
+| F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
 | F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
 | F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
 | F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-03, F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01 e F-02 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -458,7 +458,9 @@ Aprovar o modelo geral não significa aprovar números arbitrários. Antes da im
 
 ## 14. Pacote de decisão — F-03: política de conteúdo e matriz de sanções
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.**
+
+Foi aprovada a escala proporcional de sanções, incluindo orientação, advertência formal, remoção/ocultação, restrição temporária, suspensão temporária e suspensão permanente excepcional. Ações relevantes devem ser justificadas e auditáveis, com possibilidade de contestação. Moderadores atuam somente nas comunidades atribuídas; suspensões globais ficam sob responsabilidade administrativa. Categorias detalhadas, critérios de gravidade, prazos, autoridade por medida e procedimento operacional de recurso continuam pendentes.
 
 ### Pergunta de produto
 
@@ -592,16 +594,11 @@ F-03 somente poderá ser considerada implementada quando:
 - exista mecanismo de revisão/apelação para sanções definidas como recorríveis;
 - testes cubram tentativa de aplicar sanção fora do escopo, suspensão global por moderador, conflito de interesse e escalonamento.
 
-### Recomendação de produto
+### Modelo geral aprovado e pendências
 
-Adotar como ponto de partida uma **escada proporcional de sanções**, com poderes locais para moderadores e poderes globais reservados à administração, além de um fluxo explícito para casos graves e conflitos de interesse.
+Adotar a escada proporcional de sanções, com poderes locais para moderadores e poderes globais reservados à administração, além de fluxo para casos graves, conflito de interesse e contestação. A aprovação não define automaticamente categorias finais, limiares de gravidade, durações, poderes detalhados por ação ou prazos e rito de recurso.
 
-Isso deve ser aprovado junto com a política de conteúdo e a governança da plataforma; não deve ser codificado como regra definitiva antes dessa aprovação.
-
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** a escada e a matriz;
-- **Rejeitar** e adotar outro modelo; ou
-- **Ajustar** categorias, sanções, autoridades e fluxo de recurso.
+Antes da implementação, definir e validar essas regras, publicar política versionada, estabelecer autoridades e escopos por sanção, e prever auditoria, revisão independente quando possível e escalonamento seguro. A aplicação deverá ser server-side e testada contra elevação indevida de privilégios.
 
 ## 15. Pacote de decisão — F-04: operação de moderação e SLA do beta
 
