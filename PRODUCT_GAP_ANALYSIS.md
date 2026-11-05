@@ -3,7 +3,7 @@
 - Data: 2026-11-05
 - Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral e F-05 aprovada nos princípios gerais de minimização/governança em 2026-11-05; F-06 a F-10, detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança e F-06 no modelo geral de elegibilidade 18+ em 2026-11-05; F-07 a F-10, detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -60,7 +60,7 @@ O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, com
 
 **Decisão aprovada:** a plataforma atende adultos cristãos de diferentes denominações, sem exigir intenção romântica. Descoberta individual e relacionamentos não são o núcleo nem a porta de entrada do MVP; mensagens privadas e descoberta individual ficam fora do primeiro MVP.
 
-**Ainda pendente:** a idade mínima operacional/jurídica do beta (F-06/D-19) não está aprovada apenas pela definição de público adulto. A proposta de beta 18+ continua sujeita a validação.
+**Decisão aprovada (F-06, modelo geral):** beta inicial restrito a maiores de 18 anos, com informação clara antes do cadastro, verificação proporcional, coleta mínima e análise humana de suspeitas de contas de menores. **Ainda pendente:** mecanismo concreto de verificação, critérios para acioná-lo, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e validação jurídica antes de qualquer beta com usuários reais.
 
 Pontos que continuam em aberto:
 - Quais categorias e comunidades específicas serão lançadas primeiro, além do modelo aprovado de comunidades curadas pela administração?
@@ -111,9 +111,10 @@ O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
 - F-03 (aprovada no modelo geral): escada proporcional de sanções, justificativa/auditoria, contestação e limites entre poderes locais de moderadores e poderes globais administrativos; detalhes operacionais continuam pendentes.
 - F-04 (modelo geral aprovado): beta fechado com cobertura humana declarada, priorização por risco, fila centralizada e metas realistas; responsáveis, horários, SLOs, escalonamento e capacidade ainda pendentes.
 - F-05 (aprovada nos princípios gerais): minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular, preservação restrita de evidências e descarte/anonimização ao fim do prazo aplicável; inventário, bases legais, prazos, exceções, backups e revisão jurídica ainda pendentes.
-- F-06 a F-10 (pendentes): elegibilidade, visibilidade do catálogo, conflito de interesse, detalhes de exclusão e reações.
+- F-06 (modelo geral aprovado): beta 18+, informação clara, verificação proporcional, coleta mínima e análise humana; mecanismo, fluxo e revisão jurídica ainda pendentes.
+- F-07 a F-10 (pendentes): visibilidade do catálogo, conflito de interesse, detalhes de exclusão e reações.
 - D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
 - D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
-- D-18 a D-22: capacidade de moderação, idade mínima, documentos legais, prazo/orçamento e critérios de beta.
+- D-18 a D-22: capacidade de moderação, método de verificação etária e proteção de menores, documentos legais, prazo/orçamento e critérios de beta.
 
 As decisões estratégicas já aprovadas (público adulto cristão amplo, princípio comunitário, MVP, Vue 3 e modelo-base de comunidades/permissões) não devem ser reabertas por este documento. A aprovação do escopo não equivale a autorização para coletar dados reais ou provisionar serviços.
