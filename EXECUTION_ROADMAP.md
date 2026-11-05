@@ -6,7 +6,7 @@
 
 ## Fase 0 — Auditoria e planejamento
 
-**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral e F-05 aprovada nos princípios gerais de minimização/governança em 2026-11-05; F-06 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
+**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança e F-06 no modelo geral de elegibilidade 18+ em 2026-11-05; F-07 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
 
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
@@ -21,7 +21,8 @@ Tarefas:
 - [x] Registrar a aprovação de F-03: escada proporcional de sanções, justificativa/auditoria, contestação e limites de autoridade local/global.
 - [x] Registrar aprovação de F-04 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada e metas realistas.
 - [x] Registrar aprovação de F-05 nos princípios gerais de minimização, finalidade explícita, acesso mínimo, direitos do titular, retenção por categoria e preservação restrita de evidências.
-- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; aprovar, rejeitar ou ajustar F-06 a F-10.
+- [x] Registrar aprovação de F-06 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas.
+- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; aprovar, rejeitar ou ajustar F-07 a F-10.
 - [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
 - [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
 - [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
@@ -86,7 +87,7 @@ Tarefas:
 - Bloqueio e denúncia de conteúdo/usuário.
 - Moderação e auditoria antes de abrir conteúdo a usuários externos.
 
-Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01, F-02 e F-03 somente após autenticação, autorização server-side, auditoria e testes; F-05 teve os princípios gerais aprovados, mas nenhum dado real poderá ser coletado/retido até inventário, bases legais, prazos por categoria, exceções, direitos do titular, backups e revisão jurídica estarem definidos; F-04 teve o modelo geral aprovado, mas seu fluxo operacional não pode ser considerado pronto até definir cobertura, responsáveis, prioridades, SLOs, escalonamento e capacidade; não implementar F-05 a F-10 sem aprovação explícita. Para F-03, definir categorias, critérios, durações, autoridade e recurso antes de codificar as regras. Para F-02, limites numéricos e janela devem estar definidos, e retenção/exclusão devem estar alinhadas a F-05/F-09.
+Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01, F-02 e F-03 somente após autenticação, autorização server-side, auditoria e testes; F-05 teve os princípios gerais aprovados, mas nenhum dado real poderá ser coletado/retido até inventário, bases legais, prazos por categoria, exceções, direitos do titular, backups e revisão jurídica estarem definidos; F-04 teve o modelo geral aprovado, mas seu fluxo operacional não pode ser considerado pronto até definir cobertura, responsáveis, prioridades, SLOs, escalonamento e capacidade; não implementar F-05 a F-10 sem aprovação explícita do pacote correspondente e fechamento de seus pré-requisitos; F-05 e F-06 têm aprovação apenas geral e continuam bloqueadas para dados reais até a conclusão das condições listadas. Para F-03, definir categorias, critérios, durações, autoridade e recurso antes de codificar as regras. Para F-02, limites numéricos e janela devem estar definidos, e retenção/exclusão devem estar alinhadas a F-05/F-09.
 
 ## Fase 4 — Segurança operacional e administração
 
