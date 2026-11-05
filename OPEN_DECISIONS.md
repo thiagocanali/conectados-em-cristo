@@ -1113,3 +1113,110 @@ Adotar **catálogo público de metadados, sem transformar comunidades em feeds p
 - **Rejeitar** e adotar outro;
 - **Ajustar** visibilidade, catálogo ou regras de comunidades não listadas.
 
+
+## 19. Pacote de decisão — F-08: moderador que também é membro e conflito de interesses
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Um moderador pode participar normalmente da comunidade em que atua? Se puder, como impedir que decida denúncias, solicitações ou medidas que envolvam a própria conta ou interesses pessoais?
+
+### Recomendação para análise
+
+Permitir que o moderador também seja membro, mas exigir **impedimento e encaminhamento obrigatório** sempre que houver conflito de interesses real ou razoavelmente percebido.
+
+O papel de moderador não deve eliminar a experiência comunitária da pessoa, nem conceder poder para decidir sobre si própria. A autorização deve considerar tanto o escopo da função quanto o vínculo do moderador com o caso específico.
+
+### Situações que exigem impedimento
+
+O moderador não deve revisar, aprovar, rejeitar, encerrar ou aplicar sanção em caso que:
+
+1. envolva denúncia contra sua própria conta;
+2. tenha sido denunciado por ele;
+3. envolva conteúdo, solicitação de entrada ou recurso apresentado por ele;
+4. envolva pessoa com relação direta que possa comprometer sua imparcialidade, conforme política a ser definida;
+5. questione uma ação de moderação que ele próprio executou;
+6. envolva interesse pessoal, familiar, financeiro ou outro conflito relevante.
+
+A política final deve explicar como reconhecer conflitos menos óbvios, sem exigir exposição excessiva de relações pessoais.
+
+### Encaminhamento e continuidade operacional
+
+- O caso deve ser encaminhado a outro moderador ativo e atribuído à comunidade, sem participação no conflito.
+- Se não houver outro moderador elegível, encaminhar à administração da plataforma.
+- Se o administrador responsável também estiver impedido, o caso deve permanecer pendente e ser escalonado a outro responsável administrativo previamente designado; não deve ser decidido pela pessoa impedida.
+- Não reduzir prioridade nem descartar denúncia por falta de moderador disponível.
+- Casos de risco grave devem seguir o fluxo de escalonamento urgente definido em F-03/F-04, sem aguardar a resolução informal do conflito.
+- A indisponibilidade de um revisor elegível deve gerar estado/alerta operacional visível à equipe autorizada, sem expor detalhes do caso a membros comuns.
+
+### Limites de acesso e confidencialidade
+
+O moderador impedido não deve:
+
+- visualizar o conteúdo integral da denúncia ou evidências restritas apenas por ser moderador;
+- alterar responsável, prioridade, decisão ou estado do caso;
+- apagar, editar ou ocultar evidências;
+- usar acesso de membro para contornar a restrição de moderação;
+- acessar detalhes de identidade do denunciante além do que já seja legitimamente visível pela experiência comum e pela política de privacidade.
+
+A interface pode informar que o caso foi encaminhado, mas não deve revelar ao moderador impedido dados do denunciante, evidências privadas ou a decisão de outro revisor além do necessário.
+
+### Regras de autorização
+
+1. O impedimento deve ser verificado no servidor em cada leitura e mutação da fila, não apenas ocultando botões.
+2. A autorização deve combinar papel, comunidade atribuída, estado atual do caso e conflito de interesse.
+3. Ser membro não concede acesso à fila de moderação; ser moderador não concede acesso global.
+4. A pessoa impedida não pode aprovar a própria solicitação de entrada nem decidir recurso contra ação que executou.
+5. A troca de responsável deve exigir usuário autorizado e motivo registrado.
+6. Se a condição de conflito surgir depois da atribuição, o caso deve ser reencaminhado antes de qualquer nova ação.
+7. Falha ao determinar elegibilidade do revisor deve resultar em negação da ação e encaminhamento seguro, nunca em autorização presumida.
+
+### Auditoria
+
+Registrar, com acesso restrito e sem conteúdo excessivo:
+
+- identificador do caso;
+- comunidade e escopo;
+- responsável anterior e novo responsável;
+- motivo/categoria do impedimento;
+- ator que realizou o encaminhamento;
+- data/hora e resultado;
+- tentativas negadas de acesso ou decisão, quando relevantes à segurança.
+
+O registro deve ser protegido contra alteração pelo moderador envolvido. A trilha não deve copiar desnecessariamente o conteúdo integral da denúncia.
+
+### Alternativas consideradas
+
+**A — Moderador não pode ser membro da comunidade.** Reduz alguns conflitos, mas prejudica a participação comunitária e não resolve conflitos envolvendo usuários conhecidos fora da comunidade.
+
+**B — Moderador pode ser membro, sem regra especial.** Simples, porém permite decisões parciais e autointeressadas; não recomendada.
+
+**C — Moderador pode ser membro, com impedimento, encaminhamento e auditoria.** Preserva participação e cria separação verificável entre envolvimento pessoal e poder de moderação; recomendada para análise.
+
+### Critérios mínimos de aceite futuros
+
+F-08 somente poderá ser considerada implementada quando:
+
+- conflitos e critérios de impedimento estiverem definidos em política acessível à equipe;
+- existir encaminhamento para outro moderador elegível;
+- existir fallback administrativo e responsável substituto para conflitos na administração;
+- moderador impedido não conseguir ler ou alterar casos restritos por URL/API direta;
+- moderador não puder aprovar a própria solicitação nem revisar a própria ação;
+- mudança de atribuição e impedimentos forem auditados;
+- falta de revisor elegível gerar escalonamento, sem descarte silencioso;
+- testes cobrirem conflito identificado antes e depois da atribuição, tentativa de acesso direto, tentativa de alteração e indisponibilidade de revisores;
+- permissões forem verificadas no servidor e falharem de forma segura.
+
+### Relação com outras decisões
+
+F-08 depende de F-03 (sanções e recursos), F-04 (operação, cobertura e escalonamento), F-05 (retenção e acesso a evidências) e do modelo de autorização da COMMUNITY_FUNCTIONAL_SPEC.md. Também deve respeitar o princípio aprovado de que moderadores atuam somente nas comunidades atribuídas e não recebem administração global.
+
+### Recomendação de produto
+
+Adotar **moderador também pode ser membro, mas nunca decide casos em que esteja envolvido**. Encaminhar a outro moderador elegível; na ausência, escalar à administração ou a um substituto independente. Registrar impedimento e transferência em trilha de auditoria restrita.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** a participação com impedimento e encaminhamento;
+- **Rejeitar** e proibir moderadores de serem membros das comunidades atribuídas;
+- **Ajustar** critérios de conflito, fallback ou limites de acesso.
