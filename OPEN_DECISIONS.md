@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01, F-02 e F-03 foram aprovadas em 2026-11-05. F-04 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01, F-02, F-03 e F-04 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral). F-05 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
@@ -260,7 +260,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-01 | Bloqueio entre usuários | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | **Aprovada (2026-11-05)** |
 | F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | **Aprovada (2026-11-05)** |
 | F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
-| F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
+| F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
 | F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
 | F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
 | F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -602,7 +602,7 @@ Antes da implementação, definir e validar essas regras, publicar política ver
 
 ## 15. Pacote de decisão — F-04: operação de moderação e SLA do beta
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo operacional geral.** A aprovação não define horários, pessoas, metas numéricas, cobertura 24×7 ou autorização para abrir o beta.
 
 ### Pergunta de produto
 
@@ -726,8 +726,12 @@ F-04 somente poderá ser considerada implementada quando:
 
 Começar o beta com **cobertura humana explicitamente limitada e documentada**, priorização por risco e escalonamento de casos críticos. Expandir a cobertura somente depois de medir volume e capacidade real.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo;
+**Decisão registrada em 2026-11-05:** aprovação do modelo geral: beta fechado e controlado; cobertura humana com responsáveis e horários declarados; priorização por risco; prazos realistas definidos antes de convidar usuários; fila centralizada com histórico e indicadores; sem promessa de 24×7 sem capacidade comprovada.
+
+**Permanecem pendentes:** nomeação dos responsáveis, escala/horários, definição final das prioridades e critérios, SLOs por prioridade, escalonamento fora da cobertura, capacidade máxima do beta e métricas/limites operacionais. As categorias P0–P3 acima permanecem uma proposta de referência até validação operacional. Esta aprovação não autoriza iniciar beta nem implementar fluxo de denúncias sem os pré-requisitos técnicos e operacionais.
+
+**Decisão registrada:**
+- **Aprovar** o modelo geral;
 - **Rejeitar** e adotar outro;
 - **Ajustar** prioridades, cobertura e metas antes da implementação.
 
