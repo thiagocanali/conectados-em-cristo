@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01, F-02, F-03 e F-04 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral). F-05 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-05 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados). F-06 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
@@ -261,7 +261,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | **Aprovada (2026-11-05)** |
 | F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
 | F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
-| F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
+| F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
 | F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
 | F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -737,7 +737,7 @@ Começar o beta com **cobertura humana explicitamente limitada e documentada**, 
 
 ## 16. Pacote de decisão — F-05: retenção, exclusão e minimização de dados
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — princípios gerais de minimização e governança.** A aprovação não define prazos numéricos, bases legais por finalidade, exceções específicas ou autoriza coleta de dados reais.
 
 ### Pergunta de produto
 
@@ -839,12 +839,11 @@ F-05 somente poderá ser considerada implementada quando:
 
 ### Recomendação de produto
 
-Adotar **minimização desde o cadastro, políticas de retenção separadas por categoria e um fluxo verificável de direitos do titular**. Não coletar dados reais sensíveis no protótipo e não abrir beta público antes da revisão jurídica e da validação operacional.
+**Decisão registrada em 2026-11-05:** aprovados os princípios gerais de minimização desde o cadastro, finalidade explícita, acesso mínimo, políticas de retenção separadas por categoria, fluxo verificável de direitos do titular, preservação restrita e justificada de evidências, expiração documentada de backups e proteção reforçada para dados que revelem convicção religiosa.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** os princípios e solicitar definição de prazos por categoria;
-- **Rejeitar** e propor outro modelo;
-- **Ajustar** categorias, exceções e ciclo de vida.
+**Permanecem pendentes:** inventário definitivo de dados/finalidades; validação jurídica de bases legais e avisos; prazos por categoria e eventos que iniciam a contagem; exceções e responsáveis por autorizá-las; prazos de backup; procedimento e prazos de atendimento aos titulares; critérios para evidências de denúncias e registros de auditoria. Nenhum prazo numérico foi aprovado. Esta decisão não autoriza coleta de dados reais, beta ou retenção indefinida.
+
+**Próximo passo:** detalhar a matriz de retenção por categoria e submetê-la à revisão jurídica antes de qualquer implementação com dados reais.
 
 ## 17. Pacote de decisão — F-06: elegibilidade etária e proteção de menores
 
