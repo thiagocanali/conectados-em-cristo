@@ -219,6 +219,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Não reescrever em Next.js; migração Vue CLI → Vite ainda depende de plano técnico, testes e PR isolada |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
+| Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 
 ### Modelo de permissões e participação no beta — aprovado em 2026-11-04
 
@@ -251,13 +252,13 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 foi aprovada em 2026-11-05. F-02 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 e F-02 foram aprovadas em 2026-11-05. F-03 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
 |---|---|---|---|---|
 | F-01 | Bloqueio entre usuários | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | **Aprovada (2026-11-05)** |
-| F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | Pendente |
+| F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | **Aprovada (2026-11-05)** |
 | F-03 | Política e sanções | Escala proporcional: orientação, advertência, remoção/ocultação, restrição temporária e suspensão; escalonamento imediato de risco grave | Governança, poderes de moderação, comunicação e recurso | Pendente |
 | F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
 | F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
@@ -277,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-02, F-03, F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01 foi aprovada como regra de produto, mas sua implementação depende dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-03, F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01 e F-02 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -353,7 +354,9 @@ Para o princípio **“Comunidade primeiro. Conexões depois. Relacionamentos co
 
 ## 13. Pacote de decisão — F-02: limites, edição e exclusão
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.**
+
+O responsável pelo produto aprovou o modelo de texto simples, limites configuráveis, edição pelo autor dentro de uma janela curta, exclusão lógica e preservação restrita de evidências quando houver denúncia ativa. A aprovação não fixa valores numéricos nem encerra as decisões operacionais listadas abaixo.
 
 ### Pergunta de produto
 
@@ -367,9 +370,9 @@ A decisão precisa equilibrar:
 - custo de armazenamento/histórico;
 - direitos de exclusão e privacidade.
 
-### Opção recomendada para análise
+### Modelo aprovado
 
-**Texto simples, limites conservadores e configuráveis; edição pelo autor dentro de uma janela curta; exclusão lógica; preservação mínima de histórico quando necessário para moderação ou denúncia ativa.**
+**Texto simples, limites configuráveis; edição pelo autor dentro de uma janela curta; exclusão lógica; preservação mínima e restrita de histórico quando necessária para moderação ou denúncia ativa.**
 
 Modelo inicial sugerido:
 - Publicação e comentário aceitam texto simples, sem HTML arbitrário.
@@ -449,16 +452,9 @@ F-02 só poderá ser considerada implementada quando:
 - histórico/auditoria não puder ser adulterado pelo autor ou moderador;
 - testes cubram edição autorizada, edição de conteúdo alheio, janela expirada, exclusão, conteúdo denunciado e tentativa direta por API.
 
-### Recomendação de produto
+### Escopo aprovado e pendências operacionais
 
-Adotar como ponto de partida **a alternativa C: janela curta de edição + exclusão lógica**, com limites configuráveis e histórico mínimo quando houver finalidade de auditoria/moderação.
-
-Os números exatos não devem ser inventados nesta fase. Devem ser definidos juntamente com a política de conteúdo, retenção e operação de moderação.
-
-**Decisão solicitada ao responsável pelo produto:**  
-- **Aprovar** a alternativa C e definir os limites;
-- **Rejeitar** e adotar outra alternativa; ou
-- **Ajustar** a proposta.
+Aprovar o modelo geral não significa aprovar números arbitrários. Antes da implementação, definir separadamente os limites de caracteres, janela de edição, tratamento de conteúdo já denunciado, exclusão durante denúncia, autoridade de restauração, sinalização de edição, extensão do histórico e tratamento de remoções por moderação ou obrigação legal. Essas definições devem ser compatíveis com F-05 (retenção) e F-09 (direitos e fluxo de exclusão).
 
 ## 14. Pacote de decisão — F-03: política de conteúdo e matriz de sanções
 
