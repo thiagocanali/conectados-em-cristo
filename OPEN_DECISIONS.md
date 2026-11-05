@@ -608,3 +608,134 @@ Isso deve ser aprovado junto com a política de conteúdo e a governança da pla
 - **Aprovar** a escada e a matriz;
 - **Rejeitar** e adotar outro modelo; ou
 - **Ajustar** categorias, sanções, autoridades e fluxo de recurso.
+
+## 15. Pacote de decisão — F-04: operação de moderação e SLA do beta
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Como os reports serão recebidos, priorizados, revisados e encerrados durante o beta, considerando a capacidade real de pessoas disponíveis para moderar?
+
+A operação deve evitar prometer cobertura que a equipe não consegue sustentar.
+
+### Modelo recomendado para o beta
+
+Adotar uma operação **human-in-the-loop**, inicialmente com cobertura definida por disponibilidade real, priorização por risco e escalonamento para casos graves.
+
+Não assumir 24×7 até existir equipe, escala e procedimento capazes de sustentar essa promessa.
+
+### Prioridade sugerida
+
+**P0 — risco crítico**
+- ameaça crível de violência;
+- risco envolvendo menor;
+- exposição grave de dados pessoais;
+- comprometimento relevante de segurança;
+- situação com potencial dano imediato.
+
+Ação: escalonamento imediato para responsável autorizado.
+
+**P1 — alto risco**
+- assédio grave ou perseguição;
+- fraude relevante;
+- conteúdo sexual proibido;
+- reincidência grave;
+- tentativa de evasão de sanção.
+
+Ação: revisão prioritária e, quando necessário, restrição preventiva proporcional.
+
+**P2 — moderado**
+- violação de regra sem risco imediato;
+- spam;
+- ataques pessoais;
+- conteúdo inadequado recorrente.
+
+Ação: revisão dentro da janela operacional definida.
+
+**P3 — baixo**
+- dúvidas sobre regras;
+- conflitos de baixa gravidade;
+- reports sem evidência suficiente.
+
+Ação: tratamento em fila normal.
+
+### SLA e SLO
+
+Os tempos exatos **não devem ser inventados nesta fase**.
+
+Antes do beta, a equipe deve definir:
+- horário efetivo de cobertura;
+- tempo-alvo de primeira revisão por prioridade;
+- tempo-alvo de resolução;
+- quem recebe escalonamento fora da cobertura;
+- como tratar fila acumulada;
+- quais métricas serão acompanhadas.
+
+Um SLA externo somente deve ser anunciado se houver capacidade operacional para cumpri-lo. Para o beta fechado, pode ser preferível tratar esses tempos como **SLO interno**.
+
+### Estados do report
+
+O fluxo deve suportar, no mínimo:
+- aberto;
+- triagem/revisão;
+- ação tomada;
+- resolvido;
+- descartado;
+- escalado.
+
+O fechamento deve registrar:
+- responsável;
+- decisão;
+- motivo/categoria;
+- ação aplicada, quando houver;
+- timestamp;
+- necessidade de acompanhamento.
+
+### Princípios de operação
+
+- Reports não devem ser apagados pelo usuário que foi denunciado.
+- O denunciante não deve receber detalhes desnecessários sobre dados ou sanções de terceiros.
+- Moderadores só acessam reports dentro do escopo autorizado.
+- Casos envolvendo o próprio moderador devem ser encaminhados.
+- Duplicatas podem ser agrupadas sem perder rastreabilidade.
+- Evidências devem ser minimizadas e protegidas.
+- A ausência de resposta do moderador não deve resultar em exposição automática de conteúdo previamente restringido.
+- Falhas do sistema de autorização devem resultar em negação segura.
+
+### Métricas mínimas
+
+Antes e durante o beta, acompanhar:
+- quantidade de reports por prioridade;
+- idade da fila;
+- tempo até primeira revisão;
+- tempo até resolução;
+- taxa de reports descartados;
+- reincidência;
+- quantidade de escalonamentos;
+- reports reabertos ou recorrentes;
+- disponibilidade da equipe de moderação.
+
+As métricas devem ser agregadas sempre que possível para reduzir exposição de dados pessoais.
+
+### Critérios mínimos de aceite futuros
+
+F-04 somente poderá ser considerada implementada quando:
+- existir fluxo persistente de reports;
+- prioridades estiverem definidas;
+- cada prioridade possuir responsável e procedimento;
+- houver cobertura operacional documentada;
+- escalonamento de casos críticos estiver testado;
+- conflitos de interesse tiverem rota alternativa;
+- métricas básicas forem observáveis;
+- a fila não depender de armazenamento local do navegador;
+- testes verificarem isolamento de reports e autorização por escopo.
+
+### Recomendação de produto
+
+Começar o beta com **cobertura humana explicitamente limitada e documentada**, priorização por risco e escalonamento de casos críticos. Expandir a cobertura somente depois de medir volume e capacidade real.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** o modelo;
+- **Rejeitar** e adotar outro;
+- **Ajustar** prioridades, cobertura e metas antes da implementação.
