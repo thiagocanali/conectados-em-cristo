@@ -739,3 +739,114 @@ Começar o beta com **cobertura humana explicitamente limitada e documentada**, 
 - **Aprovar** o modelo;
 - **Rejeitar** e adotar outro;
 - **Ajustar** prioridades, cobertura e metas antes da implementação.
+
+## 16. Pacote de decisão — F-05: retenção, exclusão e minimização de dados
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Quais dados a plataforma realmente precisa coletar, por quanto tempo cada categoria será mantida e como atender solicitações de acesso, correção, exclusão ou anonimização sem comprometer segurança, obrigações legítimas e investigações em andamento?
+
+Esta decisão deve ser validada com orientação jurídica especializada antes de qualquer beta com dados reais. Dados que revelem convicção religiosa são dados pessoais sensíveis nos termos da LGPD; a plataforma deve evitar coletá-los ou inferi-los sem necessidade e base legal adequada.
+
+### Princípios recomendados
+
+1. **Minimização por padrão:** não coletar um dado apenas porque pode ser útil no futuro.
+2. **Finalidade explícita:** cada categoria deve ter finalidade documentada e acesso restrito.
+3. **Retenção limitada:** nenhum dado deve ser mantido indefinidamente por conveniência.
+4. **Separação de dados:** perfil, conteúdo comunitário, denúncias, auditoria e telemetria devem ter políticas próprias.
+5. **Exclusão verificável:** solicitações devem percorrer um fluxo rastreável, com confirmação do que foi excluído, anonimizado ou retido e por qual motivo.
+6. **Acesso mínimo:** apenas pessoas e serviços autorizados acessam dados necessários à sua função.
+7. **Segurança desde a concepção:** criptografia em trânsito e em repouso quando suportada, gestão segura de segredos, backups protegidos e controle de acesso.
+8. **Transparência:** explicar em linguagem clara o que é coletado, por quê, com quem é compartilhado e por quanto tempo.
+9. **Não usar dados sensíveis para segmentação ou recomendação** sem avaliação jurídica, finalidade legítima e controles específicos.
+10. **Não prometer exclusão instantânea de todos os backups** se a arquitetura não puder garantir isso; informar prazos e processo de expiração.
+
+### Categorias de dados a mapear
+
+| Categoria | Exemplos | Diretriz proposta |
+|---|---|---|
+| Conta e autenticação | identificador, e-mail, credenciais protegidas | coletar o mínimo necessário; nunca armazenar senha em texto puro |
+| Perfil | nome de exibição, foto, biografia | campos opcionais por padrão, visibilidade controlada |
+| Participação | comunidades, associações, solicitações | reter enquanto necessário à funcionalidade e obrigações aplicáveis |
+| Conteúdo | publicações, comentários, reações | política de edição, exclusão e retenção alinhada à F-02 |
+| Denúncias e evidências | relato, conteúdo reportado, decisão | acesso altamente restrito; retenção limitada à finalidade de segurança e defesa de direitos |
+| Moderação e auditoria | ação, responsável, escopo, horário, justificativa | integridade protegida; acesso por função; prazo documentado |
+| Segurança e telemetria | logs técnicos, eventos de autenticação | evitar conteúdo pessoal em logs; prazos curtos e finalidade de segurança |
+| Suporte e solicitações | pedidos de titulares e respostas | manter apenas o necessário para comprovar tratamento e conclusão |
+
+Os exemplos não constituem uma autorização para coletar todos esses campos. Cada campo precisa de justificativa e análise própria.
+
+### Ciclo de vida proposto
+
+1. **Coleta:** informar finalidade e base aplicável antes de coletar.
+2. **Uso:** restringir uso à finalidade documentada.
+3. **Revisão:** identificar dados sem necessidade contínua.
+4. **Solicitação do titular:** autenticar o solicitante e classificar o pedido.
+5. **Tratamento:** corrigir, exportar, excluir ou anonimizar conforme aplicável.
+6. **Exceção documentada:** reter apenas o necessário quando houver obrigação legal/regulatória ou exercício regular de direitos, com justificativa, escopo e prazo.
+7. **Backups:** expirar conforme ciclo documentado; impedir restauração indevida de dados já excluídos, aplicando novamente as exclusões após restauração.
+8. **Verificação:** registrar a conclusão sem manter cópias excessivas do conteúdo eliminado.
+
+### Exclusão de conta e conteúdo
+
+A política deve distinguir:
+- exclusão de conta;
+- remoção de perfil público;
+- exclusão de publicações e comentários;
+- saída de comunidade;
+- revogação de sessões e credenciais;
+- retenção restrita de evidências sob denúncia ativa;
+- retenção necessária para obrigação legal ou exercício regular de direitos.
+
+A exclusão da conta não deve apagar automaticamente registros que precisem ser preservados legitimamente, mas qualquer exceção deve ser específica, restrita, temporária quando possível e explicada ao titular. Conteúdo público não deve permanecer associado ao usuário por simples conveniência técnica.
+
+### Dados sensíveis e contexto religioso
+
+A participação em uma comunidade cristã pode revelar ou permitir inferir convicção religiosa. Por isso:
+- não exibir lista de membros publicamente por padrão;
+- não expor participação individual em comunidades sem controle de visibilidade;
+- não usar participação para publicidade comportamental;
+- evitar campos obrigatórios sobre denominação, igreja ou crença;
+- avaliar separadamente pedidos de oração e quaisquer informações de saúde, sofrimento ou vulnerabilidade;
+- definir controles de consentimento, acesso, exclusão e retenção antes de coletar pedidos de oração reais.
+
+### Retenção e prazos
+
+**Nenhum prazo numérico está aprovado nesta proposta.**
+
+Antes do beta, criar uma tabela de retenção por categoria com:
+- finalidade;
+- base legal validada;
+- evento que inicia a contagem;
+- prazo de retenção;
+- acesso permitido;
+- destino ao final (exclusão ou anonimização);
+- exceções e responsável pela aprovação;
+- comportamento em backups.
+
+Evitar uma regra única de retenção para todos os dados.
+
+### Critérios mínimos de aceite futuros
+
+F-05 somente poderá ser considerada implementada quando:
+- inventário de dados e finalidades estiver aprovado;
+- base legal e avisos de privacidade forem revisados por profissional qualificado;
+- tabela de retenção estiver definida por categoria;
+- fluxo de acesso/correção/exclusão estiver implementado e testado;
+- exceções de retenção forem justificadas e auditadas;
+- dados sensíveis tiverem controles reforçados;
+- logs não armazenarem senhas, tokens ou conteúdo sensível desnecessário;
+- backups e restauração respeitarem exclusões concluídas;
+- acesso a denúncias e evidências for restrito;
+- testes verificarem exclusão, anonimização, revogação de sessão, retenção excepcional e isolamento de acesso.
+
+### Recomendação de produto
+
+Adotar **minimização desde o cadastro, políticas de retenção separadas por categoria e um fluxo verificável de direitos do titular**. Não coletar dados reais sensíveis no protótipo e não abrir beta público antes da revisão jurídica e da validação operacional.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** os princípios e solicitar definição de prazos por categoria;
+- **Rejeitar** e propor outro modelo;
+- **Ajustar** categorias, exceções e ciclo de vida.
