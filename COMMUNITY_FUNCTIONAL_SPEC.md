@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; propostas F-01 a F-10 continuam pendentes de aprovação**
+- Status: **rascunho funcional revisado; F-01 aprovada em 2026-11-05; F-02 a F-10 continuam pendentes**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -262,7 +262,7 @@ Build bem-sucedido, isoladamente, não representa aprovação para beta.
 
 | ID | Decisão pendente | Por que bloqueia |
 |---|---|---|
-| F-01 | Escopo global ou por comunidade do bloqueio entre usuários | Define autorização e visibilidade em todas as consultas |
+| F-01 | **Aprovada (2026-11-05):** bloqueio global entre contas para descoberta e interações diretas, sem exclusão automática de conteúdo comunitário | Define autorização e visibilidade em todas as consultas |
 | F-02 | Limites de caracteres, edição e exclusão de posts/comentários | Define validação, histórico e moderação |
 | F-03 | Política de conteúdo e matriz de sanções | Define ações e garantias de recurso |
 | F-04 | Prazo de revisão de denúncias, cobertura e responsáveis | Define operação segura do beta |
@@ -378,7 +378,7 @@ As opções abaixo são **recomendações para discussão, não decisões aprova
 
 | ID | Padrão recomendado | Justificativa | Confirmação necessária |
 |---|---|---|---|
-| F-01 Bloqueio | Bloqueio entre contas com efeito em descoberta e interações entre as duas contas em toda a plataforma; não remove conteúdo de grupos nem substitui moderação | Comportamento previsível e consistente; evita usar bloqueio pessoal para apagar conteúdo comunitário | Confirmar escopo global e exceções de segurança |
+| F-01 Bloqueio — **APROVADA** | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados | Comportamento previsível e consistente; preserva governança comunitária | Detalhar exceções operacionais, desbloqueio, notificações e limites antiabuso antes da implementação |
 | F-02 Limites/edição | Texto simples; limites iniciais conservadores e configuráveis; permitir edição própria por janela curta, mantendo histórico/auditoria; exclusão lógica e ocultação imediata quando reportado | Equilibra correção de erro e integridade de evidência | Definir números, janela e quem pode restaurar |
 | F-03 Política/sanções | Política pública em níveis: orientação, advertência, remoção/ocultação, restrição temporária, suspensão; ameaça/risco grave pode ser escalado imediatamente | Proporcionalidade, previsibilidade e possibilidade de recurso | Aprovar categorias, gravidade, exceções e autoridade por sanção |
 | F-04 Operação/SLA | Beta fechado apenas com cobertura humana declarada; priorização por risco, confirmação de recebimento imediata e prazo operacional definido antes de convidar usuários | Não prometer 24x7 sem equipe; evita denúncia sem resposta | Nomear responsáveis, horários e metas por severidade |
@@ -391,7 +391,7 @@ As opções abaixo são **recomendações para discussão, não decisões aprova
 
 ### Regra para transformar proposta em decisão
 
-O responsável pelo produto deve aprovar, rejeitar ou ajustar cada F-01 a F-10. Após confirmação, registrar a decisão em `OPEN_DECISIONS.md` e atualizar esta especificação. Até lá, as propostas permanecem não vinculantes.
+O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01 foi aprovada em 2026-11-05 e deve ser tratada como requisito de produto; F-02 a F-10 permanecem propostas não vinculantes até decisão explícita. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
 
 ## 17. Dependências para iniciar implementação comunitária
 
