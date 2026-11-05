@@ -60,7 +60,7 @@ O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, com
 
 **Decisão aprovada:** a plataforma atende adultos cristãos de diferentes denominações, sem exigir intenção romântica. Descoberta individual e relacionamentos não são o núcleo nem a porta de entrada do MVP; mensagens privadas e descoberta individual ficam fora do primeiro MVP.
 
-**Decisão aprovada (F-06, modelo geral):** beta inicial restrito a maiores de 18 anos, com informação clara antes do cadastro, verificação proporcional, coleta mínima e análise humana de suspeitas de contas de menores. **Ainda pendente:** mecanismo concreto de verificação, critérios para acioná-lo, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e validação jurídica antes de qualquer beta com usuários reais.
+**Decisão aprovada (F-06, modelo geral):** beta inicial restrito a pessoas com 18 anos ou mais, com informação clara antes do cadastro, verificação proporcional, coleta mínima e análise humana de suspeitas de contas de menores. **Ainda pendente:** mecanismo concreto de verificação, critérios para acioná-lo, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e validação jurídica antes de qualquer beta com usuários reais.
 
 Pontos que continuam em aberto:
 - Quais categorias e comunidades específicas serão lançadas primeiro, além do modelo aprovado de comunidades curadas pela administração?
