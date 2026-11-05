@@ -850,3 +850,114 @@ Adotar **minimização desde o cadastro, políticas de retenção separadas por 
 - **Aprovar** os princípios e solicitar definição de prazos por categoria;
 - **Rejeitar** e propor outro modelo;
 - **Ajustar** categorias, exceções e ciclo de vida.
+
+## 17. Pacote de decisão — F-06: elegibilidade etária e proteção de menores
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Qual deve ser a regra de idade para o beta e quais controles devem existir para reduzir o risco de acesso de menores a uma plataforma inicialmente desenhada para adultos?
+
+### Recomendação para análise
+
+Adotar **18+ no beta inicial**, sem tratar um checkbox como prova robusta de idade.
+
+A regra deve ser simples de comunicar e aplicada no servidor, não apenas escondendo telas no frontend. O cadastro deve coletar somente a informação necessária para aplicar a política e evitar solicitar documento de identidade ou data de nascimento completa sem uma necessidade legítima e previamente validada.
+
+### Por que começar em 18+
+
+O beta terá comunidades, publicação de conteúdo, denúncias e moderação humana. Começar exclusivamente com adultos reduz complexidade de segurança e evita introduzir, já na primeira versão, requisitos adicionais de proteção infantil, consentimento, desenho de experiência, moderação e resposta a incidentes.
+
+Isso **não significa que um checkbox seja suficiente para impedir um menor de mentir sobre a idade**. Significa apenas que o beta deve declarar claramente a elegibilidade e estabelecer controles proporcionais ao risco.
+
+### Controles mínimos propostos
+
+1. **Regra explícita de elegibilidade:** informar claramente que o beta é destinado a maiores de 18 anos.
+2. **Validação no cadastro:** impedir cadastro quando a informação fornecida indicar idade inferior ao mínimo.
+3. **Persistência mínima:** armazenar apenas o atributo necessário para demonstrar elegibilidade, evitando retenção desnecessária da data completa de nascimento.
+4. **Rechecagem no servidor:** endpoints protegidos devem considerar o estado de elegibilidade da conta.
+5. **Denúncia de possível menor:** permitir que um usuário reporte suspeita de idade incompatível.
+6. **Fluxo restrito de investigação:** suspeitas não devem expor publicamente a informação de idade do usuário denunciado.
+7. **Ação preventiva proporcional:** em caso de risco plausível, a conta pode ter determinadas interações restringidas enquanto a situação é analisada.
+8. **Encaminhamento:** casos confirmados devem seguir procedimento documentado de encerramento, preservação mínima de evidências e tratamento das solicitações do titular ou responsável conforme orientação jurídica aplicável.
+9. **Logs seguros:** não registrar idade, documentos ou dados pessoais adicionais em logs técnicos desnecessariamente.
+10. **Testes de autorização:** uma conta inelegível não deve conseguir contornar a regra usando URL direta, sessão antiga ou chamadas de API.
+
+### Verificação de idade
+
+A verificação adicional de idade fica **em aberto**.
+
+Alternativas:
+
+**A — Autodeclaração/atributo de elegibilidade**
+
+- menor complexidade;
+- menor coleta de dados;
+- não impede fraude deliberada;
+- pode ser suficiente para um beta fechado de baixo alcance, dependendo da avaliação jurídica e operacional.
+
+**B — Verificação de idade reforçada**
+
+- maior capacidade de reduzir fraude;
+- maior custo e complexidade;
+- pode exigir tratamento de documentos ou terceiros;
+- aumenta a quantidade de dados pessoais e os riscos de privacidade.
+
+**C — Estratégia híbrida**
+
+- autodeclaração como regra normal;
+- verificação adicional somente em situações de risco ou inconsistência;
+- exige critérios claros para acionar a verificação e política de retenção específica.
+
+**Recomendação:** começar avaliando A para o beta fechado e deixar C como evolução possível, sem contratar ou integrar fornecedor de verificação antes de uma necessidade comprovada e revisão jurídica.
+
+### Conteúdo e interação envolvendo menores
+
+Se uma conta for identificada como pertencente a menor, não basta alterar o perfil para 18+.
+
+O sistema deverá considerar:
+- revogação de sessões e acesso conforme procedimento aprovado;
+- preservação mínima e restrita de evidências quando houver incidente;
+- bloqueio de novas interações incompatíveis com a política;
+- revisão de conteúdo que possa expor a criança/adolescente;
+- tratamento de denúncias relacionadas ao caso;
+- comunicação e escalonamento conforme procedimento jurídico e de segurança aplicável.
+
+A plataforma não deve solicitar que um usuário publique documentos pessoais ou dados sensíveis para provar sua idade dentro de uma comunidade.
+
+### Relação com outras decisões
+
+F-06 depende especialmente de:
+- **F-03:** política de conteúdo e sanções;
+- **F-04:** operação e escalonamento de reports;
+- **F-05:** minimização, retenção e exclusão;
+- **D-19:** idade mínima;
+- revisão jurídica antes de qualquer beta com usuários reais.
+
+A decisão de 18+ proposta aqui é coerente com a recomendação já registrada em D-19, mas **não substitui a aprovação formal de D-19**.
+
+### Critérios mínimos de aceite futuros
+
+F-06 somente poderá ser considerada implementada quando:
+
+- a idade mínima estiver formalmente aprovada;
+- a regra estiver publicada antes do cadastro;
+- a verificação ocorrer no servidor;
+- contas inelegíveis não conseguirem contornar a regra por API;
+- existir fluxo para suspeita/denúncia de menor;
+- houver procedimento para encerramento ou restrição de contas inelegíveis;
+- dados coletados para idade forem minimizados;
+- retenção e exclusão desses dados estiverem documentadas;
+- incidentes envolvendo menores tiverem rota de escalonamento;
+- testes cobrirem cadastro, sessão antiga, API direta e tentativa de contorno.
+
+### Recomendação de produto
+
+Adotar **18+ para o beta inicial**, com coleta mínima e autodeclaração/atributo de elegibilidade como ponto de partida, deixando verificação reforçada como opção futura condicionada a risco real, necessidade e revisão jurídica.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** 18+ e os controles mínimos;
+- **Rejeitar** e adotar outra idade/estratégia;
+- **Ajustar** idade, verificação ou fluxo de proteção.
+
