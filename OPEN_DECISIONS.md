@@ -352,3 +352,112 @@ Para o princípio **“Comunidade primeiro. Conexões depois. Relacionamentos co
 - **Aprovar** a opção global;
 - **Rejeitar** e adotar bloqueio limitado à comunidade; ou
 - **Ajustar** o escopo e registrar as exceções.
+
+## 13. Pacote de decisão — F-02: limites, edição e exclusão
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Quais limites devem existir para publicações e comentários e o que o autor poderá fazer depois de publicar?
+
+A decisão precisa equilibrar:
+- liberdade para corrigir erros;
+- prevenção de abuso/spam;
+- integridade das evidências de moderação;
+- transparência para leitores;
+- custo de armazenamento/histórico;
+- direitos de exclusão e privacidade.
+
+### Opção recomendada para análise
+
+**Texto simples, limites conservadores e configuráveis; edição pelo autor dentro de uma janela curta; exclusão lógica; preservação mínima de histórico quando necessário para moderação ou denúncia ativa.**
+
+Modelo inicial sugerido:
+- Publicação e comentário aceitam texto simples, sem HTML arbitrário.
+- O backend valida tamanho mínimo/máximo e normaliza entradas.
+- O autor pode editar apenas seu próprio conteúdo e somente dentro de uma janela configurável.
+- Cada edição relevante registra versão mínima para auditoria quando necessário.
+- A exclusão feita pelo autor é lógica: o conteúdo deixa de ser exibido normalmente, mas evidência necessária a uma denúncia ativa pode ser preservada com acesso restrito.
+- Moderadores não devem alterar silenciosamente o texto do autor; ações de moderação devem ser registradas separadamente.
+- Conteúdo removido por política não deve voltar a ficar público apenas porque o autor tentou editar ou restaurar.
+
+### Limites iniciais a definir
+
+A recomendação não fixa números sem validação. Antes da implementação, definir separadamente:
+1. tamanho máximo de publicação;
+2. tamanho máximo de comentário;
+3. tamanho mínimo, se houver;
+4. janela de edição;
+5. possibilidade de editar após uma denúncia;
+6. possibilidade de exclusão durante uma denúncia;
+7. quem pode restaurar conteúdo ocultado;
+8. se leitores verão que houve edição;
+9. quanto do histórico será preservado;
+10. política para conteúdo removido por moderação ou obrigação legal.
+
+### Alternativa A — sem edição após publicação
+
+O autor publica e não pode alterar o conteúdo.
+
+**Vantagem:** máxima simplicidade de auditoria e integridade.
+
+**Risco:** erros de digitação ou informações incorretas ficam permanentes, aumentando pedidos de exclusão/moderação.
+
+### Alternativa B — edição livre
+
+O autor pode alterar seu conteúdo a qualquer momento.
+
+**Vantagem:** maior flexibilidade.
+
+**Risco:** dificulta investigação, pode permitir alteração de conteúdo denunciado e aumenta complexidade de histórico e auditoria. Não é recomendada para o beta.
+
+### Alternativa C — janela curta de edição
+
+O autor pode corrigir o próprio conteúdo durante uma janela limitada, depois disso precisa solicitar alteração/remoção.
+
+**Vantagem:** bom equilíbrio entre usabilidade e integridade.
+
+**Risco:** exige regra clara para denúncias, moderação e histórico.
+
+### Exclusão física versus lógica
+
+**Exclusão física imediata** simplifica o desaparecimento do conteúdo, mas pode destruir evidências necessárias para uma denúncia legítima.
+
+**Exclusão lógica** permite ocultar o conteúdo do fluxo normal e preservar somente o necessário, com acesso restrito e prazo de retenção definido.
+
+Para o beta, recomenda-se **exclusão lógica**, acompanhada de política de retenção. Isso não significa guardar tudo indefinidamente: dados sem finalidade legítima devem ser eliminados ou anonimizados conforme a política aprovada.
+
+### Relação com moderação
+
+A regra deve separar quatro ações:
+- autor corrige o próprio conteúdo;
+- autor solicita/removê o próprio conteúdo;
+- moderador oculta/remove conteúdo por violação;
+- sistema preserva evidência mínima quando existe necessidade legítima de investigação.
+
+Uma edição do autor não pode apagar automaticamente uma evidência de denúncia ativa.
+
+### Critérios mínimos de aceite futuros
+
+F-02 só poderá ser considerada implementada quando:
+- somente o autor autorizado puder editar seu próprio conteúdo;
+- a janela de edição for validada no servidor;
+- conteúdo fora da janela não puder ser alterado por manipulação de ID;
+- limites de tamanho forem aplicados no backend;
+- HTML/script arbitrário não puder ser injetado;
+- exclusão respeitar a política de retenção;
+- conteúdo sob moderação/denúncia seguir as regras específicas;
+- histórico/auditoria não puder ser adulterado pelo autor ou moderador;
+- testes cubram edição autorizada, edição de conteúdo alheio, janela expirada, exclusão, conteúdo denunciado e tentativa direta por API.
+
+### Recomendação de produto
+
+Adotar como ponto de partida **a alternativa C: janela curta de edição + exclusão lógica**, com limites configuráveis e histórico mínimo quando houver finalidade de auditoria/moderação.
+
+Os números exatos não devem ser inventados nesta fase. Devem ser definidos juntamente com a política de conteúdo, retenção e operação de moderação.
+
+**Decisão solicitada ao responsável pelo produto:**  
+- **Aprovar** a alternativa C e definir os limites;
+- **Rejeitar** e adotar outra alternativa; ou
+- **Ajustar** a proposta.
