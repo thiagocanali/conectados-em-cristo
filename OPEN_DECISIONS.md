@@ -1339,3 +1339,97 @@ Adotar **edição própria por janela curta configurável; ocultação rápida q
 - **Aprovar** o modelo de janela curta, ocultação e retenção excepcional controlada;
 - **Rejeitar** e escolher outro fluxo de edição/exclusão;
 - **Ajustar** janela, histórico, tratamento de denúncias ou comunicação ao titular.
+
+
+---
+
+## 21. F-10 — Modelo de reações às publicações
+
+**Status:** proposta detalhada — pendente de aprovação do responsável pelo produto.
+
+### Problema e objetivo
+
+Definir como membros demonstram apoio a uma publicação sem transformar a comunidade em uma competição por popularidade, sem criar incentivos artificiais de engajamento e sem expor desnecessariamente quem interagiu.
+
+A reação deve apoiar conversas e encorajamento, preservando o princípio: comunidade primeiro, conexões depois, relacionamentos como consequência.
+
+### Recomendação inicial
+
+Adotar **uma única reação positiva por membro e publicação**, com rótulo inicial sugerido **“Apoiar”**.
+
+- O membro pode adicionar a reação e removê-la posteriormente.
+- A operação deve ser idempotente: repetir a mesma solicitação não cria reações duplicadas.
+- Não haverá múltiplas opções de emoji ou catálogo de sentimentos no MVP.
+- “Trocar” de reação só fará sentido se outro tipo for aprovado em decisão futura; não implementar tipos adicionais implicitamente.
+- A reação não equivale a comentário, endosso institucional, confirmação de veracidade ou pedido de oração.
+- Reações em comentários não fazem parte desta proposta; o escopo inicial é exclusivamente publicações.
+
+### Limites de produto e apresentação
+
+1. Não criar pontuação individual, ranking de membros, placares, medalhas, níveis, streaks ou competição por engajamento.
+2. Não ordenar catálogo, feed ou comunidades pela quantidade de reações.
+3. A interface pode apresentar um total agregado simples, condicionado às regras de visibilidade da comunidade e à avaliação de risco de reidentificação prevista em F-07.
+4. Não exibir lista pública de quem reagiu por padrão. Qualquer futura visualização nominal exige decisão explícita de produto, privacidade e autorização.
+5. Não usar reações como métrica pública de valor espiritual, maturidade, influência ou qualidade de um membro.
+6. A ausência de reação não deve gerar aviso, cobrança ou penalidade.
+
+### Autorização e integridade
+
+A API deverá validar a cada operação:
+
+- sessão autenticada e conta ativa;
+- vínculo de membro ativo com a comunidade;
+- comunidade e publicação em estado que permita interação;
+- publicação visível ao solicitante;
+- ausência de bloqueio, suspensão ou restrição aplicável;
+- limites de frequência e regras antiabuso.
+
+A autorização deve ser aplicada no servidor, nunca apenas pela ocultação do controle na interface. O banco deve impor unicidade por membro/publicação (por exemplo, restrição única em `user_id + post_id`). A criação e remoção devem ser transacionais e seguras diante de solicitações concorrentes.
+
+Visitantes, membros removidos, suspensos ou sem acesso à publicação não podem reagir nem consultar detalhes que revelem conteúdo protegido. Moderadores não podem criar, remover ou alterar reações em nome de outro membro como ação de moderação.
+
+### Estados e efeitos
+
+- Sem reação: o membro pode adicionar “Apoiar”.
+- Reagiu: o membro pode remover sua própria reação.
+- Publicação oculta, removida ou indisponível: não aceitar novas reações e não expor o agregado nas superfícies comuns.
+- Conta sem autorização: negar a operação mesmo que uma chamada direta à API seja realizada.
+- Remoção da reação: atualizar o agregado de forma consistente, sem apagar ou alterar a publicação.
+
+O tratamento de reações históricas quando um membro sai da comunidade, é bloqueado ou tem a conta encerrada deverá seguir as decisões de retenção, exclusão e bloqueio (F-01 e F-05), sem criar uma regra isolada nesta proposta.
+
+### Alternativas consideradas
+
+**A — Uma reação positiva simples e removível.** Baixa complexidade, fácil compreensão e menor incentivo à competição; recomendada para o MVP.
+
+**B — Vários emojis ou categorias de reação.** Expressividade maior, mas aumenta complexidade, moderação, acessibilidade e decisões de privacidade; deixar para avaliação posterior.
+
+**C — Reações com pontos, placares ou ranking.** Pode incentivar uso competitivo e contrariar o posicionamento comunitário; não recomendada.
+
+### Critérios mínimos de aceite futuros
+
+F-10 somente poderá ser considerada implementada quando:
+
+- membro autorizado conseguir adicionar e remover sua própria reação;
+- solicitações repetidas ou concorrentes não criarem duplicidade;
+- visitante, membro sem vínculo ativo, conta suspensa e usuário bloqueado forem negados no servidor;
+- publicação oculta, removida, pausada ou indisponível não aceitar novas reações;
+- a contagem agregada permanecer consistente após inclusão e remoção;
+- nenhuma rota ou consulta revelar lista nominal de reatores sem autorização aprovada;
+- não existir pontuação, ranking ou ordenação competitiva derivada das reações;
+- limites de frequência e tratamento de abuso estiverem definidos;
+- testes cobrirem autorização, acesso direto à API, concorrência, idempotência, remoção, estados da publicação e privacidade do agregado;
+- acessibilidade do controle e anúncio de estado forem verificados com teclado e tecnologia assistiva.
+
+### Dependências e relações
+
+F-10 depende do modelo de autenticação e autorização real, da matriz de permissões da comunidade, de F-01 (bloqueio), F-03/F-04 (moderação e operação), F-05 (retenção), F-07 (visibilidade e agregados) e das regras de estado das publicações. Não autoriza, por si só, rankings, reações em comentários ou exposição de identidades.
+
+### Recomendação de produto
+
+Adotar **uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor, com contagem agregada simples quando segura e sem lista nominal, pontos ou rankings**. Manter o escopo restrito a publicações no MVP.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** a reação única “Apoiar”, removível e sem gamificação;
+- **Rejeitar** e escolher outro modelo;
+- **Ajustar** rótulo, apresentação da contagem ou escopo das reações.
