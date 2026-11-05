@@ -3,7 +3,7 @@
 - Data: 2026-11-05
 - Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 a F-10, decisões técnicas/operacionais e critérios de segurança continuam pendentes.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral em 2026-11-05; F-05 a F-10, detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -109,7 +109,8 @@ O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
 - F-01 (aprovada): bloqueio global entre contas para descoberta e interações diretas, sem exclusão automática de conteúdo comunitário.
 - F-02 (aprovada no modelo geral): texto simples, limites configuráveis, janela curta de edição pelo autor, exclusão lógica e preservação restrita de evidências de denúncia ativa; números e regras operacionais dependem de F-05/F-09.
 - F-03 (aprovada no modelo geral): escada proporcional de sanções, justificativa/auditoria, contestação e limites entre poderes locais de moderadores e poderes globais administrativos; detalhes operacionais continuam pendentes.
-- F-04 a F-10 (pendentes): operação/SLA, retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, detalhes de exclusão e reações.
+- F-04 (modelo geral aprovado): beta fechado com cobertura humana declarada, priorização por risco, fila centralizada e metas realistas; responsáveis, horários, SLOs, escalonamento e capacidade ainda pendentes.
+- F-05 a F-10 (pendentes): retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, detalhes de exclusão e reações.
 - D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
 - D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
 - D-18 a D-22: capacidade de moderação, idade mínima, documentos legais, prazo/orçamento e critérios de beta.
