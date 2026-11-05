@@ -277,3 +277,78 @@ Após a resposta do responsável pelo produto:
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
 **Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-01, F-02, F-03, F-07, F-08, F-09 e F-10 também não devem ser implementadas com base apenas na recomendação; dependem de aprovação explícita e dos pré-requisitos técnicos da especificação.
+
+## 12. Pacote de decisão — F-01: bloqueio entre usuários
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Quando um usuário bloquear outro, o bloqueio deve valer somente para determinadas interações/comunidades ou deve ser uma regra consistente entre as contas em toda a plataforma?
+
+### Opção recomendada para análise
+
+**Bloqueio global entre as duas contas, aplicado às interações e à descoberta, sem apagar nem ocultar automaticamente conteúdo comunitário de terceiros.**
+
+O bloqueio deve impedir, conforme as regras finais:
+- descoberta direta entre as contas;
+- novas interações diretas relevantes;
+- acesso a superfícies de interação que dependam de vínculo entre as duas contas;
+- contorno por URL ou chamada direta de API.
+
+O bloqueio **não deve**:
+- apagar publicações ou comentários do usuário em comunidades;
+- remover conteúdo de terceiros de uma comunidade;
+- substituir denúncia ou ação de moderação;
+- conceder ao bloqueador acesso adicional a dados privados;
+- permitir que um usuário use bloqueio pessoal para moderar uma comunidade inteira.
+
+### Alternativa A — bloqueio limitado à comunidade
+
+O bloqueio valeria apenas dentro da comunidade onde foi criado.
+
+**Vantagem:** menor impacto global e regras locais mais simples de explicar em comunidades independentes.
+
+**Risco:** o usuário bloqueado poderia continuar aparecendo ou interagindo com a mesma pessoa em outra comunidade, gerando comportamento inconsistente e potencialmente frustrante.
+
+### Alternativa B — bloqueio global
+
+O bloqueio vale entre as duas contas em toda a plataforma, respeitando exceções técnicas e de segurança que ainda precisem ser definidas.
+
+**Vantagem:** comportamento previsível e uma única regra de segurança para interações entre contas.
+
+**Risco:** exige que feed, busca, comentários, reações, notificações e futuras superfícies de interação consultem a mesma política de bloqueio.
+
+### Limites que precisam ser definidos junto com F-01
+
+1. Se o bloqueio impede somente interação ou também a descoberta/perfil.
+2. Se conteúdos históricos em comunidades compartilhadas continuam visíveis.
+3. Como lidar com moderação: bloqueio pessoal nunca deve impedir a equipe autorizada de investigar uma denúncia.
+4. Como tratar comunidades em que ambos são membros.
+5. Se administradores/moderadores podem visualizar conteúdo necessário à função apesar de um bloqueio pessoal.
+6. Como tratar notificações já geradas.
+7. Se desbloqueio é permitido e quais efeitos são revertidos.
+8. Como evitar vazamento da existência de uma conta ou conteúdo privado por mensagens de erro.
+9. Se haverá limite/rate limit contra abuso do mecanismo de bloqueio.
+10. Como registrar eventos de bloqueio/desbloqueio na auditoria sem expor dados desnecessários.
+
+### Critérios mínimos de aceite futuros
+
+A implementação de F-01 só poderá ser considerada funcional quando:
+- a regra estiver aplicada server-side;
+- endpoints de leitura e escrita relevantes verificarem bloqueio;
+- URL direta/IDOR não contornar a regra;
+- consultas derivadas (feed, busca, comentários, reações e notificações, quando existirem) respeitarem a política;
+- moderação autorizada continuar funcionando dentro do escopo necessário;
+- bloqueio e desbloqueio forem idempotentes;
+- testes cobrirem pelo menos os cenários permitido, bloqueado, desbloqueado, comunidade compartilhada, tentativa direta por ID e moderador autorizado;
+- logs/auditoria não armazenarem mais dados do que o necessário.
+
+### Recomendação de produto
+
+Para o princípio **“Comunidade primeiro. Conexões depois. Relacionamentos como consequência.”**, a opção global é a mais coerente: o bloqueio protege a relação entre duas contas sem transformar a comunidade em um conjunto de silenciamentos privados que substituam a moderação.
+
+**Decisão solicitada ao responsável pelo produto:**  
+- **Aprovar** a opção global;
+- **Rejeitar** e adotar bloqueio limitado à comunidade; ou
+- **Ajustar** o escopo e registrar as exceções.
