@@ -419,6 +419,7 @@ Esta revisão compara a especificação funcional, o registro de decisões e o r
 - F-01 foi aprovada em 2026-11-05 e sincronizada entre `OPEN_DECISIONS.md`, a seção de bloqueio e a tabela de propostas; sua implementação continua condicionada aos pré-requisitos técnicos.
 - F-02 foi aprovada em 2026-11-05 no modelo geral de texto simples, limites configuráveis, janela curta de edição e exclusão lógica; números e regras operacionais continuam pendentes, com dependência explícita de F-05/F-09.
 - F-03 foi aprovada em 2026-11-05 no modelo geral de sanções proporcionais, ações justificadas/auditáveis e contestáveis, com moderadores limitados às comunidades atribuídas e suspensões globais reservadas à administração; categorias, gravidade, prazos, autoridade detalhada e rito de recurso permanecem pendentes.
+- F-04 foi aprovada em 2026-11-05 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada, histórico/indicadores e metas realistas; responsáveis, horários, prioridades finais, SLOs, escalonamento e capacidade máxima permanecem pendentes.
 - A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
 - A matriz de permissões continua identificada como proposta; as condições de edição/exclusão devem respeitar o modelo F-02 aprovado e os detalhes ainda pendentes de F-05/F-09.
 
