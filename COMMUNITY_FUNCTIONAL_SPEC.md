@@ -415,13 +415,14 @@ Esta revisão compara a especificação funcional, o registro de decisões e o r
 ### Alinhamentos realizados
 
 - O escopo aprovado do MVP (cadastro, perfis, comunidades, publicações, comentários e reações) foi mantido separado das regras detalhadas ainda pendentes.
-- A seção 5.6 agora reflete a proposta F-10 documentada em `OPEN_DECISIONS.md`: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação.
+- A seção 5.6 reflete a proposta F-10 ainda pendente: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação.
+- F-01 foi aprovada em 2026-11-05 e sincronizada entre `OPEN_DECISIONS.md`, a seção de bloqueio e a tabela de propostas; sua implementação continua condicionada aos pré-requisitos técnicos.
 - A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
 - A matriz de permissões continua identificada como proposta; as condições de edição/exclusão permanecem bloqueadas por F-02/F-09.
 
 ### Pontos que continuam bloqueando implementação com dados reais
 
-1. Aprovação explícita ou ajuste das propostas F-01 a F-10. A documentação detalhada não equivale a aprovação.
+1. Aprovação explícita ou ajuste das propostas F-02 a F-10. F-01 já foi aprovada, mas ainda exige implementação server-side e testes antes de dados reais.
 2. Decisões técnicas D-12 a D-17 e ADRs de backend, banco, autenticação, storage, e-mail e hospedagem. Nenhuma stack ou fornecedor está selecionado por este documento.
 3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, idade mínima, revisão jurídica, orçamento e critérios de beta.
 4. Política de conteúdo, SLAs, apelações, retenção e direitos dos titulares, com revisão jurídica quando necessária.
