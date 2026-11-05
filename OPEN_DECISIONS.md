@@ -247,3 +247,33 @@ Pedidos de oração permanecem como objetivo de produto, mas sua disponibilizaç
 - D-18 a D-22: capacidade de moderação, idade mínima, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta.
 
 A aprovação destas decisões de produto não autoriza contratação de serviços, provisionamento de infraestrutura, migração de dados ou mudanças irreversíveis. Antes da Fase 1, fechar as decisões técnicas e operacionais bloqueadoras e registrar ADRs.
+
+## 11. Decisões funcionais das comunidades — F-01 a F-10
+
+**Status geral: PENDENTE DE APROVAÇÃO DO RESPONSÁVEL PELO PRODUTO.**  
+As recomendações abaixo foram propostas na `COMMUNITY_FUNCTIONAL_SPEC.md`. Elas orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
+
+| ID | Tema | Recomendação em análise | Impacto principal | Estado |
+|---|---|---|---|---|
+| F-01 | Bloqueio entre usuários | Escopo global entre as duas contas para descoberta e interações; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | Pendente |
+| F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | Pendente |
+| F-03 | Política e sanções | Escala proporcional: orientação, advertência, remoção/ocultação, restrição temporária e suspensão; escalonamento imediato de risco grave | Governança, poderes de moderação, comunicação e recurso | Pendente |
+| F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
+| F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
+| F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
+| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
+| F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
+| F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
+| F-10 | Reações | Uma reação positiva inicial (ex.: “Apoiar”), removível/trocável, sem ranking competitivo | UX, modelo de dados e métricas de engajamento | Pendente |
+
+### Como registrar a decisão
+
+Para cada ID, registrar uma das opções: **Aprovada**, **Rejeitada** ou **Ajustar**, acompanhada de observação quando necessário. Uma aprovação deve indicar limites e exceções relevantes; uma rejeição deve registrar a alternativa escolhida ou declarar que o recurso ficará fora do escopo.
+
+Após a resposta do responsável pelo produto:
+1. Atualizar o estado e o texto da decisão nesta seção.
+2. Sincronizar a seção 16 de `COMMUNITY_FUNCTIONAL_SPEC.md`, mantendo apenas propostas ainda não decididas como recomendações.
+3. Atualizar requisitos, critérios de aceite e testes afetados.
+4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
+
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-01, F-02, F-03, F-07, F-08, F-09 e F-10 também não devem ser implementadas com base apenas na recomendação; dependem de aprovação explícita e dos pré-requisitos técnicos da especificação.
