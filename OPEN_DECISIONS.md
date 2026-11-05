@@ -961,3 +961,155 @@ Adotar **18+ para o beta inicial**, com coleta mínima e autodeclaração/atribu
 - **Rejeitar** e adotar outra idade/estratégia;
 - **Ajustar** idade, verificação ou fluxo de proteção.
 
+## 18. Pacote de decisão — F-07: catálogo, visibilidade e comunidades não listadas
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Quais informações de uma comunidade podem ser descobertas por visitantes, membros e usuários autenticados, e como impedir que a existência de um catálogo público seja confundida com autorização para acessar conteúdo comunitário?
+
+### Recomendação para análise
+
+Adotar **catálogo público limitado a metadados de apresentação**, sem posts, comentários, lista nominal de membros ou conteúdo interno.
+
+A visibilidade da comunidade e a autorização para acessar seus recursos devem ser tratadas como políticas independentes:
+
+> **Descobrir uma comunidade não significa estar autorizado a participar dela ou visualizar seu conteúdo.**
+
+### O que o visitante pode visualizar
+
+Para comunidades configuradas como listadas/publicamente descobríveis:
+
+- nome;
+- slug público, quando necessário para navegação;
+- descrição;
+- categoria;
+- regras de apresentação;
+- indicação do modo de entrada (aberta ou mediante aprovação);
+- contagens agregadas, somente quando realmente necessárias à experiência.
+
+O catálogo **não deve expor por padrão**:
+
+- lista nominal de membros;
+- e-mails ou outros dados de contato;
+- posts;
+- comentários;
+- denúncias;
+- fila de moderação;
+- histórico de ações;
+- dados privados de solicitações;
+- informações que permitam inferir desnecessariamente a participação de uma pessoa.
+
+Contagens agregadas também devem ser avaliadas quanto ao risco de reidentificação, especialmente em comunidades muito pequenas.
+
+### Comunidade pública ≠ posts públicos
+
+Uma comunidade pública pode aparecer no catálogo sem que suas publicações sejam indexáveis ou acessíveis anonimamente.
+
+Por padrão:
+
+- visitante → pode consultar o catálogo permitido;
+- visitante → não pode ler posts/comentários internos;
+- membro autorizado → pode acessar o conteúdo conforme as regras da comunidade;
+- moderador atribuído → pode acessar recursos de moderação dentro do escopo;
+- administrador → acesso administrativo conforme política, sem assumir acesso irrestrito a dados privados por padrão.
+
+Essa separação deve existir no backend e ser testada por API, não somente por navegação do frontend.
+
+### Comunidades privadas
+
+Uma comunidade privada pode:
+
+- não aparecer no catálogo;
+- aparecer somente como metadado limitado, caso a configuração permita;
+- exigir solicitação de entrada;
+- exigir aprovação antes de conceder membership.
+
+A resposta para uma pessoa sem autorização não deve revelar conteúdo privado por meio de erros, contagens ou endpoints auxiliares.
+
+### Comunidades não listadas
+
+Uma comunidade não listada deve ficar fora das superfícies públicas de descoberta.
+
+O acesso pode ocorrer por:
+
+- convite válido;
+- referência autorizada;
+- fluxo administrativo;
+- outro mecanismo explicitamente aprovado.
+
+O fato de alguém conhecer o slug, ID ou URL **não concede autorização**.
+
+Endpoints que recebem identificadores de comunidade devem verificar autorização no servidor antes de devolver conteúdo ou metadados restritos.
+
+### Contagens e metadados
+
+Contagens como número de membros, posts ou solicitações devem ser tratadas como dados derivados e não como informações automaticamente públicas.
+
+Antes de expor uma contagem, avaliar:
+
+- finalidade para UX;
+- tamanho da comunidade;
+- risco de inferência de participação individual;
+- possibilidade de alteração frequente permitir rastreamento;
+- necessidade de ocultar ou arredondar valores em comunidades pequenas.
+
+Nenhuma contagem deve ser usada para criar ranking de comunidades no MVP.
+
+### Slugs, IDs e enumeração
+
+IDs e slugs não podem ser considerados segredo nem mecanismo de autorização.
+
+O sistema deve:
+
+- usar identificadores estáveis;
+- evitar respostas diferentes que revelem conteúdo privado sem necessidade;
+- aplicar autorização em toda consulta;
+- impedir enumeração de comunidades privadas por alterações de ID/slug;
+- evitar mensagens de erro que revelem existência de recursos não autorizados quando isso aumentar o risco.
+
+### Relação com membros e bloqueios
+
+O catálogo não deve transformar participação em comunidade em diretório público de pessoas.
+
+F-01 continua responsável pela política de bloqueio entre contas. F-07 não deve permitir que alguém contorne um bloqueio descobrindo dados do outro usuário por meio da lista de membros ou metadados comunitários.
+
+### Matriz preliminar de visibilidade
+
+| Recurso | Visitante | Usuário autenticado sem membership | Membro ativo | Moderador atribuído | Admin |
+|---|---|---|---|---|---|
+| Comunidade listada no catálogo | Metadados públicos | Metadados públicos | Metadados públicos | Metadados públicos | Sim |
+| Comunidade não listada | Não | Não | Conforme autorização | Conforme escopo | Sim |
+| Lista nominal de membros | Não | Não | Não por padrão | Conforme necessidade operacional | Conforme necessidade autorizada |
+| Posts da comunidade | Não | Não | Sim | Sim no escopo | Conforme autorização |
+| Comentários | Não | Não | Sim | Sim no escopo | Conforme autorização |
+| Denúncias | Não | Não | Não | Sim no escopo | Sim conforme função |
+| Solicitações de entrada de terceiros | Não | Não | Não | Somente se responsável pelo fluxo | Sim |
+| Regras públicas | Sim, se listada | Sim, se listada | Sim | Sim | Sim |
+
+A matriz é preliminar e depende da aprovação da política de privacidade e autorização.
+
+### Critérios mínimos de aceite futuros
+
+F-07 somente poderá ser considerada implementada quando:
+
+- catálogo e conteúdo tiverem políticas de autorização separadas;
+- visitante não conseguir acessar posts/comentários por URL direta;
+- comunidade privada não vazar conteúdo ou metadados indevidos;
+- comunidade não listada não puder ser descoberta por enumeração simples;
+- lista de membros não for pública por padrão;
+- solicitações e denúncias permanecerem restritas;
+- autorização for verificada no servidor;
+- testes cobrirem acesso anônimo, usuário sem membership, membro, moderador fora do escopo e alteração direta de ID/slug;
+- respostas de erro não revelarem informações privadas desnecessárias.
+
+### Recomendação de produto
+
+Adotar **catálogo público de metadados, sem transformar comunidades em feeds públicos**, com comunidades não listadas protegidas por autorização explícita.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** o modelo;
+- **Rejeitar** e adotar outro;
+- **Ajustar** visibilidade, catálogo ou regras de comunidades não listadas.
+
