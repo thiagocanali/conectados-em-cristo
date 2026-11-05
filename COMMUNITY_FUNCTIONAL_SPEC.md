@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; F-01 aprovada em 2026-11-05; F-02 a F-10 continuam pendentes**
+- Status: **rascunho funcional revisado; F-01 e F-02 aprovadas em 2026-11-05; F-03 a F-10 continuam pendentes**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
