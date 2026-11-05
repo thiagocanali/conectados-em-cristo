@@ -3,7 +3,7 @@
 - Data: 2026-11-05
 - Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; propostas F-01 a F-10, decisões técnicas/operacionais e critérios de segurança continuam pendentes.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01 aprovada em 2026-11-05; F-02 a F-10, decisões técnicas/operacionais e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -106,7 +106,8 @@ O MVP não será considerado pronto apenas por ter telas. Deve permitir em ambie
 ## 8. Decisões que precisam do responsável
 
 O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
-- F-01 a F-10: bloqueio, limites/edição, política de conteúdo e sanções, operação/SLA, retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, exclusão e reações.
+- F-01 (aprovada): bloqueio global entre contas para descoberta e interações diretas, sem exclusão automática de conteúdo comunitário.
+- F-02 a F-10 (pendentes): limites/edição, política de conteúdo e sanções, operação/SLA, retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, exclusão e reações.
 - D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
 - D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
 - D-18 a D-22: capacidade de moderação, idade mínima, documentos legais, prazo/orçamento e critérios de beta.
