@@ -6,7 +6,7 @@
 
 ## Fase 0 — Auditoria e planejamento
 
-**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01 e F-02 aprovadas em 2026-11-05; F-03 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
+**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
 
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
@@ -18,7 +18,8 @@ Tarefas:
 - [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
 - [x] Registrar a aprovação de F-01: bloqueio global entre contas para descoberta/interações diretas, sem exclusão automática de conteúdo comunitário.
 - [x] Registrar a aprovação de F-02: texto simples, limites configuráveis, janela curta de edição pelo autor, exclusão lógica e preservação restrita de evidências de denúncia ativa.
-- [ ] Aprovar, rejeitar ou ajustar formalmente F-03 a F-10; documentação detalhada não equivale a aprovação.
+- [x] Registrar a aprovação de F-03: escada proporcional de sanções, justificativa/auditoria, contestação e limites de autoridade local/global.
+- [ ] Aprovar, rejeitar ou ajustar formalmente F-04 a F-10; documentação detalhada não equivale a aprovação.
 - [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
 - [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
 - [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
@@ -83,7 +84,7 @@ Tarefas:
 - Bloqueio e denúncia de conteúdo/usuário.
 - Moderação e auditoria antes de abrir conteúdo a usuários externos.
 
-Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01 e F-02 somente após autenticação, autorização server-side, auditoria e testes; não implementar F-03 a F-10 sem aprovação explícita. Para F-02, limites numéricos e janela devem estar definidos, e retenção/exclusão devem estar alinhadas a F-05/F-09.
+Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01, F-02 e F-03 somente após autenticação, autorização server-side, auditoria e testes; não implementar F-04 a F-10 sem aprovação explícita. Para F-03, definir categorias, critérios, durações, autoridade e recurso antes de codificar as regras. Para F-02, limites numéricos e janela devem estar definidos, e retenção/exclusão devem estar alinhadas a F-05/F-09.
 
 ## Fase 4 — Segurança operacional e administração
 
