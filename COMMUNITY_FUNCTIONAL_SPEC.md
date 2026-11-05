@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
-- Data: 2026-11-04
-- Status: **rascunho funcional para revisão**
+- Data: 2026-11-05
+- Status: **rascunho funcional revisado; propostas F-01 a F-10 continuam pendentes de aprovação**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -148,12 +148,15 @@ Uma comunidade pausada não aceita novas entradas nem novas publicações; conte
 
 ### 5.6 Comentar e reagir
 - Comentários exigem acesso autorizado à publicação e permissão ativa na comunidade.
-- Reações são limitadas a opções simples definidas pelo produto; no beta, não criar reações personalizadas.
-- O sistema deve impedir duplicidade da mesma reação por usuário/publicação, permitindo alterá-la ou removê-la.
+- **Proposta F-10 (pendente de aprovação):** uma única reação positiva por membro/publicação, com rótulo inicial sugerido “Apoiar”.
+- O membro pode adicionar ou remover a própria reação; não há troca entre tipos no modelo inicial, pois só existe um tipo. Tipos adicionais exigem decisão futura explícita.
+- Reações em comentários ficam fora do escopo proposto para o MVP.
+- A operação deve ser idempotente e impedir duplicidade, inclusive em solicitações concorrentes.
 - Comentários e reações herdam as regras de visibilidade da publicação.
-- Publicação removida/oculta não aceita novas interações.
+- Publicação oculta, removida ou indisponível não aceita novas interações; o agregado não deve aparecer nas superfícies comuns enquanto o conteúdo estiver oculto/removido.
+- Não criar pontos, placares, rankings, medalhas ou ordenação competitiva. Contagem agregada simples só pode ser exibida se compatível com F-07 e sem expor lista nominal de reatores por padrão.
 
-**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado.
+**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado. Os critérios detalhados de F-10 permanecem condicionados à aprovação da proposta.
 
 ### 5.7 Denunciar
 1. Membro autenticado seleciona denunciar em conteúdo ou perfil/interação elegível.
@@ -384,7 +387,7 @@ As opções abaixo são **recomendações para discussão, não decisões aprova
 | F-07 Catálogo | Público: nome, categoria, descrição, regras, modo de entrada e contagem agregada; nunca lista de membros/posts. Não listada: apenas por convite ou acesso administrativo | Separa descoberta da exposição de pessoas e conteúdo | Confirmar campos públicos e política de convite |
 | F-08 Moderador-membro | Permitir que moderador seja membro, mas impedir que decida denúncia/solicitação em que esteja envolvido; encaminhar conflito a outro moderador/admin | Mantém participação sem conflito de interesse | Confirmar regra de impedimento e escalonamento |
 | F-09 Conteúdo | Autor pode editar por janela curta e solicitar exclusão; remoção não elimina evidência sob denúncia ativa; registrar versões mínimas e motivo de ação administrativa | Protege autoria, correção e investigação | Definir janela, retenção e exceções |
-| F-10 Reações | Começar com uma reação positiva simples (ex.: “Apoiar”) por usuário/publicação, podendo remover/trocar; sem placar competitivo ou ranking | Menos complexidade e menor incentivo a métricas de popularidade | Confirmar rótulo, semântica e se reação única atende ao produto |
+| F-10 Reações | Proposta: uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura; sem lista nominal, pontos ou ranking | Menor complexidade e menor incentivo à competição | Aprovar, rejeitar ou ajustar; tipos adicionais e reações em comentários ficam fora da proposta inicial |
 
 ### Regra para transformar proposta em decisão
 
@@ -403,3 +406,35 @@ A matriz não elimina os bloqueadores técnicos e operacionais já registrados. 
 - revisão de segurança e acessibilidade.
 
 A primeira fatia vertical recomendada, após decisões e arquitetura aprovadas, é catálogo + detalhe de comunidade + entrada/solicitação, com API, persistência, autorização e testes negativos. Publicações e moderação devem vir depois que a base de identidade e vínculos estiver segura.
+
+
+## 18. Revisão de consistência documental — 2026-11-05
+
+Esta revisão compara a especificação funcional, o registro de decisões e o roadmap. Ela não aprova automaticamente recomendações nem autoriza implementação.
+
+### Alinhamentos realizados
+
+- O escopo aprovado do MVP (cadastro, perfis, comunidades, publicações, comentários e reações) foi mantido separado das regras detalhadas ainda pendentes.
+- A seção 5.6 agora reflete a proposta F-10 documentada em `OPEN_DECISIONS.md`: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação.
+- A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
+- A matriz de permissões continua identificada como proposta; as condições de edição/exclusão permanecem bloqueadas por F-02/F-09.
+
+### Pontos que continuam bloqueando implementação com dados reais
+
+1. Aprovação explícita ou ajuste das propostas F-01 a F-10. A documentação detalhada não equivale a aprovação.
+2. Decisões técnicas D-12 a D-17 e ADRs de backend, banco, autenticação, storage, e-mail e hospedagem. Nenhuma stack ou fornecedor está selecionado por este documento.
+3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, idade mínima, revisão jurídica, orçamento e critérios de beta.
+4. Política de conteúdo, SLAs, apelações, retenção e direitos dos titulares, com revisão jurídica quando necessária.
+5. Implementação e testes de autenticação, autorização server-side, persistência, auditoria, bloqueio e fila de denúncias antes de qualquer dado real.
+
+### Ordem recomendada de trabalho
+
+- Primeiro: resolver decisões de produto e operação que afetam autorização, dados e moderação; registrar aprovações em `OPEN_DECISIONS.md`.
+- Segundo: comparar alternativas técnicas e aprovar ADRs sem pressupor fornecedor ou serviço.
+- Terceiro: implementar identidade, sessão, persistência e autorização server-side com testes negativos.
+- Quarto: implementar catálogo, detalhe e entrada/solicitação de comunidades como primeira fatia vertical.
+- Quinto: somente após a base de identidade e vínculos estar segura, implementar publicações, comentários, reações e moderação conforme decisões aprovadas.
+
+### Limites desta revisão
+
+A revisão foi documental. Não altera o protótipo, não executa migrações, não provisiona serviços, não valida segurança em execução e não substitui revisão jurídica, testes automatizados ou auditoria manual.
