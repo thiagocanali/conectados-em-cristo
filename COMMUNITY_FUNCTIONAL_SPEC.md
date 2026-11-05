@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral e F-05 aprovada nos princípios gerais de minimização/governança em 2026-11-05; F-06 a F-10 continuam pendentes**
+- Status: **rascunho funcional revisado; F-01 a F-06 aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios gerais de minimização/governança; F-06 no modelo geral de elegibilidade 18+); F-07 a F-10 continuam pendentes**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -267,7 +267,7 @@ Build bem-sucedido, isoladamente, não representa aprovação para beta.
 | F-03 | Política de conteúdo e matriz de sanções | Define ações e garantias de recurso |
 | F-04 | Prazo de revisão de denúncias, cobertura e responsáveis | Define operação segura do beta |
 | F-05 | Retenção de denúncias, auditoria e conteúdo removido | Define privacidade e obrigações de dados |
-| F-06 | Critérios de elegibilidade e idade mínima | Define cadastro e acesso |
+| F-06 | **Aprovada (2026-11-05, modelo geral):** beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas | Define cadastro, acesso e proteção de menores; mecanismo e fluxo jurídico ainda pendentes |
 | F-07 | Metadados públicos do catálogo e convites para comunidades não listadas | Define privacidade e descoberta |
 | F-08 | Possibilidade de moderador também ser membro e tratamento de conflitos de interesse | Define governança e controles |
 | F-09 | Se membro pode editar/apagar conteúdo e como preservar evidências de denúncia | Define integridade e histórico |
@@ -383,7 +383,7 @@ A tabela distingue decisões de produto já aprovadas de propostas ainda pendent
 | F-03 Política/sanções — **APROVADA (2026-11-05, modelo geral)** | Escada proporcional: orientação, advertência, remoção/ocultação, restrição temporária, suspensão temporária e suspensão permanente excepcional; ações justificadas/auditáveis, contestáveis e com poderes locais/globais delimitados | Proporcionalidade, previsibilidade, segurança e possibilidade de recurso | Definir categorias, gravidade, exceções, durações, autoridade por ação e procedimento/prazos de recurso |
 | F-04 Operação/SLA — **APROVADA (2026-11-05, modelo geral)** | Beta fechado e controlado; cobertura humana declarada, responsáveis/horários reais, priorização por risco, fila centralizada com histórico e indicadores; metas realistas antes de convidar usuários | Não prometer 24×7 sem equipe; vincula a abertura do beta à capacidade real de resposta | Definir responsáveis, escala/horários, prioridades operacionais, SLOs por prioridade, escalonamento e capacidade máxima; categorias P0–P3 ainda são referência proposta |
 | F-05 Retenção — **APROVADA (2026-11-05, princípios gerais)** | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular, preservação restrita/justificada de evidências e descarte/anonimização ao fim do prazo aplicável | Reduz exposição e acúmulo de dados sensíveis | Definir inventário, bases legais, prazos por categoria, exceções, fluxo dos titulares e backups; revisão jurídica obrigatória antes de dados reais |
-| F-06 Elegibilidade | Beta inicial 18+, sem afirmar que checkbox sozinho comprova idade; coletar somente dado mínimo necessário | Reduz riscos relacionados a menores, sem falsa garantia de verificação | Confirmar idade e mecanismo de verificação com revisão jurídica |
+| F-06 Elegibilidade — **APROVADA (2026-11-05, modelo geral)** | Beta inicial restrito a maiores de 18 anos; informar a regra antes do cadastro, não tratar checkbox isolado como prova efetiva, coletar apenas dados necessários e prever análise humana de suspeitas | Reduz riscos relacionados a menores sem criar falsa garantia de verificação | Definir método proporcional, critérios de verificação adicional, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e revisão jurídica antes do beta |
 | F-07 Catálogo | Público: nome, categoria, descrição, regras, modo de entrada e contagem agregada; nunca lista de membros/posts. Não listada: apenas por convite ou acesso administrativo | Separa descoberta da exposição de pessoas e conteúdo | Confirmar campos públicos e política de convite |
 | F-08 Moderador-membro | Permitir que moderador seja membro, mas impedir que decida denúncia/solicitação em que esteja envolvido; encaminhar conflito a outro moderador/admin | Mantém participação sem conflito de interesse | Confirmar regra de impedimento e escalonamento |
 | F-09 Conteúdo | Autor pode editar por janela curta e solicitar exclusão; remoção não elimina evidência sob denúncia ativa; registrar versões mínimas e motivo de ação administrativa | Protege autoria, correção e investigação | Definir janela, retenção e exceções |
@@ -391,7 +391,7 @@ A tabela distingue decisões de produto já aprovadas de propostas ainda pendent
 
 ### Regra para transformar proposta em decisão
 
-O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01, F-02 e F-03 foram aprovadas em 2026-11-05; F-04 foi aprovada em 2026-11-05 somente no modelo operacional geral. F-05 foi aprovada em 2026-11-05 somente nos princípios gerais de minimização e governança; F-06 a F-10 permanecem propostas não vinculantes até decisão explícita. Para F-04, horários, responsáveis, cobertura, SLOs e escalonamento concretos continuam pendentes. Para F-05, inventário, bases legais, prazos por categoria, exceções, atendimento a direitos e comportamento dos backups continuam pendentes e exigem revisão jurídica; nenhum prazo numérico foi aprovado. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
+O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01, F-02 e F-03 foram aprovadas em 2026-11-05; F-04 foi aprovada no modelo operacional geral; F-05 foi aprovada nos princípios gerais de minimização e governança; F-06 foi aprovada no modelo geral de elegibilidade 18+ e proteção de menores. F-07 a F-10 permanecem propostas não vinculantes até decisão explícita. Para F-04, horários, responsáveis, cobertura, SLOs e escalonamento concretos continuam pendentes. Para F-05, inventário, bases legais, prazos por categoria, exceções, atendimento a direitos e comportamento dos backups continuam pendentes e exigem revisão jurídica; nenhum prazo numérico foi aprovado. Para F-06, o método de verificação de idade, critérios para verificações adicionais, fluxo humano de suspeitas, tratamento de contas inelegíveis, retenção e validação jurídica continuam pendentes; a aprovação do modelo geral não autoriza o beta com usuários reais. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
 
 ## 17. Dependências para iniciar implementação comunitária
 
@@ -420,14 +420,15 @@ Esta revisão compara a especificação funcional, o registro de decisões e o r
 - F-02 foi aprovada em 2026-11-05 no modelo geral de texto simples, limites configuráveis, janela curta de edição e exclusão lógica; números e regras operacionais continuam pendentes, com dependência explícita de F-05/F-09.
 - F-03 foi aprovada em 2026-11-05 no modelo geral de sanções proporcionais, ações justificadas/auditáveis e contestáveis, com moderadores limitados às comunidades atribuídas e suspensões globais reservadas à administração; categorias, gravidade, prazos, autoridade detalhada e rito de recurso permanecem pendentes.
 - F-04 foi aprovada em 2026-11-05 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada, histórico/indicadores e metas realistas; responsáveis, horários, prioridades finais, SLOs, escalonamento e capacidade máxima permanecem pendentes.
+- F-06 foi aprovada em 2026-11-05 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas; mecanismo, critérios, fluxo/prazos, tratamento de contas inelegíveis e revisão jurídica permanecem pendentes.
 - A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
 - A matriz de permissões continua identificada como proposta; as condições de edição/exclusão devem respeitar o modelo F-02 aprovado e os detalhes ainda pendentes de F-05/F-09.
 
 ### Pontos que continuam bloqueando implementação com dados reais
 
-1. F-04 teve o modelo operacional geral aprovado, mas horários, responsáveis, cobertura, SLOs, escalonamento e capacidade do beta ainda precisam ser definidos; F-05 a F-10 aguardam aprovação explícita. F-01, F-02 e F-03 já foram aprovadas, mas exigem implementação server-side, governança detalhada e testes antes de dados reais.
+1. F-04 teve o modelo operacional geral aprovado, mas horários, responsáveis, cobertura, SLOs, escalonamento e capacidade do beta ainda precisam ser definidos; F-05 teve apenas os princípios gerais aprovados e F-06 teve o modelo geral 18+ aprovado, ambos ainda com requisitos jurídicos/operacionais bloqueadores; F-07 a F-10 aguardam aprovação explícita. F-01, F-02 e F-03 já foram aprovadas, mas exigem implementação server-side, governança detalhada e testes antes de dados reais.
 2. Decisões técnicas D-12 a D-17 e ADRs de backend, banco, autenticação, storage, e-mail e hospedagem. Nenhuma stack ou fornecedor está selecionado por este documento.
-3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, idade mínima, revisão jurídica, orçamento e critérios de beta.
+3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, método de verificação etária e fluxo de proteção de menores, revisão jurídica, orçamento e critérios de beta.
 4. Política de conteúdo, SLAs, apelações, detalhamento de retenção e direitos dos titulares, com revisão jurídica antes de dados reais.
 5. Implementação e testes de autenticação, autorização server-side, persistência, auditoria, bloqueio e fila de denúncias antes de qualquer dado real.
 
