@@ -218,6 +218,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Não reescrever em Next.js; migração Vue CLI → Vite ainda depende de plano técnico, testes e PR isolada |
+| Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
 
 ### Modelo de permissões e participação no beta — aprovado em 2026-11-04
 
@@ -250,12 +251,12 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PENDENTE DE APROVAÇÃO DO RESPONSÁVEL PELO PRODUTO.**  
-As recomendações abaixo foram propostas na `COMMUNITY_FUNCTIONAL_SPEC.md`. Elas orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 foi aprovada em 2026-11-05. F-02 a F-10 permanecem pendentes de aprovação.  
+As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
 |---|---|---|---|---|
-| F-01 | Bloqueio entre usuários | Escopo global entre as duas contas para descoberta e interações; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | Pendente |
+| F-01 | Bloqueio entre usuários | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | **Aprovada (2026-11-05)** |
 | F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | Pendente |
 | F-03 | Política e sanções | Escala proporcional: orientação, advertência, remoção/ocultação, restrição temporária e suspensão; escalonamento imediato de risco grave | Governança, poderes de moderação, comunicação e recurso | Pendente |
 | F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
@@ -276,19 +277,19 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-01, F-02, F-03, F-07, F-08, F-09 e F-10 também não devem ser implementadas com base apenas na recomendação; dependem de aprovação explícita e dos pré-requisitos técnicos da especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-02, F-03, F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01 foi aprovada como regra de produto, mas sua implementação depende dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05.**
 
-### Pergunta de produto
+O responsável pelo produto aprovou a opção global: o bloqueio iniciado por uma conta deve ser aplicado entre as duas contas para descoberta e interações diretas em toda a plataforma. A regra é de produto; a implementação continua condicionada à autorização server-side, testes e controles de auditoria.
 
-Quando um usuário bloquear outro, o bloqueio deve valer somente para determinadas interações/comunidades ou deve ser uma regra consistente entre as contas em toda a plataforma?
+### Decisão aprovada e limites
 
-### Opção recomendada para análise
+**Bloqueio global entre as duas contas, aplicado à descoberta e às interações diretas em toda a plataforma, sem exclusão automática do conteúdo comunitário.**
 
-**Bloqueio global entre as duas contas, aplicado às interações e à descoberta, sem apagar nem ocultar automaticamente conteúdo comunitário de terceiros.**
+O bloqueio não apaga automaticamente publicações ou comentários históricos. A visibilidade desse conteúdo continua subordinada às regras de acesso da comunidade, à privacidade e às decisões de retenção/moderação. A equipe autorizada continua podendo investigar denúncias e executar ações de moderação dentro do escopo necessário.
 
 O bloqueio deve impedir, conforme as regras finais:
 - descoberta direta entre as contas;
@@ -348,10 +349,7 @@ A implementação de F-01 só poderá ser considerada funcional quando:
 
 Para o princípio **“Comunidade primeiro. Conexões depois. Relacionamentos como consequência.”**, a opção global é a mais coerente: o bloqueio protege a relação entre duas contas sem transformar a comunidade em um conjunto de silenciamentos privados que substituam a moderação.
 
-**Decisão solicitada ao responsável pelo produto:**  
-- **Aprovar** a opção global;
-- **Rejeitar** e adotar bloqueio limitado à comunidade; ou
-- **Ajustar** o escopo e registrar as exceções.
+**Registro da decisão:** opção global aprovada pelo responsável pelo produto em 2026-11-05, após confirmação de continuidade do trabalho. Os detalhes operacionais de notificações, desbloqueio, limites antiabuso, exceções de segurança e visibilidade de conteúdo histórico deverão ser especificados antes da implementação, sem contrariar os limites já aprovados.
 
 ## 13. Pacote de decisão — F-02: limites, edição e exclusão
 
