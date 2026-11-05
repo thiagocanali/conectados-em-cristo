@@ -1,9 +1,9 @@
 # Análise de Lacunas de Produto
 
-- Data: 2026-11-04
-- Baseline: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
+- Data: 2026-11-05
+- Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica aprovada em 2026-11-04; detalhes operacionais e critérios de segurança do MVP ainda precisam ser fechados.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01 aprovada em 2026-11-05; F-02 a F-10, decisões técnicas/operacionais e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -58,12 +58,15 @@ O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, com
 
 ## 4. Comunidade ampla versus solteiros
 
-**Recomendação:** plataforma ampla para adultos cristãos, sem exigir intenção romântica. Recursos de relacionamento, se aprovados, devem ser uma área opcional e explicitamente opt-in, com limites de idade, preferências e controles separados.
+**Decisão aprovada:** a plataforma atende adultos cristãos de diferentes denominações, sem exigir intenção romântica. Descoberta individual e relacionamentos não são o núcleo nem a porta de entrada do MVP; mensagens privadas e descoberta individual ficam fora do primeiro MVP.
 
-Decisões ainda pendentes:
-- A plataforma permitirá qualquer adulto cristão ou terá recorte etário/temático?
-- Quais categorias de comunidades existirão no beta, incluindo eventual comunidade geral e grupos temáticos?
-- Quais metadados do catálogo de comunidades serão públicos e quais dados do perfil serão visíveis a membros versus não participantes?
+**Ainda pendente:** a idade mínima operacional/jurídica do beta (F-06/D-19) não está aprovada apenas pela definição de público adulto. A proposta de beta 18+ continua sujeita a validação.
+
+Pontos que continuam em aberto:
+- Quais categorias e comunidades específicas serão lançadas primeiro, além do modelo aprovado de comunidades curadas pela administração?
+- Quais metadados públicos serão exibidos no catálogo, conforme a proposta F-07?
+- Quais campos de perfil serão visíveis a membros, visitantes e não participantes?
+- Quais limites e controles seriam necessários caso descoberta/relacionamentos sejam reavaliados no futuro?
 
 
 ## 5. Critérios de sucesso centrados nas pessoas
@@ -102,4 +105,11 @@ O MVP não será considerado pronto apenas por ter telas. Deve permitir em ambie
 
 ## 8. Decisões que precisam do responsável
 
-Ver `OPEN_DECISIONS.md`: público, comunidades iniciais, conteúdo de fé, pedidos de oração, descoberta de pessoas, chat, idiomas, monetização, prazo e capacidade de moderação.
+O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
+- F-01 (aprovada): bloqueio global entre contas para descoberta e interações diretas, sem exclusão automática de conteúdo comunitário.
+- F-02 a F-10 (pendentes): limites/edição, política de conteúdo e sanções, operação/SLA, retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, exclusão e reações.
+- D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
+- D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
+- D-18 a D-22: capacidade de moderação, idade mínima, documentos legais, prazo/orçamento e critérios de beta.
+
+As decisões estratégicas já aprovadas (público adulto cristão amplo, princípio comunitário, MVP, Vue 3 e modelo-base de comunidades/permissões) não devem ser reabertas por este documento. A aprovação do escopo não equivale a autorização para coletar dados reais ou provisionar serviços.
