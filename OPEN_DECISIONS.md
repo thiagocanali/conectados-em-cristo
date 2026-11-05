@@ -461,3 +461,150 @@ Os números exatos não devem ser inventados nesta fase. Devem ser definidos jun
 - **Aprovar** a alternativa C e definir os limites;
 - **Rejeitar** e adotar outra alternativa; ou
 - **Ajustar** a proposta.
+
+## 14. Pacote de decisão — F-03: política de conteúdo e matriz de sanções
+
+**Status: PROPOSTA — não aprovada.**
+
+### Pergunta de produto
+
+Quais comportamentos e conteúdos são proibidos, quais medidas podem ser aplicadas e qual o nível de autoridade necessário para cada medida?
+
+A política precisa proteger a comunidade sem transformar a moderação em punição arbitrária. Toda ação relevante deve ter escopo, motivo, duração quando aplicável e registro auditável.
+
+### Princípios recomendados
+
+1. Regras devem ser publicadas antes da participação e escritas em linguagem compreensível.
+2. A política deve ser aplicada de forma consistente, independentemente de denominação, posição social ou popularidade do membro.
+3. Ação de moderação deve ser proporcional à gravidade, reincidência e risco.
+4. Ameaças críveis, exploração sexual, violência, perseguição grave e outros riscos imediatos devem receber tratamento prioritário e possível escalonamento.
+5. Moderadores não devem usar ferramentas de moderação para benefício próprio ou contra conflitos nos quais tenham interesse pessoal.
+6. Ação disciplinar não substitui suporte pastoral, jurídico ou emergência quando esses forem apropriados.
+7. Nenhuma sanção deve depender apenas de esconder um botão no frontend: a autorização precisa existir no servidor.
+8. Toda ação relevante deve gerar registro mínimo de auditoria, sem expor desnecessariamente dados sensíveis.
+
+### Categorias iniciais para a política de conteúdo
+
+A política futura deverá definir, no mínimo:
+- assédio, humilhação e ataques pessoais;
+- discurso de ódio e discriminação;
+- ameaças e incentivo à violência;
+- perseguição e comportamento intimidatório;
+- conteúdo sexual explícito ou exploração sexual;
+- exploração ou risco envolvendo menores;
+- spam, fraude, golpes e manipulação;
+- impersonação/falsa identidade;
+- divulgação indevida de dados pessoais;
+- malware, links maliciosos ou instruções abusivas;
+- conteúdo deliberadamente enganoso usado para prejudicar outros;
+- conteúdo incompatível com as regras específicas da comunidade.
+
+Discussões teológicas e diferenças denominacionais, por si só, **não devem ser tratadas como violação**. A moderação deve focar comportamento, segurança e regras publicadas, não impor uma preferência doutrinária única à plataforma inteira.
+
+### Escada de sanções proposta
+
+**Nível 0 — orientação**
+- esclarecer a regra;
+- pedir correção voluntária;
+- não gera suspensão.
+
+**Nível 1 — aviso formal**
+- registrar a violação;
+- explicar a regra aplicada;
+- solicitar mudança de comportamento.
+
+**Nível 2 — remoção/ocultação do conteúdo**
+- retirar conteúdo que viola regras;
+- informar motivo quando seguro e operacionalmente possível;
+- registrar ação.
+
+**Nível 3 — restrição temporária**
+- impedir temporariamente determinadas ações, como publicar ou comentar;
+- definir início e término;
+- registrar justificativa e escopo.
+
+**Nível 4 — suspensão temporária da conta**
+- impedir participação na plataforma por período definido;
+- reservar para violações relevantes ou reincidência;
+- exigir autorização conforme a governança aprovada.
+
+**Nível 5 — remoção/bloqueio permanente**
+- medida excepcional;
+- destinada a abuso grave, risco significativo ou reincidência após medidas anteriores;
+- deve possuir justificativa, registro e mecanismo de revisão quando aplicável.
+
+### Escalonamento imediato
+
+Casos com risco grave não precisam seguir toda a escada.
+
+Exemplos:
+- ameaça crível de violência;
+- exploração sexual ou risco envolvendo menor;
+- divulgação maliciosa de dados pessoais sensíveis;
+- fraude grave;
+- tentativa de comprometer a segurança da plataforma;
+- perseguição grave ou ameaça persistente.
+
+Nesses casos, a prioridade é preservar segurança, limitar dano e encaminhar o caso para a autoridade interna apropriada. Quando houver necessidade de contato com serviços externos, isso deve seguir procedimento formal e aplicável, sem prometer ações que a plataforma não tenha capacidade legal ou operacional de executar.
+
+### Matriz preliminar de autoridade
+
+| Ação | Moderador da comunidade | Admin da plataforma |
+|---|---|---|
+| Orientação | Sim, no escopo | Sim |
+| Aviso formal | Sim, no escopo | Sim |
+| Ocultar/remover conteúdo da comunidade | Sim, no escopo | Sim |
+| Restrição temporária dentro da comunidade | Proposta/recomendação, conforme política aprovada | Sim |
+| Suspensão global da conta | Não | Sim |
+| Bloqueio/remoção permanente | Não unilateralmente, salvo fluxo de emergência expressamente aprovado | Sim, conforme política |
+| Revisão/apelação | Não decide caso próprio | Sim ou responsável designado |
+| Ação sobre comunidade não atribuída | Não | Sim |
+| Alteração das regras globais | Não | Sim |
+
+Essa matriz é **preliminar** e depende da governança final. O princípio central é que o moderador tenha poder suficiente para proteger sua comunidade, mas não poder global desnecessário.
+
+### Conflito de interesse e recusa
+
+Um moderador deve se retirar de uma decisão quando:
+- é o autor ou alvo direto da denúncia;
+- possui conflito pessoal relevante;
+- a decisão envolve ação contra si próprio;
+- a imparcialidade não puder ser preservada.
+
+O caso deve ser encaminhado a outro moderador autorizado ou ao administrador responsável.
+
+### Apelação
+
+A política deverá prever, no mínimo:
+- que medidas relevantes possam ser contestadas;
+- prazo razoável para recurso;
+- revisão por pessoa diferente da que aplicou a medida, quando possível;
+- registro da decisão de recurso;
+- proibição de retaliar o usuário por apresentar recurso de boa-fé.
+
+Não é necessário definir agora o mecanismo técnico de recursos; primeiro deve ser aprovada a regra operacional.
+
+### Critérios mínimos de aceite futuros
+
+F-03 somente poderá ser considerada implementada quando:
+- regras publicadas forem versionadas;
+- categorias de violação estiverem definidas;
+- cada sanção tiver autoridade e escopo claros;
+- ações de moderador forem limitadas à comunidade atribuída;
+- suspensão global não puder ser executada por moderador comum;
+- conflitos de interesse tiverem fluxo de recusa;
+- ações relevantes produzirem auditoria;
+- casos graves tiverem fluxo de escalonamento;
+- exista mecanismo de revisão/apelação para sanções definidas como recorríveis;
+- testes cubram tentativa de aplicar sanção fora do escopo, suspensão global por moderador, conflito de interesse e escalonamento.
+
+### Recomendação de produto
+
+Adotar como ponto de partida uma **escada proporcional de sanções**, com poderes locais para moderadores e poderes globais reservados à administração, além de um fluxo explícito para casos graves e conflitos de interesse.
+
+Isso deve ser aprovado junto com a política de conteúdo e a governança da plataforma; não deve ser codificado como regra definitiva antes dessa aprovação.
+
+**Decisão solicitada ao responsável pelo produto:**
+- **Aprovar** a escada e a matriz;
+- **Rejeitar** e adotar outro modelo; ou
+- **Ajustar** categorias, sanções, autoridades e fluxo de recurso.
