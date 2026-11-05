@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-05 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados). F-06 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-06 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores). F-07 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
@@ -262,7 +262,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
 | F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
 | F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
-| F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
+| F-06 | Elegibilidade | Beta inicial restrito a maiores de 18 anos; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
 | F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
 | F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F--07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -847,15 +847,15 @@ F-05 somente poderá ser considerada implementada quando:
 
 ## 17. Pacote de decisão — F-06: elegibilidade etária e proteção de menores
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.** A aprovação define beta inicial 18+ e princípios de proteção; não aprova um mecanismo específico de verificação nem autoriza o beta com usuários reais.
 
 ### Pergunta de produto
 
 Qual deve ser a regra de idade para o beta e quais controles devem existir para reduzir o risco de acesso de menores a uma plataforma inicialmente desenhada para adultos?
 
-### Recomendação para análise
+### Decisão aprovada — modelo geral
 
-Adotar **18+ no beta inicial**, sem tratar um checkbox como prova robusta de idade.
+Adotar **18+ no beta inicial**, informar a idade mínima antes do cadastro, não tratar um checkbox isolado como prova efetiva de idade, coletar somente os dados necessários e prever análise humana e proteção de dados para suspeitas de contas de menores. O mecanismo concreto de verificação e o procedimento operacional permanecem pendentes de revisão jurídica.
 
 A regra deve ser simples de comunicar e aplicada no servidor, não apenas escondendo telas no frontend. O cadastro deve coletar somente a informação necessária para aplicar a política e evitar solicitar documento de identidade ou data de nascimento completa sem uma necessidade legítima e previamente validada.
 
@@ -880,7 +880,7 @@ Isso **não significa que um checkbox seja suficiente para impedir um menor de m
 
 ### Verificação de idade
 
-A verificação adicional de idade fica **em aberto**.
+A necessidade e o mecanismo concreto de verificação adicional continuam **em aberto**, conforme avaliação de risco e revisão jurídica. A aprovação do modelo geral não escolhe entre autodeclaração, verificação reforçada ou estratégia híbrida.
 
 Alternativas:
 
@@ -904,7 +904,7 @@ Alternativas:
 - verificação adicional somente em situações de risco ou inconsistência;
 - exige critérios claros para acionar a verificação e política de retenção específica.
 
-**Recomendação:** começar avaliando A para o beta fechado e deixar C como evolução possível, sem contratar ou integrar fornecedor de verificação antes de uma necessidade comprovada e revisão jurídica.
+**Ponto ainda não decidido:** avaliar A, B ou C somente após análise de risco, necessidade, proporcionalidade, impacto na privacidade e revisão jurídica. Não contratar nem integrar fornecedor de verificação antes dessa validação.
 
 ### Conteúdo e interação envolvendo menores
 
@@ -929,18 +929,18 @@ F-06 depende especialmente de:
 - **D-19:** idade mínima;
 - revisão jurídica antes de qualquer beta com usuários reais.
 
-A decisão de 18+ proposta aqui é coerente com a recomendação já registrada em D-19, mas **não substitui a aprovação formal de D-19**.
+A decisão de 18+ foi aprovada como regra de produto para o beta em 2026-11-05 e deve ser refletida em D-19. A aprovação não define o mecanismo de verificação nem substitui a revisão jurídica dos procedimentos.
 
 ### Critérios mínimos de aceite futuros
 
 F-06 somente poderá ser considerada implementada quando:
 
-- a idade mínima estiver formalmente aprovada;
+- a idade mínima de 18 anos estiver publicada de forma clara antes do cadastro;
 - a regra estiver publicada antes do cadastro;
-- a verificação ocorrer no servidor;
+- o mecanismo de verificação escolhido estiver documentado, validado juridicamente e aplicado no servidor;
 - contas inelegíveis não conseguirem contornar a regra por API;
 - existir fluxo para suspeita/denúncia de menor;
-- houver procedimento para encerramento ou restrição de contas inelegíveis;
+- houver procedimento humano documentado para suspeitas, restrição proporcional, encerramento de contas inelegíveis e tratamento de conteúdo/dados associados;
 - dados coletados para idade forem minimizados;
 - retenção e exclusão desses dados estiverem documentadas;
 - incidentes envolvendo menores tiverem rota de escalonamento;
@@ -950,10 +950,9 @@ F-06 somente poderá ser considerada implementada quando:
 
 Adotar **18+ para o beta inicial**, com coleta mínima e autodeclaração/atributo de elegibilidade como ponto de partida, deixando verificação reforçada como opção futura condicionada a risco real, necessidade e revisão jurídica.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** 18+ e os controles mínimos;
-- **Rejeitar** e adotar outra idade/estratégia;
-- **Ajustar** idade, verificação ou fluxo de proteção.
+**Registro da decisão (2026-11-05):** modelo geral aprovado: beta 18+, informação clara da idade mínima, verificação proporcional sem presumir que checkbox comprove idade, coleta mínima, análise humana de suspeitas e revisão jurídica antes do beta.
+
+**Ainda pendente:** método de verificação, critérios para acionar verificações adicionais, dados/evidências permitidos, fluxo e prazos de revisão, medidas para contas inelegíveis, retenção/exclusão e validação jurídica. A aprovação não autoriza cadastro de usuários reais nem abertura do beta.
 
 ## 18. Pacote de decisão — F-07: catálogo, visibilidade e comunidades não listadas
 
