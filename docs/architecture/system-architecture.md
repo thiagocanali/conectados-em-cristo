@@ -2,7 +2,7 @@
 
 ## Estado implementado
 
-O repositório executa uma SPA Vue 3 com Vue Router 4, Vue CLI 5, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
+O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
 
 ## Arquitetura alvo (proposta, não implementada)
 
@@ -56,7 +56,7 @@ O diagrama e os componentes a seguir representam uma hipótese de arquitetura fu
 ## Componentes da arquitetura alvo
 
 ### 1. Frontend
-- **Implementado:** Vue 3, Vue Router 4, Vue CLI 5, CSS próprio e hash routing.
+- **Implementado:** Vue 3, Vue Router 4, Vite 6, CSS próprio e hash routing.
 - **Dependências sem uso identificado:** Pinia e Tailwind CSS.
 - **Deploy configurado:** GitHub Pages e Vercel; ambiente ativo não confirmado.
 - **Não implementado:** cliente de API, estado de autenticação de servidor ou sincronização remota.
