@@ -49,7 +49,7 @@ npm run lint
 npm run build
 ```
 
-Não há suíte automatizada de testes unitários, integração ou E2E configurada atualmente.
+Há uma suíte pequena de cinco testes unitários executados por `npm test` (Node.js Test Runner), focada em utilitários de armazenamento. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
 
 ## Antes de qualquer lançamento real
 
