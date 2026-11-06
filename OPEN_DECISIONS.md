@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-08 foram aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse). F-09 e F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-09 foram aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse; F-09 no modelo geral de edição, exclusão e preservação controlada de evidências). F-10 permanece pendente de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
@@ -265,7 +265,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-06 | Elegibilidade | Beta inicial restrito a pessoas com 18 anos ou mais; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
 | F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado; participação não vira diretório público | API pública, privacidade e descoberta | **Aprovada (2026-11-05) — modelo geral** |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | **Aprovada (2026-11-06) — modelo geral** |
-| F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
+| F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão com ocultação rápida; exclusão/anonimização conforme F-05 e preservação mínima de evidência com acesso restrito | Integridade, retenção, direitos do titular e moderação | **Aprovada (2026-11-06) — modelo geral** |
 | F-10 | Reações | Uma reação positiva inicial (ex.: “Apoiar”), removível/trocável, sem ranking competitivo | UX, modelo de dados e métricas de engajamento | Pendente |
 
 ### Como registrar a decisão
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07 teve o modelo geral aprovado, mas campos exatos, política de contagens, regras de convite/autorização e controles técnicos permanecem a detalhar; F-08 teve o modelo geral aprovado, mas critérios exatos de conflito, encaminhamento/fallback e detalhes de auditoria permanecem a definir; F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07 teve o modelo geral aprovado, mas campos exatos, política de contagens, regras de convite/autorização e controles técnicos permanecem a detalhar; F-08 teve o modelo geral aprovado, mas critérios exatos de conflito, encaminhamento/fallback e detalhes de auditoria permanecem a definir; F-10 continua dependendo de aprovação explícita; F-09 foi aprovada apenas no modelo geral e mantém detalhes operacionais pendentes. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -1212,15 +1212,15 @@ Adotar **moderador também pode ser membro, mas nunca decide casos em que esteja
 
 ## 20. Pacote de decisão — F-09: edição, exclusão e preservação de conteúdo
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-06 — modelo geral.**
 
 ### Pergunta de produto
 
 Como permitir que autores corrijam ou removam suas publicações e comentários sem comprometer a integridade de denúncias, a segurança da comunidade, a transparência da moderação ou os direitos de titulares?
 
-### Recomendação para análise
+### Decisão aprovada e limites
 
-Adotar **edição própria por uma janela curta e configurável, seguida de bloqueio de edição; permitir solicitação de exclusão com ocultação do conteúdo e tratamento de retenções excepcionais documentadas**.
+Adotar **edição própria por uma janela curta e configurável, seguida de bloqueio de edição; permitir solicitação de exclusão com ocultação rápida do conteúdo e exclusão/anonimização conforme F-05, com retenção excepcional mínima, restrita, justificada e revisável**. A aprovação é do modelo geral: não define duração da janela, prazos de retenção, critérios jurídicos ou fluxos operacionais finais.
 
 A janela não deve receber um prazo numérico nesta proposta. O valor deverá ser definido após avaliação de UX, risco de abuso, operação e retenção. A política deve diferenciar remoção visível ao público, exclusão efetiva dos dados e preservação excepcional de evidências.
 
@@ -1298,7 +1298,7 @@ Prazos, bases legais, comunicação e exceções devem ser validados na polític
 
 **B — Ocultação sem exclusão efetiva.** Facilita a implementação, mas pode manter dados indefinidamente sem finalidade clara e prejudicar direitos do titular.
 
-**C — Ocultação rápida, exclusão/anonimização conforme política e retenção excepcional mínima e auditada.** Equilibra experiência do usuário, segurança e governança; recomendada para análise.
+**C — Ocultação rápida, exclusão/anonimização conforme política e retenção excepcional mínima e auditada.** Modelo geral aprovado por equilibrar experiência do usuário, segurança e governança.
 
 ### Critérios mínimos de aceite futuros
 
@@ -1324,10 +1324,7 @@ F-09 depende de F-02 (limites e edição), F-03 (sanções e recursos), F-04 (op
 
 Adotar **edição própria por janela curta configurável; ocultação rápida quando a remoção for solicitada; exclusão ou anonimização conforme F-05; e retenção excepcional mínima de evidência apenas enquanto houver finalidade legítima documentada**.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo de janela curta, ocultação e retenção excepcional controlada;
-- **Rejeitar** e escolher outro fluxo de edição/exclusão;
-- **Ajustar** janela, histórico, tratamento de denúncias ou comunicação ao titular.
+**Decisão registrada:** modelo geral aprovado em 2026-11-06. Permanecem pendentes: duração da janela de edição; política de versões/histórico; critérios e fluxo de exclusão; tratamento de comentários de terceiros; critérios, responsáveis e prazos de retenção excepcional; comunicação ao titular; exceções legais; integração com backups; e validação jurídica. Esses detalhes não autorizam implementação ou coleta de dados reais.
 
 
 ---
