@@ -164,3 +164,85 @@ Valores específicos não foram fixados porque preços, limites e disponibilidad
 ## 13. Decisões pendentes
 
 Consulte `OPEN_DECISIONS.md`. Esta recomendação não autoriza contratação, provisionamento ou migração.
+
+
+## 14. Proposta de decisões técnicas para revisão — 2026-11-06
+
+Esta seção transforma a recomendação anterior em uma proposta objetiva para a próxima etapa. **Não é aprovação de fornecedor, contratação, provisionamento ou autorização para iniciar a implementação.** As decisões D-12 a D-17 em `OPEN_DECISIONS.md` continuam sendo o registro canônico e permanecem pendentes até aprovação explícita.
+
+### 14.1 Padrões técnicos recomendados
+
+| Camada | Padrão recomendado para avaliação | O que ainda precisa ser decidido |
+|---|---|---|
+| Frontend | Vue 3 + Vue Router, migração isolada de Vue CLI para Vite; TypeScript gradual | Plano de compatibilidade, correção das vulnerabilidades atuais, testes e aprovação do PR de migração |
+| API | Node.js LTS + TypeScript + Fastify, monólito modular | Teste vertical, estrutura de módulos, validação, logging, OpenAPI e política de suporte da versão Node |
+| Persistência | PostgreSQL relacional, migrations versionadas | Provedor, região, custo, backup/restore, limites e estratégia de conexão |
+| Identidade | Serviço de autenticação gerenciado, com sessão segura | Comparação de Supabase Auth, Clerk e Better Auth; cookies, MFA, recuperação, exportação, custo e integração |
+| Autorização | Regras de domínio verificadas pela API em cada operação | Matriz completa de permissões, testes negativos e trilha de auditoria |
+| Arquivos | Object storage privado, acesso temporário por URL assinada | Provedor, região, limites, processamento, remoção e política de retenção |
+| E-mail | Provedor transacional separado da lógica de domínio | Entregabilidade, domínio, preço, limites e requisitos de privacidade |
+| Hospedagem | Vercel para frontend; API em serviço gerenciado compatível com Node | Provedor e custo mensal; disponibilidade, logs, secrets, deploy e rollback |
+| Observabilidade | Logs estruturados mínimos, métricas de disponibilidade e erros | Retenção, acesso, alertas e custo compatíveis com F-05 |
+
+### 14.2 Decisões que não devem ser misturadas
+
+1. **Escolher PostgreSQL não significa escolher Supabase ou Neon.** O modelo de dados e as migrations devem permanecer portáveis.
+2. **Escolher autenticação gerenciada não delega autorização comunitária ao frontend.** A API deve validar conta, papel, vínculo comunitário, estado do conteúdo, bloqueios e impedimentos F-08 em todas as operações.
+3. **RLS pode ser defesa adicional, não substituto da política de autorização.** Se houver acesso direto do cliente ao banco, isso exige revisão específica de superfície de ataque e testes.
+4. **Storage privado é obrigatório para conteúdo não público.** URLs assinadas devem ter escopo e validade limitados; nomes de arquivos e IDs não são autorização.
+5. **Vercel para frontend não implica hospedar a API na mesma plataforma.** A decisão de API deve considerar runtime, execução contínua quando necessária, rede, conexão com PostgreSQL e custos.
+6. **Nenhum serviço gratuito deve ser tratado como gratuito para sempre ou adequado por padrão.** Limites, suspensão por inatividade, backup, região, egress e política de dados devem ser verificados antes de uso.
+
+### 14.3 Sequência de execução recomendada
+
+| Ordem | Etapa | Entrega verificável | Bloqueio para avançar |
+|---|---|---|---|
+| 0 | Revisar PR documental e consolidar decisões | Documentação alinhada na `main` | Concluída pela PR #20 |
+| 1 | Inventário técnico do frontend e dependências | Relatório de scripts, plugins, vulnerabilidades e comportamento atual | Não aplicar atualizações forçadas; definir correções seguras |
+| 2 | Plano de migração Vue CLI → Vite | Plano, matriz de compatibilidade e critérios de equivalência | Nenhuma tela ou rota pode ser perdida |
+| 3 | Migração isolada do frontend | PR pequena com lint, testes, build e smoke tests | Sem backend, dados reais ou mudança visual não solicitada |
+| 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Depende de aprovação da stack e versão suportada |
+| 5 | Modelo de dados e threat model | ERD, classificação de dados, ameaças e matriz de acesso | F-05, F-07, F-08, F-09 e F-10 detalhadas |
+| 6 | Seleção de provedores e ambiente dev | ADRs de fornecedor, estimativa de custo e ambiente isolado | Orçamento e aprovação explícita antes de contratar/provisionar |
+| 7 | Primeiro fluxo vertical | Cadastro, sessão, perfil e membership com autorização real | Revisão de segurança e testes negativos |
+| 8 | Conteúdo e moderação | Publicação, comentários, reações, denúncia e auditoria | Regras F-01 a F-10 operacionalizadas |
+| 9 | Homologação | Testes E2E, backup/restore, acessibilidade, privacidade e segurança | Revisão jurídica e operação de moderação antes de dados reais |
+
+### 14.4 Critérios mínimos para aprovar a stack
+
+Antes de escolher fornecedores, elaborar uma comparação simples e reproduzível que registre:
+
+- custo mensal estimado para desenvolvimento e beta, incluindo o que acontece ao ultrapassar limites gratuitos;
+- região de processamento/armazenamento e opções de exportação;
+- backups, recuperação pontual quando disponível e teste de restauração;
+- limites de conexões, armazenamento, banda, execução e e-mail;
+- autenticação, MFA, recuperação de conta, sessões e integração com API;
+- logs, auditoria, exportação e exclusão;
+- lock-in e caminho de migração;
+- requisitos de LGPD e revisão jurídica aplicável.
+
+A comparação deve usar uma estimativa explícita de usuários ativos, publicações, imagens, tráfego e e-mails. Sem esses números, qualquer custo é apenas indicativo.
+
+### 14.5 Escopo permitido agora
+
+Até que as decisões pendentes sejam aprovadas, o trabalho pode avançar em:
+- auditoria do frontend e inventário de dependências;
+- desenho de arquitetura e contratos de API sem dados reais;
+- threat model e matriz de autorização;
+- plano de migração e testes;
+- protótipos locais com dados sintéticos.
+
+Não avançar em:
+- contratação ou ativação de serviços pagos;
+- criação de banco/armazenamento com dados reais;
+- migração de dados;
+- cadastro de usuários reais;
+- publicação de pedidos de oração reais;
+- autenticação ou autorização de produção;
+- lançamento de beta ou promessa de cobertura de moderação.
+
+### 14.6 Próxima tarefa técnica
+
+A próxima tarefa recomendada é **auditar o frontend atual e preparar o plano de migração Vue CLI 5 → Vite**, começando por scripts, plugins, aliases, variáveis de ambiente, rotas, assets, testes e vulnerabilidades. A migração deve ocorrer em branch/PR isolada, preservando Vue 3, Vue Router, CSS próprio e comportamento existente. Não incluir TypeScript em massa na mesma mudança: primeiro estabilizar a ferramenta de build; depois introduzir TypeScript por módulos.
+
+**Estado:** proposta técnica registrada para revisão. D-12 a D-17 continuam pendentes; nenhuma escolha de fornecedor foi aprovada.
