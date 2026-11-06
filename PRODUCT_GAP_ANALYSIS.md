@@ -3,7 +3,7 @@
 - Data: 2026-11-05
 - Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01 aprovada em 2026-11-05; F-02 a F-10, decisões técnicas/operacionais e critérios de segurança continuam pendentes.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 aprovada no modelo geral de participação com impedimento por conflito de interesse em 2026-11-06; os modelos gerais de F-09 e F-10 foram aprovados em 2026-11-06; detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -60,11 +60,11 @@ O responsável aprovou este núcleo como direção do MVP: cadastro, perfis, com
 
 **Decisão aprovada:** a plataforma atende adultos cristãos de diferentes denominações, sem exigir intenção romântica. Descoberta individual e relacionamentos não são o núcleo nem a porta de entrada do MVP; mensagens privadas e descoberta individual ficam fora do primeiro MVP.
 
-**Ainda pendente:** a idade mínima operacional/jurídica do beta (F-06/D-19) não está aprovada apenas pela definição de público adulto. A proposta de beta 18+ continua sujeita a validação.
+**Decisão aprovada (F-06, modelo geral):** beta inicial restrito a pessoas com 18 anos ou mais, com informação clara antes do cadastro, verificação proporcional, coleta mínima e análise humana de suspeitas de contas de menores. **Ainda pendente:** mecanismo concreto de verificação, critérios para acioná-lo, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e validação jurídica antes de qualquer beta com usuários reais.
 
 Pontos que continuam em aberto:
 - Quais categorias e comunidades específicas serão lançadas primeiro, além do modelo aprovado de comunidades curadas pela administração?
-- Quais metadados públicos serão exibidos no catálogo, conforme a proposta F-07?
+- Quais campos exatos serão expostos no catálogo e quais contagens agregadas serão permitidas, conforme o modelo geral aprovado em F-07?
 - Quais campos de perfil serão visíveis a membros, visitantes e não participantes?
 - Quais limites e controles seriam necessários caso descoberta/relacionamentos sejam reavaliados no futuro?
 
@@ -107,9 +107,17 @@ O MVP não será considerado pronto apenas por ter telas. Deve permitir em ambie
 
 O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
 - F-01 (aprovada): bloqueio global entre contas para descoberta e interações diretas, sem exclusão automática de conteúdo comunitário.
-- F-02 a F-10 (pendentes): limites/edição, política de conteúdo e sanções, operação/SLA, retenção, elegibilidade, visibilidade do catálogo, conflito de interesse, exclusão e reações.
+- F-02 (aprovada no modelo geral): texto simples, limites configuráveis, janela curta de edição pelo autor, exclusão lógica e preservação restrita de evidências de denúncia ativa; números e regras operacionais dependem de F-05/F-09.
+- F-03 (aprovada no modelo geral): escada proporcional de sanções, justificativa/auditoria, contestação e limites entre poderes locais de moderadores e poderes globais administrativos; detalhes operacionais continuam pendentes.
+- F-04 (modelo geral aprovado): beta fechado com cobertura humana declarada, priorização por risco, fila centralizada e metas realistas; responsáveis, horários, SLOs, escalonamento e capacidade ainda pendentes.
+- F-05 (aprovada nos princípios gerais): minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular, preservação restrita de evidências e descarte/anonimização ao fim do prazo aplicável; inventário, bases legais, prazos, exceções, backups e revisão jurídica ainda pendentes.
+- F-06 (modelo geral aprovado): beta 18+, informação clara, verificação proporcional, coleta mínima e análise humana; mecanismo, fluxo e revisão jurídica ainda pendentes.
+- F-07 (modelo geral aprovado): catálogo público limitado a metadados, sem posts/comentários/lista nominal de membros; não listadas por convite/autorização; campos exatos, contagens e controles anti-vazamento ainda pendentes.
+- F-08 (modelo geral aprovado): moderador pode ser membro, mas deve se impedir em casos envolvendo a própria conta, conteúdo/ação própria, recurso próprio ou interesse direto, com encaminhamento a outro moderador elegível ou administração/substituto independente e auditoria restrita. Ainda pendentes critérios completos de conflito, fallback, acesso pré-impedimento e detalhes de auditoria/testes.
+- F-09 (modelo geral aprovado em 2026-11-06): edição própria por janela curta, solicitação de exclusão com ocultação rápida, exclusão/anonimização conforme F-05 e retenção excepcional mínima, restrita e auditada; parâmetros operacionais e revisão jurídica pendentes.
+- F-10 (modelo geral aprovado em 2026-11-06): uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura, sem lista nominal ou gamificação. Limites, autorização, antiabuso e privacidade da contagem pendentes.
 - D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
 - D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
-- D-18 a D-22: capacidade de moderação, idade mínima, documentos legais, prazo/orçamento e critérios de beta.
+- D-18 a D-22: capacidade de moderação, método de verificação etária e proteção de menores, documentos legais, prazo/orçamento e critérios de beta.
 
 As decisões estratégicas já aprovadas (público adulto cristão amplo, princípio comunitário, MVP, Vue 3 e modelo-base de comunidades/permissões) não devem ser reabertas por este documento. A aprovação do escopo não equivale a autorização para coletar dados reais ou provisionar serviços.

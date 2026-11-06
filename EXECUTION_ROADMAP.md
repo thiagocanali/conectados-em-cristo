@@ -6,7 +6,7 @@
 
 ## Fase 0 — Auditoria e planejamento
 
-**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01 aprovada em 2026-11-05; F-02 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
+**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 aprovada no modelo geral de participação com impedimento por conflito de interesse em 2026-11-06; F-09 foi aprovada no modelo geral em 2026-11-06; F-10 foi aprovada no modelo geral em 2026-11-06; decisões técnicas/operacionais e detalhes de F-09/F-10 ainda aguardam definição.
 
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
@@ -17,10 +17,19 @@ Tarefas:
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
 - [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
 - [x] Registrar a aprovação de F-01: bloqueio global entre contas para descoberta/interações diretas, sem exclusão automática de conteúdo comunitário.
-- [ ] Aprovar, rejeitar ou ajustar formalmente F-02 a F-10; documentação detalhada não equivale a aprovação.
+- [x] Registrar a aprovação de F-02: texto simples, limites configuráveis, janela curta de edição pelo autor, exclusão lógica e preservação restrita de evidências de denúncia ativa.
+- [x] Registrar a aprovação de F-03: escada proporcional de sanções, justificativa/auditoria, contestação e limites de autoridade local/global.
+- [x] Registrar aprovação de F-04 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada e metas realistas.
+- [x] Registrar aprovação de F-05 nos princípios gerais de minimização, finalidade explícita, acesso mínimo, direitos do titular, retenção por categoria e preservação restrita de evidências.
+- [x] Registrar aprovação de F-06 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas.
+- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; detalhar F-07 (campos públicos, contagens, convite/autorização e anti-vazamento); detalhar F-08 (critérios de conflito, encaminhamento/fallback, acesso pré-impedimento, auditoria e testes server-side); detalhar os itens operacionais pendentes de F-09/F-10.
 - [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
 - [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
 - [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
+- [x] Registrar aprovação do modelo geral de F-09: edição própria por janela curta, ocultação rápida em pedido de exclusão, exclusão/anonimização conforme F-05 e retenção excepcional mínima e auditada.
+- [ ] Detalhar F-09: janela de edição, histórico, fluxo de exclusão, tratamento de comentários de terceiros, critérios/prazos de evidência, comunicação, backups e revisão jurídica.
+- [x] Registrar aprovação do modelo geral de F-10: reação única “Apoiar”, removível pelo autor, contagem agregada quando segura e sem lista nominal ou gamificação.
+- [ ] Detalhar F-10: autorização server-side, limites antiabuso, privacidade da contagem, estados especiais, acessibilidade e testes de concorrência/idempotência.
 - [ ] Aprovar ADRs de backend, banco, autenticação, storage, e-mail e hospedagem sem pressupor fornecedores.
 - [ ] Definir critérios, capacidade operacional e orçamento do beta.
 
@@ -78,11 +87,11 @@ Tarefas:
 - Papéis separados: administrador global, moderador limitado às comunidades atribuídas e membro com participação autorizada.
 - Denúncias persistidas em fila central restrita e auditável; bloqueios efetivos server-side.
 - Entrar/sair e convites/aprovação.
-- Publicações, comentários e reações com paginação, conforme F-02/F-09/F-10 aprovadas.
+- Publicações, comentários e reações com paginação, conforme decisões F-02/F-09/F-10, respeitando o status individual de aprovação de cada pacote.
 - Bloqueio e denúncia de conteúdo/usuário.
 - Moderação e auditoria antes de abrir conteúdo a usuários externos.
 
-Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01 somente após autenticação, autorização server-side, auditoria e testes; não implementar F-02 a F-10 sem aprovação explícita.
+Critérios: isolamento de comunidades, permissões testadas, feed paginado, conteúdo denunciável e ações moderadas rastreáveis. Não iniciar publicação/interação antes de identidade e vínculo estarem seguros; implementar F-01, F-02 e F-03 somente após autenticação, autorização server-side, auditoria e testes; F-05 teve os princípios gerais aprovados, mas nenhum dado real poderá ser coletado/retido até inventário, bases legais, prazos por categoria, exceções, direitos do titular, backups e revisão jurídica estarem definidos; F-04 teve o modelo geral aprovado, mas seu fluxo operacional não pode ser considerado pronto até definir cobertura, responsáveis, prioridades, SLOs, escalonamento e capacidade; não implementar F-05 a F-10 sem aprovação explícita do pacote correspondente e fechamento de seus pré-requisitos; F-09 e F-10 tiveram aprovação apenas dos modelos gerais, não dos parâmetros operacionais; F-05 e F-06 têm aprovação apenas geral e continuam bloqueadas para dados reais até a conclusão das condições listadas. F-07 tem aprovação apenas do modelo geral e continua bloqueada para implementação até detalhamento dos campos, contagens, autorização e controles anti-vazamento. Para F-03, definir categorias, critérios, durações, autoridade e recurso antes de codificar as regras. Para F-02, limites numéricos e janela devem estar definidos, e retenção/exclusão devem estar alinhadas a F-05/F-09.
 
 ## Fase 4 — Segurança operacional e administração
 

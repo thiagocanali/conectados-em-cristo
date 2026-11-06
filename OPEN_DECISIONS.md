@@ -176,7 +176,7 @@ Sem uma pessoa/processo responsável, não abrir publicação pública, chat ou 
 
 ### D-19 — Idade mínima
 
-**Recomendação:** 18+ no beta inicial, sujeito a revisão jurídica. Confirmar se haverá verificação de idade além de checkbox.
+**Status: APROVADA EM 2026-11-05 — regra geral do beta.** Idade mínima de 18 anos, com informação clara antes do cadastro. O mecanismo de verificação, os critérios para verificação adicional e o fluxo de suspeitas permanecem sujeitos a definição operacional e revisão jurídica antes do beta.
 
 ### D-20 — Documentos legais
 
@@ -219,6 +219,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Não reescrever em Next.js; migração Vue CLI → Vite ainda depende de plano técnico, testes e PR isolada |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
+| Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 
 ### Modelo de permissões e participação no beta — aprovado em 2026-11-04
 
@@ -251,21 +252,21 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 foi aprovada em 2026-11-05. F-02 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-10 foram aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse; F-09 no modelo geral de edição, exclusão e preservação controlada de evidências; F-10 no modelo geral de reação positiva única e não competitiva).  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
 |---|---|---|---|---|
 | F-01 | Bloqueio entre usuários | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga conteúdo comunitário nem substitui moderação | Consultas, feed, busca, comentários, reações e notificações | **Aprovada (2026-11-05)** |
-| F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | Pendente |
-| F-03 | Política e sanções | Escala proporcional: orientação, advertência, remoção/ocultação, restrição temporária e suspensão; escalonamento imediato de risco grave | Governança, poderes de moderação, comunicação e recurso | Pendente |
-| F-04 | Operação e SLA | Beta fechado com responsáveis e horários declarados; priorização por risco e metas realistas antes de convidar usuários | Capacidade humana, suporte e autorização para abrir o beta | Pendente |
-| F-05 | Retenção | Minimização por categoria, prazos documentados, evidência restrita quando necessária e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | Pendente |
-| F-06 | Elegibilidade | Beta inicial 18+, sem tratar checkbox como prova de idade; coleta mínima | Cadastro, acesso e revisão jurídica | Pendente |
-| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
-| F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
-| F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
-| F-10 | Reações | Uma reação positiva inicial (ex.: “Apoiar”), removível/trocável, sem ranking competitivo | UX, modelo de dados e métricas de engajamento | Pendente |
+| F-02 | Limites e edição | Texto simples, limites configuráveis, edição própria por janela curta, histórico/auditoria e exclusão lógica | Validação, armazenamento, histórico e moderação | **Aprovada (2026-11-05)** |
+| F-03 | Política e sanções | Escala proporcional de orientação a suspensão permanente excepcional; ações justificadas/auditáveis, recurso e poderes locais/globais delimitados | Categorias, gravidade, duração, autoridade por ação e procedimento de recurso | **Aprovada (2026-11-05) — modelo geral** |
+| F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
+| F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
+| F-06 | Elegibilidade | Beta inicial restrito a pessoas com 18 anos ou mais; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
+| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado; participação não vira diretório público | API pública, privacidade e descoberta | **Aprovada (2026-11-05) — modelo geral** |
+| F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | **Aprovada (2026-11-06) — modelo geral** |
+| F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão com ocultação rápida; exclusão/anonimização conforme F-05 e preservação mínima de evidência com acesso restrito | Integridade, retenção, direitos do titular e moderação | **Aprovada (2026-11-06) — modelo geral** |
+| F-10 | Reações | Uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada apenas quando segura; sem lista nominal ou gamificação | UX, modelo de dados e privacidade | **Aprovada (2026-11-06) — modelo geral** |
 
 ### Como registrar a decisão
 
@@ -277,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-02, F-03, F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01 foi aprovada como regra de produto, mas sua implementação depende dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07 teve o modelo geral aprovado, mas campos exatos, política de contagens, regras de convite/autorização e controles técnicos permanecem a detalhar; F-08 teve o modelo geral aprovado, mas critérios exatos de conflito, encaminhamento/fallback e detalhes de auditoria permanecem a definir; F-09 e F-10 foram aprovadas apenas no modelo geral; seus detalhes operacionais e pré-requisitos continuam pendentes. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -353,7 +354,9 @@ Para o princípio **“Comunidade primeiro. Conexões depois. Relacionamentos co
 
 ## 13. Pacote de decisão — F-02: limites, edição e exclusão
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.**
+
+O responsável pelo produto aprovou o modelo de texto simples, limites configuráveis, edição pelo autor dentro de uma janela curta, exclusão lógica e preservação restrita de evidências quando houver denúncia ativa. A aprovação não fixa valores numéricos nem encerra as decisões operacionais listadas abaixo.
 
 ### Pergunta de produto
 
@@ -367,9 +370,9 @@ A decisão precisa equilibrar:
 - custo de armazenamento/histórico;
 - direitos de exclusão e privacidade.
 
-### Opção recomendada para análise
+### Modelo aprovado
 
-**Texto simples, limites conservadores e configuráveis; edição pelo autor dentro de uma janela curta; exclusão lógica; preservação mínima de histórico quando necessário para moderação ou denúncia ativa.**
+**Texto simples, limites configuráveis; edição pelo autor dentro de uma janela curta; exclusão lógica; preservação mínima e restrita de histórico quando necessária para moderação ou denúncia ativa.**
 
 Modelo inicial sugerido:
 - Publicação e comentário aceitam texto simples, sem HTML arbitrário.
@@ -449,20 +452,15 @@ F-02 só poderá ser considerada implementada quando:
 - histórico/auditoria não puder ser adulterado pelo autor ou moderador;
 - testes cubram edição autorizada, edição de conteúdo alheio, janela expirada, exclusão, conteúdo denunciado e tentativa direta por API.
 
-### Recomendação de produto
+### Escopo aprovado e pendências operacionais
 
-Adotar como ponto de partida **a alternativa C: janela curta de edição + exclusão lógica**, com limites configuráveis e histórico mínimo quando houver finalidade de auditoria/moderação.
-
-Os números exatos não devem ser inventados nesta fase. Devem ser definidos juntamente com a política de conteúdo, retenção e operação de moderação.
-
-**Decisão solicitada ao responsável pelo produto:**  
-- **Aprovar** a alternativa C e definir os limites;
-- **Rejeitar** e adotar outra alternativa; ou
-- **Ajustar** a proposta.
+Aprovar o modelo geral não significa aprovar números arbitrários. Antes da implementação, definir separadamente os limites de caracteres, janela de edição, tratamento de conteúdo já denunciado, exclusão durante denúncia, autoridade de restauração, sinalização de edição, extensão do histórico e tratamento de remoções por moderação ou obrigação legal. Essas definições devem ser compatíveis com F-05 (retenção) e F-09 (direitos e fluxo de exclusão).
 
 ## 14. Pacote de decisão — F-03: política de conteúdo e matriz de sanções
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.**
+
+Foi aprovada a escala proporcional de sanções, incluindo orientação, advertência formal, remoção/ocultação, restrição temporária, suspensão temporária e suspensão permanente excepcional. Ações relevantes devem ser justificadas e auditáveis, com possibilidade de contestação. Moderadores atuam somente nas comunidades atribuídas; suspensões globais ficam sob responsabilidade administrativa. Categorias detalhadas, critérios de gravidade, prazos, autoridade por medida e procedimento operacional de recurso continuam pendentes.
 
 ### Pergunta de produto
 
@@ -596,20 +594,15 @@ F-03 somente poderá ser considerada implementada quando:
 - exista mecanismo de revisão/apelação para sanções definidas como recorríveis;
 - testes cubram tentativa de aplicar sanção fora do escopo, suspensão global por moderador, conflito de interesse e escalonamento.
 
-### Recomendação de produto
+### Modelo geral aprovado e pendências
 
-Adotar como ponto de partida uma **escada proporcional de sanções**, com poderes locais para moderadores e poderes globais reservados à administração, além de um fluxo explícito para casos graves e conflitos de interesse.
+Adotar a escada proporcional de sanções, com poderes locais para moderadores e poderes globais reservados à administração, além de fluxo para casos graves, conflito de interesse e contestação. A aprovação não define automaticamente categorias finais, limiares de gravidade, durações, poderes detalhados por ação ou prazos e rito de recurso.
 
-Isso deve ser aprovado junto com a política de conteúdo e a governança da plataforma; não deve ser codificado como regra definitiva antes dessa aprovação.
-
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** a escada e a matriz;
-- **Rejeitar** e adotar outro modelo; ou
-- **Ajustar** categorias, sanções, autoridades e fluxo de recurso.
+Antes da implementação, definir e validar essas regras, publicar política versionada, estabelecer autoridades e escopos por sanção, e prever auditoria, revisão independente quando possível e escalonamento seguro. A aplicação deverá ser server-side e testada contra elevação indevida de privilégios.
 
 ## 15. Pacote de decisão — F-04: operação de moderação e SLA do beta
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo operacional geral.** A aprovação não define horários, pessoas, metas numéricas, cobertura 24×7 ou autorização para abrir o beta.
 
 ### Pergunta de produto
 
@@ -733,14 +726,18 @@ F-04 somente poderá ser considerada implementada quando:
 
 Começar o beta com **cobertura humana explicitamente limitada e documentada**, priorização por risco e escalonamento de casos críticos. Expandir a cobertura somente depois de medir volume e capacidade real.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo;
+**Decisão registrada em 2026-11-05:** aprovação do modelo geral: beta fechado e controlado; cobertura humana com responsáveis e horários declarados; priorização por risco; prazos realistas definidos antes de convidar usuários; fila centralizada com histórico e indicadores; sem promessa de 24×7 sem capacidade comprovada.
+
+**Permanecem pendentes:** nomeação dos responsáveis, escala/horários, definição final das prioridades e critérios, SLOs por prioridade, escalonamento fora da cobertura, capacidade máxima do beta e métricas/limites operacionais. As categorias P0–P3 acima permanecem uma proposta de referência até validação operacional. Esta aprovação não autoriza iniciar beta nem implementar fluxo de denúncias sem os pré-requisitos técnicos e operacionais.
+
+**Decisão registrada:**
+- **Aprovar** o modelo geral;
 - **Rejeitar** e adotar outro;
 - **Ajustar** prioridades, cobertura e metas antes da implementação.
 
 ## 16. Pacote de decisão — F-05: retenção, exclusão e minimização de dados
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — princípios gerais de minimização e governança.** A aprovação não define prazos numéricos, bases legais por finalidade, exceções específicas ou autoriza coleta de dados reais.
 
 ### Pergunta de produto
 
@@ -842,24 +839,23 @@ F-05 somente poderá ser considerada implementada quando:
 
 ### Recomendação de produto
 
-Adotar **minimização desde o cadastro, políticas de retenção separadas por categoria e um fluxo verificável de direitos do titular**. Não coletar dados reais sensíveis no protótipo e não abrir beta público antes da revisão jurídica e da validação operacional.
+**Decisão registrada em 2026-11-05:** aprovados os princípios gerais de minimização desde o cadastro, finalidade explícita, acesso mínimo, políticas de retenção separadas por categoria, fluxo verificável de direitos do titular, preservação restrita e justificada de evidências, expiração documentada de backups e proteção reforçada para dados que revelem convicção religiosa.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** os princípios e solicitar definição de prazos por categoria;
-- **Rejeitar** e propor outro modelo;
-- **Ajustar** categorias, exceções e ciclo de vida.
+**Permanecem pendentes:** inventário definitivo de dados/finalidades; validação jurídica de bases legais e avisos; prazos por categoria e eventos que iniciam a contagem; exceções e responsáveis por autorizá-las; prazos de backup; procedimento e prazos de atendimento aos titulares; critérios para evidências de denúncias e registros de auditoria. Nenhum prazo numérico foi aprovado. Esta decisão não autoriza coleta de dados reais, beta ou retenção indefinida.
+
+**Próximo passo:** detalhar a matriz de retenção por categoria e submetê-la à revisão jurídica antes de qualquer implementação com dados reais.
 
 ## 17. Pacote de decisão — F-06: elegibilidade etária e proteção de menores
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.** A aprovação define beta inicial 18+ e princípios de proteção; não aprova um mecanismo específico de verificação nem autoriza o beta com usuários reais.
 
 ### Pergunta de produto
 
 Qual deve ser a regra de idade para o beta e quais controles devem existir para reduzir o risco de acesso de menores a uma plataforma inicialmente desenhada para adultos?
 
-### Recomendação para análise
+### Decisão aprovada — modelo geral
 
-Adotar **18+ no beta inicial**, sem tratar um checkbox como prova robusta de idade.
+Adotar **18+ no beta inicial**, informar a idade mínima antes do cadastro, não tratar um checkbox isolado como prova efetiva de idade, coletar somente os dados necessários e prever análise humana e proteção de dados para suspeitas de contas de menores. O mecanismo concreto de verificação e o procedimento operacional permanecem pendentes de revisão jurídica.
 
 A regra deve ser simples de comunicar e aplicada no servidor, não apenas escondendo telas no frontend. O cadastro deve coletar somente a informação necessária para aplicar a política e evitar solicitar documento de identidade ou data de nascimento completa sem uma necessidade legítima e previamente validada.
 
@@ -871,7 +867,7 @@ Isso **não significa que um checkbox seja suficiente para impedir um menor de m
 
 ### Controles mínimos propostos
 
-1. **Regra explícita de elegibilidade:** informar claramente que o beta é destinado a maiores de 18 anos.
+1. **Regra explícita de elegibilidade:** informar claramente que o beta é destinado a pessoas com 18 anos ou mais.
 2. **Validação no cadastro:** impedir cadastro quando a informação fornecida indicar idade inferior ao mínimo.
 3. **Persistência mínima:** armazenar apenas o atributo necessário para demonstrar elegibilidade, evitando retenção desnecessária da data completa de nascimento.
 4. **Rechecagem no servidor:** endpoints protegidos devem considerar o estado de elegibilidade da conta.
@@ -884,7 +880,7 @@ Isso **não significa que um checkbox seja suficiente para impedir um menor de m
 
 ### Verificação de idade
 
-A verificação adicional de idade fica **em aberto**.
+A necessidade e o mecanismo concreto de verificação adicional continuam **em aberto**, conforme avaliação de risco e revisão jurídica. A aprovação do modelo geral não escolhe entre autodeclaração, verificação reforçada ou estratégia híbrida.
 
 Alternativas:
 
@@ -908,7 +904,7 @@ Alternativas:
 - verificação adicional somente em situações de risco ou inconsistência;
 - exige critérios claros para acionar a verificação e política de retenção específica.
 
-**Recomendação:** começar avaliando A para o beta fechado e deixar C como evolução possível, sem contratar ou integrar fornecedor de verificação antes de uma necessidade comprovada e revisão jurídica.
+**Ponto ainda não decidido:** avaliar A, B ou C somente após análise de risco, necessidade, proporcionalidade, impacto na privacidade e revisão jurídica. Não contratar nem integrar fornecedor de verificação antes dessa validação.
 
 ### Conteúdo e interação envolvendo menores
 
@@ -933,18 +929,18 @@ F-06 depende especialmente de:
 - **D-19:** idade mínima;
 - revisão jurídica antes de qualquer beta com usuários reais.
 
-A decisão de 18+ proposta aqui é coerente com a recomendação já registrada em D-19, mas **não substitui a aprovação formal de D-19**.
+A decisão de 18+ foi aprovada como regra de produto para o beta em 2026-11-05 e deve ser refletida em D-19. A aprovação não define o mecanismo de verificação nem substitui a revisão jurídica dos procedimentos.
 
 ### Critérios mínimos de aceite futuros
 
 F-06 somente poderá ser considerada implementada quando:
 
-- a idade mínima estiver formalmente aprovada;
+- a idade mínima de 18 anos estiver publicada de forma clara antes do cadastro;
 - a regra estiver publicada antes do cadastro;
-- a verificação ocorrer no servidor;
+- o mecanismo de verificação escolhido estiver documentado, validado juridicamente e aplicado no servidor;
 - contas inelegíveis não conseguirem contornar a regra por API;
 - existir fluxo para suspeita/denúncia de menor;
-- houver procedimento para encerramento ou restrição de contas inelegíveis;
+- houver procedimento humano documentado para suspeitas, restrição proporcional, encerramento de contas inelegíveis e tratamento de conteúdo/dados associados;
 - dados coletados para idade forem minimizados;
 - retenção e exclusão desses dados estiverem documentadas;
 - incidentes envolvendo menores tiverem rota de escalonamento;
@@ -952,22 +948,21 @@ F-06 somente poderá ser considerada implementada quando:
 
 ### Recomendação de produto
 
-Adotar **18+ para o beta inicial**, com coleta mínima e autodeclaração/atributo de elegibilidade como ponto de partida, deixando verificação reforçada como opção futura condicionada a risco real, necessidade e revisão jurídica.
+Manter **18 anos ou mais para o beta inicial**, com coleta mínima e mecanismo de verificação proporcional ainda a definir. Não presumir que autodeclaração isolada seja suficiente; qualquer verificação adicional deve ser justificada por risco e necessidade, com revisão jurídica.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** 18+ e os controles mínimos;
-- **Rejeitar** e adotar outra idade/estratégia;
-- **Ajustar** idade, verificação ou fluxo de proteção.
+**Registro da decisão (2026-11-05):** modelo geral aprovado: beta 18+, informação clara da idade mínima, verificação proporcional sem presumir que checkbox comprove idade, coleta mínima, análise humana de suspeitas e revisão jurídica antes do beta.
+
+**Ainda pendente:** método de verificação, critérios para acionar verificações adicionais, dados/evidências permitidos, fluxo e prazos de revisão, medidas para contas inelegíveis, retenção/exclusão e validação jurídica. A aprovação não autoriza cadastro de usuários reais nem abertura do beta.
 
 ## 18. Pacote de decisão — F-07: catálogo, visibilidade e comunidades não listadas
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.** A aprovação define catálogo público de metadados e separação entre descoberta e autorização; não aprova ainda os campos exatos, política final de contagens ou controles técnicos.
 
 ### Pergunta de produto
 
 Quais informações de uma comunidade podem ser descobertas por visitantes, membros e usuários autenticados, e como impedir que a existência de um catálogo público seja confundida com autorização para acessar conteúdo comunitário?
 
-### Recomendação para análise
+### Decisão aprovada e limites
 
 Adotar **catálogo público limitado a metadados de apresentação**, sem posts, comentários, lista nominal de membros ou conteúdo interno.
 
@@ -1102,19 +1097,16 @@ F-07 somente poderá ser considerada implementada quando:
 - testes cobrirem acesso anônimo, usuário sem membership, membro, moderador fora do escopo e alteração direta de ID/slug;
 - respostas de erro não revelarem informações privadas desnecessárias.
 
-### Recomendação de produto
+### Decisão registrada (2026-11-05)
 
-Adotar **catálogo público de metadados, sem transformar comunidades em feeds públicos**, com comunidades não listadas protegidas por autorização explícita.
+Aprovar o **modelo geral de catálogo público de metadados**, sem posts, comentários ou lista nominal de membros. Contagens devem ser agregadas e avaliadas quanto ao risco de reidentificação. Comunidades não listadas ficam fora das superfícies públicas de descoberta e exigem convite ou autorização explícita. A participação em comunidades não deve virar diretório público de pessoas.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo;
-- **Rejeitar** e adotar outro;
-- **Ajustar** visibilidade, catálogo ou regras de comunidades não listadas.
+**Ainda pendente:** campos exatos, política final de contagens, regras detalhadas de convite/autorização e controles técnicos anti-vazamento/enumeração.
 
 
 ## 19. Pacote de decisão — F-08: moderador que também é membro e conflito de interesses
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-06 — modelo geral.**
 
 ### Pergunta de produto
 
@@ -1122,7 +1114,7 @@ Um moderador pode participar normalmente da comunidade em que atua? Se puder, co
 
 ### Recomendação para análise
 
-Permitir que o moderador também seja membro, mas exigir **impedimento e encaminhamento obrigatório** sempre que houver conflito de interesses real ou razoavelmente percebido.
+Permitir que o moderador também seja membro, mas exigir **impedimento e encaminhamento obrigatório** sempre que houver conflito de interesses real ou razoavelmente percebido. O moderador não deve revisar, decidir, encerrar ou aplicar sanção no próprio caso, em conteúdo próprio, em recurso sobre ação própria ou em situação de interesse direto. O caso deve ser encaminhado a outro moderador elegível ou, na ausência, à administração/substituto independente, com impedimento e transferência registrados em auditoria restrita.
 
 O papel de moderador não deve eliminar a experiência comunitária da pessoa, nem conceder poder para decidir sobre si própria. A autorização deve considerar tanto o escopo da função quanto o vínculo do moderador com o caso específico.
 
@@ -1214,22 +1206,21 @@ F-08 depende de F-03 (sanções e recursos), F-04 (operação, cobertura e escal
 
 Adotar **moderador também pode ser membro, mas nunca decide casos em que esteja envolvido**. Encaminhar a outro moderador elegível; na ausência, escalar à administração ou a um substituto independente. Registrar impedimento e transferência em trilha de auditoria restrita.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** a participação com impedimento e encaminhamento;
-- **Rejeitar** e proibir moderadores de serem membros das comunidades atribuídas;
-- **Ajustar** critérios de conflito, fallback ou limites de acesso.
+**Decisão registrada:** aprovada a participação do moderador como membro, com impedimento obrigatório em casos envolvendo a própria conta, conteúdo/ação própria, recurso próprio ou interesse direto relevante. O impedimento não implica suspensão automática do cargo. O caso deve ser encaminhado a outro moderador elegível ou à administração/substituto independente, sem permitir manipulação da decisão pela pessoa impedida.
+
+**Detalhes ainda pendentes:** critérios completos para conflitos menos óbvios, prioridade de encaminhamento e fallback, momento exato em que o impedimento é avaliado, notificações, retenção dos registros de auditoria, regras de apelação/antirretaliação e testes de autorização server-side.
 
 ## 20. Pacote de decisão — F-09: edição, exclusão e preservação de conteúdo
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-06 — modelo geral.**
 
 ### Pergunta de produto
 
 Como permitir que autores corrijam ou removam suas publicações e comentários sem comprometer a integridade de denúncias, a segurança da comunidade, a transparência da moderação ou os direitos de titulares?
 
-### Recomendação para análise
+### Decisão aprovada e limites
 
-Adotar **edição própria por uma janela curta e configurável, seguida de bloqueio de edição; permitir solicitação de exclusão com ocultação do conteúdo e tratamento de retenções excepcionais documentadas**.
+Adotar **edição própria por uma janela curta e configurável, seguida de bloqueio de edição; permitir solicitação de exclusão com ocultação rápida do conteúdo e exclusão/anonimização conforme F-05, com retenção excepcional mínima, restrita, justificada e revisável**. A aprovação é do modelo geral: não define duração da janela, prazos de retenção, critérios jurídicos ou fluxos operacionais finais.
 
 A janela não deve receber um prazo numérico nesta proposta. O valor deverá ser definido após avaliação de UX, risco de abuso, operação e retenção. A política deve diferenciar remoção visível ao público, exclusão efetiva dos dados e preservação excepcional de evidências.
 
@@ -1307,7 +1298,7 @@ Prazos, bases legais, comunicação e exceções devem ser validados na polític
 
 **B — Ocultação sem exclusão efetiva.** Facilita a implementação, mas pode manter dados indefinidamente sem finalidade clara e prejudicar direitos do titular.
 
-**C — Ocultação rápida, exclusão/anonimização conforme política e retenção excepcional mínima e auditada.** Equilibra experiência do usuário, segurança e governança; recomendada para análise.
+**C — Ocultação rápida, exclusão/anonimização conforme política e retenção excepcional mínima e auditada.** Modelo geral aprovado por equilibrar experiência do usuário, segurança e governança.
 
 ### Critérios mínimos de aceite futuros
 
@@ -1333,17 +1324,14 @@ F-09 depende de F-02 (limites e edição), F-03 (sanções e recursos), F-04 (op
 
 Adotar **edição própria por janela curta configurável; ocultação rápida quando a remoção for solicitada; exclusão ou anonimização conforme F-05; e retenção excepcional mínima de evidência apenas enquanto houver finalidade legítima documentada**.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo de janela curta, ocultação e retenção excepcional controlada;
-- **Rejeitar** e escolher outro fluxo de edição/exclusão;
-- **Ajustar** janela, histórico, tratamento de denúncias ou comunicação ao titular.
+**Decisão registrada:** modelo geral aprovado em 2026-11-06. Permanecem pendentes: duração da janela de edição; política de versões/histórico; critérios e fluxo de exclusão; tratamento de comentários de terceiros; critérios, responsáveis e prazos de retenção excepcional; comunicação ao titular; exceções legais; integração com backups; e validação jurídica. Esses detalhes não autorizam implementação ou coleta de dados reais.
 
 
 ---
 
 ## 21. F-10 — Modelo de reações às publicações
 
-**Status:** proposta detalhada — pendente de aprovação do responsável pelo produto.
+**Status: APROVADA EM 2026-11-06 — modelo geral.**
 
 ### Problema e objetivo
 
@@ -1351,9 +1339,9 @@ Definir como membros demonstram apoio a uma publicação sem transformar a comun
 
 A reação deve apoiar conversas e encorajamento, preservando o princípio: comunidade primeiro, conexões depois, relacionamentos como consequência.
 
-### Recomendação inicial
+### Decisão aprovada e limites
 
-Adotar **uma única reação positiva por membro e publicação**, com rótulo inicial sugerido **“Apoiar”**.
+Adotar **uma única reação positiva “Apoiar” por membro e publicação**, removível pelo próprio autor. Exibir somente contagem agregada quando segura; não disponibilizar lista nominal, pontos, rankings ou competição por engajamento. A aprovação é do modelo geral: não define limites de frequência, detalhes de autorização, comportamento em estados especiais ou limiar de privacidade da contagem.
 
 - O membro pode adicionar a reação e removê-la posteriormente.
 - A operação deve ser idempotente: repetir a mesma solicitação não cria reações duplicadas.
@@ -1398,7 +1386,7 @@ O tratamento de reações históricas quando um membro sai da comunidade, é blo
 
 ### Alternativas consideradas
 
-**A — Uma reação positiva simples e removível.** Baixa complexidade, fácil compreensão e menor incentivo à competição; recomendada para o MVP.
+**A — Uma reação positiva simples e removível.** Baixa complexidade, fácil compreensão e menor incentivo à competição; modelo geral aprovado.
 
 **B — Vários emojis ou categorias de reação.** Expressividade maior, mas aumenta complexidade, moderação, acessibilidade e decisões de privacidade; deixar para avaliação posterior.
 
@@ -1427,7 +1415,4 @@ F-10 depende do modelo de autenticação e autorização real, da matriz de perm
 
 Adotar **uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor, com contagem agregada simples quando segura e sem lista nominal, pontos ou rankings**. Manter o escopo restrito a publicações no MVP.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** a reação única “Apoiar”, removível e sem gamificação;
-- **Rejeitar** e escolher outro modelo;
-- **Ajustar** rótulo, apresentação da contagem ou escopo das reações.
+**Decisão registrada:** modelo geral aprovado em 2026-11-06. Permanecem pendentes: limites de frequência/antiabuso; regras server-side de autorização; estados de publicação e conta; critérios para exibição da contagem agregada e prevenção de reidentificação; tratamento de reações após saída, bloqueio ou encerramento de conta; acessibilidade e testes de concorrência/idempotência. Esses detalhes não autorizam implementação.

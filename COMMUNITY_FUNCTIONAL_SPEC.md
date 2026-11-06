@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; F-01 aprovada em 2026-11-05; F-02 a F-10 continuam pendentes**
+- Status: **rascunho funcional revisado; F-01 a F-08 aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios gerais de minimização/governança; F-06 no modelo geral de elegibilidade 18+; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse); F-09 foi aprovada no modelo geral em 2026-11-06; F-10 foi aprovada no modelo geral em 2026-11-06**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -148,7 +148,7 @@ Uma comunidade pausada não aceita novas entradas nem novas publicações; conte
 
 ### 5.6 Comentar e reagir
 - Comentários exigem acesso autorizado à publicação e permissão ativa na comunidade.
-- **Proposta F-10 (pendente de aprovação):** uma única reação positiva por membro/publicação, com rótulo inicial sugerido “Apoiar”.
+- **Modelo F-10 aprovado em 2026-11-06:** uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada apenas quando segura, sem lista nominal, pontos ou rankings. Limites antiabuso, autorização, estados especiais e limiar de privacidade continuam pendentes.
 - O membro pode adicionar ou remover a própria reação; não há troca entre tipos no modelo inicial, pois só existe um tipo. Tipos adicionais exigem decisão futura explícita.
 - Reações em comentários ficam fora do escopo proposto para o MVP.
 - A operação deve ser idempotente e impedir duplicidade, inclusive em solicitações concorrentes.
@@ -156,7 +156,7 @@ Uma comunidade pausada não aceita novas entradas nem novas publicações; conte
 - Publicação oculta, removida ou indisponível não aceita novas interações; o agregado não deve aparecer nas superfícies comuns enquanto o conteúdo estiver oculto/removido.
 - Não criar pontos, placares, rankings, medalhas ou ordenação competitiva. Contagem agregada simples só pode ser exibida se compatível com F-07 e sem expor lista nominal de reatores por padrão.
 
-**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado. Os critérios detalhados de F-10 permanecem condicionados à aprovação da proposta.
+**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado. Os critérios detalhados de F-10 permanecem condicionados à definição de limites, autorização server-side, privacidade da contagem e testes.
 
 ### 5.7 Denunciar
 1. Membro autenticado seleciona denunciar em conteúdo ou perfil/interação elegível.
@@ -267,11 +267,11 @@ Build bem-sucedido, isoladamente, não representa aprovação para beta.
 | F-03 | Política de conteúdo e matriz de sanções | Define ações e garantias de recurso |
 | F-04 | Prazo de revisão de denúncias, cobertura e responsáveis | Define operação segura do beta |
 | F-05 | Retenção de denúncias, auditoria e conteúdo removido | Define privacidade e obrigações de dados |
-| F-06 | Critérios de elegibilidade e idade mínima | Define cadastro e acesso |
-| F-07 | Metadados públicos do catálogo e convites para comunidades não listadas | Define privacidade e descoberta |
+| F-06 | **Aprovada (2026-11-05, modelo geral):** beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas | Define cadastro, acesso e proteção de menores; mecanismo e fluxo jurídico ainda pendentes |
+| F-07 | **Aprovada (2026-11-05, modelo geral):** catálogo público de metadados, sem posts/comentários/lista nominal de membros; não listadas por convite ou autorização explícita | Define privacidade e descoberta |
 | F-08 | Possibilidade de moderador também ser membro e tratamento de conflitos de interesse | Define governança e controles |
-| F-09 | Se membro pode editar/apagar conteúdo e como preservar evidências de denúncia | Define integridade e histórico |
-| F-10 | Se reações terão uma única opção inicial ou conjunto limitado | Define interação e modelo de dados |
+| F-09 | Modelo geral aprovado: edição própria por janela curta; solicitação de exclusão com ocultação rápida; exclusão/anonimização conforme F-05 e retenção excepcional mínima e auditada | Define integridade e histórico |
+| F-10 | Modelo geral aprovado: uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura, sem lista nominal ou gamificação | Define interação e modelo de dados |
 
 ## 12. Plano de validação
 
@@ -320,7 +320,7 @@ Condições:
 1. Exige vínculo ativo, comunidade ativa, conteúdo visível e ausência de restrição aplicável. A autorização deve ser conferida no servidor em toda leitura e operação.
 2. Acesso administrativo a conteúdo de membro não deve ser automático ou irrestrito. Proposta: acesso somente quando necessário para suporte, segurança ou moderação, com justificativa e registro auditável.
 3. Moderador só decide solicitações na comunidade atribuída. Se não houver moderador atribuído ou houver conflito de interesse, encaminhar ao administrador.
-4. Edição/exclusão de conteúdo ainda é decisão pendente (F-02/F-09). Até aprovação, não habilitar essas ações no beta.
+4. O modelo geral de F-09 foi aprovado, mas edição/exclusão não deve ser habilitada no beta até definir janela, fluxo, retenção, exceções e controles server-side alinhados a F-02/F-05.
 5. Apenas no escopo atribuído e na medida necessária para tratar a denúncia. Não permitir consulta global por conveniência.
 6. Acesso limitado aos eventos necessários à comunidade atribuída; ocultar dados pessoais desnecessários e identidade de denunciantes sempre que possível.
 7. Nem mesmo administrador deve editar ou apagar eventos históricos. Correções devem ocorrer por novo evento compensatório, com controle de acesso e retenção definida. A retenção e os meios de proteção contra adulteração precisam ser especificados.
@@ -374,24 +374,24 @@ Os testes devem verificar status/resposta, ausência de dados no corpo, ausênci
 
 ## 16. Propostas de padrão para as decisões F-01 a F-10
 
-As opções abaixo são **recomendações para discussão, não decisões aprovadas**. Nenhuma delas deve ser tratada como autorização para implementação.
+A tabela distingue decisões de produto já aprovadas de propostas ainda pendentes. Aprovação funcional não autoriza implementação sem os controles técnicos, operacionais e de segurança correspondentes.
 
 | ID | Padrão recomendado | Justificativa | Confirmação necessária |
 |---|---|---|---|
 | F-01 Bloqueio — **APROVADA** | Bloqueio global entre as duas contas para descoberta e interações diretas; não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados | Comportamento previsível e consistente; preserva governança comunitária | Detalhar exceções operacionais, desbloqueio, notificações e limites antiabuso antes da implementação |
-| F-02 Limites/edição | Texto simples; limites iniciais conservadores e configuráveis; permitir edição própria por janela curta, mantendo histórico/auditoria; exclusão lógica e ocultação imediata quando reportado | Equilibra correção de erro e integridade de evidência | Definir números, janela e quem pode restaurar |
-| F-03 Política/sanções | Política pública em níveis: orientação, advertência, remoção/ocultação, restrição temporária, suspensão; ameaça/risco grave pode ser escalado imediatamente | Proporcionalidade, previsibilidade e possibilidade de recurso | Aprovar categorias, gravidade, exceções e autoridade por sanção |
-| F-04 Operação/SLA | Beta fechado apenas com cobertura humana declarada; priorização por risco, confirmação de recebimento imediata e prazo operacional definido antes de convidar usuários | Não prometer 24x7 sem equipe; evita denúncia sem resposta | Nomear responsáveis, horários e metas por severidade |
-| F-05 Retenção | Coletar o mínimo; prazo documentado por categoria; preservar evidência somente quando necessário e com acesso restrito; exclusão/anonimização após prazo salvo obrigação legítima | Reduz exposição e acúmulo de dados sensíveis | Validar prazos e obrigações com assessoria jurídica |
-| F-06 Elegibilidade | Beta inicial 18+, sem afirmar que checkbox sozinho comprova idade; coletar somente dado mínimo necessário | Reduz riscos relacionados a menores, sem falsa garantia de verificação | Confirmar idade e mecanismo de verificação com revisão jurídica |
-| F-07 Catálogo | Público: nome, categoria, descrição, regras, modo de entrada e contagem agregada; nunca lista de membros/posts. Não listada: apenas por convite ou acesso administrativo | Separa descoberta da exposição de pessoas e conteúdo | Confirmar campos públicos e política de convite |
-| F-08 Moderador-membro | Permitir que moderador seja membro, mas impedir que decida denúncia/solicitação em que esteja envolvido; encaminhar conflito a outro moderador/admin | Mantém participação sem conflito de interesse | Confirmar regra de impedimento e escalonamento |
-| F-09 Conteúdo | Autor pode editar por janela curta e solicitar exclusão; remoção não elimina evidência sob denúncia ativa; registrar versões mínimas e motivo de ação administrativa | Protege autoria, correção e investigação | Definir janela, retenção e exceções |
-| F-10 Reações | Proposta: uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura; sem lista nominal, pontos ou ranking | Menor complexidade e menor incentivo à competição | Aprovar, rejeitar ou ajustar; tipos adicionais e reações em comentários ficam fora da proposta inicial |
+| F-02 Limites/edição — **APROVADA (2026-11-05)** | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica; preservação restrita de evidência de denúncia ativa | Equilibra correção de erro e integridade de evidência | Definir números, janela, tratamento de conteúdo denunciado, restauração e histórico; alinhar a F-05/F-09 |
+| F-03 Política/sanções — **APROVADA (2026-11-05, modelo geral)** | Escada proporcional: orientação, advertência, remoção/ocultação, restrição temporária, suspensão temporária e suspensão permanente excepcional; ações justificadas/auditáveis, contestáveis e com poderes locais/globais delimitados | Proporcionalidade, previsibilidade, segurança e possibilidade de recurso | Definir categorias, gravidade, exceções, durações, autoridade por ação e procedimento/prazos de recurso |
+| F-04 Operação/SLA — **APROVADA (2026-11-05, modelo geral)** | Beta fechado e controlado; cobertura humana declarada, responsáveis/horários reais, priorização por risco, fila centralizada com histórico e indicadores; metas realistas antes de convidar usuários | Não prometer 24×7 sem equipe; vincula a abertura do beta à capacidade real de resposta | Definir responsáveis, escala/horários, prioridades operacionais, SLOs por prioridade, escalonamento e capacidade máxima; categorias P0–P3 ainda são referência proposta |
+| F-05 Retenção — **APROVADA (2026-11-05, princípios gerais)** | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular, preservação restrita/justificada de evidências e descarte/anonimização ao fim do prazo aplicável | Reduz exposição e acúmulo de dados sensíveis | Definir inventário, bases legais, prazos por categoria, exceções, fluxo dos titulares e backups; revisão jurídica obrigatória antes de dados reais |
+| F-06 Elegibilidade — **APROVADA (2026-11-05, modelo geral)** | Beta inicial restrito a pessoas com 18 anos ou mais; informar a regra antes do cadastro, não tratar checkbox isolado como prova efetiva, coletar apenas dados necessários e prever análise humana de suspeitas | Reduz riscos relacionados a menores sem criar falsa garantia de verificação | Definir método proporcional, critérios de verificação adicional, fluxo/prazos de revisão, tratamento de contas inelegíveis, retenção e revisão jurídica antes do beta |
+| F-07 Catálogo — **APROVADA (2026-11-05, modelo geral)** | Público: metadados de apresentação, sem posts, comentários ou lista nominal de membros; contagens somente agregadas e sujeitas a risco de reidentificação. Não listada: fora do catálogo público, por convite ou autorização explícita | Separa descoberta da exposição de pessoas e conteúdo | Definir campos exatos, política de contagens, convite/autorização e controles anti-vazamento |
+| F-08 Moderador-membro — **APROVADA (2026-11-06, modelo geral)** | Permitir que moderador seja membro, mas impedir que decida caso em que esteja envolvido; encaminhar conflito a outro moderador elegível/admin | Mantém participação sem conflito de interesse | Detalhar critérios de conflito, fallback, auditoria e testes server-side |
+| F-09 Conteúdo — **APROVADA (2026-11-06, modelo geral)** | Edição própria por janela curta; solicitação de exclusão com ocultação rápida; exclusão/anonimização conforme F-05; retenção excepcional mínima, restrita, justificada e revisável | Protege autoria, correção e investigação | Definir janela, histórico, critérios/prazos de retenção, fluxo de exclusão, terceiros, backups e comunicação |
+| F-10 Reações | Modelo geral aprovado: uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura; sem lista nominal, pontos ou ranking | Menor complexidade e menor incentivo à competição | Definir limites, autorização server-side, estados especiais, limiar de privacidade e testes; tipos adicionais e reações em comentários ficam fora do escopo inicial |
 
 ### Regra para transformar proposta em decisão
 
-O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01 foi aprovada em 2026-11-05 e deve ser tratada como requisito de produto; F-02 a F-10 permanecem propostas não vinculantes até decisão explícita. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
+O responsável pelo produto deve aprovar, rejeitar ou ajustar individualmente cada F-01 a F-10. F-01, F-02 e F-03 foram aprovadas em 2026-11-05; F-04 foi aprovada no modelo operacional geral; F-05 foi aprovada nos princípios gerais de minimização e governança; F-06 foi aprovada no modelo geral de elegibilidade 18+ e proteção de menores; F-07 foi aprovada no modelo geral de catálogo e visibilidade; F-08 foi aprovada em 2026-11-06 no modelo geral de participação com impedimento e encaminhamento. F-09 e F-10 foram aprovadas em 2026-11-06 apenas em seus modelos gerais; parâmetros operacionais, autorização, privacidade e testes permanecem pendentes. Para F-04, horários, responsáveis, cobertura, SLOs e escalonamento concretos continuam pendentes. Para F-05, inventário, bases legais, prazos por categoria, exceções, atendimento a direitos e comportamento dos backups continuam pendentes e exigem revisão jurídica; nenhum prazo numérico foi aprovado. Para F-06, o método de verificação de idade, critérios para verificações adicionais, fluxo humano de suspeitas, tratamento de contas inelegíveis, retenção e validação jurídica continuam pendentes; a aprovação do modelo geral não autoriza o beta com usuários reais. Toda aprovação deve ser registrada em `OPEN_DECISIONS.md` e refletida nesta especificação.
 
 ## 17. Dependências para iniciar implementação comunitária
 
@@ -415,17 +415,21 @@ Esta revisão compara a especificação funcional, o registro de decisões e o r
 ### Alinhamentos realizados
 
 - O escopo aprovado do MVP (cadastro, perfis, comunidades, publicações, comentários e reações) foi mantido separado das regras detalhadas ainda pendentes.
-- A seção 5.6 reflete a proposta F-10 ainda pendente: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação.
+- A seção 5.6 reflete o modelo geral F-10 aprovado: reação única “Apoiar”, removível pelo próprio membro, sem troca entre tipos no modelo inicial, sem reações em comentários e sem gamificação. Limites antiabuso, autorização server-side e privacidade da contagem ainda precisam ser definidos.
 - F-01 foi aprovada em 2026-11-05 e sincronizada entre `OPEN_DECISIONS.md`, a seção de bloqueio e a tabela de propostas; sua implementação continua condicionada aos pré-requisitos técnicos.
-- A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para não sugerir que F-10 já está aprovada.
-- A matriz de permissões continua identificada como proposta; as condições de edição/exclusão permanecem bloqueadas por F-02/F-09.
+- F-02 foi aprovada em 2026-11-05 no modelo geral de texto simples, limites configuráveis, janela curta de edição e exclusão lógica; números e regras operacionais continuam pendentes, com dependência explícita de F-05/F-09.
+- F-03 foi aprovada em 2026-11-05 no modelo geral de sanções proporcionais, ações justificadas/auditáveis e contestáveis, com moderadores limitados às comunidades atribuídas e suspensões globais reservadas à administração; categorias, gravidade, prazos, autoridade detalhada e rito de recurso permanecem pendentes.
+- F-04 foi aprovada em 2026-11-05 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada, histórico/indicadores e metas realistas; responsáveis, horários, prioridades finais, SLOs, escalonamento e capacidade máxima permanecem pendentes.
+- F-06 foi aprovada em 2026-11-05 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas; mecanismo, critérios, fluxo/prazos, tratamento de contas inelegíveis e revisão jurídica permanecem pendentes.
+- A tabela de decisões pendentes e a tabela-resumo F-01 a F-10 foram ajustadas para refletir que F-10 teve aprovação apenas no modelo geral; detalhes técnicos e operacionais continuam pendentes.
+- A matriz de permissões continua identificada como proposta; as condições de edição/exclusão devem respeitar o modelo F-02 aprovado e os detalhes ainda pendentes de F-05/F-09.
 
 ### Pontos que continuam bloqueando implementação com dados reais
 
-1. Aprovação explícita ou ajuste das propostas F-02 a F-10. F-01 já foi aprovada, mas ainda exige implementação server-side e testes antes de dados reais.
+1. F-04 teve o modelo operacional geral aprovado, mas horários, responsáveis, cobertura, SLOs, escalonamento e capacidade do beta ainda precisam ser definidos; F-05 teve apenas os princípios gerais aprovados e F-06 teve o modelo geral 18+ aprovado, ambos ainda com requisitos jurídicos/operacionais bloqueadores; F-07 tem modelo geral aprovado e F-08 tem modelo geral aprovado com impedimento/encaminhamento, mas ambos ainda exigem detalhamento técnico e operacional; F-09 e F-10 tiveram aprovação apenas dos modelos gerais, mantendo parâmetros operacionais e pré-requisitos pendentes. F-01, F-02 e F-03 já foram aprovadas, mas exigem implementação server-side, governança detalhada e testes antes de dados reais.
 2. Decisões técnicas D-12 a D-17 e ADRs de backend, banco, autenticação, storage, e-mail e hospedagem. Nenhuma stack ou fornecedor está selecionado por este documento.
-3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, idade mínima, revisão jurídica, orçamento e critérios de beta.
-4. Política de conteúdo, SLAs, apelações, retenção e direitos dos titulares, com revisão jurídica quando necessária.
+3. Decisões operacionais D-18 a D-22, incluindo capacidade humana de moderação, método de verificação etária e fluxo de proteção de menores, revisão jurídica, orçamento e critérios de beta.
+4. Política de conteúdo, SLAs, apelações, detalhamento de retenção e direitos dos titulares, com revisão jurídica antes de dados reais.
 5. Implementação e testes de autenticação, autorização server-side, persistência, auditoria, bloqueio e fila de denúncias antes de qualquer dado real.
 
 ### Ordem recomendada de trabalho
