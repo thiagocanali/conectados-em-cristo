@@ -1,10 +1,10 @@
 # Deploy
 
 ## Configuração atual do repositório
-- `npm run build` usa Vue CLI e gera `dist/`.
+- `npm run build` usa Vite 6 e gera `dist/`.
 - `.github/workflows/deploy.yml` configura publicação do `dist/` no branch `gh-pages` quando há push em `main`.
-- `vue.config.js` define base `/conectados-em-cristo/` fora da Vercel e `/` quando `VERCEL` está definido.
-- `vercel.json` declara build Vue e rewrite para `index.html`.
+- `vite.config.mjs` define base `/conectados-em-cristo/` para GitHub Pages e `/` na Vercel.
+- `vercel.json` executa `npm run build`, publica `dist/` e mantém o rewrite para `index.html`.
 - Há configuração para GitHub Pages e Vercel; o ambiente de produção ativo e os critérios de publicação não estão confirmados.
 
 ## Objetivo
