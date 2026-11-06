@@ -3,7 +3,7 @@
 - Data: 2026-11-05
 - Baseline técnico: commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Direção aprovada como princípio: **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
-- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 aprovada no modelo geral de participação com impedimento por conflito de interesse em 2026-11-06; F-09 foi aprovada no modelo geral em 2026-11-06; F-10, detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
+- Status: direção estratégica e modelo-base de comunidades aprovados em 2026-11-04; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 aprovada no modelo geral de participação com impedimento por conflito de interesse em 2026-11-06; F-09 foi aprovada no modelo geral em 2026-11-06; os modelos gerais de F-09/F-10 foram aprovados em 2026-11-06; detalhes operacionais, decisões técnicas e critérios de segurança continuam pendentes.
 
 ## 1. Diagnóstico
 
@@ -115,7 +115,7 @@ O registro canônico é `OPEN_DECISIONS.md`. Permanecem pendentes, entre outras:
 - F-07 (modelo geral aprovado): catálogo público limitado a metadados, sem posts/comentários/lista nominal de membros; não listadas por convite/autorização; campos exatos, contagens e controles anti-vazamento ainda pendentes.
 - F-08 (modelo geral aprovado): moderador pode ser membro, mas deve se impedir em casos envolvendo a própria conta, conteúdo/ação própria, recurso próprio ou interesse direto, com encaminhamento a outro moderador elegível ou administração/substituto independente e auditoria restrita. Ainda pendentes critérios completos de conflito, fallback, acesso pré-impedimento e detalhes de auditoria/testes.
 - F-09 (modelo geral aprovado em 2026-11-06): edição própria por janela curta, solicitação de exclusão com ocultação rápida, exclusão/anonimização conforme F-05 e retenção excepcional mínima, restrita e auditada; parâmetros operacionais e revisão jurídica pendentes.
-- F-10 (pendente): modelo de reações às publicações.
+- F-10 (modelo geral aprovado em 2026-11-06): uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura, sem lista nominal ou gamificação. Limites, autorização, antiabuso e privacidade da contagem pendentes.
 - D-03, D-06, D-08 a D-10: governança de conteúdo de fé/or oração, compatibilidade futura, notificações, idiomas e formato/região do beta.
 - D-12 a D-17: backend, banco, autenticação, imagens/storage, e-mail e hospedagem.
 - D-18 a D-22: capacidade de moderação, método de verificação etária e proteção de menores, documentos legais, prazo/orçamento e critérios de beta.
