@@ -320,7 +320,7 @@ Condições:
 1. Exige vínculo ativo, comunidade ativa, conteúdo visível e ausência de restrição aplicável. A autorização deve ser conferida no servidor em toda leitura e operação.
 2. Acesso administrativo a conteúdo de membro não deve ser automático ou irrestrito. Proposta: acesso somente quando necessário para suporte, segurança ou moderação, com justificativa e registro auditável.
 3. Moderador só decide solicitações na comunidade atribuída. Se não houver moderador atribuído ou houver conflito de interesse, encaminhar ao administrador.
-4. Edição/exclusão de conteúdo ainda é decisão pendente (F-02/F-09). Até aprovação, não habilitar essas ações no beta.
+4. O modelo geral de F-09 foi aprovado, mas edição/exclusão não deve ser habilitada no beta até definir janela, fluxo, retenção, exceções e controles server-side alinhados a F-02/F-05.
 5. Apenas no escopo atribuído e na medida necessária para tratar a denúncia. Não permitir consulta global por conveniência.
 6. Acesso limitado aos eventos necessários à comunidade atribuída; ocultar dados pessoais desnecessários e identidade de denunciantes sempre que possível.
 7. Nem mesmo administrador deve editar ou apagar eventos históricos. Correções devem ocorrer por novo evento compensatório, com controle de acesso e retenção definida. A retenção e os meios de proteção contra adulteração precisam ser especificados.
