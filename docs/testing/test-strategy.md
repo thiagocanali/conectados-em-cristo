@@ -8,8 +8,8 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 
 - `npm test` executa o Node.js Test Runner (`node --test`).
 - Existe uma suíte em `tests/safeStorage.test.js` com cinco casos para parsing seguro de JSON e validação do progresso do teste de dons.
-- `npm run lint` executa ESLint por meio de `vue-cli-service lint`.
-- `npm run build` executa o build Vue CLI.
+- `npm run lint` executa ESLint CLI diretamente.
+- `npm run build` executa `vite build`.
 - O CI executa lint, testes unitários e build de produção em jobs separados.
 - Não há cobertura automatizada identificada para componentes, integração, contratos de API, acessibilidade ou E2E.
 
@@ -47,4 +47,4 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: cinco testes unitários de utilitários executáveis; cobertura de produto ainda limitada.
+Status: cinco testes unitários de utilitários executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
