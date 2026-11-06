@@ -6,7 +6,7 @@
 
 ## Fase 0 — Auditoria e planejamento
 
-**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 a F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
+**Estado:** auditoria documental/estática e revisão de consistência concluídas; F-01, F-02 e F-03 aprovadas em 2026-11-05; F-04 aprovada no modelo operacional geral, F-05 nos princípios gerais de minimização/governança, F-06 no modelo geral de elegibilidade 18+ e F-07 no modelo geral de catálogo/visibilidade em 2026-11-05; F-08 aprovada no modelo geral de participação com impedimento por conflito de interesse em 2026-11-06; F-09/F-10 e decisões técnicas/operacionais ainda aguardam aprovação.
 
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
@@ -22,7 +22,7 @@ Tarefas:
 - [x] Registrar aprovação de F-04 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada e metas realistas.
 - [x] Registrar aprovação de F-05 nos princípios gerais de minimização, finalidade explícita, acesso mínimo, direitos do titular, retenção por categoria e preservação restrita de evidências.
 - [x] Registrar aprovação de F-06 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas.
-- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; detalhar F-07 (campos públicos, contagens, convite/autorização e anti-vazamento); aprovar, rejeitar ou ajustar F-08 a F-10.
+- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; detalhar F-07 (campos públicos, contagens, convite/autorização e anti-vazamento); detalhar F-08 (critérios de conflito, encaminhamento/fallback, acesso pré-impedimento, auditoria e testes server-side); aprovar, rejeitar ou ajustar F-09/F-10.
 - [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
 - [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
 - [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
