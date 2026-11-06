@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-09 foram aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse; F-09 no modelo geral de edição, exclusão e preservação controlada de evidências; F-10 no modelo geral de reação positiva única e não competitiva).  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-10 foram aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse; F-09 no modelo geral de edição, exclusão e preservação controlada de evidências; F-10 no modelo geral de reação positiva única e não competitiva).  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
