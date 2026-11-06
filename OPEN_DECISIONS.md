@@ -252,7 +252,7 @@ A aprovação destas decisões de produto não autoriza contratação de serviç
 
 ## 11. Decisões funcionais das comunidades — F-01 a F-10
 
-**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-06 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores). F-07 a F-10 permanecem pendentes de aprovação.  
+**Status geral: PARCIALMENTE DECIDIDO.** F-01 a F-07 foram aprovadas em 2026-11-05 (F-04 no modelo operacional geral; F-05 nos princípios de minimização e governança de dados; F-06 no modelo geral de elegibilidade 18+ e proteção de menores; F-07 no modelo geral de catálogo e visibilidade). F-08 a F-10 permanecem pendentes de aprovação.  
 As propostas ainda pendentes orientam a discussão, mas não autorizam implementação. Cada item deverá ser aprovado, rejeitado ou ajustado individualmente.
 
 | ID | Tema | Recomendação em análise | Impacto principal | Estado |
@@ -263,7 +263,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
 | F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
 | F-06 | Elegibilidade | Beta inicial restrito a pessoas com 18 anos ou mais; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
-| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado | API pública, privacidade e descoberta | Pendente |
+| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado; participação não vira diretório público | API pública, privacidade e descoberta | **Aprovada (2026-11-05) — modelo geral** |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | Pendente |
 | F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão; preservar evidência de denúncia ativa com acesso restrito | Integridade, retenção, direitos do titular e moderação | Pendente |
 | F-10 | Reações | Uma reação positiva inicial (ex.: “Apoiar”), removível/trocável, sem ranking competitivo | UX, modelo de dados e métricas de engajamento | Pendente |
@@ -278,7 +278,7 @@ Após a resposta do responsável pelo produto:
 3. Atualizar requisitos, critérios de aceite e testes afetados.
 4. Criar/atualizar ADR quando a decisão alterar arquitetura, autorização, dados ou operação.
 
-**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07, F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
+**Regra de segurança:** F-04, F-05 e F-06 exigem validação operacional/jurídica antes de qualquer beta com usuários reais. F-05 teve seus princípios gerais aprovados, mas inventário, bases legais, prazos por categoria, exceções, fluxo de direitos e comportamento de backups precisam de definição e revisão jurídica antes de dados reais. F-04 teve seu modelo geral aprovado, mas cobertura, responsáveis, horários, prioridades operacionais, escalonamento e SLOs concretos precisam ser definidos e testados antes do beta. F-06 teve o modelo geral 18+ aprovado, mas o mecanismo de verificação, fluxo de suspeita, critérios de revisão humana, tratamento de contas inelegíveis, retenção e revisão jurídica continuam bloqueando o beta. F-07 teve o modelo geral aprovado, mas campos exatos, política de contagens, regras de convite/autorização e controles técnicos permanecem a detalhar; F-08, F-09 e F-10 continuam dependendo de aprovação explícita. F-01, F-02 e F-03 foram aprovadas como regras de produto, mas suas implementações dependem dos pré-requisitos técnicos, testes server-side, auditoria e proteção contra acesso indevido descritos na especificação.
 
 ## 12. Pacote de decisão — F-01: bloqueio entre usuários
 
@@ -956,7 +956,7 @@ Manter **18 anos ou mais para o beta inicial**, com coleta mínima e mecanismo d
 
 ## 18. Pacote de decisão — F-07: catálogo, visibilidade e comunidades não listadas
 
-**Status: PROPOSTA — não aprovada.**
+**Status: APROVADA EM 2026-11-05 — modelo geral.** A aprovação define catálogo público de metadados e separação entre descoberta e autorização; não aprova ainda os campos exatos, política final de contagens ou controles técnicos.
 
 ### Pergunta de produto
 
@@ -1097,14 +1097,11 @@ F-07 somente poderá ser considerada implementada quando:
 - testes cobrirem acesso anônimo, usuário sem membership, membro, moderador fora do escopo e alteração direta de ID/slug;
 - respostas de erro não revelarem informações privadas desnecessárias.
 
-### Recomendação de produto
+### Decisão registrada (2026-11-05)
 
-Adotar **catálogo público de metadados, sem transformar comunidades em feeds públicos**, com comunidades não listadas protegidas por autorização explícita.
+Aprovar o **modelo geral de catálogo público de metadados**, sem posts, comentários ou lista nominal de membros. Contagens devem ser agregadas e avaliadas quanto ao risco de reidentificação. Comunidades não listadas ficam fora das superfícies públicas de descoberta e exigem convite ou autorização explícita. A participação em comunidades não deve virar diretório público de pessoas.
 
-**Decisão solicitada ao responsável pelo produto:**
-- **Aprovar** o modelo;
-- **Rejeitar** e adotar outro;
-- **Ajustar** visibilidade, catálogo ou regras de comunidades não listadas.
+**Ainda pendente:** campos exatos, política final de contagens, regras detalhadas de convite/autorização e controles técnicos anti-vazamento/enumeração.
 
 
 ## 19. Pacote de decisão — F-08: moderador que também é membro e conflito de interesses
