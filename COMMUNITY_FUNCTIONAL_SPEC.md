@@ -1,7 +1,7 @@
 # Especificação Funcional — Comunidades do Conectados em Cristo
 
 - Data: 2026-11-05
-- Status: **rascunho funcional revisado; F-01 a F-08 aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios gerais de minimização/governança; F-06 no modelo geral de elegibilidade 18+; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse); F-09 foi aprovada no modelo geral em 2026-11-06; F-10 permanece pendente**
+- Status: **rascunho funcional revisado; F-01 a F-08 aprovadas em 2026-11-05/2026-11-06 (F-04 no modelo operacional geral; F-05 nos princípios gerais de minimização/governança; F-06 no modelo geral de elegibilidade 18+; F-07 no modelo geral de catálogo e visibilidade; F-08 no modelo geral de participação com impedimento por conflito de interesse); F-09 foi aprovada no modelo geral em 2026-11-06; F-10 foi aprovada no modelo geral em 2026-11-06**
 - Escopo: comunidades curadas, participação, conteúdo comunitário e moderação no beta.
 - Relação: complementa `PRODUCT_GAP_ANALYSIS.md`, `OPEN_DECISIONS.md`, `SECURITY_GAP_ANALYSIS.md` e `EXECUTION_ROADMAP.md`.
 
@@ -148,7 +148,7 @@ Uma comunidade pausada não aceita novas entradas nem novas publicações; conte
 
 ### 5.6 Comentar e reagir
 - Comentários exigem acesso autorizado à publicação e permissão ativa na comunidade.
-- **Proposta F-10 (pendente de aprovação):** uma única reação positiva por membro/publicação, com rótulo inicial sugerido “Apoiar”.
+- **Modelo F-10 aprovado em 2026-11-06:** uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada apenas quando segura, sem lista nominal, pontos ou rankings. Limites antiabuso, autorização, estados especiais e limiar de privacidade continuam pendentes.
 - O membro pode adicionar ou remover a própria reação; não há troca entre tipos no modelo inicial, pois só existe um tipo. Tipos adicionais exigem decisão futura explícita.
 - Reações em comentários ficam fora do escopo proposto para o MVP.
 - A operação deve ser idempotente e impedir duplicidade, inclusive em solicitações concorrentes.
@@ -156,7 +156,7 @@ Uma comunidade pausada não aceita novas entradas nem novas publicações; conte
 - Publicação oculta, removida ou indisponível não aceita novas interações; o agregado não deve aparecer nas superfícies comuns enquanto o conteúdo estiver oculto/removido.
 - Não criar pontos, placares, rankings, medalhas ou ordenação competitiva. Contagem agregada simples só pode ser exibida se compatível com F-07 e sem expor lista nominal de reatores por padrão.
 
-**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado. Os critérios detalhados de F-10 permanecem condicionados à aprovação da proposta.
+**Aceite:** toda operação é revalidada no servidor; IDs previsíveis ou chamadas diretas não permitem interagir fora do escopo autorizado. Os critérios detalhados de F-10 permanecem condicionados à definição de limites, autorização server-side, privacidade da contagem e testes.
 
 ### 5.7 Denunciar
 1. Membro autenticado seleciona denunciar em conteúdo ou perfil/interação elegível.
@@ -271,7 +271,7 @@ Build bem-sucedido, isoladamente, não representa aprovação para beta.
 | F-07 | **Aprovada (2026-11-05, modelo geral):** catálogo público de metadados, sem posts/comentários/lista nominal de membros; não listadas por convite ou autorização explícita | Define privacidade e descoberta |
 | F-08 | Possibilidade de moderador também ser membro e tratamento de conflitos de interesse | Define governança e controles |
 | F-09 | Modelo geral aprovado: edição própria por janela curta; solicitação de exclusão com ocultação rápida; exclusão/anonimização conforme F-05 e retenção excepcional mínima e auditada | Define integridade e histórico |
-| F-10 | Se reações terão uma única opção inicial ou conjunto limitado | Define interação e modelo de dados |
+| F-10 | Modelo geral aprovado: uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada somente quando segura, sem lista nominal ou gamificação | Define interação e modelo de dados |
 
 ## 12. Plano de validação
 
