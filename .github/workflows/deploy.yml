@@ -1,4 +1,4 @@
-name: Deploy Vue CLI to GitHub Pages
+name: Deploy Vite to GitHub Pages
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build Vue CLI (gera dist/)
+      # Build Vite (gera dist/)
       - name: Build
         run: npm run build
 

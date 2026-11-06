@@ -4,7 +4,7 @@
 
 - SPA em Vue 3, inicializada em `src/main.js`.
 - Vue Router 4 com `createWebHashHistory()`.
-- Build e servidor de desenvolvimento usam Vue CLI 5 (`@vue/cli-service@5.0.9`); Vite ainda não está configurado.
+- Build e servidor de desenvolvimento usam Vite 6; Vue CLI não faz mais parte da toolchain ativa.
 - JavaScript com Vue SFC; não há TypeScript configurado.
 - `src/App.vue` fornece navegação, atalho para o conteúdo, landmark principal e rodapé compartilhados.
 - Tokens e estilos compartilhados ficam em `src/assets/global.css`; páginas usam estilos locais ou scoped.
@@ -22,8 +22,8 @@ As rotas privadas verificam a presença de uma sessão local. Isso é uma barrei
 
 ## Build e deploy atuais
 
-- `public/index.html` é a entrada HTML do Vue CLI e contém o placeholder `<%= BASE_URL %>`.
-- `vue.config.js` define base `/conectados-em-cristo/` fora da Vercel e `/` quando `VERCEL` está definido.
+- `index.html` na raiz é a entrada HTML processada pelo Vite e usa `%BASE_URL%` para o favicon.
+- `vite.config.mjs` define base `/` na Vercel e `/conectados-em-cristo/` no build do GitHub Pages; o servidor local usa `/`.
 - Vercel e GitHub Pages têm configurações de build/deploy; o destino de produção ativo ainda não está confirmado.
 - O pipeline usa Node 20 e npm lockfile v3.
 
@@ -33,7 +33,7 @@ A persistência local não sincroniza dispositivos nem substitui autenticação 
 
 ## Decisões e evolução
 
-- A recomendação de modernização Vue CLI → Vite foi detalhada em `docs/architecture/vue-cli-to-vite-migration-plan.md`; execução ainda depende de revisão/aprovação.
+- A migração Vue CLI → Vite foi implementada em branch isolada; a validação funcional e os checks do CI ainda são os critérios para concluir a etapa.
 - Preservar Vue 3, Vue Router, hash routing, CSS próprio e comportamento atual.
 - Não introduzir TypeScript em massa na mesma PR da migração de build.
 - Definir estratégia de estado apenas se a complexidade atual exigir.
@@ -41,7 +41,7 @@ A persistência local não sincroniza dispositivos nem substitui autenticação 
 
 ## TODOs
 
-- Executar a migração isolada após aprovação do plano.
+- Validar todas as 12 rotas, hash routing, assets e bases Vercel/GitHub Pages no CI e em smoke test.
 - Separar UI e serviços de domínio quando a API for aprovada.
 - Consolidar componentes compartilhados e validar acessibilidade em todas as rotas.
 
