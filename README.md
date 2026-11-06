@@ -6,7 +6,7 @@ O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar 
 
 ## Estado atual do projeto
 
-Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vue CLI 5, CSS próprio e rotas em hash.
+Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
 Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
 
@@ -27,9 +27,9 @@ Essas ações não conectam usuários reais nem enviam denúncias a uma equipe d
 
 - Vue 3
 - Vue Router 4
-- Vue CLI 5 / `vue-cli-service`
+- Vite 6
 - CSS próprio
-- Babel e ESLint
+- ESLint com parser Babel para JavaScript legado
 
 Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. A configuração inclui GitHub Pages e Vercel; o destino de produção ativo precisa ser confirmado.
 
@@ -38,7 +38,7 @@ Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na in
 Requisitos: Node.js e npm compatíveis com as dependências do projeto.
 
 ```sh
-npm install
+npm ci
 npm run serve
 ```
 
