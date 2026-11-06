@@ -6,7 +6,7 @@
 
 O repositório contém um protótipo frontend local, não um MVP de produção.
 
-- **Frontend:** Vue 3, Vue Router 4, Vue CLI 5, CSS próprio e navegação com hash.
+- **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash.
 - **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
 - **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
 - **Segurança:** cadastro e login locais não são autenticação de produção. Não armazenar dados sensíveis nem senhas reutilizadas.
@@ -26,7 +26,7 @@ Os fluxos não representam uma comunidade online real: ações locais não são 
 ### Decisões que continuam abertas
 
 - Escopo e critérios de aceite do primeiro MVP de produção.
-- Manter a stack Vue atual ou aprovar uma migração.
+- Consolidar a migração Vue CLI → Vite e validar os dois destinos de deploy.
 - Backend, banco de dados, autenticação e hospedagem.
 - Modelo de privacidade, autorização e moderação.
 - Prazo, idiomas e momento de funcionalidades como mensagens.
