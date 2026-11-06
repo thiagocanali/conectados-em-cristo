@@ -10,7 +10,7 @@ O repositório contém um protótipo frontend local, não um MVP de produção.
 - **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
 - **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
 - **Segurança:** cadastro e login locais não são autenticação de produção. Não armazenar dados sensíveis nem senhas reutilizadas.
-- **Validação:** existem scripts de lint e build; não há suíte automatizada de unidade, integração ou E2E configurada.
+- **Validação:** o CI executa lint, cinco testes unitários de utilitários (`npm test`) e build. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
 - **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
 
 ### Fluxos demonstrativos existentes
