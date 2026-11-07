@@ -23,7 +23,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 2026-09-28
 
 ## Status
-Pendente
+Aceito — PostgreSQL como tecnologia; provedor e provisionamento pendentes.
 
 ## Próximos passos
 - Comparar provedores sem contratação e registrar preço, região, limites e portabilidade.
