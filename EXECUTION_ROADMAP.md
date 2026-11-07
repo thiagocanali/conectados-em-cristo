@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 19 testes unitários, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 23 testes unitários, build e deploy estático).
 - [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
@@ -47,6 +47,7 @@ Tarefas:
 - [x] Registrar ADR-0004: PostgreSQL aprovado como tecnologia relacional; provedor, migrations operacionais, backups e custos ainda pendentes.
 - [x] Registrar ADR-0005: estratégia de autenticação gerenciada aprovada; fornecedor, configuração concreta de sessão e e-mail transacional continuam pendentes.
 - [x] Criar baseline STRIDE, classificação inicial de privacidade, matriz de autorização e contrato OpenAPI draft, sem implementar API nem coletar dados reais.
+- [x] Adicionar testes automáticos de estrutura, referências, operationIds e autenticação no contrato OpenAPI.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
