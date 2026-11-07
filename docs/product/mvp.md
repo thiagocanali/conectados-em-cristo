@@ -140,7 +140,7 @@ O MVP (Minimum Viable Product), caso aprovado, deverá validar a hipótese centr
 ## Alternativas técnicas para avaliação (não aprovadas)
 
 - Backend: Node.js + Express/TypeScript ou outra opção a decidir
-- Frontend: Vue.js 3/Vue CLI está implementado no protótipo; eventual migração requer aprovação
+- Frontend: Vue 3 + Vue Router 4 + Vite 6 implementado no protótipo; migração Vue CLI → Vite concluída na PR #23
 - Banco, hospedagem, e-mail, armazenamento, autenticação e moderação: sem escolha
 - Ver ADRs 0003–0005; o protótipo atual não implementa esses serviços
 
