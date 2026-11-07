@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { getDemoSession } from '@/services/demoAuth.mjs'
+
 export default {
   data() {
     return {
@@ -37,7 +39,7 @@ export default {
   methods: {
     storageKey() {
       let user = null
-      try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
+      try { user = getDemoSession() } catch { user = null }
       return user && user.email ? `perfisSalvos:${String(user.email).trim().toLowerCase()}` : 'perfisSalvos'
     },
     loadSavedProfiles() {
