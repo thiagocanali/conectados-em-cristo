@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { getDemoSession, getDemoUsers } from '@/services/demoAuth.mjs'
+
 export default {
   data() {
     const perfis = this.loadProfiles()
@@ -63,7 +65,7 @@ export default {
   methods: {
     storageKey(base) {
       let user = null
-      try { user = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { user = null }
+      try { user = getDemoSession() } catch { user = null }
       return user && user.email ? `${base}:${String(user.email).trim().toLowerCase()}` : base
     },
     readList(base) {
@@ -95,8 +97,7 @@ export default {
       let users = []
       try {
         current = JSON.parse(localStorage.getItem('currentUser') || 'null')
-        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-        users = Array.isArray(storedUsers) ? storedUsers : []
+        users = getDemoUsers()
       } catch { return [] }
       if (!current || !current.email) return []
       const blocked = this.readList('bloqueados')
