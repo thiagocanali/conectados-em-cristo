@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import safeStorage from "@/utils/safeStorage";
+import safeStorage from "@/utils/safeStorage.mjs";
 
 const { parseStoredJson } = safeStorage;
 
