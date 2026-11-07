@@ -77,7 +77,7 @@ export default {
           return Array.isArray(parsed) ? parsed : []
         }
 
-        const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const user = getDemoSession()
         if (user && user.email) {
           const legacyKey = `${base}:${user.email}`
           const legacyValue = localStorage.getItem(legacyKey)
@@ -96,7 +96,7 @@ export default {
       let current = null
       let users = []
       try {
-        current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        current = getDemoSession()
         users = getDemoUsers()
       } catch { return [] }
       if (!current || !current.email) return []
