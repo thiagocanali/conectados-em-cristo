@@ -3,7 +3,7 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Comece sua jornada</p>
-        <h1>Criar Conta</h1>
+        <h1>Criar perfil</h1>
         <p class="auth-subtitle">Para maiores de 18 anos. Relacionamentos com propósito.</p>
         <p class="auth-notice" role="note">Protótipo demonstrativo: os dados ficam apenas neste navegador. Não use informações reais ou senhas.</p>
       </div>
@@ -28,11 +28,11 @@
         <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
         <p v-if="success" class="auth-success" role="status" aria-live="polite">{{ success }}</p>
 
-        <button type="submit" class="btn-primary auth-submit">Criar conta</button>
+        <button type="submit" class="btn-primary auth-submit">Criar perfil demonstrativo</button>
       </form>
 
       <p class="auth-redirect">
-        Já tem conta? <router-link to="/login">Entrar</router-link>
+        Já criou um perfil neste navegador? <router-link to="/login">Entrar</router-link>
       </p>
     </div>
   </div>
