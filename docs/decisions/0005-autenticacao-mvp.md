@@ -1,7 +1,7 @@
 # ADR-0005: Autenticação e sessões do MVP
 
 ## Contexto
-A plataforma terá dados pessoais e relacionamentos entre usuários. A documentação define verificação de e-mail, controle de sessão, autorização por recurso e MFA opcional, mas a implementação ainda não começou.
+A plataforma terá dados pessoais e relações entre usuários. A documentação define verificação de e-mail, controle de sessão, autorização por recurso e MFA opcional. O protótipo atual tem apenas sessão local demonstrativa e não autentica identidade.
 
 ## Problema
 Como autenticar usuários sem expor dados pessoais ou criar uma solução de segurança própria prematuramente?
@@ -12,7 +12,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 - **Login social como único método**: reduz fricção; não atende necessariamente ao público e à estratégia de e-mail verificado.
 
 ## Decisão
-**Hipótese registrada, decisão pendente:** um provedor especializado pode reduzir a responsabilidade de implementar autenticação, mas nenhum fornecedor ou fluxo foi aprovado. O login atual é demonstrativo e executado no navegador. A solução concreta depende da integração aprovada e da revisão de segurança.
+**Decisão aprovada em 2026-11-07:** adotar autenticação gerenciada, evitando implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade. A API será a autoridade para validar identidade, sessão, estado da conta e autorização em cada operação. O fornecedor permanece pendente entre Supabase Auth, Clerk e Better Auth. A configuração deverá priorizar cookies HttpOnly, Secure e SameSite, com CSRF/CORS adequados ao fluxo escolhido. O login local atual continua sendo apenas demonstração.
 
 ## Consequências
 - Positivas: menor superfície de código sensível e melhor governança de sessões.
@@ -26,6 +26,6 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 Pendente
 
 ## Próximos passos
-- Confirmar provedor e integração do projeto.
-- Definir fluxo de cadastro, verificação e recuperação.
+- Comparar fornecedores, custo, portabilidade, MFA, recuperação e exportação.
+- Definir fluxo de cadastro, verificação e recuperação com revisão de segurança.
 - Implementar testes de sessão, autorização e abuso antes do lançamento.
