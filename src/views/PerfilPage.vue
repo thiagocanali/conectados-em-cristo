@@ -86,8 +86,7 @@ export default {
   },
   methods: {
     loadProfile() {
-      let currentUser = null
-      currentUser = getDemoSession()
+      const currentUser = getDemoSession()
       const normalizedEmail = currentUser?.email ? String(currentUser.email).trim().toLowerCase() : ''
       const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
       const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
