@@ -19,16 +19,18 @@
   </div>
 </template>
 <script>
+import { clearDemoSession, getDemoSession } from '@/services/demoAuth.mjs'
+
 export default {
   data() { return { currentUser: null } },
   computed: { userName() { return this.currentUser?.username || 'amigo(a)' } },
   mounted() {
-    try { this.currentUser = JSON.parse(localStorage.getItem('currentUser')) } catch { this.currentUser = null }
+    this.currentUser = getDemoSession()
     if (!this.currentUser) this.$router.push('/login')
   },
   methods: {
     logout() {
-      localStorage.removeItem('currentUser')
+      clearDemoSession()
       this.$router.push('/login')
     }
   }
