@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { getDemoSession, getDemoUsers, setDemoSession } from '@/services/demoAuth.mjs'
+
 export default {
   data() {
     return {
@@ -80,7 +82,7 @@ export default {
   methods: {
     loadAnswers() {
       try {
-        const current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const current = getDemoSession()
         return Array.isArray(current?.respostas) && current.respostas.length === 10 ? [...current.respostas] : Array(10).fill('')
       } catch { return Array(10).fill('') }
     },
@@ -88,9 +90,8 @@ export default {
       let current = null
       let users = []
       try {
-        current = JSON.parse(localStorage.getItem('currentUser') || 'null')
-        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-        users = Array.isArray(storedUsers) ? storedUsers : []
+        current = getDemoSession()
+        users = getDemoUsers()
       } catch { current = null; users = [] }
       if (!current || !current.email) { this.$router.push('/login'); return }
       const answers = this.respostas.map(value => Number(value))
@@ -99,10 +100,10 @@ export default {
       if (index !== -1) {
         users[index].respostas = answers;
         localStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("currentUser", JSON.stringify(users[index]));
+        setDemoSession(users[index]);
       } else {
         current.respostas = answers;
-        localStorage.setItem('currentUser', JSON.stringify(current));
+        setDemoSession(current);
       }
       this.$router.push("/resultados");
     }

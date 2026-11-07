@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import { getDemoSession, getDemoUsers, setDemoSession } from '@/services/demoAuth.mjs'
+
 export default {
   data() {
     return {
@@ -84,8 +86,7 @@ export default {
   },
   methods: {
     loadProfile() {
-      let currentUser = null
-      try { currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null') } catch { currentUser = null }
+      const currentUser = getDemoSession()
       const normalizedEmail = currentUser?.email ? String(currentUser.email).trim().toLowerCase() : ''
       const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
       const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
@@ -100,22 +101,18 @@ export default {
       } catch { return emptyProfile }
     },
     salvar() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
+      const currentUser = getDemoSession()
       if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
       const normalizedProfile = { ...this.perfil, nome: this.perfil.nome.trim(), email: currentUser.email }
       const profileKey = `perfil:${String(currentUser.email).trim().toLowerCase()}`
       localStorage.setItem(profileKey, JSON.stringify(normalizedProfile))
-      let users = []
-      try {
-        const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-        users = Array.isArray(storedUsers) ? storedUsers : []
-      } catch { users = [] }
+      const users = getDemoUsers()
       const index = users.findIndex(user => String(user.email || '').trim().toLowerCase() === String(currentUser.email).trim().toLowerCase())
       const updatedUser = { ...currentUser, username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
       if (index >= 0) users[index] = { ...users[index], username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
       else users.push(updatedUser)
       localStorage.setItem('users', JSON.stringify(users))
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser))
+      setDemoSession(updatedUser)
       this.salvo = true;
       setTimeout(() => { this.salvo = false; }, 3000);
     }
