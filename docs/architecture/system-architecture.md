@@ -298,7 +298,7 @@ Arquitetura modular com serviços específicos.
 
 ## Decisões Arquiteturais Pendentes
 
-- [ ] Frontend: Vue.js → Next.js (v2)?
+- [x] Frontend: Vue 3 preservado e migração Vue CLI → Vite concluída em PR isolada. Não há migração aprovada para Next.js.
 - [ ] Backend: Express → Fastify/Nest.js?
 - [ ] Banco: Neon, Supabase, ou AWS Aurora?
 - [ ] Cache: Redis self-hosted ou managed?
