@@ -1,7 +1,7 @@
 # Decisões em Aberto — Conectados em Cristo
 
 - Data: 2026-11-07
-- Status: direção estratégica inicial aprovada em 2026-11-04; decisões de execução, segurança, operação e fornecedores permanecem pendentes.
+- Status: direção estratégica aprovada em 2026-11-04; direções técnicas D-11 a D-14 aprovadas/concluídas; fornecedores D-15 a D-17 e detalhes de segurança/operação continuam pendentes.
 - Regra: somente as decisões explicitamente registradas na seção 10 estão aprovadas. Recomendações restantes não autorizam contratação, provisionamento ou migração.
 
 ## 1. Posicionamento e público
