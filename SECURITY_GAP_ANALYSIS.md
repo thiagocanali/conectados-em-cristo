@@ -1,19 +1,20 @@
 # Análise de Lacunas de Segurança — Conectados em Cristo
 
-- Data: 2026-11-04
+- Data: 2026-11-07
+- Atualização: mitigação parcial de credenciais locais na branch `fix/demo-auth-no-password-persistence-2026-11-07`
 - Baseline: `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Escopo: inspeção estática do código, configuração, lockfile, documentação e execução de `npm audit`.
 - Não é pentest nem atestado de conformidade.
 
 ## 1. Conclusão
 
-**O protótipo não deve receber dados pessoais reais, senhas reutilizadas ou conteúdo privado.** O cadastro persiste senhas em texto puro no armazenamento do navegador; a sessão é simulável; não há servidor para impor autorização; denúncias e bloqueios não são operacionais.
+**O protótipo não deve receber dados pessoais reais, senhas reutilizadas ou conteúdo privado.** A interface foi alterada para não solicitar nem persistir senhas e o serviço remove credenciais em texto puro de registros locais legados quando os usuários são lidos. A sessão continua simulável no navegador; não há servidor para impor autorização; denúncias e bloqueios não são operacionais.
 
 ## 2. Riscos prioritários
 
 | Risco | Severidade | Evidência | Requisito antes do beta |
 |---|---|---|---|
-| Senhas em texto puro | Crítica | `CadastroPage.vue`: `senha` salva no objeto `users` e `currentUser` | Remover auth local; provedor/server-side; nunca persistir senha no browser |
+| Credenciais locais legadas | Mitigada parcialmente no protótipo | `demoAuth.mjs` remove campos `senha`, `password` e `passwordHash` ao ler perfis; cadastro não pede senha | Confirmar limpeza em todos os fluxos e substituir por autenticação server-side antes do beta |
 | Autorização client-side | Crítica | `router.beforeEach` confia em `localStorage.currentUser` | Autorização no backend por recurso, usuário e papel |
 | Dados apenas locais | Alta | Perfil, interações e respostas em localStorage | Banco remoto, escopo por usuário e integridade |
 | Denúncia sem operador | Alta | `DescobertaPage.vue` registra localmente | Fila persistente, acesso restrito, SLA, moderação e auditoria |
@@ -107,7 +108,9 @@ Este documento é análise técnica inicial, não parecer jurídico.
 
 ## 7. Critérios de segurança para beta/produção
 
-- [ ] Nenhuma senha em storage do browser.
+- [x] O fluxo atual de protótipo não solicita nem grava novas senhas; o serviço remove campos legados quando lê perfis.
+- [ ] Verificar/limpar todos os dados legados em navegadores já utilizados; a limpeza acontece apenas quando o perfil é lido.
+- [ ] Nenhuma senha em storage do browser em qualquer fluxo ou ambiente real.
 - [ ] Autenticação, sessão e recuperação testadas.
 - [ ] Autorização server-side e isolamento entre usuários testados.
 - [ ] Rate limiting e proteção anti-abuso.
@@ -124,7 +127,9 @@ Este documento é análise técnica inicial, não parecer jurídico.
 ## 8. Ações imediatas recomendadas
 
 1. Não coletar dados reais no protótipo.
-2. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
-3. Aprovar arquitetura de identidade e backend.
-4. Desenhar threat model e classificação de dados antes de schema.
-5. Implementar o primeiro fluxo real com testes de autorização.
+2. Manter o acesso local explicitamente identificado como demonstrativo; nunca tratá-lo como autenticação ou autorização.
+3. Concluir a revisão dos consumidores de sessão e testar fluxos completos.
+4. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
+5. Aprovar arquitetura de identidade e backend.
+6. Desenhar threat model e classificação de dados antes de schema.
+7. Implementar o primeiro fluxo real com testes de autorização.

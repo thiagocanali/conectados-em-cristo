@@ -9,13 +9,13 @@ O repositório contém um protótipo frontend local, não um MVP de produção.
 - **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash.
 - **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
 - **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
-- **Segurança:** cadastro e login locais não são autenticação de produção. Não armazenar dados sensíveis nem senhas reutilizadas.
-- **Validação:** o CI executa lint, cinco testes unitários de utilitários (`npm test`) e build. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
+- **Segurança:** o fluxo de demonstração não solicita nem persiste senhas; a sessão por e-mail é local, falsificável e não é autenticação/autorização. O serviço remove credenciais legadas quando os perfis são lidos. Não armazenar dados sensíveis nem informações pessoais reais.
+- **Validação:** o CI executa lint, dez testes unitários (`npm test`) e build. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
 - **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
 
 ### Fluxos demonstrativos existentes
 
-- Cadastro e login locais.
+- Cadastro de perfil sem senha e acesso demonstrativo por e-mail local (não autentica identidade).
 - Edição de perfil e respostas de questionário.
 - Descoberta baseada em perfis de demonstração e dados locais.
 - Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador.

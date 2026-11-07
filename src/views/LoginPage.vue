@@ -3,8 +3,9 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Bem-vindo de volta</p>
-        <h1>Entrar</h1>
+        <h1>Acessar protótipo</h1>
         <p class="auth-subtitle">Que Deus guie seus passos hoje.</p>
+        <p class="auth-notice" role="note">Acesso demonstrativo por e-mail, sem autenticação real. Não use dados pessoais ou senhas.</p>
       </div>
 
       <form @submit.prevent="login" class="auth-form">
@@ -13,18 +14,14 @@
           <input id="login-email" type="email" autocomplete="username" v-model="email" class="field-input" placeholder="seu@email.com" required />
         </div>
 
-        <div class="field-group">
-          <label for="login-password" class="field-label">Senha</label>
-          <input id="login-password" type="password" autocomplete="current-password" v-model="password" class="field-input" placeholder="Sua senha" required />
-        </div>
 
         <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
 
-        <button type="submit" class="btn-primary auth-submit">Entrar</button>
+        <button type="submit" class="btn-primary auth-submit">Continuar</button>
       </form>
 
       <p class="auth-redirect">
-        Não tem conta? <router-link to="/cadastro">Criar conta</router-link>
+        Ainda não criou um perfil? <router-link to="/cadastro">Criar perfil demonstrativo</router-link>
       </p>
     </div>
   </div>
@@ -33,30 +30,21 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { loginDemoUser } from '@/services/demoAuth.mjs'
 
 const router = useRouter()
 const email = ref('')
-const password = ref('')
 const error = ref('')
 
 const login = () => {
   error.value = ''
-  let users = []
-  try {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    users = Array.isArray(storedUsers) ? storedUsers : []
-  } catch {
-    users = []
-  }
-  const normalizedEmail = email.value.trim().toLowerCase()
-  const user = users.find(u => (u.email || '').trim().toLowerCase() === normalizedEmail && u.senha === password.value)
+  const result = loginDemoUser(email.value)
 
-  if (user) {
-    localStorage.setItem('currentUser', JSON.stringify(user))
+  if (result.ok) {
     const redirect = router.currentRoute.value.query.redirect
     router.push(typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '/dashboard')
   } else {
-    error.value = 'E-mail ou senha incorretos.'
+    error.value = 'Perfil não encontrado neste navegador. Crie um perfil demonstrativo primeiro.'
   }
 }
 </script>
@@ -84,6 +72,7 @@ const login = () => {
 .auth-subtitle { color: var(--text-muted); font-size: 0.88rem; }
 
 .auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-notice { margin-top: 12px; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--error-bg); color: var(--text-muted); font-size: .78rem; line-height: 1.5; }
 .auth-submit { width: 100%; margin-top: 8px; }
 
 .auth-error {

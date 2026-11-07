@@ -3,8 +3,9 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Comece sua jornada</p>
-        <h1>Criar Conta</h1>
+        <h1>Criar perfil</h1>
         <p class="auth-subtitle">Para maiores de 18 anos. Relacionamentos com propósito.</p>
+        <p class="auth-notice" role="note">Protótipo demonstrativo: os dados ficam apenas neste navegador. Não use informações reais ou senhas.</p>
       </div>
 
       <form @submit.prevent="register" class="auth-form">
@@ -18,11 +19,6 @@
           <input id="signup-email" type="email" autocomplete="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
         </div>
 
-        <div class="field-group">
-          <label for="signup-password" class="field-label">Senha</label>
-          <input id="signup-password" type="password" autocomplete="new-password" v-model="senha" class="field-input" placeholder="Crie uma senha" required minlength="6" />
-          <span class="field-hint">Mínimo de 6 caracteres</span>
-        </div>
 
         <label class="auth-check">
           <input type="checkbox" v-model="maiorIdade" required />
@@ -32,11 +28,11 @@
         <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
         <p v-if="success" class="auth-success" role="status" aria-live="polite">{{ success }}</p>
 
-        <button type="submit" class="btn-primary auth-submit">Criar conta</button>
+        <button type="submit" class="btn-primary auth-submit">Criar perfil demonstrativo</button>
       </form>
 
       <p class="auth-redirect">
-        Já tem conta? <router-link to="/login">Entrar</router-link>
+        Já criou um perfil neste navegador? <router-link to="/login">Entrar</router-link>
       </p>
     </div>
   </div>
@@ -45,11 +41,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { registerDemoUser } from '@/services/demoAuth.mjs'
 
 const router = useRouter()
 const nome = ref('')
 const email = ref('')
-const senha = ref('')
 const maiorIdade = ref(false)
 const error = ref('')
 const success = ref('')
@@ -63,31 +59,20 @@ const register = () => {
     return
   }
 
-  let users = []
-  try {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    users = Array.isArray(storedUsers) ? storedUsers : []
-  } catch {
-    users = []
-  }
-  const normalizedEmail = email.value.trim().toLowerCase()
+  const result = registerDemoUser({
+    username: nome.value.trim(),
+    nome: nome.value.trim(),
+    email: email.value.trim().toLowerCase(),
+    respostas: []
+  })
 
-  if (users.some(u => (u.email || '').trim().toLowerCase() === normalizedEmail)) {
-    error.value = 'Este e-mail já está cadastrado.'
+  if (!result.ok) {
+    error.value = result.reason === 'email-exists'
+      ? 'Este e-mail já está cadastrado neste navegador.'
+      : 'Não foi possível criar o perfil demonstrativo. Verifique o armazenamento do navegador.'
     return
   }
 
-  const newUser = {
-    username: nome.value.trim(),
-    nome: nome.value.trim(),
-    email: normalizedEmail,
-    senha: senha.value,
-    respostas: []
-  }
-
-  users.push(newUser)
-  localStorage.setItem('users', JSON.stringify(users))
-  localStorage.setItem('currentUser', JSON.stringify(newUser))
   success.value = 'Conta criada! Redirecionando...'
   router.push('/perfil')
 }
@@ -116,6 +101,7 @@ const register = () => {
 .auth-subtitle { color: var(--text-muted); font-size: 0.85rem; }
 
 .auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-notice { margin-top: 12px; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--error-bg); color: var(--text-muted); font-size: .78rem; line-height: 1.5; }
 
 .field-hint { font-size: 0.75rem; color: var(--text-muted); }
 
