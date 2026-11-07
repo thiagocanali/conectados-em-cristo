@@ -118,27 +118,27 @@
 
 ### D-12 — Backend
 
-- A — Node.js + TypeScript + Fastify, monólito modular.
-- B — NestJS + TypeScript, monólito modular.
-- C — Express + TypeScript.
+<badge color="success">APROVADA EM 2026-11-07 — direção técnica</badge>
 
-**Recomendação:** A por simplicidade e baixo overhead; B se o projeto priorizar convenções/estrutura e aceitar maior boilerplate.
+**Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada e contratos OpenAPI. Usar schemas explícitos de validação e separar módulos de identidade, perfis/privacidade, comunidades, conteúdo/interações, oração, denúncias/moderação e administração/auditoria.
+
+**Limites:** esta decisão não autoriza criar serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. A prova técnica local só deve começar depois do threat model, classificação de dados e contratos de API mínimos.
 
 ### D-13 — Banco
 
-- A — Supabase PostgreSQL.
-- B — Neon PostgreSQL.
-- C — PostgreSQL gerenciado em outro provedor.
+<badge color="success">APROVADA EM 2026-11-07 — tecnologia</badge>
 
-**Recomendação:** comparar preço atual, backups, região, conexão, RLS, migrações e limites. PostgreSQL é recomendado; fornecedor pendente.
+**Decisão:** PostgreSQL como mecanismo relacional, com migrations versionadas, constraints, transações e política de acesso definida no backend.
+
+**Fornecedor permanece pendente:** Supabase, Neon ou outro provedor não foram escolhidos. RLS, se adotado, será defesa adicional e nunca substitui autorização server-side. Não provisionar banco nem inserir dados reais nesta etapa.
 
 ### D-14 — Autenticação
 
-- A — Supabase Auth.
-- B — Clerk.
-- C — Better Auth/autenticação própria revisada.
+<badge color="success">APROVADA EM 2026-11-07 — estratégia</badge>
 
-**Recomendação:** comparar preço, cookies/sessões, MFA, e-mail, recuperação, portabilidade e integração com backend. Não implementar auth própria sem necessidade.
+**Decisão:** utilizar autenticação gerenciada, em vez de implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade comprovada. A API continuará responsável por validar identidade, sessão, estado da conta e autorização em cada operação.
+
+**Fornecedor permanece pendente:** Supabase Auth, Clerk e Better Auth ainda precisam de comparação de preço, portabilidade, cookies/sessões, MFA, recuperação, exportação e integração. A configuração de sessão deve priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao provedor. Não integrar nem provisionar serviço nesta etapa.
 
 ### D-15 — Imagens
 
@@ -218,6 +218,9 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
+| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
+| Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
+| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
 | Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 
@@ -245,7 +248,7 @@ Pedidos de oração permanecem como objetivo de produto, mas sua disponibilizaç
 - D-08: canais e preferências de notificação.
 - D-09: idiomas além do português brasileiro.
 - D-10: região e formato do beta.
-- D-12 a D-17: backend, banco, autenticação, storage, e-mail, hospedagem e orçamento.
+- D-15 a D-17: fornecedores de storage, e-mail e hospedagem; limites e orçamento.
 - D-18 a D-22: capacidade de moderação, idade mínima, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta.
 
 A aprovação destas decisões de produto não autoriza contratação de serviços, provisionamento de infraestrutura, migração de dados ou mudanças irreversíveis. Antes da Fase 1, fechar as decisões técnicas e operacionais bloqueadoras e registrar ADRs.
