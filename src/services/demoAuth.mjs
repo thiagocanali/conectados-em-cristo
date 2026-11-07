@@ -59,7 +59,7 @@ export function loginDemoUser(email) {
   const normalizedEmail = String(email || '').trim().toLowerCase()
   const user = getDemoUsers().find(item => String(item.email).trim().toLowerCase() === normalizedEmail)
   if (!user) return { ok: false, reason: 'user-not-found' }
-  setDemoSession(user)
+  if (!setDemoSession(user)) return { ok: false, reason: 'storage-unavailable' }
   return { ok: true, user }
 }
 
