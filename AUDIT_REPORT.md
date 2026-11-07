@@ -1,12 +1,67 @@
 # Relatório de Auditoria — Conectados em Cristo
 
-- Data da auditoria: 2026-11-04
-- Branch-base: `main`
-- Commit auditado: `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
+- Data da auditoria original: 2026-11-04
+- Adendo de estado atual: 2026-11-07
+- Baseline remoto deste adendo: `e4c2725b4cf055782647db1951822e330b6ed034`
 - Escopo: árvore completa do repositório, documentação, configuração, aplicação Vue, rotas, persistência local, testes, workflows e resultados recentes de CI/deploy.
-- Natureza: auditoria estática e inspeção de configuração/código. Não equivale a pentest, revisão jurídica ou validação manual completa de UX.
+- Natureza: auditoria estática e inspeção de configuração/código; não equivale a pentest, revisão jurídica ou validação manual completa de UX.
 
-## 1. Resumo executivo
+## Adendo — Fase 0 em 2026-11-07
+
+Este adendo atualiza o estado executável. As seções históricas abaixo registram a auditoria anterior e não substituem os fatos listados aqui.
+
+### Estado observado
+
+- 12 rotas Vue, dois componentes compartilhados e uma SPA Vue 3/Vue Router 4/Vite 6 com hash routing.
+- 15 SFCs Vue, um utilitário de armazenamento, um arquivo de dados do teste de dons e sete testes unitários de utilitários.
+- Não há API, servidor, banco de dados ou integrações de autenticação. Não há fluxo de publicação, comentários, comunidades, reação “Apoiar”, administração nem moderação operacional.
+- Cadastro e login locais foram desabilitados no código. Um utilitário remove `senha` de `users` e `currentUser` no próximo carregamento após a publicação; até então, credenciais inseridas em versões anteriores podem continuar no navegador do usuário.
+- Guardas de páginas de perfil redirecionam para login, sem confiar em `localStorage`; os testes recreativos de dons e personalidade continuam públicos.
+- Pedidos de oração são informativos e dizem explicitamente que compartilhamento está indisponível.
+
+### Classificação funcional
+
+| Área | Classificação | Evidência e limite |
+|---|---|---|
+| Landing, navegação e rodapé | Parcial | Renderizam e navegam; ainda apontam para fluxos indisponíveis ou demonstrativos. |
+| Cadastro, login, logout e sessão | Inseguro na versão anterior; agora desabilitado | Não existe provedor/API; senhas antigas são removidas apenas após receber a nova versão. |
+| Perfil, questionário, salvos e descoberta | Demonstrativos/parciais | Persistência local, sem compartilhamento, autorização server-side ou fonte de dados confiável. |
+| Resultados/compatibilidade | Demonstrativo e não validado | Heurística local apresentada como pontuação; não representa compatibilidade real. |
+| Teste de dons | Parcialmente implementado | Perguntas, progresso e resultado locais; conteúdo não deve ser interpretado como diagnóstico ou declaração definitiva. |
+| Teste de personalidade | Parcial/demonstrativo | Pontuação simples em memória, sem validação psicológica nem persistência. |
+| Pedidos de oração | Não implementados como compartilhamento | A tela é informativa e corretamente bloqueia coleta sensível. |
+| Comunidades, publicações, comentários e “Apoiar” | Não implementados | Sem domínio, API, persistência ou interfaces funcionais. |
+| Bloqueio, denúncia e moderação | Demonstrativos/inseguros | Dados locais não bloqueiam no servidor nem chegam a uma fila de moderação. |
+| Admin, RBAC, apelação e auditoria | Não implementados | Sem backend ou papéis/permissões reais. |
+| Exclusão/exportação de conta e recuperação/verificação de e-mail | Não implementadas | Sem identidade e fluxos de direitos do titular. |
+
+### Problemas por criticidade
+
+1. **Bloqueador de beta:** não existe backend/autenticação; nenhum dado de usuário pode ser considerado persistente, privado ou compartilhado.
+2. **Alto:** a versão anterior guardava senhas em texto puro no `localStorage`; o novo código desabilita o cadastro e limpa essas chaves no próximo carregamento, mas a limpeza só ocorre quando a nova publicação chega ao navegador.
+3. **Alto:** descoberta, denúncia e bloqueio são locais e não oferecem proteção contra outro usuário; não lançar essas ações como controles reais.
+4. **Alto:** `npm audit` após atualização compatível sem `--force` reportou 12 vulnerabilidades (8 altas, 3 moderadas, 1 baixa), majoritariamente em dependências transitivas da toolchain.
+5. **Médio:** resultados ainda apresentam uma pontuação de “compatibilidade” local; o campo de perfil voltado a namoro foi substituído por interesses comunitários, mas resultados continuam sem fundamento para descoberta real.
+6. **Médio:** não há testes de rotas/UI, integração, autorização negativa, E2E, acessibilidade, responsividade automatizada ou teste manual documentado.
+7. **Médio:** CI não ignora artefatos `dist`; `npm run lint` foi limitado a `src` e `tests` para evitar análise do bundle gerado.
+8. **Operacional:** GitHub Pages está configurado; o GitHub declara `conectadosemcristo-site.vercel.app` como homepage. Ambos respondem 200, mas o domínio sugerido na missão retorna 404 e o destino oficial ainda precisa de confirmação.
+
+### Checks e status remoto
+
+- Antes da correção, `npm run build` reproduziu o erro de exportação default de `safeStorage.js` em `ResultadosPage.vue`; os logs dos workflows `42315290474` e `42315290650` confirmaram a mesma falha.
+- Correção local: `safeStorage` e os consumidores/testes agora usam ESM; o lint evita `dist`; cadastro/login não aceitam credenciais; dados locais legados têm limpeza de senha.
+- Após atualizar o lockfile, `npm ci`, lint, todos os sete testes e build passaram localmente. `npm audit --omit=dev` reportou zero vulnerabilidades; a auditoria completa reportou 12 vulnerabilidades em dependências de desenvolvimento.
+- Novo CI e deploy ainda dependem de push da branch de correção. A URL pública ainda não foi validada com o novo artefato.
+
+### Próxima sequência
+
+1. Completar instalação limpa, lint, testes, build e auditoria de dependências sobre o lockfile atualizado.
+2. Abrir PR da estabilização; validar checks remotos e publicação sem merge automático.
+3. Corrigir perfil/linguagem para prioridade comunitária e adicionar testes de rotas/jornadas existentes.
+4. Fechar decisões de arquitetura e operação antes de iniciar API, auth ou banco; não provisionar fornecedores sem aprovação.
+5. Implementar um fluxo vertical seguro de identidade → perfil → comunidade curada, com autorização server-side e testes de acesso negativo.
+
+## Relatório histórico de 2026-11-04 (superado pelo adendo acima)
 
 O repositório contém uma SPA demonstrativa em Vue 3. Há uma landing page, cadastro/login local, perfil, questionário, resultados indicativos, descoberta de perfis locais, lista de salvos, testes de dons e personalidade e uma página informativa sobre oração.
 

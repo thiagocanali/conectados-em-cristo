@@ -21,8 +21,8 @@
             <h2>{{ atual.nome }}, {{ atual.idade }}</h2>
             <p class="cidade">{{ atual.cidade }}</p>
             <div class="tags">
-              <span class="tag">{{ atual.denominacao }}</span>
-              <span class="tag">{{ atual.objetivo }}</span>
+              <span v-if="atual.denominacao" class="tag">{{ atual.denominacao }}</span>
+              <span v-if="atual.interesses" class="tag">{{ atual.interesses }}</span>
             </div>
           </div>
         </div>

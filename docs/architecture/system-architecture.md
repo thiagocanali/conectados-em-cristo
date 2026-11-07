@@ -2,7 +2,7 @@
 
 ## Estado implementado
 
-O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
+O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Alguns fluxos demonstrativos ainda usam `localStorage`/`sessionStorage`; cadastro/login estão desabilitados. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel respondem, mas o destino oficial de produção ainda não está formalmente confirmado; veja [PROJECT_CONTEXT.md](../../PROJECT_CONTEXT.md) para o estado canônico.
 
 ## Arquitetura alvo (proposta, não implementada)
 

@@ -8,18 +8,15 @@ O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar 
 
 Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
-Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
+Alguns perfis, questionários e interações antigas permanecem demonstrativos e locais. Cadastro e login foram desabilitados até existir autenticação server-side; rotas com dados de perfil redirecionam para essa tela informativa. Não há API, backend, banco de dados, sincronização entre dispositivos ou moderação remota.
 
 > **Aviso:** não use o protótipo para armazenar dados sensíveis, senhas reutilizadas ou informações pessoais reais. A autenticação local não oferece segurança de produção.
 
 ## O que o protótipo permite experimentar
 
-- Criar uma conta demonstrativa e entrar/sair.
-- Criar e editar perfil local.
-- Explorar perfis de demonstração e perfis locais.
-- Registrar interesses, bloqueios, denúncias e perfis salvos localmente.
-- Responder ao questionário e visualizar resultados indicativos entre contas do mesmo navegador.
-- Experimentar testes locais de dons e personalidade.
+- Visualizar páginas informativas de apresentação e oração.
+- Experimentar os testes locais de dons e personalidade, sem valor clínico ou diagnóstico.
+- Navegar para cadastro e login e ver que estão indisponíveis até a implementação do backend.
 
 Essas ações não conectam usuários reais nem enviam denúncias a uma equipe de moderação.
 
@@ -31,7 +28,7 @@ Essas ações não conectam usuários reais nem enviam denúncias a uma equipe d
 - CSS próprio
 - ESLint com parser Babel para JavaScript legado
 
-Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. A configuração inclui GitHub Pages e Vercel; o destino de produção ativo precisa ser confirmado.
+Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. GitHub Pages está configurado e o GitHub declara `conectadosemcristo-site.vercel.app` como homepage; a URL alternativa `conectados-em-cristo.vercel.app` não existe (404). A equipe ainda precisa confirmar formalmente o destino oficial.
 
 ## Desenvolvimento local
 
@@ -49,7 +46,7 @@ npm run lint
 npm run build
 ```
 
-Há uma suíte pequena de cinco testes unitários executados por `npm test` (Node.js Test Runner), focada em utilitários de armazenamento. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
+Há uma suíte pequena de sete testes unitários executados por `npm test` (Node.js Test Runner), focada em utilitários de armazenamento e remoção de senhas legadas. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
 
 ## Antes de qualquer lançamento real
 
@@ -58,6 +55,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 ## Documentação
 
 - [Contexto do projeto](PROJECT_CONTEXT.md) — visão, princípios e estado real do protótipo.
+- [Relatório de auditoria](AUDIT_REPORT.md) — evidências e lacunas técnicas verificadas.
 - [Arquitetura do sistema](docs/architecture/system-architecture.md) — implementação atual e arquitetura futura proposta.
 - [Plano do MVP](docs/product/mvp.md) — proposta ainda não aprovada.
 - [Roadmap](docs/product/roadmap.md) — decisões e próximos passos sem cronograma aprovado.

@@ -39,9 +39,7 @@
 </template>
 
 <script>
-import safeStorage from "@/utils/safeStorage";
-
-const { parseStoredJson } = safeStorage;
+import { parseStoredJson } from "@/utils/safeStorage";
 
 export default {
   data() {

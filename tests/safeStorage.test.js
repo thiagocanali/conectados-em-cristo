@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert/strict");
-const { parseStoredJson, isValidDonsProgress } = require("../src/utils/safeStorage");
+import test from "node:test";
+import assert from "node:assert/strict";
+import { parseStoredJson, isValidDonsProgress, removeLegacyPasswords } from "../src/utils/safeStorage.js";
 
 test("parseStoredJson returns parsed JSON", () => {
   assert.deepEqual(parseStoredJson('{"active":true}', {}), { active: true });
@@ -33,4 +33,30 @@ test("isValidDonsProgress rejects missing gift scores", () => {
     scores: { faith: 1 },
     finished: false
   }, 10, ["faith", "service"]), false);
+});
+
+test("removeLegacyPasswords strips credentials without changing other account data", () => {
+  const values = new Map([
+    ["users", JSON.stringify([{ email: "person@example.test", senha: "plain-text", username: "Person" }])],
+    ["currentUser", JSON.stringify({ email: "person@example.test", senha: "plain-text", username: "Person" })]
+  ]);
+  const storage = {
+    getItem: key => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value)
+  };
+
+  assert.equal(removeLegacyPasswords(storage), true);
+  assert.deepEqual(JSON.parse(values.get("users")), [{ email: "person@example.test", username: "Person" }]);
+  assert.deepEqual(JSON.parse(values.get("currentUser")), { email: "person@example.test", username: "Person" });
+});
+
+test("removeLegacyPasswords leaves storage unchanged when no credentials exist", () => {
+  const values = new Map([["users", JSON.stringify([{ email: "person@example.test" }])]]);
+  const storage = {
+    getItem: key => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value)
+  };
+
+  assert.equal(removeLegacyPasswords(storage), false);
+  assert.equal(values.get("users"), JSON.stringify([{ email: "person@example.test" }]));
 });

@@ -2,12 +2,13 @@
   "name": "conectados-em-cristo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "homepage": "https://thiagocanali.github.io/conectados-em-cristo",
   "scripts": {
     "serve": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .js,.vue",
+    "lint": "eslint src tests --ext .js,.vue",
     "test": "node --test",
     "deploy": "gh-pages -d dist"
   },

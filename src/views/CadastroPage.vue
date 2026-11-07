@@ -3,95 +3,18 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Comece sua jornada</p>
-        <h1>Criar Conta</h1>
-        <p class="auth-subtitle">Para maiores de 18 anos. Relacionamentos com propósito.</p>
+        <h1>Cadastro indisponível</h1>
+        <p class="auth-subtitle">A criação de contas será liberada quando a autenticação segura estiver disponível.</p>
       </div>
 
-      <form @submit.prevent="register" class="auth-form">
-        <div class="field-group">
-          <label for="signup-name" class="field-label">Nome completo</label>
-          <input id="signup-name" type="text" autocomplete="name" v-model="nome" class="field-input" placeholder="Seu nome" required />
-        </div>
-
-        <div class="field-group">
-          <label for="signup-email" class="field-label">E-mail</label>
-          <input id="signup-email" type="email" autocomplete="email" v-model="email" class="field-input" placeholder="seu@email.com" required />
-        </div>
-
-        <div class="field-group">
-          <label for="signup-password" class="field-label">Senha</label>
-          <input id="signup-password" type="password" autocomplete="new-password" v-model="senha" class="field-input" placeholder="Crie uma senha" required minlength="6" />
-          <span class="field-hint">Mínimo de 6 caracteres</span>
-        </div>
-
-        <label class="auth-check">
-          <input type="checkbox" v-model="maiorIdade" required />
-          <span>Confirmo que tenho 18 anos ou mais</span>
-        </label>
-
-        <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
-        <p v-if="success" class="auth-success" role="status" aria-live="polite">{{ success }}</p>
-
-        <button type="submit" class="btn-primary auth-submit">Criar conta</button>
-      </form>
+      <p class="auth-unavailable" role="status">Esta versão não possui servidor de autenticação. Não informe senhas nem dados pessoais.</p>
 
       <p class="auth-redirect">
-        Já tem conta? <router-link to="/login">Entrar</router-link>
+        <router-link to="/">Voltar ao início</router-link>
       </p>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const nome = ref('')
-const email = ref('')
-const senha = ref('')
-const maiorIdade = ref(false)
-const error = ref('')
-const success = ref('')
-
-const register = () => {
-  error.value = ''
-  success.value = ''
-
-  if (!maiorIdade.value) {
-    error.value = 'É necessário confirmar que você tem 18 anos ou mais.'
-    return
-  }
-
-  let users = []
-  try {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    users = Array.isArray(storedUsers) ? storedUsers : []
-  } catch {
-    users = []
-  }
-  const normalizedEmail = email.value.trim().toLowerCase()
-
-  if (users.some(u => (u.email || '').trim().toLowerCase() === normalizedEmail)) {
-    error.value = 'Este e-mail já está cadastrado.'
-    return
-  }
-
-  const newUser = {
-    username: nome.value.trim(),
-    nome: nome.value.trim(),
-    email: normalizedEmail,
-    senha: senha.value,
-    respostas: []
-  }
-
-  users.push(newUser)
-  localStorage.setItem('users', JSON.stringify(users))
-  localStorage.setItem('currentUser', JSON.stringify(newUser))
-  success.value = 'Conta criada! Redirecionando...'
-  router.push('/perfil')
-}
-</script>
 
 <style scoped>
 .auth-page {
@@ -115,38 +38,7 @@ const register = () => {
 .auth-header h1 { font-size: 2.2rem; margin: 14px 0 6px; }
 .auth-subtitle { color: var(--text-muted); font-size: 0.85rem; }
 
-.auth-form { display: flex; flex-direction: column; gap: 18px; }
-
-.field-hint { font-size: 0.75rem; color: var(--text-muted); }
-
-.auth-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.85rem;
-  color: var(--text-dark);
-  cursor: pointer;
-}
-.auth-check input { margin-top: 3px; accent-color: var(--terra); }
-
-.auth-submit { width: 100%; margin-top: 8px; }
-
-.auth-error {
-  color: var(--error);
-  font-size: 0.85rem;
-  text-align: center;
-  background: var(--error-bg);
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-}
-.auth-success {
-  color: var(--success);
-  font-size: 0.85rem;
-  text-align: center;
-  background: var(--success-bg);
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-}
+.auth-unavailable { color: var(--text-body); line-height: 1.65; text-align: center; }
 
 .auth-redirect {
   margin-top: 24px;

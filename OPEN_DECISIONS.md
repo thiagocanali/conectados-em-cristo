@@ -217,7 +217,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Descoberta individual | Fora do primeiro MVP | Pode ser reavaliada em fase posterior |
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
-| Frontend | Manter Vue 3 e evoluir incrementalmente | Não reescrever em Next.js; migração Vue CLI → Vite ainda depende de plano técnico, testes e PR isolada |
+| Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída e integrada em 2026-11-06; corrigida localmente a falha ESM pós-merge. Não reescrever em Next.js; confirmar CI e deploy da correção antes de considerar a fundação estabilizada. |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
 | Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 

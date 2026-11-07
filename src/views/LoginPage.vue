@@ -3,63 +3,18 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Bem-vindo de volta</p>
-        <h1>Entrar</h1>
-        <p class="auth-subtitle">Que Deus guie seus passos hoje.</p>
+        <h1>Acesso indisponível</h1>
+        <p class="auth-subtitle">O login será liberado quando a autenticação segura estiver disponível.</p>
       </div>
 
-      <form @submit.prevent="login" class="auth-form">
-        <div class="field-group">
-          <label for="login-email" class="field-label">E-mail</label>
-          <input id="login-email" type="email" autocomplete="username" v-model="email" class="field-input" placeholder="seu@email.com" required />
-        </div>
-
-        <div class="field-group">
-          <label for="login-password" class="field-label">Senha</label>
-          <input id="login-password" type="password" autocomplete="current-password" v-model="password" class="field-input" placeholder="Sua senha" required />
-        </div>
-
-        <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
-
-        <button type="submit" class="btn-primary auth-submit">Entrar</button>
-      </form>
+      <p class="auth-unavailable" role="status">Esta versão não possui servidor de autenticação. Não informe senhas nem dados pessoais.</p>
 
       <p class="auth-redirect">
-        Não tem conta? <router-link to="/cadastro">Criar conta</router-link>
+        <router-link to="/">Voltar ao início</router-link>
       </p>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const email = ref('')
-const password = ref('')
-const error = ref('')
-
-const login = () => {
-  error.value = ''
-  let users = []
-  try {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    users = Array.isArray(storedUsers) ? storedUsers : []
-  } catch {
-    users = []
-  }
-  const normalizedEmail = email.value.trim().toLowerCase()
-  const user = users.find(u => (u.email || '').trim().toLowerCase() === normalizedEmail && u.senha === password.value)
-
-  if (user) {
-    localStorage.setItem('currentUser', JSON.stringify(user))
-    const redirect = router.currentRoute.value.query.redirect
-    router.push(typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '/dashboard')
-  } else {
-    error.value = 'E-mail ou senha incorretos.'
-  }
-}
-</script>
 
 <style scoped>
 .auth-page {
@@ -83,17 +38,7 @@ const login = () => {
 .auth-header h1 { font-size: 2.2rem; margin: 14px 0 6px; }
 .auth-subtitle { color: var(--text-muted); font-size: 0.88rem; }
 
-.auth-form { display: flex; flex-direction: column; gap: 18px; }
-.auth-submit { width: 100%; margin-top: 8px; }
-
-.auth-error {
-  color: var(--error);
-  font-size: 0.85rem;
-  text-align: center;
-  background: var(--error-bg);
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-}
+.auth-unavailable { color: var(--text-body); line-height: 1.65; text-align: center; }
 
 .auth-redirect {
   margin-top: 24px;

@@ -4,20 +4,23 @@
 
 ## Estado atual da aplicação
 
-O repositório contém um protótipo frontend local, não um MVP de produção.
+O repositório contém um protótipo frontend estático, não um MVP de produção. Esta seção é a fonte canônica do estado atual; propostas e documentos históricos não comprovam implementação.
 
 - **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash.
-- **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
+- **Persistência:** alguns fluxos demonstrativos ainda leem/gravam `localStorage` e `sessionStorage`; não há persistência compartilhada ou API.
 - **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
-- **Segurança:** cadastro e login locais não são autenticação de produção. Não armazenar dados sensíveis nem senhas reutilizadas.
-- **Validação:** o CI executa lint, cinco testes unitários de utilitários (`npm test`) e build. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
-- **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
+- **Segurança:** cadastro e login estão desabilitados até existir autenticação server-side; o frontend não deve receber senhas. No próximo carregamento após a publicação desta correção, senhas antigas em `users` e `currentUser` serão removidas do `localStorage`.
+- **Rotas:** 12 rotas registradas. Início e oração são informativas; cadastro/login mostram indisponibilidade; páginas com dados de perfil redirecionam para login; testes recreativos de dons e personalidade permanecem acessíveis sem conta.
+- **Validação local:** `npm ci`, lint, 7 testes unitários e build passaram após a atualização do lockfile; auditoria completa aponta 12 vulnerabilidades em ferramentas de desenvolvimento e auditoria de runtime aponta zero.
+- **Deploy:** GitHub Pages está configurado em `thiagocanali.github.io/conectados-em-cristo/`. O GitHub declara `conectadosemcristo-site.vercel.app` como homepage; ambos respondem HTTP 200. `conectados-em-cristo.vercel.app` retorna 404. A URL oficial de produção ainda precisa de confirmação, pois o estado HTTP não comprova qual destino a equipe mantém.
+- **CI remoto:** os workflows de validação e deploy no merge de 2026-11-06 falharam pelo import incompatível de `safeStorage`; a correção local foi validada, mas precisa de novo workflow após push.
+- **Dependências:** a última auditoria após atualização sem breaking changes encontrou 12 vulnerabilidades (8 altas, 3 moderadas, 1 baixa), sem correção automática forçada.
 
 ### Fluxos demonstrativos existentes
 
-- Cadastro e login locais.
-- Edição de perfil e respostas de questionário.
-- Descoberta baseada em perfis de demonstração e dados locais.
+- Cadastro e login não aceitam credenciais nesta versão.
+- Edição de perfil e respostas de questionário permanecem no código, mas não são acessíveis sem identidade de servidor.
+- Descoberta baseada apenas em dados locais antigos; não apresenta uma comunidade compartilhada.
 - Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador.
 - Testes locais de dons e personalidade.
 
@@ -26,7 +29,7 @@ Os fluxos não representam uma comunidade online real: ações locais não são 
 ### Decisões que continuam abertas
 
 - Escopo e critérios de aceite do primeiro MVP de produção.
-- Consolidar a migração Vue CLI → Vite e validar os dois destinos de deploy.
+- Confirmar o destino oficial de deploy e validar a nova publicação nos ambientes usados.
 - Backend, banco de dados, autenticação e hospedagem.
 - Modelo de privacidade, autorização e moderação.
 - Prazo, idiomas e momento de funcionalidades como mensagens.

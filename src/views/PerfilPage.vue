@@ -48,13 +48,8 @@
       </div>
 
       <div class="field-group">
-        <label for="profile-goal" class="field-label">Objetivo de relacionamento</label>
-        <select id="profile-goal" v-model="perfil.objetivo" class="field-select">
-          <option value="">Selecione</option>
-          <option>Amizade com propósito</option>
-          <option>Namoro com propósito</option>
-          <option>Casamento</option>
-        </select>
+        <label for="profile-interests" class="field-label">Interesses na comunidade</label>
+        <textarea id="profile-interests" v-model="perfil.interesses" rows="2" maxlength="300" class="field-textarea" placeholder="Ex.: estudos bíblicos, música, leitura, voluntariado"></textarea>
       </div>
 
       <div class="field-group">
@@ -89,7 +84,7 @@ export default {
       const normalizedEmail = currentUser?.email ? String(currentUser.email).trim().toLowerCase() : ''
       const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
       const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
-      const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', objetivo: '', sobre: '' }
+      const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', interesses: '', sobre: '' }
       try {
         let stored = localStorage.getItem(key)
         if (stored === null && legacyKey !== key) {

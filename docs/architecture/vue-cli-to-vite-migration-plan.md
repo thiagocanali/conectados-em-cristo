@@ -2,8 +2,16 @@
 
 - Data da análise: 2026-11-06
 - Branch-base: `main`
-- Escopo: preparação técnica e critérios de validação; nenhuma migração de código executada.
-- Estado: proposta para revisão. A execução depende de aprovação do plano e de PR isolada.
+- Escopo original: preparação técnica e critérios para a migração Vue CLI → Vite.
+- Estado atual: migração executada e integrada em `main` em 2026-11-06. O conteúdo abaixo registra o plano e os critérios históricos; a configuração real é `vite.config.mjs`, `index.html`, `package.json` e os workflows ativos.
+
+## Resultado da migração
+
+- Vue 3 e Vue Router foram preservados; o build agora usa Vite e mantém as 12 rotas com hash routing.
+- O alias `@` aponta para `src`; a base do GitHub Pages é `/conectados-em-cristo/` e a base Vercel é `/`.
+- A falha remota do primeiro merge foi causada por `safeStorage` em CommonJS importado como default ESM. A correção converteu o utilitário e seus testes para ESM e foi validada localmente.
+- Cadastro/login local foram desabilitados em correção posterior; isso não faz parte da migração Vite.
+- A execução atual do CI/deploy após a correção ainda depende de novo push.
 
 ## 1. Objetivo e limites
 

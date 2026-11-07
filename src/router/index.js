@@ -12,7 +12,7 @@ import DescobertaPage from '@/views/DescobertaPage.vue'
 import SalvosPage from '@/views/SalvosPage.vue'
 import PrayerRequestsPage from '../views/PrayerRequestsPage.vue'
 
-const privateRoutes = ['/dashboard', '/perfil', '/questionario', '/resultados', '/salvos', '/testedons', '/testepersonalidade', '/descoberta'];
+const privateRoutes = ['/dashboard', '/perfil', '/questionario', '/resultados', '/salvos', '/descoberta'];
 
 const routes = [
   { path: '/', component: HomePage },
@@ -33,15 +33,7 @@ const router = createRouter({ history: createWebHashHistory(), routes })
 
 router.beforeEach((to) => {
   if (privateRoutes.includes(to.path)) {
-    let currentUser = null
-    try {
-      currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
-    } catch {
-      localStorage.removeItem('currentUser')
-    }
-    if (!currentUser || !currentUser.email) {
-      return { path: '/login', query: { redirect: to.fullPath } }
-    }
+    return { path: '/login', query: { redirect: to.fullPath } }
   }
   return true
 })
