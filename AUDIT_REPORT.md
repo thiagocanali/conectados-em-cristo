@@ -1,5 +1,7 @@
 # Relatório de Auditoria — Conectados em Cristo
 
+> **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.
+
 - Data da auditoria: 2026-11-04
 - Branch-base: `main`
 - Commit auditado: `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
