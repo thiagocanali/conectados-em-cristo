@@ -152,14 +152,14 @@ Valores específicos não foram fixados porque preços, limites e disponibilidad
 
 ## 12. Sequência técnica proposta
 
-1. Aprovar público, MVP e provedores.
-2. Criar threat model e classificação de dados.
+1. Confirmar critérios de MVP, operação e privacidade; fornecedores seguem pendentes.
+2. Elaborar threat model, classificação de dados e matriz de autorização.
 3. [x] Migrar build Vue CLI para Vite em PR isolada (#23), sem reescrever as views.
-4. Definir TypeScript e padrões de lint/testes.
-5. Provisionar banco e autenticação em ambiente dev.
-6. Construir vertical slice: cadastro/verificação → perfil → comunidade/membership → publicação → denúncia/moderação.
-7. Testes de integração e E2E.
-8. Homologação e revisão de segurança antes de dados reais.
+4. [x] Aprovar Fastify/TypeScript, PostgreSQL como tecnologia e estratégia de autenticação gerenciada (ADRs 0004–0006).
+5. Definir contratos OpenAPI e padrões de validação/testes.
+6. Criar prova técnica local sem banco remoto, auth real ou dados pessoais.
+7. Comparar fornecedores e custos; provisionar somente após aprovação explícita.
+8. Construir vertical slice após threat model, fornecedores e controles aprovados.
 
 ## 13. Decisões pendentes
 
@@ -172,7 +172,7 @@ Esta seção registra as direções técnicas aprovadas em 2026-11-07 e separa o
 
 ### 14.1 Padrões técnicos recomendados
 
-| Camada | Padrão recomendado para avaliação | O que ainda precisa ser decidido |
+| Camada | Padrão aprovado ou recomendado | O que ainda precisa ser decidido |
 |---|---|---|
 | Frontend | Vue 3 + Vue Router + Vite 6; TypeScript gradual opcional | Migração concluída na PR #23; lint, testes, build e preview validados |
 | API | Node.js 26 LTS + TypeScript + Fastify, monólito modular | Direção aprovada; threat model, contratos OpenAPI e teste vertical local ainda necessários |
@@ -201,7 +201,7 @@ Esta seção registra as direções técnicas aprovadas em 2026-11-07 e separa o
 | 1 | Inventário técnico do frontend e dependências | Relatório de scripts, plugins, vulnerabilidades e comportamento atual | Concluída; 46 dependências atualizadas sem `--force`, auditoria zerada (#29) |
 | 2 | Plano de migração Vue CLI → Vite | Plano, matriz de compatibilidade e critérios de equivalência | Concluída; plano histórico preservado |
 | 3 | Migração isolada do frontend | PR pequena com lint, testes, build e smoke tests | Concluída na PR #23; sem backend ou reescrita de views |
-| 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Depende de aprovação da stack e versão suportada |
+| 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Direção de stack aprovada; depende de threat model e contratos mínimos |
 | 5 | Modelo de dados e threat model | ERD, classificação de dados, ameaças e matriz de acesso | F-05, F-07, F-08, F-09 e F-10 detalhadas |
 | 6 | Seleção de provedores e ambiente dev | ADRs de fornecedor, estimativa de custo e ambiente isolado | Orçamento e aprovação explícita antes de contratar/provisionar |
 | 7 | Primeiro fluxo vertical | Cadastro, sessão, perfil e membership com autorização real | Revisão de segurança e testes negativos |
