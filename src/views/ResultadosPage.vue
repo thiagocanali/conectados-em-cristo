@@ -40,6 +40,7 @@
 
 <script>
 import { parseStoredJson } from "@/utils/safeStorage.mjs";
+import { getDemoSession, getDemoUsers } from "@/services/demoAuth.mjs";
 
 export default {
   data() {
@@ -48,7 +49,7 @@ export default {
   computed: {
     hasAnswers() {
       try {
-        const current = parseStoredJson(localStorage.getItem('currentUser'), null);
+        const current = getDemoSession();
         return Array.isArray(current?.respostas)
           && current.respostas.length === 10
           && current.respostas.every(Number.isFinite);
@@ -64,8 +65,7 @@ export default {
       let users = []
       try {
         atual = parseStoredJson(localStorage.getItem('currentUser'), null)
-        const storedUsers = parseStoredJson(localStorage.getItem('users'), [])
-        users = Array.isArray(storedUsers) ? storedUsers : []
+        users = getDemoUsers()
       } catch {
         this.listaCompatibilidade = [];
         return;
