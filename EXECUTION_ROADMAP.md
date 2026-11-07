@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 23 testes unitários, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 24 testes unitários, build e deploy estático).
 - [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
