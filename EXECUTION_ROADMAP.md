@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 5 testes unitários, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 10 testes unitários, build e deploy estático).
 - [x] Executar auditoria de dependências no estado do lockfile.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
@@ -40,7 +40,9 @@ Critério de saída: escopo do MVP e decisões bloqueadoras de produto, operaç�
 Objetivo: criar ambientes, API, persistência e identidade reais.
 
 Tarefas:
-- Modernizar toolchain frontend com migração reversível e testes.
+- [x] Modernizar toolchain frontend de Vue CLI para Vite em PR isolada, com CI de lint, testes e build.
+- [x] Remover coleta/persistência de senhas do fluxo demonstrativo e limpar credenciais legadas ao ler perfis/sessão.
+- [ ] Migrar todos os consumidores de sessão e perfis para o serviço central e cobrir fluxos críticos com testes.
 - Selecionar e registrar em ADR a arquitetura de backend (monólito modular é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar e registrar em ADR o banco e a estratégia de migrations, seed sintético e backups (PostgreSQL é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar provedores de autenticação e e-mail transacional após avaliação de requisitos, custo, privacidade e operação.
