@@ -64,7 +64,7 @@ export default {
       let atual = null
       let users = []
       try {
-        atual = parseStoredJson(localStorage.getItem('currentUser'), null)
+        atual = getDemoSession()
         users = getDemoUsers()
       } catch {
         this.listaCompatibilidade = [];
