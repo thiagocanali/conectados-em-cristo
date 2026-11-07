@@ -27,12 +27,12 @@ Os fluxos não representam uma comunidade online real: ações locais não são 
 
 - Escopo e critérios de aceite do primeiro MVP de produção.
 - Confirmar o destino de deploy ativo e manter a stack Vue 3/Vite; a migração Vue CLI → Vite já foi concluída na PR #23.
-- Backend, banco de dados, autenticação e hospedagem.
+- Direções técnicas aprovadas: Fastify + TypeScript, PostgreSQL como tecnologia e autenticação gerenciada. Provedores de banco/auth/storage/e-mail/hospedagem e custos continuam pendentes.
 - Modelo de privacidade, autorização e moderação.
 - Prazo, idiomas e momento de funcionalidades como mensagens.
 - Framework e cobertura dos testes automatizados.
 
-Não tratar tecnologias, diagramas, endpoints, tabelas, prazos ou funcionalidades descritos como propostas como decisões aprovadas. Consulte os ADRs 0003–0005 e os documentos de produto.
+Não tratar tecnologias, diagramas, endpoints, tabelas, prazos ou funcionalidades descritos como propostas como decisões aprovadas. Consulte os ADRs 0003–0006 e os documentos de produto.
 
 ---
 
