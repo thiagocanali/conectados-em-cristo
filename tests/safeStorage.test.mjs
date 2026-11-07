@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert/strict");
-const { parseStoredJson, isValidDonsProgress } = require("../src/utils/safeStorage");
+import test from "node:test";
+import assert from "node:assert/strict";
+import { parseStoredJson, isValidDonsProgress } from "../src/utils/safeStorage.mjs";
 
 test("parseStoredJson returns parsed JSON", () => {
   assert.deepEqual(parseStoredJson('{"active":true}', {}), { active: true });

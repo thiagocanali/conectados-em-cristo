@@ -1,4 +1,4 @@
-function parseStoredJson(rawValue, fallbackValue = null) {
+export function parseStoredJson(rawValue, fallbackValue = null) {
   if (typeof rawValue !== "string") return fallbackValue;
 
   try {
@@ -8,7 +8,7 @@ function parseStoredJson(rawValue, fallbackValue = null) {
   }
 }
 
-function isValidDonsProgress(progress, totalQuestions, giftKeys) {
+export function isValidDonsProgress(progress, totalQuestions, giftKeys) {
   if (!progress || typeof progress !== "object" || Array.isArray(progress)) return false;
   if (!Number.isInteger(progress.index) || progress.index < 0 || progress.index >= totalQuestions) return false;
   if (typeof progress.finished !== "boolean") return false;
@@ -20,5 +20,3 @@ function isValidDonsProgress(progress, totalQuestions, giftKeys) {
     && progress.scores[key] >= 0
   ));
 }
-
-module.exports = { parseStoredJson, isValidDonsProgress };
