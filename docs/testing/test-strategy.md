@@ -51,3 +51,17 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Definir critérios de aprovação do pipeline.
 
 Status: dezenove testes unitários executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+
+
+## Testes de segurança e autorização planejados para a API
+
+Antes de qualquer beta, testes de integração devem cobrir:
+- IDOR em perfil, comunidade, post, pedido de oração e denúncia;
+- membership removido/suspenso, conta restrita e bloqueios globais;
+- moderador fora do escopo e conflito de interesse F-08;
+- privacidade de pedidos de oração e evidências de denúncia;
+- reação Apoiar idempotente, concorrência e ausência de lista nominal;
+- rate limit, paginação, validação e respostas sem dados internos;
+- revogação de sessão e autorização após mudança de estado da conta.
+
+O contrato OpenAPI atual é draft e não substitui testes contra a implementação real.
