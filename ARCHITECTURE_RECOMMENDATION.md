@@ -1,8 +1,8 @@
 # Recomendação de Arquitetura
 
-- Data: 2026-11-04
-- Estado: proposta para discussão; nenhuma escolha de fornecedor ou migração foi aprovada.
-- Baseline: Vue 3 + Vue Router 4 + Vue CLI 5, SPA com hash routing, CSS próprio.
+- Data da revisão: 2026-11-07
+- Estado: frontend Vue 3 + Vite preservado e migração concluída na PR #23; decisões de backend, banco, autenticação e fornecedores permanecem pendentes.
+- Baseline atual: Vue 3.5.45 + Vue Router 4.6.3 + Vite 6.4.5, SPA com hash routing e CSS próprio.
 
 ## 1. Princípios
 
@@ -47,12 +47,12 @@ O frontend não acessa diretamente credenciais administrativas do banco. Operaç
 
 ### Recomendação
 
-Manter Vue 3 e Vue Router no primeiro incremento. Planejar modernização incremental de Vue CLI 5 para Vite e introdução de TypeScript por módulos, somente após uma branch/PR de migração com equivalência funcional e testes. Não há evidência de que o produto precise de Next.js ou SSR.
+Manter Vue 3 + Vue Router 4 + Vite 6, stack atual validada na PR #23. Introduzir TypeScript por módulos somente se houver benefício concreto e em mudança isolada. Não há evidência de que o produto precise de Next.js ou SSR.
 
 | Alternativa | Benefícios | Custos/riscos | Parecer |
 |---|---|---|---|
-| Vue 3 + Vue CLI atual | Preserva investimento e reduz mudança imediata | Toolchain antiga, vulnerabilidades e manutenção | Apenas transição curta |
-| Vue 3 + Vite + TypeScript | Mantém ecossistema atual, build moderno, migração incremental | Ajustar config, plugins e CI | Preferida para evolução |
+| Vue 3 + Vite (atual) | Preserva investimento, build moderno e fluxo já validado | TypeScript ainda não configurado | Stack frontend adotada |
+| Vue 3 + Vite + TypeScript | Mantém ecossistema atual e permite tipagem gradual | Exige plano incremental, lint e testes | Evolução opcional, não bloqueante |
 | Next.js + TypeScript | SSR/SEO e ecossistema React | Reescrita de telas, nova curva e migração ampla | Não justificada hoje |
 
 Tailwind não é requisito. O projeto usa CSS próprio; preservar até haver razão concreta para substituir.
@@ -154,7 +154,7 @@ Valores específicos não foram fixados porque preços, limites e disponibilidad
 
 1. Aprovar público, MVP e provedores.
 2. Criar threat model e classificação de dados.
-3. Migrar build Vue CLI para Vite em PR isolada, sem reescrever as views.
+3. [x] Migrar build Vue CLI para Vite em PR isolada (#23), sem reescrever as views.
 4. Definir TypeScript e padrões de lint/testes.
 5. Provisionar banco e autenticação em ambiente dev.
 6. Construir vertical slice: cadastro/verificação → perfil → comunidade/membership → publicação → denúncia/moderação.
@@ -174,7 +174,7 @@ Esta seção transforma a recomendação anterior em uma proposta objetiva para 
 
 | Camada | Padrão recomendado para avaliação | O que ainda precisa ser decidido |
 |---|---|---|
-| Frontend | Vue 3 + Vue Router, migração isolada de Vue CLI para Vite; TypeScript gradual | Plano de compatibilidade, correção das vulnerabilidades atuais, testes e aprovação do PR de migração |
+| Frontend | Vue 3 + Vue Router + Vite 6; TypeScript gradual opcional | Migração concluída na PR #23; lint, testes, build e preview validados |
 | API | Node.js LTS + TypeScript + Fastify, monólito modular | Teste vertical, estrutura de módulos, validação, logging, OpenAPI e política de suporte da versão Node |
 | Persistência | PostgreSQL relacional, migrations versionadas | Provedor, região, custo, backup/restore, limites e estratégia de conexão |
 | Identidade | Serviço de autenticação gerenciado, com sessão segura | Comparação de Supabase Auth, Clerk e Better Auth; cookies, MFA, recuperação, exportação, custo e integração |
@@ -198,9 +198,9 @@ Esta seção transforma a recomendação anterior em uma proposta objetiva para 
 | Ordem | Etapa | Entrega verificável | Bloqueio para avançar |
 |---|---|---|---|
 | 0 | Revisar PR documental e consolidar decisões | Documentação alinhada na `main` | Concluída pela PR #20 |
-| 1 | Inventário técnico do frontend e dependências | Relatório de scripts, plugins, vulnerabilidades e comportamento atual | Não aplicar atualizações forçadas; definir correções seguras |
-| 2 | Plano de migração Vue CLI → Vite | Plano, matriz de compatibilidade e critérios de equivalência | Nenhuma tela ou rota pode ser perdida |
-| 3 | Migração isolada do frontend | PR pequena com lint, testes, build e smoke tests | Sem backend, dados reais ou mudança visual não solicitada |
+| 1 | Inventário técnico do frontend e dependências | Relatório de scripts, plugins, vulnerabilidades e comportamento atual | Concluída; 46 dependências atualizadas sem `--force`, auditoria zerada (#29) |
+| 2 | Plano de migração Vue CLI → Vite | Plano, matriz de compatibilidade e critérios de equivalência | Concluída; plano histórico preservado |
+| 3 | Migração isolada do frontend | PR pequena com lint, testes, build e smoke tests | Concluída na PR #23; sem backend ou reescrita de views |
 | 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Depende de aprovação da stack e versão suportada |
 | 5 | Modelo de dados e threat model | ERD, classificação de dados, ameaças e matriz de acesso | F-05, F-07, F-08, F-09 e F-10 detalhadas |
 | 6 | Seleção de provedores e ambiente dev | ADRs de fornecedor, estimativa de custo e ambiente isolado | Orçamento e aprovação explícita antes de contratar/provisionar |
@@ -243,6 +243,6 @@ Não avançar em:
 
 ### 14.6 Próxima tarefa técnica
 
-A próxima tarefa recomendada é **auditar o frontend atual e preparar o plano de migração Vue CLI 5 → Vite**, começando por scripts, plugins, aliases, variáveis de ambiente, rotas, assets, testes e vulnerabilidades. A migração deve ocorrer em branch/PR isolada, preservando Vue 3, Vue Router, CSS próprio e comportamento existente. Não incluir TypeScript em massa na mesma mudança: primeiro estabilizar a ferramenta de build; depois introduzir TypeScript por módulos.
+A próxima tarefa recomendada é **fechar o desenho técnico do backend sem provisionar serviços**: revisar D-12 a D-17, threat model, classificação de dados, contratos de API e matriz de autorização com dados sintéticos. Fastify + TypeScript e PostgreSQL continuam recomendações técnicas, não decisões de fornecedor ou autorização para custos. A implementação real depende de revisão das decisões, estimativa de custo e aprovação dos requisitos de privacidade/operação.
 
-**Estado:** proposta técnica registrada para revisão. D-12 a D-17 continuam pendentes; nenhuma escolha de fornecedor foi aprovada.
+**Estado:** frontend Vue/Vite concluído; recomendações de backend registradas. D-12 a D-17 continuam pendentes; nenhuma escolha de fornecedor foi aprovada.
