@@ -66,3 +66,13 @@ Antes de qualquer beta, testes de integração devem cobrir:
 - revogação de sessão e autorização após mudança de estado da conta.
 
 O contrato OpenAPI atual é draft e não substitui testes contra a implementação real.
+
+
+## Backend Fastify local
+
+- `npm run api:typecheck`: verifica TypeScript estrito em server/.
+- `npm run api:test`: executa quatro testes Fastify inject para health check, headers, ausência de vazamento e ausência de rotas de produto.
+- `npm run api:build`: compila o servidor para server/dist.
+- `npm run api:check`: executa typecheck, testes e build; incluído no CI.
+
+A suíte não testa autenticação, banco ou autorização real porque essas integrações ainda não existem.
