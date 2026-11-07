@@ -51,7 +51,7 @@ export default {
           return Array.isArray(parsed) ? parsed : []
         }
 
-        const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const user = getDemoSession()
         if (user && user.email) {
           const legacyKey = `perfisSalvos:${user.email}`
           const legacyValue = localStorage.getItem(legacyKey)
