@@ -471,7 +471,8 @@
           "422": {
             "$ref": "#/components/responses/ValidationError"
           }
-        }
+        },
+        "description": "Pedidos são privados por padrão. O contrato inicial não permite compartilhamento comunitário; esse fluxo depende de decisão de produto, privacidade e autorização."
       }
     },
     "/me/prayer-requests": {
@@ -591,7 +592,8 @@
           "409": {
             "description": "Conflito de interesse, estado inválido ou caso já decidido."
           }
-        }
+        },
+        "description": "A API deve aplicar escopo de comunidade, recusa por conflito F-08 e sanções F-03. Sanções globais ficam restritas a administradores; moderadores só atuam em comunidades atribuídas."
       }
     }
   },
@@ -966,8 +968,7 @@
           "visibility": {
             "type": "string",
             "enum": [
-              "private",
-              "community"
+              "private"
             ],
             "default": "private"
           }
@@ -993,8 +994,7 @@
           "visibility": {
             "type": "string",
             "enum": [
-              "private",
-              "community"
+              "private"
             ]
           },
           "createdAt": {
