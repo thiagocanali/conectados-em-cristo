@@ -101,7 +101,7 @@
 
 <script>
 import testeDonsData from "@/data/testeDonsData";
-import safeStorage from "@/utils/safeStorage";
+import safeStorage from "@/utils/safeStorage.mjs";
 import "@/assets/css/testeDons.css";
 
 const { parseStoredJson, isValidDonsProgress } = safeStorage;
