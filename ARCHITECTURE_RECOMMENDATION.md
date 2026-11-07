@@ -2,7 +2,7 @@
 
 - Data da revisão: 2026-11-07
 - Estado: frontend Vue 3 + Vite preservado e migração concluída na PR #23; decisões de backend, banco, autenticação e fornecedores permanecem pendentes.
-- Baseline atual: Vue 3.5.45 + Vue Router 4.6.3 + Vite 6.4.5, SPA com hash routing e CSS próprio.
+- Baseline atual: Vue 3.5.45 + Vue Router 4.6.3 + Vite 6.4.5, SPA com hash routing e CSS próprio; Node.js 26 LTS no CI e Node 22/24/26 suportados.
 
 ## 1. Princípios
 
@@ -175,7 +175,7 @@ Esta seção transforma a recomendação anterior em uma proposta objetiva para 
 | Camada | Padrão recomendado para avaliação | O que ainda precisa ser decidido |
 |---|---|---|
 | Frontend | Vue 3 + Vue Router + Vite 6; TypeScript gradual opcional | Migração concluída na PR #23; lint, testes, build e preview validados |
-| API | Node.js LTS + TypeScript + Fastify, monólito modular | Teste vertical, estrutura de módulos, validação, logging, OpenAPI e política de suporte da versão Node |
+| API | Node.js 26 LTS + TypeScript + Fastify, monólito modular | Teste vertical, estrutura de módulos, validação, logging, OpenAPI e política de suporte da versão Node |
 | Persistência | PostgreSQL relacional, migrations versionadas | Provedor, região, custo, backup/restore, limites e estratégia de conexão |
 | Identidade | Serviço de autenticação gerenciado, com sessão segura | Comparação de Supabase Auth, Clerk e Better Auth; cookies, MFA, recuperação, exportação, custo e integração |
 | Autorização | Regras de domínio verificadas pela API em cada operação | Matriz completa de permissões, testes negativos e trilha de auditoria |

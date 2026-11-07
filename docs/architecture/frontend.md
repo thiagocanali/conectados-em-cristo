@@ -25,7 +25,7 @@ As rotas privadas verificam a presença de uma sessão local. Isso é uma barrei
 - `index.html` na raiz é a entrada HTML processada pelo Vite e usa `%BASE_URL%` para o favicon.
 - `vite.config.mjs` define base `/` na Vercel e `/conectados-em-cristo/` no build do GitHub Pages; o servidor local usa `/`.
 - Vercel e GitHub Pages têm configurações de build/deploy; o destino de produção ativo ainda não está confirmado.
-- O pipeline usa Node 20 e npm lockfile v3.
+- O pipeline usa Node.js 26 LTS, declarado em `.nvmrc` e `package.json`, e npm lockfile v3. Node.js 22 e 24 também permanecem aceitos pelo campo `engines`.
 
 ## Limites do protótipo
 
