@@ -2,7 +2,7 @@
 
 ## Estado implementado
 
-O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
+O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. O serviço `src/services/demoAuth.mjs` centraliza cadastro/perfil, sessão local e logout do protótipo; não solicita nem persiste senhas e remove campos de credenciais legadas ao ler perfis. A sessão permanece falsificável e não é autenticação nem autorização. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
 
 ## Arquitetura alvo (proposta, não implementada)
 
@@ -59,7 +59,8 @@ O diagrama e os componentes a seguir representam uma hipótese de arquitetura fu
 - **Implementado:** Vue 3, Vue Router 4, Vite 6, CSS próprio e hash routing.
 - **Dependências sem uso identificado:** Pinia e Tailwind CSS.
 - **Deploy configurado:** GitHub Pages e Vercel; ambiente ativo não confirmado.
-- **Não implementado:** cliente de API, estado de autenticação de servidor ou sincronização remota.
+- **Implementado no protótipo:** serviço local `demoAuth.mjs` para perfil/sessão demonstrativos, sem credenciais.
+- **Não implementado:** cliente de API, autenticação/autorização de servidor ou sincronização remota.
 - **Decisão futura:** manter a stack atual ou aprovar uma migração; ver ADR-0003.
 
 ### 2. API Gateway / WAF
