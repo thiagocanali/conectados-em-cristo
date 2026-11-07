@@ -23,7 +23,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 2026-09-28
 
 ## Status
-Pendente
+Aceito — estratégia gerenciada; fornecedor, integração e configuração de sessão pendentes.
 
 ## Próximos passos
 - Comparar fornecedores, custo, portabilidade, MFA, recuperação e exportação.
