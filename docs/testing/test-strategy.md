@@ -11,7 +11,8 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `tests/demoAuth.test.mjs` cobre cadastro demonstrativo, login/logout, remoção de credenciais legadas e limpeza da sessão.
 - `npm run lint` executa ESLint CLI diretamente.
 - `npm run build` executa `vite build`.
-- O CI executa lint, testes unitários e build de produção em jobs separados.
+- O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
+- A auditoria publica artefato JSON temporário por 14 dias; ela é informativa e não executa atualizações automáticas.
 - Não há cobertura automatizada identificada para componentes, integração, contratos de API, acessibilidade ou E2E.
 
 A suíte atual é pequena e não representa cobertura dos fluxos completos do produto. A revisão visual/manual não substitui testes automatizados.
