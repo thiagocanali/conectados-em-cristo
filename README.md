@@ -8,13 +8,13 @@ O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar 
 
 Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
-Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
+Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
 
-> **Aviso:** não use o protótipo para armazenar dados sensíveis, senhas reutilizadas ou informações pessoais reais. A autenticação local não oferece segurança de produção.
+ > **Aviso:** não use o protótipo para armazenar dados sensíveis ou informações pessoais reais. A sessão local pode ser falsificada e não protege rotas nem dados; ela existe apenas para experimentar a interface. Não reutilize senhas.
 
 ## O que o protótipo permite experimentar
 
-- Criar uma conta demonstrativa e entrar/sair.
+- Criar um perfil demonstrativo sem senha e entrar/sair por e-mail local (não é autenticação).
 - Criar e editar perfil local.
 - Explorar perfis de demonstração e perfis locais.
 - Registrar interesses, bloqueios, denúncias e perfis salvos localmente.
@@ -39,7 +39,7 @@ Requisitos: Node.js e npm compatíveis com as dependências do projeto.
 
 ```sh
 npm ci
-npm run serve
+npm run dev
 ```
 
 ## Validação e build
@@ -49,7 +49,7 @@ npm run lint
 npm run build
 ```
 
-Há uma suíte pequena de cinco testes unitários executados por `npm test` (Node.js Test Runner), focada em utilitários de armazenamento. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
+Há testes unitários executados por `npm test` (Node.js Test Runner), incluindo utilitários de armazenamento e o serviço de sessão demonstrativa. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
 
 ## Antes de qualquer lançamento real
 
