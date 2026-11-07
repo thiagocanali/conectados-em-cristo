@@ -33,9 +33,9 @@ A persistência local não sincroniza dispositivos nem substitui autenticação 
 
 ## Decisões e evolução
 
-- A migração Vue CLI → Vite foi implementada em branch isolada; a validação funcional e os checks do CI ainda são os critérios para concluir a etapa.
+- A migração Vue CLI → Vite foi concluída na PR #23; lint, testes unitários, build e preview Vercel foram validados.
 - Preservar Vue 3, Vue Router, hash routing, CSS próprio e comportamento atual.
-- Não introduzir TypeScript em massa na mesma PR da migração de build.
+- Não introduzir TypeScript em massa; avaliar adoção gradual em tarefa isolada.
 - Definir estratégia de estado apenas se a complexidade atual exigir.
 - Aprovar arquitetura de API, backend, autenticação e persistência antes de integrações remotas.
 
