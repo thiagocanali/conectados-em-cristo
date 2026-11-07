@@ -1,9 +1,9 @@
 # Plano de migração — Vue CLI 5 para Vite
 
-- Data da análise: 2026-11-06
-- Branch-base: `main`
-- Escopo: preparação técnica e critérios de validação; nenhuma migração de código executada.
-- Estado: proposta para revisão. A execução depende de aprovação do plano e de PR isolada.
+- Data da análise original: 2026-11-06
+- Estado atual: **migração concluída e validada na PR #23** (2026-11-06).
+- Stack atual: Vue 3.5.45, Vue Router 4.6.3 e Vite 6.4.5; Node 20 nos workflows.
+- Este documento preserva o plano e o baseline históricos. Os dados da seção 2 descrevem a situação anterior à migração e não devem ser tratados como stack atual.
 
 ## 1. Objetivo e limites
 
@@ -18,7 +18,7 @@ Esta etapa não deve:
 - remover dependências sem comprovar que são desnecessárias;
 - executar `npm audit fix --force`.
 
-## 2. Baseline confirmado na main
+## 2. Baseline histórico anterior à migração (2026-11-06)
 
 | Item | Evidência atual |
 |---|---|
@@ -61,7 +61,7 @@ A ausência de correspondência na busca estática não prova que uma dependênc
 9. **Deploy:** atualizar workflow e configuração Vercel somente se necessário; preservar Node 20 durante esta etapa, salvo evidência de incompatibilidade e aprovação específica.
 10. **Segurança de dependências:** a auditoria registrada em `AUDIT_REPORT.md` aponta vulnerabilidades relevantes na árvore de dependências. Não foi executado novo `npm audit` nesta análise. Registrar uma linha de base atual antes/depois da migração; tratar correções de segurança em PR própria sempre que possível.
 
-## 4. Estratégia de implementação em PR isolada
+## 4. Estratégia executada na PR isolada #23
 
 ### Etapa A — preparação
 
