@@ -26,7 +26,7 @@ Os fluxos não representam uma comunidade online real: ações locais não são 
 ### Decisões que continuam abertas
 
 - Escopo e critérios de aceite do primeiro MVP de produção.
-- Consolidar a migração Vue CLI → Vite e validar os dois destinos de deploy.
+- Confirmar o destino de deploy ativo e manter a stack Vue 3/Vite; a migração Vue CLI → Vite já foi concluída na PR #23.
 - Backend, banco de dados, autenticação e hospedagem.
 - Modelo de privacidade, autorização e moderação.
 - Prazo, idiomas e momento de funcionalidades como mensagens.
