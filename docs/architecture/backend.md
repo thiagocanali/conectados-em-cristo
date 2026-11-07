@@ -16,7 +16,7 @@ Em 2026-11-07 foram aprovadas as seguintes direções:
 - **Banco:** PostgreSQL como tecnologia relacional (ADR-0004); provedor ainda não escolhido.
 - **Identidade:** autenticação gerenciada (ADR-0005); provedor ainda não escolhido.
 
-Consulte ADR-0006, ADR-0004, ADR-0005 e `OPEN_DECISIONS.md` para o registro canônico.
+Consulte ADR-0006, ADR-0004, ADR-0005 e OPEN_DECISIONS.md para o registro canônico. Os contratos estão em docs/api/openapi.json; a matriz de acesso em docs/security/authorization.md; o threat model em docs/security/threat-model.md; e a classificação em docs/database/privacy-classification.md.
 
 ## Fronteiras de módulos
 
