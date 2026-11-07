@@ -132,4 +132,4 @@ Este documento é análise técnica inicial, não parecer jurídico.
 4. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
 5. Aprovar arquitetura de identidade e backend.
 6. Desenhar threat model e classificação de dados antes de schema.
-5. Implementar o primeiro fluxo real com testes de autorização.
+7. Implementar o primeiro fluxo real com testes de autorização.
