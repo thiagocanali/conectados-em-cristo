@@ -1,12 +1,14 @@
 # Arquitetura do Sistema — Conectados em Cristo
 
+> **Atualização 2026-11-07:** as direções técnicas atuais aprovadas são Node.js 26 LTS + TypeScript + Fastify em monólito modular, PostgreSQL como tecnologia relacional e autenticação gerenciada. Provedores permanecem pendentes. O diagrama e os detalhes de microserviços/Express/Redis abaixo são uma proposta histórica, não uma decisão vigente. Consulte [`backend.md`](backend.md), ADRs 0004–0006 e `OPEN_DECISIONS.md`.
+
 ## Estado implementado
 
 O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. O serviço `src/services/demoAuth.mjs` centraliza cadastro/perfil, sessão local e logout do protótipo; não solicita nem persiste senhas e remove campos de credenciais legadas ao ler perfis. A sessão permanece falsificável e não é autenticação nem autorização. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
 
-## Arquitetura alvo (proposta, não implementada)
+## Arquitetura alvo — proposta histórica supersedida em 2026-11-07
 
-O diagrama e os componentes a seguir representam uma hipótese de arquitetura futura. Provedores e tecnologias permanecem pendentes, conforme ADRs 0003–0005.
+O diagrama e os componentes a seguir representam uma hipótese de arquitetura futura. A direção de backend, tecnologia de banco e estratégia de autenticação foi aprovada nos ADRs 0004–0006; provedores e provisionamento permanecem pendentes.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -61,7 +63,7 @@ O diagrama e os componentes a seguir representam uma hipótese de arquitetura fu
 - **Deploy configurado:** GitHub Pages e Vercel; ambiente ativo não confirmado.
 - **Implementado no protótipo:** serviço local `demoAuth.mjs` para perfil/sessão demonstrativos, sem credenciais.
 - **Não implementado:** cliente de API, autenticação/autorização de servidor ou sincronização remota.
-- **Decisão futura:** manter a stack atual ou aprovar uma migração; ver ADR-0003.
+- **Decisão:** manter Vue 3 + Vue Router 4 + Vite 6; migração concluída na PR #23 (ADR-0003).
 
 ### 2. API Gateway / WAF
 - **Tecnologia:** Cloudflare Workers ou AWS WAF
