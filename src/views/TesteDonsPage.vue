@@ -102,6 +102,7 @@
 <script>
 import testeDonsData from "@/data/testeDonsData";
 import { parseStoredJson, isValidDonsProgress } from "@/utils/safeStorage.mjs";
+import { getDemoSession } from "@/services/demoAuth.mjs";
 import "@/assets/css/testeDons.css";
 
 
@@ -170,7 +171,7 @@ export default {
         },
         storageKey() {
             let user = null;
-            try { user = parseStoredJson(localStorage.getItem("currentUser"), null); } catch { user = null; }
+            try { user = getDemoSession(); } catch { user = null; }
             return user && user.email ? `testeDonsProgress:${user.email}` : "testeDonsProgress";
         },
         initScores() {
