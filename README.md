@@ -64,3 +64,6 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Roadmap](docs/product/roadmap.md) — decisões e próximos passos sem cronograma aprovado.
 - [ADRs](docs/decisions/README.md) — decisões arquiteturais e seus status.
 - [Estratégia de testes](docs/testing/test-strategy.md) — capacidades atuais e plano de validação.
+- [Threat model](docs/security/threat-model.md) — ameaças e controles iniciais.
+- [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
+- [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints, não implementado.
