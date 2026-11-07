@@ -90,7 +90,7 @@ export default {
       let current = null
       let users = []
       try {
-        current = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        current = getDemoSession()
         users = getDemoUsers()
       } catch { current = null; users = [] }
       if (!current || !current.email) { this.$router.push('/login'); return }
