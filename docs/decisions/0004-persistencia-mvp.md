@@ -20,7 +20,7 @@ Como escolher a persistência sem criar tabelas ou contratos prematuros?
 - Mitigações: começar com um esquema mínimo, migrations versionadas e classificação de privacidade por campo.
 
 ## Data
-2026-09-28
+2026-11-07 (rascunho original: 2026-09-28)
 
 ## Status
 Aceito — PostgreSQL como tecnologia; provedor e provisionamento pendentes.
