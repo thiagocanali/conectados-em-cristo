@@ -1,15 +1,6 @@
 const USERS_KEY = 'users'
 const SESSION_KEY = 'currentUser'
 
-function readJson(key, fallback) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key) || 'null')
-    return value ?? fallback
-  } catch {
-    return fallback
-  }
-}
-
 function withoutCredentials(user) {
   if (!user || typeof user !== 'object' || Array.isArray(user)) return null
   const profile = { ...user }
