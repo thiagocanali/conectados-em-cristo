@@ -1,13 +1,13 @@
 # Inventário inicial de endpoints
 
 - Revisão: 2026-11-07
-- Estado: propostas documentadas em [openapi.json](openapi.json); nenhum endpoint está implementado.
+- Estado: propostas documentadas em [openapi.json](openapi.json); somente GET /health/live está implementado localmente.
 - Prefixo: /api/v1.
 - Contrato canônico: OpenAPI 3.1 draft 0.1.0.
 
 | Método | Endpoint | Autenticação | Regra de autorização principal | Classe de dados |
 |---|---|---|---|---|
-| GET | /health/live | Não | Não expor dependências, segredos ou detalhes internos | Público/operacional |
+| GET | /health/live | Não | Não expor dependências, segredos ou detalhes internos | Público/operacional — implementado localmente |
 | GET | /me | Sim | Somente contexto mínimo da própria conta | Pessoal |
 | PATCH | /me/profile | Sim | Alterar apenas campos próprios e editáveis; validar visibilidade | Pessoal/sensível por campo |
 | GET | /communities | Não | Somente metadados do catálogo público; sem posts ou membros | Público |
