@@ -12,7 +12,10 @@ function readJson(key, fallback) {
 
 function withoutCredentials(user) {
   if (!user || typeof user !== 'object' || Array.isArray(user)) return null
-  const { senha, password, passwordHash, ...profile } = user
+  const profile = { ...user }
+  delete profile.senha
+  delete profile.password
+  delete profile.passwordHash
   return profile
 }
 
