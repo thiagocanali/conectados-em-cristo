@@ -9,6 +9,7 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `npm test` executa o Node.js Test Runner (`node --test`).
 - `tests/safeStorage.test.mjs` cobre parsing seguro de JSON e validação do progresso do teste de dons.
 - `tests/demoAuth.test.mjs` cobre cadastro demonstrativo, login/logout, remoção de credenciais legadas, limpeza da sessão e descarte seguro de storage inválido.
+- `tests/demoAuthGuard.test.mjs` cobre rotas públicas/privadas, redirecionamento, retorno ao destino original e validação de sessão.
 - `npm run lint` executa ESLint CLI diretamente.
 - `npm run build` executa `vite build`.
 - O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
@@ -49,4 +50,4 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: doze testes unitários executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+Status: dezenove testes unitários executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.

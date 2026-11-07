@@ -12,8 +12,7 @@ import DescobertaPage from '@/views/DescobertaPage.vue'
 import SalvosPage from '@/views/SalvosPage.vue'
 import PrayerRequestsPage from '../views/PrayerRequestsPage.vue'
 import { getDemoSession } from '@/services/demoAuth.mjs'
-
-const privateRoutes = ['/dashboard', '/perfil', '/questionario', '/resultados', '/salvos', '/testedons', '/testepersonalidade', '/descoberta'];
+import { createDemoAuthGuard } from './demoAuthGuard.mjs'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -32,14 +31,6 @@ const routes = [
 
 const router = createRouter({ history: createWebHashHistory(), routes })
 
-router.beforeEach((to) => {
-  if (privateRoutes.includes(to.path)) {
-    const currentUser = getDemoSession()
-    if (!currentUser || !currentUser.email) {
-      return { path: '/login', query: { redirect: to.fullPath } }
-    }
-  }
-  return true
-})
+router.beforeEach(createDemoAuthGuard(getDemoSession))
 
 export default router
