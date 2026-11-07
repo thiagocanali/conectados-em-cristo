@@ -35,7 +35,7 @@ Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na in
 
 ## Desenvolvimento local
 
-Requisitos: Node.js e npm compatíveis com as dependências do projeto.
+Requisitos: Node.js 22, 24 ou 26 LTS e npm. Recomendado: Node.js 26 (versão definida em `.nvmrc`).
 
 ```sh
 npm ci
