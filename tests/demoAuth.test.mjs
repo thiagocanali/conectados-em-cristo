@@ -49,3 +49,21 @@ test('reading a legacy session removes its plaintext credential from storage', (
   assert.equal(auth.getDemoSession().email, 'dani@example.com')
   assert.equal(values.get('currentUser').includes('legacy-session-secret'), false)
 })
+
+test('malformed or invalid sessions are removed instead of retained', () => {
+  values.clear()
+  values.set('currentUser', '{invalid-json')
+  assert.equal(auth.getDemoSession(), null)
+  assert.equal(values.has('currentUser'), false)
+
+  values.set('currentUser', JSON.stringify({ senha: 'orphaned-secret' }))
+  assert.equal(auth.getDemoSession(), null)
+  assert.equal(values.has('currentUser'), false)
+})
+
+test('malformed user storage is cleared safely', () => {
+  values.clear()
+  values.set('users', '{invalid-json')
+  assert.deepEqual(auth.getDemoUsers(), [])
+  assert.equal(values.has('users'), false)
+})

@@ -1,15 +1,6 @@
 const USERS_KEY = 'users'
 const SESSION_KEY = 'currentUser'
 
-function readJson(key, fallback) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key) || 'null')
-    return value ?? fallback
-  } catch {
-    return fallback
-  }
-}
-
 function withoutCredentials(user) {
   if (!user || typeof user !== 'object' || Array.isArray(user)) return null
   const profile = { ...user }
@@ -20,8 +11,19 @@ function withoutCredentials(user) {
 }
 
 export function getDemoUsers() {
-  const stored = readJson(USERS_KEY, [])
-  if (!Array.isArray(stored)) return []
+  let stored
+  try {
+    stored = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
+  } catch {
+    removeStoredValue(USERS_KEY)
+    return []
+  }
+
+  if (!Array.isArray(stored)) {
+    removeStoredValue(USERS_KEY)
+    return []
+  }
+
   const users = stored.map(withoutCredentials).filter(user => user?.email)
   try {
     // Remove legacy plaintext credentials from previously stored demo accounts.
@@ -67,9 +69,27 @@ export function loginDemoUser(email) {
 }
 
 export function getDemoSession() {
-  const rawUser = readJson(SESSION_KEY, null)
+  let storedValue
+  try {
+    storedValue = localStorage.getItem(SESSION_KEY)
+  } catch {
+    return null
+  }
+  if (storedValue === null) return null
+
+  let rawUser
+  try {
+    rawUser = JSON.parse(storedValue)
+  } catch {
+    clearDemoSession()
+    return null
+  }
+
   const user = withoutCredentials(rawUser)
-  if (!user?.email) return null
+  if (!user?.email) {
+    clearDemoSession()
+    return null
+  }
 
   // Rewrite legacy sessions without credential fields as soon as they are read.
   if (JSON.stringify(rawUser) !== JSON.stringify(user)) {
@@ -89,10 +109,14 @@ export function setDemoSession(user) {
   }
 }
 
-export function clearDemoSession() {
+function removeStoredValue(key) {
   try {
-    localStorage.removeItem(SESSION_KEY)
+    localStorage.removeItem(key)
   } catch {
     // No-op: storage may be unavailable.
   }
+}
+
+export function clearDemoSession() {
+  removeStoredValue(SESSION_KEY)
 }
