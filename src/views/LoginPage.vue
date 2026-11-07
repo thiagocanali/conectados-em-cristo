@@ -3,7 +3,7 @@
     <div class="auth-card fade-in-up">
       <div class="auth-header">
         <p class="eyebrow"><span aria-hidden="true">&#10022;</span> Bem-vindo de volta</p>
-        <h1>Entrar</h1>
+        <h1>Acessar protótipo</h1>
         <p class="auth-subtitle">Que Deus guie seus passos hoje.</p>
         <p class="auth-notice" role="note">Acesso demonstrativo por e-mail, sem autenticação real. Não use dados pessoais ou senhas.</p>
       </div>
@@ -17,11 +17,11 @@
 
         <p v-if="error" class="auth-error" role="alert">{{ error }}</p>
 
-        <button type="submit" class="btn-primary auth-submit">Entrar</button>
+        <button type="submit" class="btn-primary auth-submit">Continuar</button>
       </form>
 
       <p class="auth-redirect">
-        Não tem conta? <router-link to="/cadastro">Criar conta</router-link>
+        Ainda não criou um perfil? <router-link to="/cadastro">Criar perfil demonstrativo</router-link>
       </p>
     </div>
   </div>
