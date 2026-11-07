@@ -41,10 +41,11 @@ Data da decisão
 ## ADRs Registradas
 
 - [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Frontend Vue 3 + Vite aceito; backend e demais camadas continuam pendentes
-- [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — Pendente; PostgreSQL não aprovado
-- [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — Pendente; provedor não escolhido
+- [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — PostgreSQL aprovado como tecnologia; provedor pendente
+- [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — estratégia gerenciada aprovada; provedor pendente
+- [ADR-0006: Backend API](0006-backend-api.md) — Fastify + TypeScript + Node 26 LTS aprovados
 
-A decisão de frontend Vue 3 + Vite foi aceita. Banco, backend, autenticação e fornecedores continuam sem aprovação. Ainda não há ADR específica para moderação.
+As direções técnicas de frontend (Vue/Vite), backend (Fastify/TypeScript), banco (PostgreSQL) e estratégia de autenticação gerenciada foram aceitas. Fornecedores de banco, auth, storage, e-mail e hospedagem continuam pendentes. Ainda não há ADR específica para moderação.
 
 ## Princípios para Tomada de Decisão
 
