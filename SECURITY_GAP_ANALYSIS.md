@@ -1,7 +1,7 @@
 # Análise de Lacunas de Segurança — Conectados em Cristo
 
 - Data: 2026-11-07
-- Atualização: mitigação parcial de credenciais locais na branch `fix/demo-auth-no-password-persistence-2026-11-07`
+- Atualização: credenciais demonstrativas saneadas nas PRs #25 e #26; auditoria de dependências atualizada pela PR #29
 - Baseline: `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998`
 - Escopo: inspeção estática do código, configuração, lockfile, documentação e execução de `npm audit`.
 - Não é pentest nem atestado de conformidade.
@@ -20,7 +20,7 @@
 | Denúncia sem operador | Alta | `DescobertaPage.vue` registra localmente | Fila persistente, acesso restrito, SLA, moderação e auditoria |
 | Bloqueio local | Alta | Filtragem apenas no navegador | Bloqueio server-side aplicado a descoberta/conteúdo/interação |
 | Dados religiosos sem governança | Alta | Perfil/questionário capturam fé, denominação, leitura bíblica, oração | Minimização, finalidade/base legal, controles de acesso, retenção e transparência |
-| Vulnerabilidades de dependências | Alta | `npm audit` no lockfile auditado | Corrigir advisories com versões compatíveis e reauditar |
+| Vulnerabilidades de dependências | Mitigada no lockfile atual | Auditoria CI de 2026-11-07: 0 vulnerabilidades completas e 0 no recorte de produção após atualização de 46 pacotes transitivos | Manter auditoria recorrente e atualizar quando novos advisories surgirem |
 | Upload sem proteção | Alta futura | Não existe upload hoje | Validação real, tamanho, MIME, scan, storage privado e moderação |
 | Ausência de backup/restore | Alta futura | Sem banco/backup operacional | Backup criptografado e restauração testada |
 | Sem observabilidade/resposta a incidente | Alta | Docs são apenas rascunhos | Alertas, logs minimizados, responsáveis e runbooks |
@@ -35,6 +35,18 @@ No lockfile do commit auditado:
 - O relatório completo também apontou dependências transitivas críticas, incluindo `proxy-addr`, `shell-quote` e `websocket-driver`.
 
 Os números são um snapshot de 2026-11-04 e podem mudar com advisories novos. Não executar `npm audit fix --force`. Avaliar caminhos de dependência, faixa corrigida, breaking changes e ambiente afetado. A auditoria de dependências não prova exploração do site.
+
+### Snapshot atual — 2026-11-07
+
+- Antes da correção, CI reportou **17 vulnerabilidades**: 13 altas, 3 moderadas, 1 baixa e nenhuma crítica.
+- No recorte de produção (`npm audit --omit=dev`), havia **5 altas** e nenhuma crítica: `@vue/server-renderer`, `nanoid`, `postcss`, `source-map-js` e a dependência `vue` associada.
+- O caminho seguro foi executado em runner isolado com `npm audit fix`, sem `--force`.
+- Foram atualizados 46 pacotes no `package-lock.json`; `package.json` permaneceu inalterado.
+- Auditoria completa após a atualização: **0 vulnerabilidades**. Auditoria de produção: **0 vulnerabilidades**.
+- Lint, os 10 testes unitários e build de produção passaram no runner que gerou o lockfile; a PR #29 também passou no CI e no preview Vercel.
+- O workflow `.github/workflows/ci.yml` mantém auditoria completa e de produção em cada PR, com artefatos temporários por 14 dias.
+
+O resultado é um retrato do lockfile em 2026-11-07, não uma garantia permanente. A auditoria deve continuar sendo executada e novas correções devem permanecer isoladas e sem `--force` quando possível.
 
 ## 4. Modelo de ameaça inicial
 

@@ -12,7 +12,7 @@ Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
 - [x] Confirmar pipeline atual (lint, 10 testes unitários, build e deploy estático).
-- [x] Executar auditoria de dependências no estado do lockfile.
+- [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
 - [x] Aprovar comunidades curadas pela administração no beta inicial; criação livre por usuários fica para fase posterior.
@@ -42,13 +42,13 @@ Objetivo: criar ambientes, API, persistência e identidade reais.
 Tarefas:
 - [x] Modernizar toolchain frontend de Vue CLI para Vite em PR isolada, com CI de lint, testes e build.
 - [x] Remover coleta/persistência de senhas do fluxo demonstrativo e limpar credenciais legadas ao ler perfis/sessão.
-- [ ] Migrar todos os consumidores de sessão e perfis para o serviço central e cobrir fluxos críticos com testes.
+- [x] Migrar os consumidores de sessão/perfis das telas e do router para `demoAuth.mjs`; cobrir cadastro, login/logout e limpeza de credenciais legadas com testes unitários.
 - Selecionar e registrar em ADR a arquitetura de backend (monólito modular é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar e registrar em ADR o banco e a estratégia de migrations, seed sintético e backups (PostgreSQL é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar provedores de autenticação e e-mail transacional após avaliação de requisitos, custo, privacidade e operação.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
-- CI para lint, unit, integração, build e scan de dependências.
+- CI já cobre lint, 10 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
 Dependências: aprovação das decisões D-12 a D-17, ADRs, domínio, classificação de dados e requisitos de segurança.
