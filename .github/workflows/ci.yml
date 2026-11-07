@@ -115,6 +115,8 @@ jobs:
   dependency-remediation-preview:
     name: Non-breaking dependency fix preview
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -134,6 +136,17 @@ jobs:
           npm run lint
           npm test
           npm run build
+      - name: Publish lockfile candidate branch
+        run: |
+          cp package-lock.json /tmp/package-lock.json
+          git fetch origin main --depth=1
+          git switch -c fix/dependency-audit-remediation-2026-11-07 origin/main
+          cp /tmp/package-lock.json package-lock.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'fix(deps): atualiza dependências sem breaking changes'
+          git push origin HEAD:fix/dependency-audit-remediation-2026-11-07
       - name: Upload remediation preview
         uses: actions/upload-artifact@v4
         with:
