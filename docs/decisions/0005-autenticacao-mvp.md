@@ -20,7 +20,7 @@ Como autenticar usuários sem expor dados pessoais ou criar uma solução de seg
 - Mitigações: documentar portabilidade, aplicar autorização no servidor, limitar tentativas e registrar eventos de segurança.
 
 ## Data
-2026-09-28
+2026-11-07 (rascunho original: 2026-09-28)
 
 ## Status
 Aceito — estratégia gerenciada; fornecedor, integração e configuração de sessão pendentes.
