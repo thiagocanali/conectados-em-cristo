@@ -42,13 +42,13 @@ Objetivo: criar ambientes, API, persistência e identidade reais.
 Tarefas:
 - [x] Modernizar toolchain frontend de Vue CLI para Vite em PR isolada, com CI de lint, testes e build.
 - [x] Remover coleta/persistência de senhas do fluxo demonstrativo e limpar credenciais legadas ao ler perfis/sessão.
-- [x] Migrar os consumidores de sessão/perfis das telas e do router para `demoAuth.mjs`; cobrir cadastro, login/logout, limpeza de credenciais legadas e descarte de storage corrompido com testes unitários.
+- [x] Migrar os consumidores de sessão/perfis das telas e do router para `demoAuth.mjs`; cobrir cadastro, login/logout, limpeza de credenciais legadas, descarte de storage corrompido e guard de rotas com testes unitários.
 - Selecionar e registrar em ADR a arquitetura de backend (monólito modular é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar e registrar em ADR o banco e a estratégia de migrations, seed sintético e backups (PostgreSQL é uma alternativa a avaliar, não uma decisão tomada).
 - Selecionar provedores de autenticação e e-mail transacional após avaliação de requisitos, custo, privacidade e operação.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
-- CI já cobre lint, 12 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
+- CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
 Dependências: aprovação das decisões D-12 a D-17, ADRs, domínio, classificação de dados e requisitos de segurança.
