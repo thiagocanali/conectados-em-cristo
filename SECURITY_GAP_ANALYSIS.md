@@ -129,7 +129,7 @@ Este documento é análise técnica inicial, não parecer jurídico.
 1. Não coletar dados reais no protótipo.
 2. Manter o acesso local explicitamente identificado como demonstrativo; nunca tratá-lo como autenticação ou autorização.
 3. Concluir a revisão dos consumidores de sessão e testar fluxos completos.
-2. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
-3. Aprovar arquitetura de identidade e backend.
-4. Desenhar threat model e classificação de dados antes de schema.
+4. Corrigir dependências em PR isolada e reexecutar auditorias completa/produção.
+5. Aprovar arquitetura de identidade e backend.
+6. Desenhar threat model e classificação de dados antes de schema.
 5. Implementar o primeiro fluxo real com testes de autorização.
