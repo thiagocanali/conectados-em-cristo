@@ -42,3 +42,10 @@ test('login rejects unknown local profiles and logout clears the session', () =>
   auth.clearDemoSession()
   assert.equal(auth.getDemoSession(), null)
 })
+
+test('reading a legacy session removes its plaintext credential from storage', () => {
+  values.clear()
+  values.set('currentUser', JSON.stringify({ nome: 'Dani', email: 'dani@example.com', senha: 'legacy-session-secret' }))
+  assert.equal(auth.getDemoSession().email, 'dani@example.com')
+  assert.equal(values.get('currentUser').includes('legacy-session-secret'), false)
+})
