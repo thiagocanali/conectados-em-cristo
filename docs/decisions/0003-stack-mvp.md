@@ -1,7 +1,7 @@
 # ADR-0003: Stack técnica do MVP
 
 ## Contexto
-O projeto está na fase de fundação documental e ainda não possui implementação funcional. A stack precisa atender ao MVP com simplicidade, segurança, baixo custo e possibilidade de evolução internacional.
+O projeto evoluiu desde o registro deste ADR. A aplicação executável é uma SPA em Vue 3, Vue Router 4 e Vite 6. A migração de Vue CLI para Vite foi concluída na PR #23. As decisões de backend, banco, autenticação e fornecedores continuam separadas e pendentes.
 
 ## Problema
 Como avaliar a stack sem transformar uma hipótese em decisão irreversível antes da validação do produto?
@@ -12,7 +12,7 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 - **Outro framework full-stack**: pode atender ao produto; ainda não foi comparado com evidências do projeto.
 
 ## Decisão
-**Hipótese registrada, decisão pendente:** Next.js, React, TypeScript e Tailwind CSS foram considerados, mas não foram aprovados. A aplicação atual usa Vue 3, Vue Router 4 e Vue CLI 5; qualquer migração exige comparação técnica e decisão explícita. A decisão final depende da validação técnica do repositório e do primeiro incremento funcional.
+**Decisão para o frontend: manter Vue 3 + Vue Router 4 + Vite 6.** A hipótese anterior de Next.js/React/TypeScript/Tailwind não foi aprovada e não deve orientar reescrita. A migração Vue CLI → Vite foi concluída e validada na PR #23. Este ADR não aprova backend, banco de dados, autenticação ou fornecedores.
 
 ## Consequências
 - Positivas: ciclo curto de desenvolvimento e uma base comum para UI e APIs.
@@ -26,6 +26,5 @@ Como avaliar a stack sem transformar uma hipótese em decisão irreversível ant
 Pendente
 
 ## Próximos passos
-- Confirmar a estrutura real do repositório.
-- Criar um vertical slice de perfil com testes.
-- Revisar a decisão antes de iniciar funcionalidades de escala.
+- Manter Vue 3 + Vite como frontend; mudanças futuras devem ser incrementais e justificadas.
+- Registrar backend, banco, autenticação e fornecedores em ADRs próprios após avaliação de custo, privacidade e operação.
