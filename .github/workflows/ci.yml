@@ -107,5 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: npm-audit-report
-          path: |\n            npm-audit.json\n            npm-audit-production.json
+          path: |
+            npm-audit.json
+            npm-audit-production.json
           retention-days: 14
