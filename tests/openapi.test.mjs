@@ -54,3 +54,8 @@ test('all write operations require an authenticated session', () => {
     }
   }
 })
+
+test('prayer request contract keeps requests private until sharing policy is approved', () => {
+  assert.deepEqual(contract.components.schemas.PrayerRequestCreate.properties.visibility.enum, ['private'])
+  assert.deepEqual(contract.components.schemas.PrayerRequest.properties.visibility.enum, ['private'])
+})
