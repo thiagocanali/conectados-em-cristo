@@ -118,27 +118,27 @@
 
 ### D-12 — Backend
 
-<badge color="success">APROVADA EM 2026-11-07 — direção técnica</badge>
+**Status: APROVADA EM 2026-11-07 — direção técnica.**
 
-**Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada e contratos OpenAPI. Usar schemas explícitos de validação e separar módulos de identidade, perfis/privacidade, comunidades, conteúdo/interações, oração, denúncias/moderação e administração/auditoria.
+**Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada em `/api/v1`, contratos OpenAPI e schemas explícitos de validação. Módulos iniciais: Identity & Accounts; Profiles & Privacy; Communities & Memberships; Content & Interactions; Prayer & Faith Content; Reports & Moderation; Administration & Audit.
 
-**Limites:** esta decisão não autoriza criar serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. A prova técnica local só deve começar depois do threat model, classificação de dados e contratos de API mínimos.
+**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. A prova técnica local depende de threat model, classificação de dados e contratos mínimos.
 
 ### D-13 — Banco
 
-<badge color="success">APROVADA EM 2026-11-07 — tecnologia</badge>
+**Status: APROVADA EM 2026-11-07 — tecnologia; fornecedor pendente.**
 
-**Decisão:** PostgreSQL como mecanismo relacional, com migrations versionadas, constraints, transações e política de acesso definida no backend.
+**Decisão:** PostgreSQL como mecanismo relacional, com migrations versionadas, constraints, transações e autorização aplicada no backend.
 
-**Fornecedor permanece pendente:** Supabase, Neon ou outro provedor não foram escolhidos. RLS, se adotado, será defesa adicional e nunca substitui autorização server-side. Não provisionar banco nem inserir dados reais nesta etapa.
+**Limites:** Supabase, Neon ou outro provedor não foram escolhidos. RLS poderá ser defesa adicional, nunca substituto da autorização server-side. Não provisionar banco nem inserir dados reais nesta etapa.
 
 ### D-14 — Autenticação
 
-<badge color="success">APROVADA EM 2026-11-07 — estratégia</badge>
+**Status: APROVADA EM 2026-11-07 — estratégia; fornecedor pendente.**
 
-**Decisão:** utilizar autenticação gerenciada, em vez de implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade comprovada. A API continuará responsável por validar identidade, sessão, estado da conta e autorização em cada operação.
+**Decisão:** utilizar autenticação gerenciada, evitando implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade. A API será a autoridade para validar identidade, sessão, estado da conta e autorização em cada operação.
 
-**Fornecedor permanece pendente:** Supabase Auth, Clerk e Better Auth ainda precisam de comparação de preço, portabilidade, cookies/sessões, MFA, recuperação, exportação e integração. A configuração de sessão deve priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao provedor. Não integrar nem provisionar serviço nesta etapa.
+**Limites:** Supabase Auth, Clerk e Better Auth ainda precisam de comparação de preço, portabilidade, cookies/sessões, MFA, recuperação, exportação e integração. Priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao fluxo escolhido. Não integrar nem provisionar serviço nesta etapa.
 
 ### D-15 — Imagens
 
@@ -218,6 +218,9 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
+| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
+| Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
+| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
 | Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
 | Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
 | Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
