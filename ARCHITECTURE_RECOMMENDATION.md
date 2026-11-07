@@ -1,7 +1,7 @@
 # Recomendação de Arquitetura
 
 - Data da revisão: 2026-11-07
-- Estado: frontend Vue 3 + Vite preservado e migração concluída na PR #23; decisões de backend, banco, autenticação e fornecedores permanecem pendentes.
+- Estado: frontend Vue 3 + Vite, backend Fastify/TypeScript, PostgreSQL como tecnologia e estratégia de autenticação gerenciada aprovados em 2026-11-07; fornecedores e provisionamento permanecem pendentes.
 - Baseline atual: Vue 3.5.45 + Vue Router 4.6.3 + Vite 6.4.5, SPA com hash routing e CSS próprio; Node.js 26 LTS no CI e Node 22/24/26 suportados.
 
 ## 1. Princípios
@@ -9,7 +9,7 @@
 - Modular monolith antes de microserviços.
 - Preservar o frontend existente enquanto a migração não provar benefício.
 - Backend como autoridade para autenticação, autorização, regras de domínio e dados.
-- PostgreSQL como candidato relacional, sujeito à aprovação.
+- PostgreSQL como mecanismo relacional aprovado; provedor pendente.
 - Privacidade por padrão e classificação de dados desde o modelo inicial.
 - Ambientes separados, segredos fora do repositório e migrations versionadas.
 - Serviços gerenciados para reduzir carga operacional de uma equipe pequena.
@@ -65,11 +65,11 @@ Tailwind não é requisito. O projeto usa CSS próprio; preservar até haver raz
 | NestJS | Convenções, DI, módulos e estrutura pronta | Mais abstração e boilerplate para MVP pequeno | Boa alternativa se equipe crescer |
 | Express + TypeScript | Ecossistema amplo e familiar | Exige compor validação, estrutura e padrões | Viável, menos opinativo |
 
-**Proposta:** Fastify + TypeScript em monólito modular, com schemas de validação, serviços de domínio, camada de persistência e OpenAPI. A escolha é pendente de aprovação e teste vertical.
+**Decisão aprovada em 2026-11-07:** Fastify + TypeScript em monólito modular, com schemas de validação, serviços de domínio, camada de persistência e OpenAPI. A prova técnica local depende de threat model e contratos mínimos; não autoriza serviço externo.
 
 ## 5. Banco de dados
 
-PostgreSQL é o candidato recomendado devido a relações entre contas, perfis, comunidades, membros, publicações, comentários, denúncias, consentimentos e auditoria.
+PostgreSQL foi aprovado como mecanismo relacional devido a relações entre contas, perfis, comunidades, membros, publicações, comentários, denúncias, consentimentos e auditoria. O provedor permanece pendente.
 
 | Alternativa | Vantagens | Trade-offs |
 |---|---|---|
@@ -86,7 +86,7 @@ Avaliar:
 - Clerk: experiência gerenciada de identidade e sessões; dependência/custo do fornecedor.
 - Better Auth/autenticação própria no backend: controle e portabilidade, maior responsabilidade por segurança e operação.
 
-**Recomendação:** não implementar hashing, recuperação e gestão de sessão do zero sem necessidade. Selecionar provedor após comparar preço, portabilidade, cookies/sessões, MFA, e-mail, exportação e suporte. A API deve validar identidade e autorização em cada operação.
+**Estratégia aprovada:** usar autenticação gerenciada, sem implementar hashing, recuperação e gestão de sessão do zero. O provedor permanece pendente até comparar preço, portabilidade, cookies/sessões, MFA, e-mail, exportação e suporte. A API deve validar identidade e autorização em cada operação.
 
 ## 7. Hospedagem e operação
 
@@ -152,14 +152,14 @@ Valores específicos não foram fixados porque preços, limites e disponibilidad
 
 ## 12. Sequência técnica proposta
 
-1. Aprovar público, MVP e provedores.
-2. Criar threat model e classificação de dados.
+1. Confirmar critérios de MVP, operação e privacidade; fornecedores seguem pendentes.
+2. Elaborar threat model, classificação de dados e matriz de autorização.
 3. [x] Migrar build Vue CLI para Vite em PR isolada (#23), sem reescrever as views.
-4. Definir TypeScript e padrões de lint/testes.
-5. Provisionar banco e autenticação em ambiente dev.
-6. Construir vertical slice: cadastro/verificação → perfil → comunidade/membership → publicação → denúncia/moderação.
-7. Testes de integração e E2E.
-8. Homologação e revisão de segurança antes de dados reais.
+4. [x] Aprovar Fastify/TypeScript, PostgreSQL como tecnologia e estratégia de autenticação gerenciada (ADRs 0004–0006).
+5. Definir contratos OpenAPI e padrões de validação/testes.
+6. Criar prova técnica local sem banco remoto, auth real ou dados pessoais.
+7. Comparar fornecedores e custos; provisionar somente após aprovação explícita.
+8. Construir vertical slice após threat model, fornecedores e controles aprovados.
 
 ## 13. Decisões pendentes
 
@@ -168,16 +168,16 @@ Consulte `OPEN_DECISIONS.md`. Esta recomendação não autoriza contratação, p
 
 ## 14. Proposta de decisões técnicas para revisão — 2026-11-06
 
-Esta seção transforma a recomendação anterior em uma proposta objetiva para a próxima etapa. **Não é aprovação de fornecedor, contratação, provisionamento ou autorização para iniciar a implementação.** As decisões D-12 a D-17 em `OPEN_DECISIONS.md` continuam sendo o registro canônico e permanecem pendentes até aprovação explícita.
+Esta seção registra as direções técnicas aprovadas em 2026-11-07 e separa o que ainda depende de fornecedor, custo, operação e privacidade. D-12 a D-14 estão aprovadas; D-15 a D-17 continuam pendentes. Nenhuma contratação ou provisionamento está autorizado.
 
 ### 14.1 Padrões técnicos recomendados
 
-| Camada | Padrão recomendado para avaliação | O que ainda precisa ser decidido |
+| Camada | Padrão aprovado ou recomendado | O que ainda precisa ser decidido |
 |---|---|---|
 | Frontend | Vue 3 + Vue Router + Vite 6; TypeScript gradual opcional | Migração concluída na PR #23; lint, testes, build e preview validados |
-| API | Node.js 26 LTS + TypeScript + Fastify, monólito modular | Teste vertical, estrutura de módulos, validação, logging, OpenAPI e política de suporte da versão Node |
-| Persistência | PostgreSQL relacional, migrations versionadas | Provedor, região, custo, backup/restore, limites e estratégia de conexão |
-| Identidade | Serviço de autenticação gerenciado, com sessão segura | Comparação de Supabase Auth, Clerk e Better Auth; cookies, MFA, recuperação, exportação, custo e integração |
+| API | Node.js 26 LTS + TypeScript + Fastify, monólito modular | Direção aprovada; threat model, contratos OpenAPI e teste vertical local ainda necessários |
+| Persistência | PostgreSQL relacional, migrations versionadas | Tecnologia aprovada; provedor, região, custo, backup/restore, limites e estratégia de conexão pendentes |
+| Identidade | Estratégia de autenticação gerenciada, com API autoritativa | Estratégia aprovada; comparar Supabase Auth, Clerk e Better Auth, cookies, MFA, recuperação, exportação, custo e integração |
 | Autorização | Regras de domínio verificadas pela API em cada operação | Matriz completa de permissões, testes negativos e trilha de auditoria |
 | Arquivos | Object storage privado, acesso temporário por URL assinada | Provedor, região, limites, processamento, remoção e política de retenção |
 | E-mail | Provedor transacional separado da lógica de domínio | Entregabilidade, domínio, preço, limites e requisitos de privacidade |
@@ -201,7 +201,7 @@ Esta seção transforma a recomendação anterior em uma proposta objetiva para 
 | 1 | Inventário técnico do frontend e dependências | Relatório de scripts, plugins, vulnerabilidades e comportamento atual | Concluída; 46 dependências atualizadas sem `--force`, auditoria zerada (#29) |
 | 2 | Plano de migração Vue CLI → Vite | Plano, matriz de compatibilidade e critérios de equivalência | Concluída; plano histórico preservado |
 | 3 | Migração isolada do frontend | PR pequena com lint, testes, build e smoke tests | Concluída na PR #23; sem backend ou reescrita de views |
-| 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Depende de aprovação da stack e versão suportada |
+| 4 | Prova técnica da API Fastify | Aplicação mínima local, health check, validação e teste | Direção de stack aprovada; depende de threat model e contratos mínimos |
 | 5 | Modelo de dados e threat model | ERD, classificação de dados, ameaças e matriz de acesso | F-05, F-07, F-08, F-09 e F-10 detalhadas |
 | 6 | Seleção de provedores e ambiente dev | ADRs de fornecedor, estimativa de custo e ambiente isolado | Orçamento e aprovação explícita antes de contratar/provisionar |
 | 7 | Primeiro fluxo vertical | Cadastro, sessão, perfil e membership com autorização real | Revisão de segurança e testes negativos |
@@ -243,6 +243,6 @@ Não avançar em:
 
 ### 14.6 Próxima tarefa técnica
 
-A próxima tarefa recomendada é **fechar o desenho técnico do backend sem provisionar serviços**: revisar D-12 a D-17, threat model, classificação de dados, contratos de API e matriz de autorização com dados sintéticos. Fastify + TypeScript e PostgreSQL continuam recomendações técnicas, não decisões de fornecedor ou autorização para custos. A implementação real depende de revisão das decisões, estimativa de custo e aprovação dos requisitos de privacidade/operação.
+A próxima tarefa recomendada é **elaborar o threat model, a classificação de dados e os contratos OpenAPI iniciais**, usando as direções D-12 a D-14 já aprovadas. Depois disso, criar uma prova técnica local de Fastify com health check e testes, usando dados sintéticos e sem banco remoto, auth real ou fornecedores. D-15 a D-17 e custos permanecem pendentes.
 
-**Estado:** frontend Vue/Vite concluído; recomendações de backend registradas. D-12 a D-17 continuam pendentes; nenhuma escolha de fornecedor foi aprovada.
+**Estado:** frontend Vue/Vite e direções técnicas de backend/PostgreSQL/auth gerenciada aprovados. D-15 a D-17 e todos os fornecedores continuam pendentes; nenhuma contratação ou provisionamento foi aprovado.

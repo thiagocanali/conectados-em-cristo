@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 10 testes unitários, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 19 testes unitários, build e deploy estático).
 - [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
@@ -43,15 +43,15 @@ Tarefas:
 - [x] Modernizar toolchain frontend de Vue CLI para Vite em PR isolada, com CI de lint, testes e build.
 - [x] Remover coleta/persistência de senhas do fluxo demonstrativo e limpar credenciais legadas ao ler perfis/sessão.
 - [x] Migrar os consumidores de sessão/perfis das telas e do router para `demoAuth.mjs`; cobrir cadastro, login/logout, limpeza de credenciais legadas, descarte de storage corrompido e guard de rotas com testes unitários.
-- Selecionar e registrar em ADR a arquitetura de backend (monólito modular é uma alternativa a avaliar, não uma decisão tomada).
-- Selecionar e registrar em ADR o banco e a estratégia de migrations, seed sintético e backups (PostgreSQL é uma alternativa a avaliar, não uma decisão tomada).
-- Selecionar provedores de autenticação e e-mail transacional após avaliação de requisitos, custo, privacidade e operação.
+- [x] Registrar ADR-0006: Node.js 26 LTS + TypeScript + Fastify em monólito modular (direção técnica aprovada; prova local condicionada a threat model e contratos mínimos).
+- [x] Registrar ADR-0004: PostgreSQL aprovado como tecnologia relacional; provedor, migrations operacionais, backups e custos ainda pendentes.
+- [x] Registrar ADR-0005: estratégia de autenticação gerenciada aprovada; fornecedor, configuração concreta de sessão e e-mail transacional continuam pendentes.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
-Dependências: aprovação das decisões D-12 a D-17, ADRs, domínio, classificação de dados e requisitos de segurança.
+Dependências: threat model, classificação de dados, contratos OpenAPI e matriz de autorização; D-15 a D-17 (fornecedores) e custos continuam pendentes.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.

@@ -1,7 +1,7 @@
 # Decisões em Aberto — Conectados em Cristo
 
 - Data: 2026-11-07
-- Status: direção estratégica inicial aprovada em 2026-11-04; decisões de execução, segurança, operação e fornecedores permanecem pendentes.
+- Status: direção estratégica aprovada em 2026-11-04; direções técnicas D-11 a D-14 aprovadas/concluídas; fornecedores D-15 a D-17 e detalhes de segurança/operação continuam pendentes.
 - Regra: somente as decisões explicitamente registradas na seção 10 estão aprovadas. Recomendações restantes não autorizam contratação, provisionamento ou migração.
 
 ## 1. Posicionamento e público
@@ -110,35 +110,33 @@
 
 ### D-11 — Frontend
 
-- A — Manter Vue 3 e modernizar Vue CLI para Vite, introduzindo TypeScript gradualmente.
-- B — Migrar para Next.js/React/TypeScript.
-- C — Manter Vue CLI temporariamente e corrigir vulnerabilidades sem migração imediata.
+**Status: CONCLUÍDA EM 2026-11-06 (PR #23).**
 
-**Recomendação:** A em etapa isolada, após corrigir vulnerabilidades e comprovar equivalência. B não tem justificativa atual. C pode ser transição curta.
+**Decisão:** manter Vue 3 + Vue Router 4 e migrar Vue CLI para Vite em branch/PR isolada. A migração foi concluída e validada; não há justificativa atual para reescrita em Next.js. TypeScript poderá ser introduzido gradualmente quando houver benefício concreto.
 
 ### D-12 — Backend
 
-- A — Node.js + TypeScript + Fastify, monólito modular.
-- B — NestJS + TypeScript, monólito modular.
-- C — Express + TypeScript.
+**Status: APROVADA EM 2026-11-07 — direção técnica.**
 
-**Recomendação:** A por simplicidade e baixo overhead; B se o projeto priorizar convenções/estrutura e aceitar maior boilerplate.
+**Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada em `/api/v1`, contratos OpenAPI e schemas explícitos de validação. Módulos iniciais: Identity & Accounts; Profiles & Privacy; Communities & Memberships; Content & Interactions; Prayer & Faith Content; Reports & Moderation; Administration & Audit.
+
+**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. A prova técnica local depende de threat model, classificação de dados e contratos mínimos.
 
 ### D-13 — Banco
 
-- A — Supabase PostgreSQL.
-- B — Neon PostgreSQL.
-- C — PostgreSQL gerenciado em outro provedor.
+**Status: APROVADA EM 2026-11-07 — tecnologia; fornecedor pendente.**
 
-**Recomendação:** comparar preço atual, backups, região, conexão, RLS, migrações e limites. PostgreSQL é recomendado; fornecedor pendente.
+**Decisão:** PostgreSQL como mecanismo relacional, com migrations versionadas, constraints, transações e autorização aplicada no backend.
+
+**Limites:** Supabase, Neon ou outro provedor não foram escolhidos. RLS poderá ser defesa adicional, nunca substituto da autorização server-side. Não provisionar banco nem inserir dados reais nesta etapa.
 
 ### D-14 — Autenticação
 
-- A — Supabase Auth.
-- B — Clerk.
-- C — Better Auth/autenticação própria revisada.
+**Status: APROVADA EM 2026-11-07 — estratégia; fornecedor pendente.**
 
-**Recomendação:** comparar preço, cookies/sessões, MFA, e-mail, recuperação, portabilidade e integração com backend. Não implementar auth própria sem necessidade.
+**Decisão:** utilizar autenticação gerenciada, evitando implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade. A API será a autoridade para validar identidade, sessão, estado da conta e autorização em cada operação.
+
+**Limites:** Supabase Auth, Clerk e Better Auth ainda precisam de comparação de preço, portabilidade, cookies/sessões, MFA, recuperação, exportação e integração. Priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao fluxo escolhido. Não integrar nem provisionar serviço nesta etapa.
 
 ### D-15 — Imagens
 
@@ -199,13 +197,13 @@ Não há base confiável para confirmar 8 semanas ou 6 meses. O esforço depende
 ## 9. Registro de aprovação
 
 As decisões devem ser respondidas pelo identificador (D-01 a D-22). Respostas podem ser aprovadas, rejeitadas ou ajustadas. Após aprovação:
-1. Atualizar ADRs 0003–0005 ou criar ADRs específicas.
+1. Atualizar ADRs 0003–0006 ou criar ADRs específicas.
 2. Atualizar `docs/product/mvp.md`, `docs/product/roadmap.md`, `PROJECT_CONTEXT.md` e `README.md`.
 3. Só então iniciar a fase de fundação e provisionar serviços.
 
 **Estado atual:** decisões parciais aprovadas e registradas na seção 10. Os demais itens continuam pendentes.
 
-## 10. Registro de decisões aprovadas — 2026-11-04
+## 10. Registro de decisões aprovadas — 2026-11-04 a 2026-11-07
 
 Após revisão da direção proposta, o responsável pelo produto aprovou a seguinte base:
 
@@ -218,6 +216,9 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
+| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
+| Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
+| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
 | Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 
@@ -245,7 +246,7 @@ Pedidos de oração permanecem como objetivo de produto, mas sua disponibilizaç
 - D-08: canais e preferências de notificação.
 - D-09: idiomas além do português brasileiro.
 - D-10: região e formato do beta.
-- D-12 a D-17: backend, banco, autenticação, storage, e-mail, hospedagem e orçamento.
+- D-15 a D-17: fornecedores de storage, e-mail e hospedagem; limites e orçamento.
 - D-18 a D-22: capacidade de moderação, idade mínima, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta.
 
 A aprovação destas decisões de produto não autoriza contratação de serviços, provisionamento de infraestrutura, migração de dados ou mudanças irreversíveis. Antes da Fase 1, fechar as decisões técnicas e operacionais bloqueadoras e registrar ADRs.
