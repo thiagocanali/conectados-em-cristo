@@ -11,6 +11,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { clearDemoSession, getDemoSession } from '@/services/demoAuth.mjs'
 
 const router = useRouter()
 const scrolled = ref(false)
@@ -19,16 +20,11 @@ const menuToggle = ref(null)
 const loggedIn = ref(false)
 
 const refreshSession = () => {
-  try {
-    const user = JSON.parse(localStorage.getItem('currentUser') || 'null')
-    loggedIn.value = Boolean(user && user.email)
-  } catch {
-    loggedIn.value = false
-  }
+  loggedIn.value = Boolean(getDemoSession()?.email)
 }
 
 const logout = () => {
-  localStorage.removeItem('currentUser')
+  clearDemoSession()
   refreshSession()
   mobileOpen.value = false
   router.push('/login')
