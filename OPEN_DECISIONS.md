@@ -110,11 +110,9 @@
 
 ### D-11 — Frontend
 
-- A — Manter Vue 3 e modernizar Vue CLI para Vite, introduzindo TypeScript gradualmente.
-- B — Migrar para Next.js/React/TypeScript.
-- C — Manter Vue CLI temporariamente e corrigir vulnerabilidades sem migração imediata.
+**Status: CONCLUÍDA EM 2026-11-06 (PR #23).**
 
-**Recomendação:** A em etapa isolada, após corrigir vulnerabilidades e comprovar equivalência. B não tem justificativa atual. C pode ser transição curta.
+**Decisão:** manter Vue 3 + Vue Router 4 e migrar Vue CLI para Vite em branch/PR isolada. A migração foi concluída e validada; não há justificativa atual para reescrita em Next.js. TypeScript poderá ser introduzido gradualmente quando houver benefício concreto.
 
 ### D-12 — Backend
 
@@ -199,13 +197,13 @@ Não há base confiável para confirmar 8 semanas ou 6 meses. O esforço depende
 ## 9. Registro de aprovação
 
 As decisões devem ser respondidas pelo identificador (D-01 a D-22). Respostas podem ser aprovadas, rejeitadas ou ajustadas. Após aprovação:
-1. Atualizar ADRs 0003–0005 ou criar ADRs específicas.
+1. Atualizar ADRs 0003–0006 ou criar ADRs específicas.
 2. Atualizar `docs/product/mvp.md`, `docs/product/roadmap.md`, `PROJECT_CONTEXT.md` e `README.md`.
 3. Só então iniciar a fase de fundação e provisionar serviços.
 
 **Estado atual:** decisões parciais aprovadas e registradas na seção 10. Os demais itens continuam pendentes.
 
-## 10. Registro de decisões aprovadas — 2026-11-04
+## 10. Registro de decisões aprovadas — 2026-11-04 a 2026-11-07
 
 Após revisão da direção proposta, o responsável pelo produto aprovou a seguinte base:
 
@@ -218,9 +216,6 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
-| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
-| Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
-| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
 | Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
 | Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
 | Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
