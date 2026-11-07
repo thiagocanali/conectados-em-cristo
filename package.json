@@ -10,13 +10,20 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.vue",
     "test": "node --test",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "api:dev": "tsx watch server/src/server.mts",
+    "api:start": "node server/dist/server.mjs",
+    "api:typecheck": "tsc --noEmit -p server/tsconfig.json",
+    "api:test": "node --import=tsx --test server/tests/*.test.mts",
+    "api:build": "tsc -p server/tsconfig.build.json",
+    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build"
   },
   "dependencies": {
     "core-js": "^3.8.3",
     "pinia": "^3.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "fastify": "^5.12.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
