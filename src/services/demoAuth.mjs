@@ -51,7 +51,7 @@ export function registerDemoUser(profile) {
   } catch {
     return { ok: false, reason: 'storage-unavailable' }
   }
-  setDemoSession(user)
+  if (!setDemoSession(user)) return { ok: false, reason: 'storage-unavailable' }
   return { ok: true, user }
 }
 
@@ -64,8 +64,14 @@ export function loginDemoUser(email) {
 }
 
 export function getDemoSession() {
-  const user = withoutCredentials(readJson(SESSION_KEY, null))
+  const rawUser = readJson(SESSION_KEY, null)
+  const user = withoutCredentials(rawUser)
   if (!user?.email) return null
+
+  // Rewrite legacy sessions without credential fields as soon as they are read.
+  if (JSON.stringify(rawUser) !== JSON.stringify(user)) {
+    setDemoSession(user)
+  }
   return user
 }
 
