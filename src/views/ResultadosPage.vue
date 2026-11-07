@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { parseStoredJson } from "@/utils/safeStorage.mjs";
 import { getDemoSession, getDemoUsers } from "@/services/demoAuth.mjs";
 
 export default {
