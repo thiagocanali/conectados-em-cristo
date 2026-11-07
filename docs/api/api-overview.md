@@ -1,7 +1,7 @@
 # Visão geral da API — Conectados em Cristo
 
 - Revisão: 2026-11-07
-- Estado: contrato inicial proposto; não implementado.
+- Estado: contrato inicial proposto; somente GET /health/live está implementado localmente.
 - Stack aprovada: Node.js 26 LTS + TypeScript + Fastify, monólito modular (ADR-0006).
 - Prefixo aprovado: REST versionada em /api/v1.
 - Contrato: [openapi.json](openapi.json), versão draft 0.1.0.
@@ -29,7 +29,7 @@ O backend deve validar sessão e estado da conta em toda requisição protegida.
 - GET /api/v1/health/live: sinal de vida sem detalhes internos.
 - GET /api/v1/communities: somente metadados públicos do catálogo (F-07).
 
-Nenhum endpoint público deve retornar posts, lista nominal de membros, pedidos de oração privados, denúncias, evidências ou dados internos.
+Nenhum endpoint público deve retornar posts, lista nominal de membros, pedidos de oração privados, denúncias, evidências ou dados internos. O health check local não expõe versão, ambiente ou dependências.
 
 ## Erros e paginação
 

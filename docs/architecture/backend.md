@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-**Não implementado.** O repositório ainda executa somente o frontend Vue 3 + Vite e o serviço local demonstrativo. Não existe API, banco remoto, autenticação real, sincronização ou autorização server-side.
+**Prova técnica local implementada.** Existe um servidor Fastify com apenas GET /api/v1/health/live, sem persistência ou dados de usuário. Não existe API de produto, banco remoto, autenticação real, sincronização ou autorização server-side.
 
 ## Direção técnica aprovada
 
@@ -51,7 +51,7 @@ Os módulos compartilham um único deploy e uma única base lógica. Não criar 
 - Provedor PostgreSQL e região.
 - Provedor de autenticação gerenciada.
 - Política de migrations, backup/restore e retenção operacional.
-- Threat model, classificação de dados, matriz de autorização e revisão jurídica.
+- Revisão especializada do threat model, classificação, matriz de autorização e aspectos jurídicos.
 
 Nenhum fornecedor foi escolhido, contratado ou provisionado. Nenhum dado real deve ser usado nesta etapa.
 
@@ -59,7 +59,7 @@ Nenhum fornecedor foi escolhido, contratado ou provisionado. Nenhum dado real de
 
 1. [x] Registrar baseline STRIDE, classificação inicial de privacidade e matriz de autorização; revisão especializada continua pendente.
 2. [x] Criar contrato OpenAPI draft com exemplos e endpoints iniciais.
-3. Criar prova técnica local Fastify com health check, validação e testes, sem banco remoto ou auth real.
+3. [x] Criar prova técnica local Fastify com health check, validação e testes, sem banco remoto ou auth real.
 4. Revisar ameaça, classificação e contratos com segurança, produto e jurídico.
 5. Comparar fornecedores e custos antes de provisionar qualquer ambiente.
 

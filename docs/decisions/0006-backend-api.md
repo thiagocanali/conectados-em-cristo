@@ -28,7 +28,7 @@ A API será a autoridade para autenticação, autorização, estado da conta, bl
 - A estratégia de autenticação gerenciada foi aprovada no ADR-0005, mas o provedor permanece pendente.
 - Storage, e-mail e hospedagem da API continuam pendentes.
 - Esta decisão não autoriza contratação, provisionamento, dados reais ou lançamento.
-- A prova técnica local só deve usar dados sintéticos e endpoints não sensíveis, após threat model, classificação de dados e contratos mínimos.
+- A prova técnica local implementada usa somente dados sintéticos e health check. Novas rotas de domínio dependem de revisão do threat model, classificação, matriz de autorização e contratos.
 
 ## Consequências
 - Positivas: estrutura simples, fronteiras de domínio explícitas, validação e documentação da API.
@@ -39,9 +39,9 @@ A API será a autoridade para autenticação, autorização, estado da conta, bl
 2026-11-07
 
 ## Status
-Aceito — direção técnica. Prova local condicionada a threat model e contratos mínimos; fornecedores e provisionamento pendentes.
+Aceito — direção técnica; prova local de health check implementada e validada. Novas rotas de domínio, fornecedores e provisionamento permanecem pendentes.
 
 ## Próximos passos
-- Elaborar threat model e classificação de dados.
-- Definir contratos OpenAPI iniciais e matriz de autorização.
-- Criar prova técnica local com health check e testes, sem integração remota.
+- [x] Registrar threat model, classificação inicial, matriz de autorização e contrato OpenAPI draft.
+- [x] Criar prova técnica local com health check e testes, sem integração remota.
+- Revisar os documentos com segurança, privacidade, produto e operação antes de adicionar rotas de domínio.

@@ -9,11 +9,18 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.vue",
-    "test": "node --test",
-    "deploy": "gh-pages -d dist"
+    "test": "node --test tests/*.test.mjs",
+    "deploy": "gh-pages -d dist",
+    "api:dev": "tsx watch server/src/server.mts",
+    "api:start": "node server/dist/server.mjs",
+    "api:typecheck": "tsc --noEmit -p server/tsconfig.json",
+    "api:test": "node --import=tsx --test server/tests/*.test.mts",
+    "api:build": "tsc -p server/tsconfig.build.json",
+    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build"
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "fastify": "^5.12.8",
     "pinia": "^3.0.4",
     "vue": "^3.2.13",
     "vue-router": "^4.6.3"
@@ -22,6 +29,7 @@
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^26.6.6",
     "@vitejs/plugin-vue": "^5.2.4",
     "autoprefixer": "^10.4.22",
     "eslint": "^7.32.0",
@@ -29,6 +37,8 @@
     "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
     "vite": "^6.4.5"
   },
   "eslintConfig": {

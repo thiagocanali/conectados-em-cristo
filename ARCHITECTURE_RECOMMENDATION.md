@@ -243,6 +243,6 @@ Não avançar em:
 
 ### 14.6 Próxima tarefa técnica
 
-A próxima tarefa recomendada é **criar uma prova técnica local de Fastify** com health check, validação e testes, usando dados sintéticos. O baseline STRIDE, a classificação inicial, a matriz de autorização e o OpenAPI draft já foram documentados, mas ainda exigem revisão especializada. Não conectar banco remoto, auth real ou fornecedores; D-15 a D-17 e custos permanecem pendentes.
+A prova técnica local Fastify com health check, TypeScript estrito e testes já está implementada. Próximo passo: revisar os contratos, a matriz de autorização e o threat model com segurança/privacidade; só então adicionar uma primeira rota de domínio com dados sintéticos. Não conectar banco remoto, auth real ou fornecedores; D-15 a D-17 e custos permanecem pendentes.
 
 **Estado:** frontend Vue/Vite e direções técnicas de backend/PostgreSQL/auth gerenciada aprovados. D-15 a D-17 e todos os fornecedores continuam pendentes; nenhuma contratação ou provisionamento foi aprovado.

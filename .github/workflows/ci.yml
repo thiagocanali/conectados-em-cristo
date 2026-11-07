@@ -60,6 +60,8 @@ jobs:
         run: npm ci
       - name: Run unit tests
         run: npm test
+      - name: Validate local API
+        run: npm run api:check
 
   dependency-audit:
     name: Dependency audit (informational)
@@ -111,3 +113,4 @@ jobs:
             npm-audit.json
             npm-audit-production.json
           retention-days: 14
+

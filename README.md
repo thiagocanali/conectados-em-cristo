@@ -67,3 +67,14 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Threat model](docs/security/threat-model.md) — ameaças e controles iniciais.
 - [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
 - [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints, não implementado.
+
+
+## API local (prova técnica)
+
+O backend ainda é somente uma prova local com Fastify. Para iniciar:
+
+1. Instale as dependências com `npm ci`.
+2. Execute `npm run api:dev`.
+3. Consulte `http://127.0.0.1:3001/api/v1/health/live`.
+
+O único endpoint disponível é o health check. Não há autenticação real, banco, cadastro, dados compartilhados ou rotas de comunidade. Não use dados pessoais ou pedidos de oração reais.

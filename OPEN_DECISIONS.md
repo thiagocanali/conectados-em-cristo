@@ -120,7 +120,7 @@
 
 **Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada em `/api/v1`, contratos OpenAPI e schemas explícitos de validação. Módulos iniciais: Identity & Accounts; Profiles & Privacy; Communities & Memberships; Content & Interactions; Prayer & Faith Content; Reports & Moderation; Administration & Audit.
 
-**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. A prova técnica local depende de threat model, classificação de dados e contratos mínimos.
+**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. Threat model, classificação inicial, matriz de autorização e contrato OpenAPI draft foram registrados; a prova local de health check foi concluída. Novas rotas de domínio dependem de revisão especializada.
 
 ### D-13 — Banco
 
@@ -216,7 +216,7 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Relacionamentos/namoro | Não são o núcleo nem a porta de entrada do produto | Qualquer experiência futura deve ser opcional e passar por nova avaliação |
 | Mensagens privadas | Fora do primeiro MVP | Reavaliar somente após controles de segurança e capacidade de moderação |
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
-| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local depende de threat model e contratos mínimos; sem serviços externos |
+| Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local de health check concluída; sem serviços externos ou dados reais |
 | Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
 | Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
