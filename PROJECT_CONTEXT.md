@@ -8,10 +8,11 @@ O repositório contém um protótipo frontend local, não um MVP de produção.
 
 - **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash; Node.js 26 LTS recomendado (`.nvmrc`), com Node 22/24 também suportados.
 - **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
-- **Não implementado:** API, backend, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
+- **Implementado no backend:** prova técnica Fastify local com somente GET /api/v1/health/live e quatro testes de integração via inject.
+- **Não implementado:** API de produto, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
 - **Desenho aprovado, ainda não implementado:** Fastify/TypeScript, PostgreSQL como tecnologia e autenticação gerenciada; threat model STRIDE, classificação de privacidade, matriz de autorização e OpenAPI draft foram documentados.
 - **Segurança:** o fluxo de demonstração não solicita nem persiste senhas; a sessão por e-mail é local, falsificável e não é autenticação/autorização. O serviço remove credenciais legadas quando os perfis são lidos. Não armazenar dados sensíveis nem informações pessoais reais.
-- **Validação:** o CI executa lint, vinte e quatro testes unitários (`npm test`), build e auditoria de dependências em Node.js 26 LTS. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
+- **Validação:** o CI executa lint, vinte e quatro testes unitários (`npm test`) e quatro testes locais da API (`npm run api:test`), build e auditoria de dependências em Node.js 26 LTS. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
 - **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
 
 ### Fluxos demonstrativos existentes
