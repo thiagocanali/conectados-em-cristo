@@ -43,7 +43,7 @@ Os números são um snapshot de 2026-11-04 e podem mudar com advisories novos. N
 - O caminho seguro foi executado em runner isolado com `npm audit fix`, sem `--force`.
 - Foram atualizados 46 pacotes no `package-lock.json`; `package.json` permaneceu inalterado.
 - Auditoria completa após a atualização: **0 vulnerabilidades**. Auditoria de produção: **0 vulnerabilidades**.
-- Lint, os 23 testes unitários e build de produção passaram no runner que gerou o lockfile; a PR #29 também passou no CI e no preview Vercel.
+- Lint, os 24 testes unitários e build de produção passaram no runner que gerou o lockfile; a PR #29 também passou no CI e no preview Vercel.
 - O workflow `.github/workflows/ci.yml` mantém auditoria completa e de produção em cada PR, com artefatos temporários por 14 dias.
 
 O resultado é um retrato do lockfile em 2026-11-07, não uma garantia permanente. A auditoria deve continuar sendo executada e novas correções devem permanecer isoladas e sem `--force` quando possível.
