@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-**Não implementado.** O repositório ainda executa somente o frontend Vue 3 + Vite e o serviço local demonstrativo. Não existe API, banco remoto, autenticação real, sincronização ou autorização server-side.
+**Prova técnica local implementada.** Existe um servidor Fastify com apenas GET /api/v1/health/live, sem persistência ou dados de usuário. Não existe API de produto, banco remoto, autenticação real, sincronização ou autorização server-side.
 
 ## Direção técnica aprovada
 
