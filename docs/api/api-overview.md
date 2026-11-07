@@ -1,24 +1,56 @@
-# Visão geral da API
+# Visão geral da API — Conectados em Cristo
 
-## Objetivo
-Descrever os princípios dos contratos de integração da plataforma.
-
-## Escopo
-Autenticação, perfis, descoberta, interesses, bloqueios, denúncias, moderação e saúde operacional.
+- Revisão: 2026-11-07
+- Estado: contrato inicial proposto; não implementado.
+- Stack aprovada: Node.js 26 LTS + TypeScript + Fastify, monólito modular (ADR-0006).
+- Prefixo aprovado: REST versionada em /api/v1.
+- Contrato: [openapi.json](openapi.json), versão draft 0.1.0.
 
 ## Princípios
-- Contratos versionados e documentados.
-- Validação de entrada no servidor.
-- Autorização por recurso e por usuário.
-- Respostas de erro consistentes.
-- Idempotência em operações sensíveis.
 
-## Decisões pendentes
-- REST ou outra arquitetura equivalente.
-- Estratégia de versionamento.
-- Formato definitivo de erros e paginação.
+- A API é a autoridade para identidade, autorização, estado da conta e regras de domínio.
+- O frontend nunca acessa credenciais administrativas do banco.
+- Validar entrada e saída com schemas; negar por padrão.
+- Aplicar autorização por usuário, recurso, comunidade, membership, visibilidade, bloqueios e estado da conta.
+- Usar respostas de erro consistentes em application/problem+json.
+- Usar paginação por cursor em coleções; impor limites máximos.
+- Usar idempotência em operações repetíveis ou concorrentes, como reações e bloqueios.
+- Não incluir dados sensíveis em logs, erros, métricas ou notificações.
+- Não expor listas nominais de membros ou reatores em endpoints públicos.
 
-## TODOs
-- Definir contratos após a escolha da stack e dos casos de uso do MVP.
+## Sessão e identidade
 
-Status: rascunho.
+A estratégia aprovada é autenticação gerenciada (ADR-0005), mas o fornecedor ainda não foi escolhido. O contrato OpenAPI usa cookie de sessão provisório como abstração; nome, domínio, SameSite, CSRF, CORS, expiração, rotação e revogação devem ser fechados após a comparação do provedor.
+
+O backend deve validar sessão e estado da conta em toda requisição protegida. A sessão local do protótipo não é reutilizada como autenticação real.
+
+## Superfícies públicas
+
+- GET /api/v1/health/live: sinal de vida sem detalhes internos.
+- GET /api/v1/communities: somente metadados públicos do catálogo (F-07).
+
+Nenhum endpoint público deve retornar posts, lista nominal de membros, pedidos de oração privados, denúncias, evidências ou dados internos.
+
+## Erros e paginação
+
+- Erros: Problem Details simplificado em application/problem+json, com status e requestId; não retornar stack trace, SQL, tokens ou conteúdo privado.
+- Paginação: cursor opaco e limit com teto no servidor; não aceitar offsets ilimitados.
+- Filtros e ordenação: allowlist por endpoint; nunca interpolar SQL diretamente.
+- Rate limit: por IP, conta e operação conforme risco e capacidade.
+
+## Segurança e autorização
+
+A matriz em [authorization.md](../security/authorization.md) é o baseline por papel e recurso. O threat model em [threat-model.md](../security/threat-model.md) registra ameaças e controles. Cada operação deve apontar para:
+- autenticação necessária;
+- autorização e escopo;
+- dados acessados/classificação;
+- validação;
+- limites/idempotência;
+- evento de auditoria quando aplicável;
+- testes positivos e negativos.
+
+## Limites
+
+O OpenAPI é um contrato de discussão, não prova de implementação. Schemas, campos, status HTTP, enumerações, visibilidade, limites e fluxos dependem de revisão de produto, privacidade, moderação e operação. Não iniciar integração com fornecedor, banco remoto ou dados reais nesta etapa.
+
+**Status:** contrato inicial registrado; revisão e implementação pendentes.
