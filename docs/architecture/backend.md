@@ -57,10 +57,10 @@ Nenhum fornecedor foi escolhido, contratado ou provisionado. Nenhum dado real de
 
 ## Próxima sequência permitida
 
-1. Elaborar threat model e classificação de dados.
-2. Definir matriz de autorização por módulo e recurso.
-3. Especificar contratos OpenAPI iniciais com exemplos sintéticos.
-4. Criar prova técnica local Fastify com health check, validação e testes.
+1. [x] Registrar baseline STRIDE, classificação inicial de privacidade e matriz de autorização; revisão especializada continua pendente.
+2. [x] Criar contrato OpenAPI draft com exemplos e endpoints iniciais.
+3. Criar prova técnica local Fastify com health check, validação e testes, sem banco remoto ou auth real.
+4. Revisar ameaça, classificação e contratos com segurança, produto e jurídico.
 5. Comparar fornecedores e custos antes de provisionar qualquer ambiente.
 
 ## Fora do escopo da prova técnica inicial
