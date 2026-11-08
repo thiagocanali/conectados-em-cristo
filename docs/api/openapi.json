@@ -3,7 +3,7 @@
   "info": {
     "title": "Conectados em Cristo API",
     "version": "0.1.0-draft",
-    "description": "Contrato inicial proposto, não implementado. O health check local possui respostas Problem Details sanitizadas e requestId; demais operações continuam propostas e devem ser revisadas antes de codificação."
+    "description": "Contrato inicial proposto, não implementado. O health check e o tratamento de erros estão implementados localmente; catálogo e demais operações continuam propostas e devem ser revisadas antes de codificação."
   },
   "servers": [
     {
@@ -141,7 +141,8 @@
             "name": "cursor",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 512
             }
           },
           {
@@ -152,7 +153,8 @@
               "minimum": 1,
               "maximum": 50,
               "default": 20
-            }
+            },
+            "description": "Quantidade máxima de itens; default 20, máximo 50."
           }
         ],
         "responses": {
@@ -165,8 +167,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           }
-        }
+        },
+        "description": "Retorna somente comunidades com estado interno active e visibilidade listed. Allowlist pública: id, slug, name, category, description, rulesSummary e joinMode. Não expõe contagens, posts, comentários, membros, solicitações ou status interno."
       }
     },
     "/communities/{communityId}/posts": {
@@ -595,6 +601,45 @@
         },
         "description": "A API deve aplicar escopo de comunidade, recusa por conflito F-08 e sanções F-03. Sanções globais ficam restritas a administradores; moderadores só atuam em comunidades atribuídas."
       }
+    },
+    "/communities/{communityId}": {
+      "parameters": [
+        {
+          "name": "communityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Communities"
+        ],
+        "summary": "Retorna metadados públicos de uma comunidade listada",
+        "description": "Retorna 404 genérico para comunidade inexistente, não listada, pausada ou arquivada. Não concede membership nem acesso a conteúdo.",
+        "operationId": "getPublicCommunity",
+        "responses": {
+          "200": {
+            "description": "Somente os metadados da allowlist pública.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommunityPublicMetadata"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -648,7 +693,7 @@
         }
       },
       "NotFound": {
-        "description": "Recurso ou rota não encontrado.",
+        "description": "Recurso inexistente ou não público; não distingue comunidades privadas/inativas de IDs inexistentes.",
         "content": {
           "application/problem+json": {
             "schema": {
@@ -796,53 +841,23 @@
         },
         "additionalProperties": false
       },
-      "CommunitySummary": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "visibility"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 300
-          },
-          "visibility": {
-            "type": "string",
-            "enum": [
-              "public",
-              "unlisted"
-            ]
-          },
-          "memberCount": {
-            "type": "integer",
-            "minimum": 0
-          }
-        }
-      },
       "CommunityPage": {
         "type": "object",
         "required": [
           "items"
         ],
+        "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CommunitySummary"
+              "$ref": "#/components/schemas/CommunityPublicMetadata"
             }
           },
           "nextCursor": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512,
+            "description": "Cursor opaco de paginação; não é segredo nem autorização."
           }
         }
       },
@@ -1124,6 +1139,58 @@
           },
           "nextCursor": {
             "type": "string"
+          }
+        }
+      },
+      "CommunityPublicMetadata": {
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "category",
+          "description",
+          "rulesSummary",
+          "joinMode"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador estável; não é credencial."
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60,
+            "description": "Rótulo curado pela administração; taxonomia ainda não fixada."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "rulesSummary": {
+            "type": "string",
+            "maxLength": 1200
+          },
+          "joinMode": {
+            "type": "string",
+            "enum": [
+              "open",
+              "approval"
+            ],
+            "description": "Informativo; não concede entrada sem autenticação e autorização."
           }
         }
       }
