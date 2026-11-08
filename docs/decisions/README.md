@@ -69,8 +69,8 @@ As direções técnicas de frontend (Vue/Vite), backend (Fastify/TypeScript), ba
 
 | ADR | Título | Status | Data |
 |-----|--------|--------|------|
-| 0003 | Stack técnica do MVP | Pendente | 2026-09-28 |
-| 0004 | Persistência do MVP | Pendente | 2026-09-28 |
-| 0005 | Autenticação e sessões do MVP | Pendente | 2026-09-28 |
+| 0003 | Stack técnica do MVP | Direção aceita | 2026-09-28 |
+| 0004 | Persistência do MVP | PostgreSQL aceito; provedor pendente | 2026-09-28 |
+| 0005 | Autenticação e sessões do MVP | Estratégia gerenciada aceita; provedor pendente | 2026-09-28 |
 | 0006 | Backend API | Aceito | 2026-11-07 |
 | 0007 | Identidade interna independente do provedor | Direção aceita; implementação pendente | 2026-11-07 |
