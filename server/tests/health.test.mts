@@ -10,7 +10,7 @@ test('liveness endpoint responds with a minimal status', async () => {
     assert.deepEqual(response.json(), { status: 'ok' })
     assert.equal(response.headers['cache-control'], 'no-store')
     assert.equal(response.headers['x-content-type-options'], 'nosniff')
-    assert.match(response.headers['x-request-id'], /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
+    assert.match(String(response.headers['x-request-id']), /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
   } finally {
     await app.close()
   }
@@ -39,7 +39,7 @@ test('unknown routes return sanitized Problem Details without query strings', as
     })
     const body = response.json()
     assert.equal(response.statusCode, 404)
-    assert.match(response.headers['content-type'], /^application\/problem\+json/)
+    assert.match(String(response.headers['content-type']), /^application\/problem\+json/)
     assert.equal(body.type, 'about:blank')
     assert.equal(body.title, 'Not Found')
     assert.equal(body.status, 404)
