@@ -55,7 +55,7 @@ Tarefas:
 - [x] Comparar Supabase Auth, Clerk e Better Auth com preços/requisitos oficiais; manter seleção pendente.
 - [x] Definir direção provider-agnostic para UUID interno, auth_identities e profiles separados; sem schema físico ou login real.\n- [x] Detalhar matriz de autorização do MVP e implementar funções puras/testes unitários para elegibilidade, membership, ownership, bloqueios, escopo/conflito de moderação, audiência de oração e remoção de reação; sem integração em rotas, sessão real ou persistência de domínio.
 - [x] Definir contrato lógico dos fatos confiáveis, carregamento mínimo, falha fechada e consistência transacional necessários à futura integração server-side; sem schema físico ou fornecedor.
-- [x] Implementar primeiro carregador server-side provider-neutral para contexto de leitura comunitária, com repositório tipado, falha fechada e testes de ausência de fatos/falha de dependência; sem adapter persistente ou integração em rota.
+- [x] Implementar primeiro carregador server-side provider-neutral para contexto de leitura comunitária, com repositório tipado, falha fechada e testes de ausência de fatos/falha de dependência; ampliar cobertura para estados de comunidade/membership e inelegibilidade explícita em PR #52; sem adapter persistente ou integração em rota.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI cobre lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
