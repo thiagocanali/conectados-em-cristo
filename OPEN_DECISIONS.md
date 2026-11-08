@@ -1102,7 +1102,17 @@ F-07 somente poderá ser considerada implementada quando:
 
 Aprovar o **modelo geral de catálogo público de metadados**, sem posts, comentários ou lista nominal de membros. Contagens devem ser agregadas e avaliadas quanto ao risco de reidentificação. Comunidades não listadas ficam fora das superfícies públicas de descoberta e exigem convite ou autorização explícita. A participação em comunidades não deve virar diretório público de pessoas.
 
-**Ainda pendente:** campos exatos, política final de contagens, regras detalhadas de convite/autorização e controles técnicos anti-vazamento/enumeração.
+### Detalhamento do contrato público — 2026-11-07
+
+Para o beta inicial, a allowlist pública fica limitada a `id`, `slug`, `name`, `category`, `description`, `rulesSummary` e `joinMode` (`open` ou `approval`). Limites: UUID; slug até 80; nome até 100; categoria até 60; descrição até 300; resumo de regras até 1.200 caracteres. Respostas rejeitam campos adicionais.
+
+O catálogo lista somente comunidades com estado interno `active` e visibilidade `listed`. O detalhe público retorna 404 genérico para ID inexistente, comunidade não listada, pausada ou arquivada. O modo de entrada é informativo e não concede membership. IDs e slugs não são credenciais.
+
+**Decisão conservadora:** não exibir contagens de membros, posts ou solicitações no beta inicial. F-07 permite avaliar agregados, mas nenhum limiar anti-reidentificação foi aprovado. Sem total de resultados, diretórios, posts, comentários, solicitações ou dados de moderação no catálogo. Paginação estável por nome e ID, cursor opaco limitado a 512 caracteres e `limit` padrão 20/máximo 50.
+
+Contrato técnico: `docs/product/community-catalog-public-contract.md` e OpenAPI `GET /communities` + `GET /communities/{communityId}`. O contrato não está implementado.
+
+**Ainda pendente:** fluxo de convite/autorização para comunidades não listadas; critérios futuros para eventual divulgação de agregados; testes de autorização em execução, rate limit e revisão especializada.
 
 
 ## 19. Pacote de decisão — F-08: moderador que também é membro e conflito de interesses
