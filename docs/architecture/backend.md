@@ -64,9 +64,10 @@ Nenhum fornecedor foi escolhido, contratado ou provisionado. O catálogo não te
 4. Revisar ameaça, classificação e contratos com segurança, produto e jurídico.
 5. Comparar fornecedores e custos antes de provisionar qualquer ambiente.
 
-## Fora do escopo da prova técnica inicial
+## Fora do escopo da prova técnica atual
 
-- Banco remoto ou dados pessoais reais.
+- Banco remoto/provedor hospedado ou dados pessoais reais.
+- Escrita/gestão administrativa de comunidades, memberships, convites ou conteúdo.
 - Autenticação real, cadastro de usuários ou recuperação de senha.
 - Upload de arquivos reais.
 - Pedidos de oração reais.
