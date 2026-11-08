@@ -244,6 +244,6 @@ Não avançar em:
 
 ### 14.6 Próxima tarefa técnica
 
-A prova local Fastify, a migration PostgreSQL de comunidades e a primeira fatia pública de catálogo estão implementadas e testadas com PostgreSQL efêmero no CI. Próximo passo: comparar provedores de autenticação gerenciada e fechar identidade/sessão, sem provisionar serviço ou usar dados reais. Convites e gestão administrativa de comunidades também precisam ser detalhados antes de qualquer escrita.
+A prova local Fastify, a migration PostgreSQL de comunidades e a primeira fatia pública de catálogo estão implementadas e testadas com PostgreSQL efêmero no CI. A comparação de provedores está em `docs/security/auth-provider-evaluation.md`; a fronteira provider-agnostic de identidade está proposta em ADR-0007. Próximo passo: fechar região, DPA, SMTP, MFA, orçamento e operação antes de selecionar o provedor; depois criar schema físico e middleware de sessão. Convites e gestão administrativa de comunidades também precisam ser detalhados antes de qualquer escrita.
 
 **Estado:** frontend Vue/Vite e direções técnicas de backend/PostgreSQL/auth gerenciada aprovados. D-15 a D-17 e todos os fornecedores continuam pendentes; nenhuma contratação ou provisionamento foi aprovado.
