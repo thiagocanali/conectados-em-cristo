@@ -35,7 +35,7 @@ function problemTitle(statusCode: number): string {
     case 415: return 'Unsupported Media Type'
     case 422: return 'Unprocessable Content'
     case 429: return 'Too Many Requests'
-    default: return 'Internal Server Error'
+    default: return statusCode >= 400 && statusCode < 500 ? 'Client Error' : 'Internal Server Error'
   }
 }
 
@@ -76,7 +76,9 @@ export function buildApp(): FastifyInstance {
   })
 
   app.setErrorHandler(async (error, request, reply) => {
-    const candidateStatus = error.statusCode ?? 500
+    const candidateStatus = typeof error === 'object' && error !== null && 'statusCode' in error && typeof error.statusCode === 'number'
+      ? error.statusCode
+      : 500
     const statusCode = candidateStatus >= 400 && candidateStatus < 500
       ? candidateStatus
       : 500
