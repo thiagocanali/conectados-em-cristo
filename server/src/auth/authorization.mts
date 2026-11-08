@@ -1,5 +1,6 @@
 import type { AccountStatus } from './identity.mjs'
 
+export type AdultEligibility = 'eligible' | 'unknown' | 'ineligible'
 export type MembershipStatus = 'pending' | 'active' | 'suspended' | 'left' | 'removed'
 export type CommunityStatus = 'draft' | 'active' | 'paused' | 'archived'
 export type CommunityVisibility = 'listed' | 'unlisted' | 'private'
@@ -37,7 +38,7 @@ function deny(reason: Exclude<PolicyReason, 'allowed'>): PolicyDecision {
 
 export interface CommunityContentPolicyInput {
   accountStatus: AccountStatus
-  adultEligibility: 'eligible' | 'unknown' | 'ineligible'
+  adultEligibility: AdultEligibility
   communityStatus: CommunityStatus
   membershipStatus: MembershipStatus
 }
