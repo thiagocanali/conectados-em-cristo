@@ -170,9 +170,12 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
           }
         },
-        "description": "Retorna somente comunidades com estado interno active e visibilidade listed. Allowlist pública: id, slug, name, category, description, rulesSummary e joinMode. Não expõe contagens, posts, comentários, membros, solicitações ou status interno."
+        "description": "Retorna somente comunidades com estado interno active e visibilidade listed. Allowlist pública: id, slug, name, category, description, rulesSummary e joinMode. Não expõe contagens, posts, comentários, membros, solicitações ou status interno. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503, nunca uma lista vazia simulada."
       }
     },
     "/communities/{communityId}/posts": {
@@ -619,7 +622,7 @@
           "Communities"
         ],
         "summary": "Retorna metadados públicos de uma comunidade listada",
-        "description": "Retorna 404 genérico para comunidade inexistente, não listada, pausada ou arquivada. Não concede membership nem acesso a conteúdo.",
+        "description": "Retorna 404 genérico para comunidade inexistente, não listada, pausada ou arquivada. Não concede membership nem acesso a conteúdo. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503.",
         "operationId": "getPublicCommunity",
         "responses": {
           "200": {
@@ -637,6 +640,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
           }
         }
       }
@@ -704,6 +710,16 @@
       },
       "InternalServerError": {
         "description": "Erro interno sem detalhes de implementação.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Catálogo temporariamente indisponível quando a conexão PostgreSQL não está configurada ou acessível.",
         "content": {
           "application/problem+json": {
             "schema": {
