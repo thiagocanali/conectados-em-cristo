@@ -33,7 +33,7 @@ Nenhum endpoint público deve retornar posts, lista nominal de membros, pedidos 
 
 ## Erros e paginação
 
-- Erros: Problem Details simplificado em application/problem+json, com status e requestId; não retornar stack trace, SQL, tokens ou conteúdo privado.
+- Erros: Problem Details em `application/problem+json`, com `type`, `title`, `status`, `detail`, `instance` e `requestId`. O requestId é UUID gerado pelo servidor; query strings são omitidas de `instance`; mensagens internas, stack traces, SQL, tokens e conteúdo privado nunca são retornados. O bootstrap local já aplica esse padrão a 404 e erros capturados.
 - Paginação: cursor opaco e limit com teto no servidor; não aceitar offsets ilimitados.
 - Filtros e ordenação: allowlist por endpoint; nunca interpolar SQL diretamente.
 - Rate limit: por IP, conta e operação conforme risco e capacidade.
@@ -51,6 +51,6 @@ A matriz em [authorization.md](../security/authorization.md) é o baseline por p
 
 ## Limites
 
-O OpenAPI é um contrato de discussão, não prova de implementação. Schemas, campos, status HTTP, enumerações, visibilidade, limites e fluxos dependem de revisão de produto, privacidade, moderação e operação. Não iniciar integração com fornecedor, banco remoto ou dados reais nesta etapa.
+O OpenAPI é um contrato de discussão, não prova de implementação. O formato Problem Details e o requestId estão implementados no bootstrap local; as operações de domínio permanecem propostas. Schemas, campos, status HTTP, enumerações, visibilidade, limites e fluxos dependem de revisão de produto, privacidade, moderação e operação. Não iniciar integração com fornecedor, banco remoto ou dados reais nesta etapa.
 
 **Status:** contrato inicial registrado; revisão e implementação pendentes.
