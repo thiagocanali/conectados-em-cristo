@@ -7,6 +7,11 @@ import { buildApp } from '../src/app.mjs'
 
 const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) throw new Error('DATABASE_URL is required for database integration tests')
+const databaseAddress = new URL(databaseUrl)
+const databaseName = decodeURIComponent(databaseAddress.pathname.slice(1))
+if (!databaseName.endsWith('_test') || !['localhost', '127.0.0.1', 'postgres'].includes(databaseAddress.hostname)) {
+  throw new Error('Database integration tests only run against a local database whose name ends in _test')
+}
 
 const pool = new Pool({ connectionString: databaseUrl, max: 4 })
 let publicIds: string[] = []
