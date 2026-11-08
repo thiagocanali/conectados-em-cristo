@@ -62,7 +62,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Arquitetura de backend](docs/architecture/backend.md) — direção técnica aprovada e decisões de fornecedores ainda pendentes.
 - [Plano do MVP](docs/product/mvp.md) — proposta ainda não aprovada.
 - [Roadmap](docs/product/roadmap.md) — decisões e próximos passos sem cronograma aprovado.
-- [ADRs](docs/decisions/README.md) — decisões arquiteturais e seus status.
+- [ADRs](docs/decisions/README.md) — decisões arquiteturais e seus status, incluindo identidade interna portável.
 - [Estratégia de testes](docs/testing/test-strategy.md) — capacidades atuais e plano de validação.
 - [Threat model](docs/security/threat-model.md) — ameaças e controles iniciais.
 - [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
@@ -70,6 +70,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Contrato público do catálogo](docs/product/community-catalog-public-contract.md) — allowlist F-07 e limites de privacidade.
 - [Esquema PostgreSQL](docs/database/communities-schema.md) — migration inicial, índices e execução local.
 - [Avaliação de autenticação](docs/security/auth-provider-evaluation.md) — comparação de Supabase Auth, Clerk e Better Auth; nenhum provedor selecionado.
+- [Fronteira de identidade](docs/security/identity-boundary.md) — conta interna, identidades externas e portabilidade.
 
 
 ## API e catálogo local

@@ -44,8 +44,9 @@ Data da decisão
 - [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — PostgreSQL aprovado como tecnologia; provedor pendente
 - [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — estratégia gerenciada aprovada; provedor pendente
 - [ADR-0006: Backend API](0006-backend-api.md) — Fastify + TypeScript + Node 26 LTS aprovados
+- [ADR-0007: Identidade interna independente do provedor](0007-internal-identity-boundary.md) — direção de modelagem aceita; esquema e integração pendentes
 
-As direções técnicas de frontend (Vue/Vite), backend (Fastify/TypeScript), banco (PostgreSQL) e estratégia de autenticação gerenciada foram aceitas. Fornecedores de banco, auth, storage, e-mail e hospedagem continuam pendentes. Ainda não há ADR específica para moderação.
+As direções técnicas de frontend (Vue/Vite), backend (Fastify/TypeScript), banco (PostgreSQL) e estratégia de autenticação gerenciada foram aceitas. Fornecedores de banco, auth, storage, e-mail e hospedagem continuam pendentes. A identidade interna será separada do subject externo e do perfil; ADR-0007 não autoriza migrations ou login real. Ainda não há ADR específica para moderação.
 
 ## Princípios para Tomada de Decisão
 
@@ -68,6 +69,8 @@ As direções técnicas de frontend (Vue/Vite), backend (Fastify/TypeScript), ba
 
 | ADR | Título | Status | Data |
 |-----|--------|--------|------|
-| 0003 | Stack técnica do MVP | Pendente | 2026-09-28 |
-| 0004 | Persistência do MVP | Pendente | 2026-09-28 |
-| 0005 | Autenticação e sessões do MVP | Pendente | 2026-09-28 |
+| 0003 | Stack técnica do MVP | Direção aceita | 2026-09-28 |
+| 0004 | Persistência do MVP | PostgreSQL aceito; provedor pendente | 2026-09-28 |
+| 0005 | Autenticação e sessões do MVP | Estratégia gerenciada aceita; provedor pendente | 2026-09-28 |
+| 0006 | Backend API | Aceito | 2026-11-07 |
+| 0007 | Identidade interna independente do provedor | Direção aceita; implementação pendente | 2026-11-07 |

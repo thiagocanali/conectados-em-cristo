@@ -120,7 +120,7 @@
 
 **Decisão:** Node.js 26 LTS + TypeScript + Fastify em monólito modular, com API REST versionada em `/api/v1`, contratos OpenAPI e schemas explícitos de validação. Módulos iniciais: Identity & Accounts; Profiles & Privacy; Communities & Memberships; Content & Interactions; Prayer & Faith Content; Reports & Moderation; Administration & Audit.
 
-**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. Threat model, classificação inicial, matriz de autorização e contrato OpenAPI draft foram registrados; a prova local de health check foi concluída. Novas rotas de domínio dependem de revisão especializada.
+**Limites:** a direção não autoriza serviços pagos, banco remoto, autenticação real, armazenamento ou dados reais. Threat model, classificação inicial, matriz de autorização e contrato OpenAPI draft foram registrados; health check e catálogo público PostgreSQL somente leitura estão implementados localmente, sem provedor remoto ou dados reais. Novas rotas de domínio dependem de revisão especializada.
 
 ### D-13 — Banco
 
@@ -165,6 +165,10 @@
 **Pergunta:** há preferência de fornecedor ou limite mensal de custo?
 
 **Recomendação:** manter arquitetura independente de fornecedor e escolher após orçamento.
+
+### ADR-0007 — Fronteira interna de identidade
+
+**Direção de modelagem aceita em 2026-11-07; implementação pendente.** Conta interna com UUID próprio; identidades externas mapeadas por `(provider, subject)`; perfil separado de autenticação; sem merge automático por e-mail. A API valida o token e resolve a conta interna antes da autorização. Esquema e migrations dependem da seleção do provedor e revisão F-05/F-06. Ver [ADR-0007](docs/decisions/0007-internal-identity-boundary.md) e [identity-boundary.md](docs/security/identity-boundary.md).
 
 ## 7. Operação e segurança
 
@@ -220,7 +224,8 @@ Após revisão da direção proposta, o responsável pelo produto aprovou a segu
 | Frontend | Manter Vue 3 e evoluir incrementalmente | Migração Vue CLI → Vite concluída na PR #23; não há migração aprovada para Next.js |
 | Backend | Node.js 26 LTS + TypeScript + Fastify em monólito modular | Direção técnica aprovada em 2026-11-07; prova local de health check concluída; sem serviços externos ou dados reais |
 | Banco | PostgreSQL relacional | Tecnologia aprovada; provedor, região, backup/restore e custo continuam pendentes |
-| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; fornecedor e configuração concreta de sessão continuam pendentes |
+| Autenticação | Estratégia gerenciada, API autoritativa | Abordagem aprovada; shortlist Supabase Auth/Clerk documentada; fornecedor e sessão continuam pendentes |
+| Identidade interna | UUID próprio, separado do subject do provedor e do perfil; vínculo provider+subject único | Direção de modelagem aceita em ADR-0007; esquema físico, campos de contato e integração pendentes |
 | Bloqueio entre contas (F-01) | Bloqueio global entre as duas contas para descoberta e interações diretas em toda a plataforma | Não apaga automaticamente conteúdo comunitário, não substitui moderação e não concede acesso a dados privados; aplicação server-side obrigatória |
 | Edição e exclusão de conteúdo (F-02) | Texto simples; limites configuráveis; edição própria por janela curta; exclusão lógica e preservação restrita de evidência ativa | Números, janela, restauração e exceções permanecem por detalhar; depende das políticas F-05/F-09 e de implementação server-side |
 

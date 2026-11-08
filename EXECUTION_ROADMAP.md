@@ -52,12 +52,14 @@ Tarefas:
 - [x] Criar migration PostgreSQL local para comunidades com defaults draft/unlisted/approval, constraints e índice parcial do catálogo.
 - [x] Implementar repositório PostgreSQL e GET público paginado/detalhe, sem escrita, auth ou dados reais.
 - [x] Cobrir migrations, constraints, filtros, paginação e rotas com PostgreSQL efêmero no CI.
+- [x] Comparar Supabase Auth, Clerk e Better Auth com preços/requisitos oficiais; manter seleção pendente.
+- [x] Definir direção provider-agnostic para UUID interno, auth_identities e profiles separados; sem schema físico ou login real.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI cobre lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
-Comparação preliminar de Supabase Auth, Clerk e Better Auth documentada; shortlist gerenciada e riscos registrados, sem seleção final. Próxima entrega: fechar orçamento, região, DPA, SMTP, MFA e responsabilidade operacional antes de aprovar um provedor; em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
+Comparação preliminar de Supabase Auth, Clerk e Better Auth documentada; shortlist gerenciada e riscos registrados, sem seleção final. ADR-0007 define a fronteira provider-agnostic de identidade, sem migrations ou login real. Próxima entrega: fechar orçamento, região, DPA, SMTP, MFA e responsabilidade operacional antes de aprovar um provedor; depois criar o schema físico de accounts/auth_identities e middleware de sessão. Em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.
