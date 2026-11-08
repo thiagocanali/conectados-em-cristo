@@ -8,11 +8,11 @@ O repositório contém um protótipo frontend local, não um MVP de produção.
 
 - **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash; Node.js 26 LTS recomendado (`.nvmrc`), com Node 22/24 também suportados.
 - **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
-- **Implementado no backend:** prova técnica Fastify local com somente GET /api/v1/health/live, Problem Details sanitizados, request IDs e seis testes via inject.
-- **Não implementado:** API de produto, banco de dados, autenticação segura de servidor, autorização remota, sincronização entre dispositivos, comunidades compartilhadas, chat e moderação operacional.
-- **Backend:** Fastify/TypeScript aprovado e prova local de health check implementada; PostgreSQL como tecnologia e autenticação gerenciada aprovados. Threat model STRIDE, classificação, matriz de autorização e OpenAPI draft documentados; APIs de domínio ainda não implementadas.
+- **Implementado no backend:** prova Fastify local com health check, catálogo público PostgreSQL somente leitura, Problem Details sanitizados, request IDs, 13 testes via inject e 7 testes de integração PostgreSQL.
+- **Não implementado:** autenticação segura de servidor, administração de comunidades, memberships, conteúdo compartilhado, autorização de domínio, sincronização entre dispositivos, chat e moderação operacional. PostgreSQL existe somente como esquema local/CI, sem provedor remoto.
+- **Backend:** Fastify/TypeScript aprovado; health check e catálogo público local implementados com PostgreSQL; autenticação gerenciada aprovada como estratégia, mas provedor pendente. Threat model STRIDE, classificação, matriz de autorização e OpenAPI draft documentados; APIs de domínio ainda não implementadas.
 - **Segurança:** o fluxo de demonstração não solicita nem persiste senhas; a sessão por e-mail é local, falsificável e não é autenticação/autorização. O serviço remove credenciais legadas quando os perfis são lidos. Não armazenar dados sensíveis nem informações pessoais reais.
-- **Validação:** o CI executa lint, vinte e sete testes unitários/contrato (`npm test`) e seis testes locais da API (`npm run api:test`), build e auditoria de dependências em Node.js 26 LTS. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
+- **Validação:** o CI executa lint, trinta e quatro testes unitários/contrato (`npm test`), treze testes locais da API (`npm run api:test`) e sete testes PostgreSQL (`npm run api:db:test`), build e auditoria de dependências em Node.js 26 LTS. Ainda não há cobertura de componentes, integração, acessibilidade ou E2E.
 - **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
 
 ### Fluxos demonstrativos existentes
