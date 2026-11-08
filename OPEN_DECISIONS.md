@@ -1434,3 +1434,8 @@ F-10 depende do modelo de autenticação e autorização real, da matriz de perm
 Adotar **uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor, com contagem agregada simples quando segura e sem lista nominal, pontos ou rankings**. Manter o escopo restrito a publicações no MVP.
 
 **Decisão registrada:** modelo geral aprovado em 2026-11-06. Permanecem pendentes: limites de frequência/antiabuso; regras server-side de autorização; estados de publicação e conta; critérios para exibição da contagem agregada e prevenção de reidentificação; tratamento de reações após saída, bloqueio ou encerramento de conta; acessibilidade e testes de concorrência/idempotência. Esses detalhes não autorizam implementação.
+
+
+### D-14 — Gate de seleção do provedor
+
+Em 2026-11-08 foi criado o checklist de gates em [D-14 auth-provider-decision-gate.md](docs/security/auth-provider-decision-gate.md). A shortlist continua Supabase Auth e Clerk. A seleção permanece bloqueada até resolver região, LGPD/DPA, sessão, CSRF/CORS, e-mail, MFA de equipe, 18+, portabilidade, exclusão, incidentes, orçamento, suporte e prova técnica. Better Auth continua fora da prova enquanto a estratégia gerenciada estiver vigente.
