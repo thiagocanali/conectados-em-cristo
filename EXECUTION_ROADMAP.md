@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 27 testes unitários/contrato, 13 testes da API local e 7 testes PostgreSQL, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 27 testes unitários/contrato, 14 testes da API local e 7 testes PostgreSQL, build e deploy estático).
 - [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
@@ -54,7 +54,7 @@ Tarefas:
 - [x] Cobrir migrations, constraints, filtros, paginação e rotas com PostgreSQL efêmero no CI.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
-- CI cobre lint, 27 testes unitários/contrato, 13 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
+- CI cobre lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
 Próxima entrega: comparar provedores de autenticação gerenciada e fechar o modelo de identidade/sessão; em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
