@@ -16,14 +16,17 @@
     "api:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "api:test": "node --import=tsx --test server/tests/*.test.mts",
     "api:build": "tsc -p server/tsconfig.build.json",
-    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build"
+    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build",
+    "api:migrate": "tsx server/src/db/migrate.mts",
+    "api:db:test": "node --import=tsx --test server/tests/*.db.mts"
   },
   "dependencies": {
     "core-js": "^3.8.3",
     "fastify": "^5.12.8",
     "pinia": "^3.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -39,7 +42,8 @@
     "tailwindcss": "^4.1.17",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vite": "^6.4.5"
+    "vite": "^6.4.5",
+    "@types/pg": "^8.15.6"
   },
   "eslintConfig": {
     "root": true,
