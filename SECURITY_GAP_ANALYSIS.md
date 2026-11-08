@@ -43,7 +43,7 @@ Os números são um snapshot de 2026-11-04 e podem mudar com advisories novos. N
 - O caminho seguro foi executado em runner isolado com `npm audit fix`, sem `--force`.
 - Foram atualizados 46 pacotes no `package-lock.json`; `package.json` permaneceu inalterado.
 - Auditoria completa após a atualização: **0 vulnerabilidades**. Auditoria de produção: **0 vulnerabilidades**.
-- Lint, os 27 testes unitários/contrato, os 6 testes da API local e os builds de frontend/backend passaram no CI da PR #39. O preview Vercel pode estar sujeito a rate limit de builds e não é evidência substituta do CI.
+- O CI da PR #40 validou lint, 27 testes unitários/contrato, seis testes da API local e builds frontend/backend. O CI da PR atual adiciona testes de catálogo com PostgreSQL efêmero; seus resultados serão registrados após execução. O preview Vercel pode estar sujeito a rate limit de builds e não é evidência substituta do CI.
 - O workflow `.github/workflows/ci.yml` mantém auditoria completa e de produção em cada PR, com artefatos temporários por 14 dias.
 
 O resultado é um retrato do lockfile em 2026-11-07, não uma garantia permanente. A auditoria deve continuar sendo executada e novas correções devem permanecer isoladas e sem `--force` quando possível.
