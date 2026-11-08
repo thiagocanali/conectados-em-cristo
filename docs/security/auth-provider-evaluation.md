@@ -78,3 +78,19 @@ Valores em USD, consultados em 2026-11-07. São preços de lista e não incluem 
 Antes de decidir, precisamos confirmar: região de dados, orçamento mensal máximo, necessidade de TOTP para equipe, domínio/e-mail transacional, preferência por senha vs. magic link/OTP, política de exclusão/exportação e responsabilidade por incidentes.
 
 **Nenhum provedor foi selecionado, conectado, provisionado ou contratado. Nenhuma credencial foi criada.**
+
+## Fontes oficiais consultadas
+
+- [Supabase Auth — visão geral](https://supabase.com/docs/guides/auth)
+- [Supabase — billing e quotas](https://supabase.com/docs/guides/platform/billing-on-supabase)
+- [Supabase — preços](https://supabase.com/pricing)
+- [Supabase — rate limits de Auth](https://supabase.com/docs/guides/auth/rate-limits)
+- [Supabase — validação server-side e getClaims](https://supabase.com/docs/guides/auth/server-side/creating-a-client)
+- [Supabase — MFA TOTP](https://supabase.com/docs/guides/auth/auth-mfa/totp)
+- [Clerk — preços](https://clerk.com/pricing)
+- [Clerk — SDK Fastify](https://clerk.com/docs/reference/fastify/overview)
+- [Clerk — session tokens](https://clerk.com/docs/guides/sessions/session-tokens)
+- [Better Auth — integração Fastify](https://better-auth.com/docs/integrations/fastify)
+- [Better Auth — PostgreSQL](https://better-auth.com/docs/adapters/postgresql)
+- [Better Auth — preços da infraestrutura opcional](https://better-auth.com/pricing)
+- [Better Auth — repositório e licença MIT](https://github.com/better-auth/better-auth)
