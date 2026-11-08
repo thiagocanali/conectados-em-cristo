@@ -59,3 +59,36 @@ test('prayer request contract keeps requests private until sharing policy is app
   assert.deepEqual(contract.components.schemas.PrayerRequestCreate.properties.visibility.enum, ['private'])
   assert.deepEqual(contract.components.schemas.PrayerRequest.properties.visibility.enum, ['private'])
 })
+
+test('public community metadata follows a strict privacy allowlist', () => {
+  const schema = contract.components.schemas.CommunityPublicMetadata
+  const allowed = ['id', 'slug', 'name', 'category', 'description', 'rulesSummary', 'joinMode']
+  assert.deepEqual(Object.keys(schema.properties).sort(), [...allowed].sort())
+  assert.deepEqual([...schema.required].sort(), [...allowed].sort())
+  assert.equal(schema.additionalProperties, false)
+  assert.deepEqual(schema.properties.joinMode.enum, ['open', 'approval'])
+  assert.equal('memberCount' in schema.properties, false)
+})
+
+test('public community list and detail never require membership or reveal non-public state', () => {
+  const list = contract.paths['/communities'].get
+  const detail = contract.paths['/communities/{communityId}'].get
+  assert.equal(list.security, undefined)
+  assert.equal(detail.security, undefined)
+  assert.ok(detail.responses['404'])
+  assert.equal(detail.parameters?.[0]?.required, true)
+  assert.equal(detail.parameters?.[0]?.in, 'path')
+  assert.equal(detail.description.includes('não listada'), true)
+})
+
+test('public community pagination has bounded limits and no total count', () => {
+  const list = contract.paths['/communities'].get
+  const limit = list.parameters.find(parameter => parameter.name === 'limit')
+  const cursor = list.parameters.find(parameter => parameter.name === 'cursor')
+  const page = contract.components.schemas.CommunityPage
+  assert.equal(limit.schema.minimum, 1)
+  assert.equal(limit.schema.maximum, 50)
+  assert.equal(limit.schema.default, 20)
+  assert.equal(cursor.schema.maxLength, 512)
+  assert.equal('total' in page.properties, false)
+})
