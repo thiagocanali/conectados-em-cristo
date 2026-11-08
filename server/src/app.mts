@@ -85,6 +85,16 @@ function problemDetail(statusCode: number): string {
     : 'The request could not be processed.'
 }
 
+function isDatabaseUnavailable(error: unknown): boolean {
+  if (typeof error !== 'object' || error === null || !('code' in error) || typeof error.code !== 'string') {
+    return false
+  }
+
+  return error.code.startsWith('08') ||
+    error.code === '57P01' ||
+    ['ECONNREFUSED', 'ETIMEDOUT', 'EHOSTUNREACH'].includes(error.code)
+}
+
 function sendProblem(request: FastifyRequest, reply: FastifyReply, statusCode: number) {
   return reply
     .code(statusCode)
@@ -123,9 +133,11 @@ export function buildApp(options: AppOptions = {}): FastifyInstance {
     const candidateStatus = typeof error === 'object' && error !== null && 'statusCode' in error && typeof error.statusCode === 'number'
       ? error.statusCode
       : 500
-    const statusCode = candidateStatus >= 400 && candidateStatus < 500
-      ? candidateStatus
-      : 500
+    const statusCode = isDatabaseUnavailable(error)
+      ? 503
+      : candidateStatus >= 400 && candidateStatus < 500
+        ? candidateStatus
+        : 500
 
     return sendProblem(request, reply, statusCode)
   })
