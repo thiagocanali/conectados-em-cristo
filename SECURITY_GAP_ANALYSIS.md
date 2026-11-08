@@ -43,7 +43,7 @@ Os números são um snapshot de 2026-11-04 e podem mudar com advisories novos. N
 - O caminho seguro foi executado em runner isolado com `npm audit fix`, sem `--force`.
 - Foram atualizados 46 pacotes no `package-lock.json`; `package.json` permaneceu inalterado.
 - Auditoria completa após a atualização: **0 vulnerabilidades**. Auditoria de produção: **0 vulnerabilidades**.
-- A execução inicial do CI da PR #42, com `npm install` enquanto o lockfile era gerado, passou em lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL, builds frontend/backend e auditoria. A validação final com `npm ci`, após remover o job temporário de lockfile, ainda será executada. O preview Vercel pode estar sujeito a rate limit de builds e não é evidência substituta do CI.
+- O CI final da PR #42, com `npm ci` e PostgreSQL 17 efêmero, passou em lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL, builds frontend/backend e auditorias completa/de produção (0 vulnerabilidades em ambos os recortes). O preview Vercel pode estar sujeito a rate limit de builds e não é evidência substituta do CI.
 - O workflow `.github/workflows/ci.yml` mantém auditoria completa e de produção em cada PR, com artefatos temporários por 14 dias.
 
 O resultado é um retrato do lockfile em 2026-11-07, não uma garantia permanente. A auditoria deve continuar sendo executada e novas correções devem permanecer isoladas e sem `--force` quando possível.
