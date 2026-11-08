@@ -72,12 +72,13 @@ test('public community metadata follows a strict privacy allowlist', () => {
 
 test('public community list and detail never require membership or reveal non-public state', () => {
   const list = contract.paths['/communities'].get
-  const detail = contract.paths['/communities/{communityId}'].get
+  const detailPath = contract.paths['/communities/{communityId}']
+  const detail = detailPath.get
   assert.equal(list.security, undefined)
   assert.equal(detail.security, undefined)
   assert.ok(detail.responses['404'])
-  assert.equal(detail.parameters?.[0]?.required, true)
-  assert.equal(detail.parameters?.[0]?.in, 'path')
+  assert.equal(detailPath.parameters?.[0]?.required, true)
+  assert.equal(detailPath.parameters?.[0]?.in, 'path')
   assert.equal(detail.description.includes('não listada'), true)
 })
 
