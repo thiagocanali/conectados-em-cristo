@@ -66,7 +66,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Estratégia de testes](docs/testing/test-strategy.md) — capacidades atuais e plano de validação.
 - [Threat model](docs/security/threat-model.md) — ameaças e controles iniciais.
 - [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
-- [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints, não implementado.
+- [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints; health check e catálogo público implementados localmente.
 - [Contrato público do catálogo](docs/product/community-catalog-public-contract.md) — allowlist F-07 e limites de privacidade.
 - [Esquema PostgreSQL](docs/database/communities-schema.md) — migration inicial, índices e execução local.
 
