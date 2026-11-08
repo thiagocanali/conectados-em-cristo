@@ -67,6 +67,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Threat model](docs/security/threat-model.md) — ameaças e controles iniciais.
 - [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
 - [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints, não implementado.
+- [Contrato público do catálogo](docs/product/community-catalog-public-contract.md) — allowlist F-07 e limites de privacidade.
 
 
 ## API local (prova técnica)

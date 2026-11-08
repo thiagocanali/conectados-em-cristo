@@ -264,7 +264,7 @@ As propostas ainda pendentes orientam a discussão, mas não autorizam implement
 | F-04 | Operação e SLA | Beta fechado com cobertura declarada, responsáveis e horários reais; priorização por risco, fila centralizada e metas realistas | Capacidade humana, suporte e autorização para abrir o beta | **Aprovada (2026-11-05) — modelo geral** |
 | F-05 | Retenção | Minimização por categoria, finalidade explícita, acesso mínimo, direitos do titular e descarte/anonimização ao fim do prazo aplicável | LGPD, banco, auditoria, denúncias e exclusão | **Aprovada (2026-11-05) — princípios gerais** |
 | F-06 | Elegibilidade | Beta inicial restrito a pessoas com 18 anos ou mais; informação clara, verificação proporcional, análise humana de suspeitas e coleta mínima | Cadastro, acesso, proteção de menores e revisão jurídica | **Aprovada (2026-11-05) — modelo geral** |
-| F-07 | Catálogo e comunidades não listadas | Catálogo público limitado a metadados e contagens agregadas; sem posts ou listas de membros; não listadas por convite/acesso autorizado; participação não vira diretório público | API pública, privacidade e descoberta | **Aprovada (2026-11-05) — modelo geral** |
+| F-07 | Catálogo e comunidades não listadas | Metadados públicos por allowlist; sem posts, comentários, diretórios ou contagens no beta inicial; não listadas por convite/autorização | API pública, privacidade e descoberta | **Aprovada (2026-11-05) — modelo geral + contrato público inicial detalhado (2026-11-07)** |
 | F-08 | Moderador também membro | Permitir participação, com impedimento em decisões nas quais esteja envolvido e encaminhamento a outro moderador/admin | Modelo de papéis, conflitos de interesse e fila de moderação | **Aprovada (2026-11-06) — modelo geral** |
 | F-09 | Edição e exclusão de conteúdo | Edição própria por janela curta; pedido de exclusão com ocultação rápida; exclusão/anonimização conforme F-05 e preservação mínima de evidência com acesso restrito | Integridade, retenção, direitos do titular e moderação | **Aprovada (2026-11-06) — modelo geral** |
 | F-10 | Reações | Uma reação positiva “Apoiar” por membro/publicação, removível pelo próprio autor; contagem agregada apenas quando segura; sem lista nominal ou gamificação | UX, modelo de dados e privacidade | **Aprovada (2026-11-06) — modelo geral** |
@@ -1102,7 +1102,17 @@ F-07 somente poderá ser considerada implementada quando:
 
 Aprovar o **modelo geral de catálogo público de metadados**, sem posts, comentários ou lista nominal de membros. Contagens devem ser agregadas e avaliadas quanto ao risco de reidentificação. Comunidades não listadas ficam fora das superfícies públicas de descoberta e exigem convite ou autorização explícita. A participação em comunidades não deve virar diretório público de pessoas.
 
-**Ainda pendente:** campos exatos, política final de contagens, regras detalhadas de convite/autorização e controles técnicos anti-vazamento/enumeração.
+### Detalhamento do contrato público — 2026-11-07
+
+Para o beta inicial, a allowlist pública fica limitada a `id`, `slug`, `name`, `category`, `description`, `rulesSummary` e `joinMode` (`open` ou `approval`). Limites: UUID; slug até 80; nome até 100; categoria até 60; descrição até 300; resumo de regras até 1.200 caracteres. Respostas rejeitam campos adicionais.
+
+O catálogo lista somente comunidades com estado interno `active` e visibilidade `listed`. O detalhe público retorna 404 genérico para ID inexistente, comunidade não listada, pausada ou arquivada. O modo de entrada é informativo e não concede membership. IDs e slugs não são credenciais.
+
+**Decisão conservadora:** não exibir contagens de membros, posts ou solicitações no beta inicial. F-07 permite avaliar agregados, mas nenhum limiar anti-reidentificação foi aprovado. Sem total de resultados, diretórios, posts, comentários, solicitações ou dados de moderação no catálogo. Paginação estável por nome e ID, cursor opaco limitado a 512 caracteres e `limit` padrão 20/máximo 50.
+
+Contrato técnico: `docs/product/community-catalog-public-contract.md` e OpenAPI `GET /communities` + `GET /communities/{communityId}`. O contrato não está implementado.
+
+**Ainda pendente:** fluxo de convite/autorização para comunidades não listadas; critérios futuros para eventual divulgação de agregados; testes de autorização em execução, rate limit e revisão especializada.
 
 
 ## 19. Pacote de decisão — F-08: moderador que também é membro e conflito de interesses

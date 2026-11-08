@@ -28,6 +28,7 @@ O backend deve validar sessão e estado da conta em toda requisição protegida.
 
 - GET /api/v1/health/live: sinal de vida sem detalhes internos.
 - GET /api/v1/communities: somente metadados públicos do catálogo (F-07).
+- GET /api/v1/communities/{communityId}: detalhe público com a mesma allowlist; 404 genérico para comunidades não públicas.
 
 Nenhum endpoint público deve retornar posts, lista nominal de membros, pedidos de oração privados, denúncias, evidências ou dados internos. O health check local não expõe versão, ambiente ou dependências.
 
@@ -51,6 +52,6 @@ A matriz em [authorization.md](../security/authorization.md) é o baseline por p
 
 ## Limites
 
-O OpenAPI é um contrato de discussão, não prova de implementação. O formato Problem Details e o requestId estão implementados no bootstrap local; as operações de domínio permanecem propostas. Schemas, campos, status HTTP, enumerações, visibilidade, limites e fluxos dependem de revisão de produto, privacidade, moderação e operação. Não iniciar integração com fornecedor, banco remoto ou dados reais nesta etapa.
+A allowlist F-07 está detalhada em [community-catalog-public-contract.md](../product/community-catalog-public-contract.md). O OpenAPI é um contrato de discussão, não prova de implementação. O formato Problem Details e o requestId estão implementados no bootstrap local; as operações de domínio permanecem propostas. Schemas, campos, status HTTP, enumerações, visibilidade, limites e fluxos dependem de revisão de produto, privacidade, moderação e operação. Não iniciar integração com fornecedor, banco remoto ou dados reais nesta etapa.
 
 **Status:** contrato inicial registrado; revisão e implementação pendentes.
