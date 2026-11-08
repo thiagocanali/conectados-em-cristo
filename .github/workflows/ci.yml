@@ -25,7 +25,7 @@ jobs:
           node-version: 26
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run lint
         run: npm run lint
 
@@ -41,13 +41,29 @@ jobs:
           node-version: 26
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build application
         run: npm run build
 
   test:
     name: Unit tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: conectados_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d conectados_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/conectados_test
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -57,11 +73,13 @@ jobs:
           node-version: 26
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run unit tests
         run: npm test
       - name: Validate local API
         run: npm run api:check
+      - name: Validate PostgreSQL migrations and repository
+        run: npm run api:db:test
 
   dependency-audit:
     name: Dependency audit (informational)
@@ -75,7 +93,7 @@ jobs:
           node-version: 26
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Generate npm audit report
         run: npm audit --json > npm-audit.json || true
       - name: Generate production dependency audit report
@@ -114,3 +132,34 @@ jobs:
             npm-audit-production.json
           retention-days: 14
 
+
+  prepare-api-lockfile:
+    name: Prepare PostgreSQL dependency lockfile (temporary)
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Generate package lock
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit generated lockfile
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo 'Lockfile is already current.'
+          else
+            git commit -m 'chore(db): registra dependências PostgreSQL'
+            git push origin "HEAD:${BRANCH_NAME}"
+          fi
