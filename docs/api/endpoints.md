@@ -10,7 +10,8 @@
 | GET | /health/live | Não | Não expor dependências, segredos ou detalhes internos | Público/operacional — implementado localmente |
 | GET | /me | Sim | Somente contexto mínimo da própria conta | Pessoal |
 | PATCH | /me/profile | Sim | Alterar apenas campos próprios e editáveis; validar visibilidade | Pessoal/sensível por campo |
-| GET | /communities | Não | Somente metadados do catálogo público; sem posts ou membros | Público |
+| GET | /communities | Não | Allowlist F-07; somente active + listed; sem contagens, posts ou membros | Público — contrato detalhado, não implementado |
+| GET | /communities/{communityId} | Não | Mesmo metadado público; 404 indistinguível para inexistente/não listado/inativo | Público — contrato detalhado, não implementado |
 | GET | /communities/{communityId}/posts | Sim | Membership ativo, visibilidade, conta elegível e bloqueios | Conteúdo comunitário |
 | POST | /communities/{communityId}/posts | Sim | Membership ativo, conta elegível, limites e regras F-02 | Conteúdo comunitário |
 | PUT | /posts/{postId}/reactions/support | Sim | Membro ativo e post visível; idempotente; F-10 | Pessoal/interno |
@@ -43,4 +44,4 @@
 - Definir política de rate limit, idempotência, requestId e audit log.
 - Revisão de privacidade e jurídica para dados sensíveis e pedidos de oração.
 
-Não criar endpoints para chat, pagamentos, descoberta romântica, ranking, upload público ou analytics sensível sem decisão de produto e segurança.
+O contrato público detalhado está em [community-catalog-public-contract.md](../product/community-catalog-public-contract.md). Não criar endpoints para chat, pagamentos, descoberta romântica, ranking, upload público ou analytics sensível sem decisão de produto e segurança.
