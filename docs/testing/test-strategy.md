@@ -15,7 +15,7 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `npm run build` executa `vite build`.
 - O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
 - A auditoria publica artefato JSON temporário por 14 dias; ela é informativa e não executa atualizações automáticas.
-- Não há cobertura automatizada identificada para componentes, integração, contratos de API, acessibilidade ou E2E.
+- Ainda não há cobertura automatizada de componentes, integração entre API e banco, contratos exercitados contra servidor real, acessibilidade ou E2E; há apenas testes estáticos do documento OpenAPI e testes Fastify locais do bootstrap.
 
 A suíte atual é pequena e não representa cobertura dos fluxos completos do produto. A revisão visual/manual não substitui testes automatizados.
 
