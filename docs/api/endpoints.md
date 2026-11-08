@@ -27,7 +27,9 @@
 
 - Sessão ausente/inválida: 401.
 - Conta, membership ou recurso sem permissão: 403 ou 404 conforme política anti-enumeração a ser definida.
-- Entrada inválida: 422 com erros sem ecoar dados sensíveis.
+- Entrada inválida: 400/422 conforme contrato, com Problem Details genérico sem ecoar dados sensíveis.
+- Erros e rotas inexistentes: `application/problem+json` com UUID `requestId` gerado pelo servidor; `instance` contém apenas o caminho, sem query string.
+- Erro inesperado: 500 genérico; nunca retornar mensagem de exceção ou stack trace. Esse comportamento está implementado no bootstrap local.
 - Conflito de estado, idempotência ou impedimento de conflito de interesse: 409 quando apropriado.
 - Coleções usam cursor e limite máximo.
 - Escritas sensíveis geram audit log sem armazenar payload privado desnecessário.
