@@ -8,7 +8,7 @@ O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar 
 
 Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
-Cadastro, sessão, perfis, questionários e interações são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. Não há API, backend, banco de dados, autenticação de servidor, sincronização entre dispositivos ou moderação remota.
+Cadastro, sessão, perfis, questionários e interações do frontend são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. Há um backend Fastify local com health check e catálogo público somente leitura ligado a PostgreSQL quando `DATABASE_URL` está configurada; não há autenticação de servidor, administração de comunidades, memberships, conteúdo compartilhado ou moderação remota.
 
 > **Aviso:** não use o protótipo para armazenar dados sensíveis ou informações pessoais reais. A sessão local pode ser falsificada e não protege rotas nem dados; ela existe apenas para experimentar a interface. Não reutilize senhas.
 
@@ -53,7 +53,7 @@ Há testes unitários executados por `npm test` (Node.js Test Runner), incluindo
 
 ## Antes de qualquer lançamento real
 
-O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Não há provedores ou credenciais de backend configurados neste repositório.
+O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Nenhum provedor remoto ou credencial de backend está configurado neste repositório.
 
 ## Documentação
 
@@ -68,14 +68,30 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Autorização](docs/security/authorization.md) — matriz inicial por papel e recurso.
 - [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints, não implementado.
 - [Contrato público do catálogo](docs/product/community-catalog-public-contract.md) — allowlist F-07 e limites de privacidade.
+- [Esquema PostgreSQL](docs/database/communities-schema.md) — migration inicial, índices e execução local.
 
 
-## API local (prova técnica)
+## API e catálogo local
 
-O backend ainda é somente uma prova local com Fastify. Para iniciar:
+O backend Fastify oferece health check e leitura pública do catálogo de comunidades. O catálogo exige PostgreSQL local; sem `DATABASE_URL`, as rotas de catálogo retornam 503 em vez de fingir uma lista vazia.
 
-1. Instale as dependências com `npm ci`.
-2. Execute `npm run api:dev`.
-3. Consulte `http://127.0.0.1:3001/api/v1/health/live`.
+1. Instale dependências: `npm ci`.
+2. Inicie um PostgreSQL local (exemplo apenas para desenvolvimento):
+   ```bash
+   docker run --name conectados-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=conectados_dev -p 5432:5432 -d postgres:17-alpine
+   ```
+3. Configure a conexão local:
+   ```bash
+   export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/conectados_dev
+   ```
+4. Aplique o esquema: `npm run api:migrate`.
+5. Inicie a API: `npm run api:dev`.
+6. Consulte:
+   - `GET http://127.0.0.1:3001/api/v1/health/live`
+   - `GET http://127.0.0.1:3001/api/v1/communities`
 
-O único endpoint disponível é o health check. Não há autenticação real, banco, cadastro, dados compartilhados ou rotas de comunidade. Não use dados pessoais ou pedidos de oração reais.
+O banco começa vazio; ainda não existe endpoint administrativo para cadastrar comunidades. Não use dados pessoais, dados religiosos ou pedidos de oração reais. As credenciais do exemplo são exclusivamente locais e não devem ser reutilizadas.
+
+### Testes PostgreSQL
+
+`npm run api:db:test` executa testes destrutivos de migration/schema e exige um banco local separado cujo nome termine em `_test` (por exemplo, `conectados_test`). O teste remove e recria as tabelas `communities` e `schema_migrations`; nunca aponte essa variável para banco de desenvolvimento ou produção. O CI usa um serviço PostgreSQL efêmero.
