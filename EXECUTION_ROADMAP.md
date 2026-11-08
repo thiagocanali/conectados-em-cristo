@@ -11,7 +11,7 @@
 Tarefas:
 - [x] Inventariar estrutura, rotas, stack, workflows e documentação.
 - [x] Classificar as funcionalidades atuais e identificar limites demonstrativos.
-- [x] Confirmar pipeline atual (lint, 24 testes unitários e 4 testes da API local, build e deploy estático).
+- [x] Confirmar pipeline atual (lint, 24 testes unitários e 6 testes da API local, build e deploy estático).
 - [x] Executar auditoria de dependências no lockfile e atualizar 46 pacotes com `npm audit fix` sem `--force`; auditorias completa e de produção zeradas em 2026-11-07.
 - [x] Registrar lacunas de produto, segurança, arquitetura e decisões.
 - [x] Validar posicionamento e escopo estratégico do MVP com o responsável.
@@ -53,7 +53,7 @@ Tarefas:
 - CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
-Próxima entrega: revisar a prova local e preparar a primeira rota de domínio somente após fechar threat model, matriz de autorização e fornecedor de identidade; não usar dados reais. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
+Próxima entrega: revisar a prova local e os contratos; antes da primeira rota de domínio, detalhar os campos públicos de F-07 e fechar as regras de autorização e anti-vazamento. Não usar dados reais. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.
