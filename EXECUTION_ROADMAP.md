@@ -22,7 +22,7 @@ Tarefas:
 - [x] Registrar aprovação de F-04 no modelo operacional geral: beta fechado, cobertura humana declarada, priorização por risco, fila centralizada e metas realistas.
 - [x] Registrar aprovação de F-05 nos princípios gerais de minimização, finalidade explícita, acesso mínimo, direitos do titular, retenção por categoria e preservação restrita de evidências.
 - [x] Registrar aprovação de F-06 no modelo geral: beta 18+, informação clara da idade mínima, verificação proporcional, coleta mínima e análise humana de suspeitas.
-- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; detalhar F-07 (campos públicos, contagens, convite/autorização e anti-vazamento); detalhar F-08 (critérios de conflito, encaminhamento/fallback, acesso pré-impedimento, auditoria e testes server-side); detalhar os itens operacionais pendentes de F-09/F-10.
+- [ ] Definir inventário, bases legais, prazos por categoria, exceções, fluxo de direitos, backups e revisão jurídica; definir responsáveis, escala/horários, SLOs por prioridade, escalonamento e capacidade máxima do beta; detalhar mecanismo de verificação etária, fluxo humano de suspeitas e tratamento de contas inelegíveis; detalhar convite/autorização de comunidades não listadas, política futura de agregados e anti-vazamento em execução (F-07); detalhar F-08 (critérios de conflito, encaminhamento/fallback, acesso pré-impedimento, auditoria e testes server-side); detalhar os itens operacionais pendentes de F-09/F-10.
 - [x] Registrar modelo-base aprovado de papéis, permissões, visibilidade e entrada das comunidades curadas.
 - [x] Elaborar matriz detalhada preliminar de ações e cenários negativos; permanece proposta sujeita a validação.
 - [ ] Fechar exceções, SLAs, apelação, retenção e operação de denúncias.
@@ -48,12 +48,13 @@ Tarefas:
 - [x] Registrar ADR-0005: estratégia de autenticação gerenciada aprovada; fornecedor, configuração concreta de sessão e e-mail transacional continuam pendentes.
 - [x] Criar baseline STRIDE, classificação inicial de privacidade, matriz de autorização e contrato OpenAPI draft, sem implementar API nem coletar dados reais.
 - [x] Adicionar testes automáticos de estrutura, referências, operationIds e autenticação no contrato OpenAPI.
+- [x] Detalhar allowlist pública F-07, ocultação de comunidades não públicas, ausência de contagens no beta e limites de paginação; contrato ainda não implementado.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
 - CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
-Próxima entrega: revisar a prova local e os contratos; antes da primeira rota de domínio, detalhar os campos públicos de F-07 e fechar as regras de autorização e anti-vazamento. Não usar dados reais. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
+Próxima entrega: preparar a primeira fatia de catálogo com persistência e testes de autorização após fechar convites, autorização e operação. Não usar dados reais. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.
