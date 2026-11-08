@@ -65,7 +65,7 @@ Tailwind não é requisito. O projeto usa CSS próprio; preservar até haver raz
 | NestJS | Convenções, DI, módulos e estrutura pronta | Mais abstração e boilerplate para MVP pequeno | Boa alternativa se equipe crescer |
 | Express + TypeScript | Ecossistema amplo e familiar | Exige compor validação, estrutura e padrões | Viável, menos opinativo |
 
-**Decisão aprovada em 2026-11-07:** Fastify + TypeScript em monólito modular, com schemas de validação, serviços de domínio, camada de persistência e OpenAPI. A prova técnica local depende de threat model e contratos mínimos; não autoriza serviço externo.
+**Decisão aprovada em 2026-11-07:** Fastify + TypeScript em monólito modular, com schemas de validação, serviços de domínio, camada de persistência e OpenAPI. O baseline STRIDE, classificação, matriz de autorização e contrato OpenAPI foram documentados; a prova local agora inclui health check, Problem Details, request IDs e catálogo PostgreSQL somente leitura. Nenhum serviço externo foi autorizado.
 
 ## 5. Banco de dados
 
@@ -157,7 +157,8 @@ Valores específicos não foram fixados porque preços, limites e disponibilidad
 3. [x] Migrar build Vue CLI para Vite em PR isolada (#23), sem reescrever as views.
 4. [x] Aprovar Fastify/TypeScript, PostgreSQL como tecnologia e estratégia de autenticação gerenciada (ADRs 0004–0006).
 5. Definir contratos OpenAPI e padrões de validação/testes.
-6. Criar prova técnica local sem banco remoto, auth real ou dados pessoais.
+6. [x] Criar prova técnica local sem banco remoto, auth real ou dados pessoais.
+7. [x] Implementar migration PostgreSQL local e catálogo público somente leitura com testes em banco efêmero.
 7. Comparar fornecedores e custos; provisionar somente após aprovação explícita.
 8. Construir vertical slice após threat model, fornecedores e controles aprovados.
 
@@ -243,6 +244,6 @@ Não avançar em:
 
 ### 14.6 Próxima tarefa técnica
 
-A prova técnica local Fastify com health check, TypeScript estrito e testes já está implementada. Próximo passo: revisar os contratos, a matriz de autorização e o threat model com segurança/privacidade; só então adicionar uma primeira rota de domínio com dados sintéticos. Não conectar banco remoto, auth real ou fornecedores; D-15 a D-17 e custos permanecem pendentes.
+A prova local Fastify, a migration PostgreSQL de comunidades e a primeira fatia pública de catálogo estão implementadas e testadas com PostgreSQL efêmero no CI. Próximo passo: comparar provedores de autenticação gerenciada e fechar identidade/sessão, sem provisionar serviço ou usar dados reais. Convites e gestão administrativa de comunidades também precisam ser detalhados antes de qualquer escrita.
 
 **Estado:** frontend Vue/Vite e direções técnicas de backend/PostgreSQL/auth gerenciada aprovados. D-15 a D-17 e todos os fornecedores continuam pendentes; nenhuma contratação ou provisionamento foi aprovado.

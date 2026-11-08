@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-**Prova técnica local implementada.** Existe um servidor Fastify com apenas GET /api/v1/health/live, sem persistência ou dados de usuário. Não existe API de produto, banco remoto, autenticação real, sincronização ou autorização server-side.
+**Prova local de API implementada.** Fastify oferece GET /api/v1/health/live e catálogo público somente leitura (`GET /api/v1/communities` e `GET /api/v1/communities/{communityId}`) com PostgreSQL quando `DATABASE_URL` está configurada. Há migration inicial de comunidades e testes com PostgreSQL efêmero no CI. Não há provedor remoto, autenticação real, gestão administrativa, membership, conteúdo compartilhado ou autorização de domínio.
 
 ## Direção técnica aprovada
 
@@ -53,19 +53,21 @@ Os módulos compartilham um único deploy e uma única base lógica. Não criar 
 - Política de migrations, backup/restore e retenção operacional.
 - Revisão especializada do threat model, classificação, matriz de autorização e aspectos jurídicos.
 
-Nenhum fornecedor foi escolhido, contratado ou provisionado. Nenhum dado real deve ser usado nesta etapa.
+Nenhum fornecedor foi escolhido, contratado ou provisionado. O catálogo não tem seed nem endpoint de escrita. Nenhum dado real deve ser usado nesta etapa.
 
 ## Próxima sequência permitida
 
 1. [x] Registrar baseline STRIDE, classificação inicial de privacidade e matriz de autorização; revisão especializada continua pendente.
 2. [x] Criar contrato OpenAPI draft com exemplos e endpoints iniciais.
 3. [x] Criar prova técnica local Fastify com health check, validação e testes, sem banco remoto ou auth real.
+4. [x] Criar migration PostgreSQL local e primeira fatia pública de catálogo com allowlist F-07 e testes de integração em banco efêmero.
 4. Revisar ameaça, classificação e contratos com segurança, produto e jurídico.
 5. Comparar fornecedores e custos antes de provisionar qualquer ambiente.
 
-## Fora do escopo da prova técnica inicial
+## Fora do escopo da prova técnica atual
 
-- Banco remoto ou dados pessoais reais.
+- Banco remoto/provedor hospedado ou dados pessoais reais.
+- Escrita/gestão administrativa de comunidades, memberships, convites ou conteúdo.
 - Autenticação real, cadastro de usuários ou recuperação de senha.
 - Upload de arquivos reais.
 - Pedidos de oração reais.

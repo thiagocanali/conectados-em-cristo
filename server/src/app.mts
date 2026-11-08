@@ -1,5 +1,10 @@
 import { randomUUID } from 'node:crypto'
-import Fastify, { type FastifyInstance } from 'fastify'
+import Fastify, {
+  type FastifyInstance,
+  type FastifyReply,
+  type FastifyRequest
+} from 'fastify'
+import type { CommunityRepository } from './communities/community-repository.mjs'
 
 const liveResponseSchema = {
   type: 'object',
@@ -24,6 +29,40 @@ const problemResponseSchema = {
   }
 } as const
 
+const publicCommunitySchema = {
+  type: 'object',
+  required: ['id', 'slug', 'name', 'category', 'description', 'rulesSummary', 'joinMode'],
+  additionalProperties: false,
+  properties: {
+    id: { type: 'string', format: 'uuid' },
+    slug: { type: 'string', maxLength: 80, pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$' },
+    name: { type: 'string', minLength: 1, maxLength: 100 },
+    category: { type: 'string', minLength: 1, maxLength: 60 },
+    description: { type: 'string', maxLength: 300 },
+    rulesSummary: { type: 'string', maxLength: 1200 },
+    joinMode: { type: 'string', enum: ['open', 'approval'] }
+  }
+} as const
+
+const publicCommunityPageSchema = {
+  type: 'object',
+  required: ['items'],
+  additionalProperties: false,
+  properties: {
+    items: { type: 'array', items: publicCommunitySchema },
+    nextCursor: { type: 'string', maxLength: 512 }
+  }
+} as const
+
+interface CommunityListQuery {
+  cursor?: string
+  limit?: number
+}
+
+export interface AppOptions {
+  communityRepository?: CommunityRepository
+}
+
 function problemTitle(statusCode: number): string {
   switch (statusCode) {
     case 400: return 'Bad Request'
@@ -35,6 +74,7 @@ function problemTitle(statusCode: number): string {
     case 415: return 'Unsupported Media Type'
     case 422: return 'Unprocessable Content'
     case 429: return 'Too Many Requests'
+    case 503: return 'Service Unavailable'
     default: return statusCode >= 400 && statusCode < 500 ? 'Client Error' : 'Internal Server Error'
   }
 }
@@ -45,7 +85,31 @@ function problemDetail(statusCode: number): string {
     : 'The request could not be processed.'
 }
 
-export function buildApp(): FastifyInstance {
+function isDatabaseUnavailable(error: unknown): boolean {
+  if (typeof error !== 'object' || error === null || !('code' in error) || typeof error.code !== 'string') {
+    return false
+  }
+
+  return error.code.startsWith('08') ||
+    error.code === '57P01' ||
+    ['ECONNREFUSED', 'ETIMEDOUT', 'EHOSTUNREACH'].includes(error.code)
+}
+
+function sendProblem(request: FastifyRequest, reply: FastifyReply, statusCode: number) {
+  return reply
+    .code(statusCode)
+    .type('application/problem+json')
+    .send({
+      type: 'about:blank',
+      title: problemTitle(statusCode),
+      status: statusCode,
+      detail: problemDetail(statusCode),
+      instance: request.url.split('?')[0],
+      requestId: request.id
+    })
+}
+
+export function buildApp(options: AppOptions = {}): FastifyInstance {
   const app = Fastify({
     logger: false,
     bodyLimit: 16 * 1024,
@@ -62,38 +126,20 @@ export function buildApp(): FastifyInstance {
   })
 
   app.setNotFoundHandler(async (request, reply) => {
-    return reply
-      .code(404)
-      .type('application/problem+json')
-      .send({
-        type: 'about:blank',
-        title: 'Not Found',
-        status: 404,
-        detail: problemDetail(404),
-        instance: request.url.split('?')[0],
-        requestId: request.id
-      })
+    return sendProblem(request, reply, 404)
   })
 
   app.setErrorHandler(async (error, request, reply) => {
     const candidateStatus = typeof error === 'object' && error !== null && 'statusCode' in error && typeof error.statusCode === 'number'
       ? error.statusCode
       : 500
-    const statusCode = candidateStatus >= 400 && candidateStatus < 500
-      ? candidateStatus
-      : 500
+    const statusCode = isDatabaseUnavailable(error)
+      ? 503
+      : candidateStatus >= 400 && candidateStatus < 500
+        ? candidateStatus
+        : 500
 
-    return reply
-      .code(statusCode)
-      .type('application/problem+json')
-      .send({
-        type: 'about:blank',
-        title: problemTitle(statusCode),
-        status: statusCode,
-        detail: problemDetail(statusCode),
-        instance: request.url.split('?')[0],
-        requestId: request.id
-      })
+    return sendProblem(request, reply, statusCode)
   })
 
   app.get('/api/v1/health/live', {
@@ -104,6 +150,56 @@ export function buildApp(): FastifyInstance {
       }
     }
   }, async () => ({ status: 'ok' as const }))
+
+  app.get<{ Querystring: CommunityListQuery }>('/api/v1/communities', {
+    schema: {
+      querystring: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          cursor: { type: 'string', maxLength: 512, pattern: '^[A-Za-z0-9_-]+$' },
+          limit: { type: 'integer', minimum: 1, maximum: 50, default: 20 }
+        }
+      },
+      response: {
+        200: publicCommunityPageSchema,
+        400: problemResponseSchema,
+        503: problemResponseSchema
+      }
+    }
+  }, async (request, reply) => {
+    if (!options.communityRepository) return sendProblem(request, reply, 503)
+
+    return options.communityRepository.listPublic({
+      ...(request.query.cursor ? { cursor: request.query.cursor } : {}),
+      limit: request.query.limit ?? 20
+    })
+  })
+
+  app.get<{ Params: { communityId: string } }>('/api/v1/communities/:communityId', {
+    schema: {
+      params: {
+        type: 'object',
+        required: ['communityId'],
+        additionalProperties: false,
+        properties: {
+          communityId: { type: 'string', format: 'uuid' }
+        }
+      },
+      response: {
+        200: publicCommunitySchema,
+        400: problemResponseSchema,
+        404: problemResponseSchema,
+        503: problemResponseSchema
+      }
+    }
+  }, async (request, reply) => {
+    if (!options.communityRepository) return sendProblem(request, reply, 503)
+
+    const community = await options.communityRepository.getPublicById(request.params.communityId)
+    if (!community) return sendProblem(request, reply, 404)
+    return community
+  })
 
   return app
 }

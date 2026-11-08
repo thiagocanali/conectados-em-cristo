@@ -48,6 +48,22 @@ jobs:
   test:
     name: Unit tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: conectados_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d conectados_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/conectados_test
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -62,6 +78,8 @@ jobs:
         run: npm test
       - name: Validate local API
         run: npm run api:check
+      - name: Validate PostgreSQL migrations and repository
+        run: npm run api:db:test
 
   dependency-audit:
     name: Dependency audit (informational)
@@ -113,4 +131,5 @@ jobs:
             npm-audit.json
             npm-audit-production.json
           retention-days: 14
+
 

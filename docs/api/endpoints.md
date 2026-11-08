@@ -1,7 +1,7 @@
 # Inventário inicial de endpoints
 
 - Revisão: 2026-11-07
-- Estado: propostas documentadas em [openapi.json](openapi.json); somente GET /health/live está implementado localmente.
+- Estado: propostas documentadas em [openapi.json](openapi.json); health check e leitura pública do catálogo estão implementados localmente, com PostgreSQL configurado.
 - Prefixo: /api/v1.
 - Contrato canônico: OpenAPI 3.1 draft 0.1.0.
 
@@ -10,8 +10,8 @@
 | GET | /health/live | Não | Não expor dependências, segredos ou detalhes internos | Público/operacional — implementado localmente |
 | GET | /me | Sim | Somente contexto mínimo da própria conta | Pessoal |
 | PATCH | /me/profile | Sim | Alterar apenas campos próprios e editáveis; validar visibilidade | Pessoal/sensível por campo |
-| GET | /communities | Não | Allowlist F-07; somente active + listed; sem contagens, posts ou membros | Público — contrato detalhado, não implementado |
-| GET | /communities/{communityId} | Não | Mesmo metadado público; 404 indistinguível para inexistente/não listado/inativo | Público — contrato detalhado, não implementado |
+| GET | /communities | Não | Allowlist F-07; somente active + listed; sem contagens, posts ou membros | Público — implementado localmente com PostgreSQL |
+| GET | /communities/{communityId} | Não | Mesmo metadado público; 404 indistinguível para inexistente/não listado/inativo | Público — implementado localmente com PostgreSQL |
 | GET | /communities/{communityId}/posts | Sim | Membership ativo, visibilidade, conta elegível e bloqueios | Conteúdo comunitário |
 | POST | /communities/{communityId}/posts | Sim | Membership ativo, conta elegível, limites e regras F-02 | Conteúdo comunitário |
 | PUT | /posts/{postId}/reactions/support | Sim | Membro ativo e post visível; idempotente; F-10 | Pessoal/interno |
