@@ -136,7 +136,9 @@
 
 **Decisão:** utilizar autenticação gerenciada, evitando implementar hashing, recuperação e ciclo de vida de credenciais próprios sem necessidade. A API será a autoridade para validar identidade, sessão, estado da conta e autorização em cada operação.
 
-**Limites:** Supabase Auth, Clerk e Better Auth ainda precisam de comparação de preço, portabilidade, cookies/sessões, MFA, recuperação, exportação e integração. Priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao fluxo escolhido. Não integrar nem provisionar serviço nesta etapa.
+**Avaliação preliminar concluída em 2026-11-07:** [docs/security/auth-provider-evaluation.md](docs/security/auth-provider-evaluation.md). Shortlist gerenciada: Supabase Auth e Clerk. Supabase Auth é o primeiro candidato técnico, sobretudo se D-13 também escolher Supabase Postgres; Clerk é alternativa dedicada com SDK Fastify e UI pronta, mas MFA requer Pro. Better Auth é open source/self-hosted e exigiria reavaliar a estratégia gerenciada.
+
+**Limites:** ainda não há seleção final. Região, DPA, SMTP, cookies/PKCE, MFA operacional, exportação, exclusão, suporte, orçamento e capacidade de resposta a incidentes precisam de validação. Priorizar cookies HttpOnly, Secure e SameSite, com proteção CSRF/CORS adequada ao fluxo escolhido. Não integrar nem provisionar serviço nesta etapa.
 
 ### D-15 — Imagens
 
