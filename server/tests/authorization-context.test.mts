@@ -89,3 +89,40 @@ test('propagates repository failures instead of treating them as permission', as
     /database unavailable/
   )
 })
+
+test('denies inactive community states even when membership and age are valid', async (t) => {
+  for (const status of ['draft', 'paused', 'archived'] as const) {
+    await t.test(status, async () => {
+      const facts = repository({
+        async findCommunityStatus() { return status }
+      })
+
+      const decision = await evaluateCommunityContentAccess(facts, principal, 'community-1')
+      assert.deepEqual(decision, { allowed: false, reason: 'community_unavailable' })
+    })
+  }
+})
+
+test('denies non-active membership states even when community and age are valid', async (t) => {
+  for (const status of ['pending', 'suspended', 'left', 'removed'] as const) {
+    await t.test(status, async () => {
+      const facts = repository({
+        async findMembershipStatus() { return status }
+      })
+
+      const decision = await evaluateCommunityContentAccess(facts, principal, 'community-1')
+      assert.deepEqual(decision, { allowed: false, reason: 'membership_required' })
+    })
+  }
+})
+
+test('denies explicitly ineligible adults rather than treating the fact as unknown or eligible', async () => {
+  const facts = repository({
+    async findAdultEligibility() { return 'ineligible' }
+  })
+
+  assert.deepEqual(await evaluateCommunityContentAccess(facts, principal, 'community-1'), {
+    allowed: false,
+    reason: 'adult_eligibility_required'
+  })
+})
