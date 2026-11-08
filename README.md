@@ -49,7 +49,7 @@ npm run lint
 npm run build
 ```
 
-Há testes unitários executados por `npm test` (Node.js Test Runner), incluindo utilitários de armazenamento e o serviço de sessão demonstrativa. Ainda não há cobertura automatizada de componentes, integração, acessibilidade ou E2E.
+Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação, outros domínios, componentes, acessibilidade ou E2E.
 
 ## Antes de qualquer lançamento real
 
