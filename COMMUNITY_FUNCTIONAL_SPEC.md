@@ -91,6 +91,16 @@ Cada comunidade deve possuir, no mínimo:
 - Moderadores atribuídos.
 - Contagens derivadas de membros e publicações, sem expor listas privadas.
 
+### Contrato de apresentação pública (F-07, detalhado em 2026-11-07)
+
+Para o catálogo e o detalhe público, a API pode retornar somente: `id` (UUID), `slug` (até 80 caracteres), `name` (até 100), `category` (até 60, rótulo curado), `description` (até 300), `rulesSummary` (até 1.200) e `joinMode` (`open` ou `approval`). Campos adicionais são proibidos por schema.
+
+Somente comunidades com estado interno `active` e visibilidade `listed` aparecem. ID inexistente, comunidade não listada, pausada ou arquivada produzem a mesma resposta pública 404. O modo de entrada é informativo e não concede membership.
+
+**No beta inicial, não exibir contagens de membros, publicações ou solicitações.** Não há limiar anti-reidentificação aprovado. Também não exibir total de resultados, listas nominais, posts, comentários, solicitações, status interno, moderadores, dados administrativos ou de auditoria. A paginação usa `name ASC, id ASC`, cursor opaco até 512 caracteres e limite padrão 20/máximo 50.
+
+O fluxo de convite para comunidades não listadas e qualquer divulgação futura de agregados continuam pendentes.
+
 **Distinção obrigatória:** visibilidade no catálogo e autorização para ler conteúdo são controles diferentes. Mesmo uma comunidade listada não expõe publicações a visitantes nem a membros não autorizados.
 
 Uma comunidade pausada não aceita novas entradas nem novas publicações; conteúdo histórico permanece sujeito às regras de acesso e retenção definidas. Uma comunidade arquivada deixa de aceitar novas interações. A política de preservação ou remoção do histórico precisa ser aprovada antes da implementação.
