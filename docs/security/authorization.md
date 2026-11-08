@@ -1,7 +1,8 @@
 # Autorização — Conectados em Cristo
 
 - Revisão: 2026-11-07
-- Estado: modelo inicial alinhado às decisões F-01 a F-10; detalhes e implementação server-side pendentes.
+- Estado: baseline resumido; matriz detalhada de engenharia em [authorization-matrix-detailed.md](authorization-matrix-detailed.md). Ambas permanecem propostas para validação de produto, privacidade e operação; implementação server-side pendente.
+- Regra: em divergência, aplicar deny by default e registrar decisão antes de liberar acesso.
 
 ## 1. Princípios
 
