@@ -63,7 +63,7 @@ test('unexpected errors return generic details without exception messages', asyn
     const response = await app.inject({ method: 'GET', url: '/__test/error' })
     const body = response.json()
     assert.equal(response.statusCode, 500)
-    assert.match(response.headers['content-type'], /^application\/problem\+json/)
+    assert.match(String(response.headers['content-type']), /^application\/problem\+json/)
     assert.equal(body.title, 'Internal Server Error')
     assert.equal(body.detail, 'An unexpected error occurred.')
     assert.equal(response.body.includes('database password'), false)
@@ -83,7 +83,7 @@ test('malformed JSON is rejected with a sanitized client error', async () => {
       payload: '{'
     })
     assert.equal(response.statusCode, 400)
-    assert.match(response.headers['content-type'], /^application\/problem\+json/)
+    assert.match(String(response.headers['content-type']), /^application\/problem\+json/)
     assert.equal(response.json().title, 'Bad Request')
     assert.equal(response.body.includes('Unexpected end'), false)
   } finally {
