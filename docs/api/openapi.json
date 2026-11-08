@@ -3,7 +3,7 @@
   "info": {
     "title": "Conectados em Cristo API",
     "version": "0.1.0-draft",
-    "description": "Contrato inicial proposto, não implementado. O health check e o tratamento de erros estão implementados localmente; catálogo e demais operações continuam propostas e devem ser revisadas antes de codificação."
+    "description": "Contrato inicial proposto. Health check, Problem Details e catálogo público somente leitura estão implementados localmente; as demais operações continuam propostas e devem ser revisadas antes de codificação."
   },
   "servers": [
     {
@@ -175,7 +175,7 @@
             "$ref": "#/components/responses/ServiceUnavailable"
           }
         },
-        "description": "Retorna somente comunidades com estado interno active e visibilidade listed. Allowlist pública: id, slug, name, category, description, rulesSummary e joinMode. Não expõe contagens, posts, comentários, membros, solicitações ou status interno. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503, nunca uma lista vazia simulada."
+        "description": "Retorna somente comunidades com estado interno active e visibilidade listed. Allowlist pública: id, slug, name, category, description, rulesSummary e joinMode. Não expõe contagens, posts, comentários, membros, solicitações ou status interno. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503, nunca uma lista vazia simulada. Implementado localmente com PostgreSQL; sem banco configurado retorna 503."
       }
     },
     "/communities/{communityId}/posts": {
@@ -622,7 +622,7 @@
           "Communities"
         ],
         "summary": "Retorna metadados públicos de uma comunidade listada",
-        "description": "Retorna 404 genérico para comunidade inexistente, não listada, pausada ou arquivada. Não concede membership nem acesso a conteúdo. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503.",
+        "description": "Retorna 404 genérico para comunidade inexistente, não listada, pausada ou arquivada. Não concede membership nem acesso a conteúdo. Requer conexão PostgreSQL; sem DATABASE_URL a rota retorna 503. Implementado localmente com PostgreSQL; sem banco configurado retorna 503.",
         "operationId": "getPublicCommunity",
         "responses": {
           "200": {
