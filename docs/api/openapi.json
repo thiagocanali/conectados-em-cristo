@@ -3,7 +3,7 @@
   "info": {
     "title": "Conectados em Cristo API",
     "version": "0.1.0-draft",
-    "description": "Contrato inicial proposto, não implementado. Endpoints e schemas devem ser revisados contra MVP, threat model e matriz de autorização antes de codificação."
+    "description": "Contrato inicial proposto, não implementado. O health check local possui respostas Problem Details sanitizadas e requestId; demais operações continuam propostas e devem ser revisadas antes de codificação."
   },
   "servers": [
     {
@@ -608,7 +608,7 @@
     },
     "responses": {
       "BadRequest": {
-        "description": "Requisição malformada.",
+        "description": "Requisição inválida ou malformada; detalhes internos de parser/validação não são retornados.",
         "content": {
           "application/problem+json": {
             "schema": {
@@ -638,7 +638,27 @@
         }
       },
       "ValidationError": {
-        "description": "Falha de validação.",
+        "description": "Falha de validação com mensagem genérica; nunca ecoar valores sensíveis.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso ou rota não encontrado.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Erro interno sem detalhes de implementação.",
         "content": {
           "application/problem+json": {
             "schema": {
@@ -652,29 +672,41 @@
       "Problem": {
         "type": "object",
         "required": [
+          "type",
           "title",
-          "status"
+          "status",
+          "detail",
+          "instance",
+          "requestId"
         ],
+        "additionalProperties": false,
         "properties": {
           "type": {
             "type": "string",
-            "format": "uri-reference"
+            "format": "uri-reference",
+            "description": "Identificador do tipo do problema; about:blank quando não houver tipo específico."
           },
           "title": {
             "type": "string"
           },
           "status": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 599
           },
           "detail": {
-            "type": "string"
+            "type": "string",
+            "description": "Descrição segura, sem mensagens internas ou dados da requisição."
           },
           "instance": {
             "type": "string",
-            "format": "uri-reference"
+            "format": "uri-reference",
+            "description": "Somente o caminho; query string não é incluída."
           },
           "requestId": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador gerado pelo servidor para correlação."
           }
         }
       },
