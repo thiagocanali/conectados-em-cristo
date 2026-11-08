@@ -41,7 +41,7 @@ Restrições de banco garantem slug, unicidade, valores de estado e campos obrig
 
 - Sem `DATABASE_URL`, health check continua disponível e as rotas do catálogo retornam 503, nunca uma lista vazia simulada.
 - Comunidade inexistente, não listada, pausada ou arquivada retorna o mesmo 404 público.
-- A migration não cria dados de exemplo nem usuários administrativos.
+- A migration não cria dados de exemplo nem usuários administrativos. A coluna de autoria administrativa fica pendente até existir uma tabela interna de contas e um contrato de identidade; deve ser adicionada antes de habilitar escrita/administração.
 - Ainda não há endpoints para criar/editar/arquivar comunidades, nem autenticação administrativa. Não publicar ou operar comunidades reais.
 
 ## Limites
