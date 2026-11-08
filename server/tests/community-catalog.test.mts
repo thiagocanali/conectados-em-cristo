@@ -140,3 +140,23 @@ test('invalid repository cursors become generic client errors', async () => {
     await app.close()
   }
 })
+
+test('database connection failures return generic 503 Problem Details', async () => {
+  const repository = createRepository({
+    listPublic: async () => {
+      const error = new Error('database host and credentials must-not-leak') as Error & { code: string }
+      error.code = 'ECONNREFUSED'
+      throw error
+    }
+  })
+  const app = buildApp({ communityRepository: repository })
+  try {
+    const response = await app.inject({ method: 'GET', url: '/api/v1/communities' })
+    assert.equal(response.statusCode, 503)
+    assert.equal(response.json().title, 'Service Unavailable')
+    assert.equal(response.json().detail, 'An unexpected error occurred.')
+    assert.equal(response.body.includes('credentials'), false)
+  } finally {
+    await app.close()
+  }
+})
