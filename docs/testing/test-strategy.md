@@ -51,7 +51,7 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: vinte e sete testes unitários/contrato executáveis, treze testes Fastify e sete testes PostgreSQL; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+Status: vinte e sete testes unitários/contrato executáveis, quatorze testes Fastify e sete testes PostgreSQL; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
 
 
 ## Testes de segurança e autorização planejados para a API
@@ -71,7 +71,7 @@ O contrato OpenAPI atual é draft e não substitui testes contra a implementaç�
 ## Backend Fastify local
 
 - `npm run api:typecheck`: verifica TypeScript estrito em server/.
-- `npm run api:test`: executa treze testes Fastify inject para health check, catálogo público com repositório fake, validação de query/path, requestId não controlado pelo cliente, Problem Details e ausência de rotas de produto.
+- `npm run api:test`: executa quatorze testes Fastify inject para health check, catálogo público com repositório fake, validação de query/path, requestId não controlado pelo cliente, Problem Details e ausência de rotas de produto.
 - `npm run api:build`: compila o servidor para server/dist.
 - `npm run api:check`: executa typecheck, testes e build; incluído no CI.
 
