@@ -1,7 +1,7 @@
 # Autorização — Conectados em Cristo
 
 - Revisão: 2026-11-08
-- Estado: baseline resumido; matriz detalhada de engenharia em [authorization-matrix-detailed.md](authorization-matrix-detailed.md). A matriz detalhada permanece proposta para validação de produto, privacidade e operação. Funções puras de política e testes unitários estão implementados em `server/src/auth/authorization.mts` e `server/tests/authorization.test.mts`; a integração server-side por rota permanece pendente até identidade, papéis, memberships e estados confiáveis existirem.
+- Estado: baseline resumido; matriz detalhada de engenharia em [authorization-matrix-detailed.md](authorization-matrix-detailed.md). A matriz detalhada permanece proposta para validação de produto, privacidade e operação. Funções puras de política e testes unitários estão implementados em `server/src/auth/authorization.mts` e `server/tests/authorization.test.mts`. O carregador server-side de contexto para leitura de conteúdo comunitário e seus testes estão em `server/src/auth/authorization-context.mts` e `server/tests/authorization-context.test.mts`; ele usa interfaces de repositório, sem adapter PostgreSQL ou integração em rota. A autorização efetiva por rota permanece pendente até identidade real, papéis, memberships e estados confiáveis existirem.
 - Regra: em divergência, aplicar deny by default e registrar decisão antes de liberar acesso.
 
 ## 1. Princípios
