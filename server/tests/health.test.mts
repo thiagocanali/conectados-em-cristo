@@ -1,6 +1,5 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { validate as isUuid } from 'uuid'
 import { buildApp } from '../src/app.mjs'
 
 test('liveness endpoint responds with a minimal status', async () => {
@@ -11,7 +10,7 @@ test('liveness endpoint responds with a minimal status', async () => {
     assert.deepEqual(response.json(), { status: 'ok' })
     assert.equal(response.headers['cache-control'], 'no-store')
     assert.equal(response.headers['x-content-type-options'], 'nosniff')
-    assert.ok(isUuid(response.headers['x-request-id']))
+    assert.match(response.headers['x-request-id'], /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
   } finally {
     await app.close()
   }
