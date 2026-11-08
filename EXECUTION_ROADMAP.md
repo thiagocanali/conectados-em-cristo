@@ -57,7 +57,7 @@ Tarefas:
 - CI cobre lint, 27 testes unitários/contrato, 14 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
-Próxima entrega: comparar provedores de autenticação gerenciada e fechar o modelo de identidade/sessão; em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
+Comparação preliminar de Supabase Auth, Clerk e Better Auth documentada; shortlist gerenciada e riscos registrados, sem seleção final. Próxima entrega: fechar orçamento, região, DPA, SMTP, MFA e responsabilidade operacional antes de aprovar um provedor; em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
 
 Critérios de aceite:
 - Nenhuma senha/credencial de usuário em localStorage.

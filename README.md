@@ -69,6 +69,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Contrato OpenAPI](docs/api/openapi.json) — draft de endpoints; health check e catálogo público implementados localmente.
 - [Contrato público do catálogo](docs/product/community-catalog-public-contract.md) — allowlist F-07 e limites de privacidade.
 - [Esquema PostgreSQL](docs/database/communities-schema.md) — migration inicial, índices e execução local.
+- [Avaliação de autenticação](docs/security/auth-provider-evaluation.md) — comparação de Supabase Auth, Clerk e Better Auth; nenhum provedor selecionado.
 
 
 ## API e catálogo local
