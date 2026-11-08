@@ -54,7 +54,7 @@ Tarefas:
 - [x] Cobrir migrations, constraints, filtros, paginação e rotas com PostgreSQL efêmero no CI.
 - Implementar sessão, recuperação, verificação, encerramento e exclusão.
 - Autorização server-side, rate limiting, validação e tratamento de erros.
-- CI já cobre lint, 19 testes unitários, build de produção e auditoria completa/de produção de dependências; integração e E2E continuam pendentes.
+- CI cobre lint, 34 testes unitários/contrato, 13 testes Fastify, 7 testes PostgreSQL do catálogo, builds frontend/backend e auditoria completa/de produção; integração de outros domínios e E2E continuam pendentes.
 - Ambientes local, preview e homologação.
 
 Próxima entrega: comparar provedores de autenticação gerenciada e fechar o modelo de identidade/sessão; em paralelo, detalhar convites e gestão administrativa. Não habilitar escrita nem dados reais até autorização, revisão jurídica e operação estarem prontas. Revisão de segurança/privacidade continua necessária; D-15 a D-17 (fornecedores) e custos permanecem pendentes.
