@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { Pool } from 'pg'
 import { applyMigrations } from '../src/db/migrate.mjs'
 import { PostgresCommunityRepository } from '../src/communities/community-repository.mjs'
+import { buildApp } from '../src/app.mjs'
 
 const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) throw new Error('DATABASE_URL is required for database integration tests')
@@ -109,4 +110,25 @@ test('catalog rows contain only public metadata and schema has no count columns'
   assert.equal(names.includes('member_count'), false)
   assert.equal(names.includes('post_count'), false)
   assert.equal(names.includes('request_count'), false)
+})
+
+test('Fastify catalog endpoints read only public PostgreSQL rows', async () => {
+  const repository = new PostgresCommunityRepository(pool)
+  const app = buildApp({ communityRepository: repository })
+  try {
+    const list = await app.inject({ method: 'GET', url: '/api/v1/communities?limit=1' })
+    assert.equal(list.statusCode, 200)
+    assert.equal(list.json().items.length, 1)
+    assert.equal(list.json().items[0].name, 'Alpha')
+    assert.equal('memberCount' in list.json().items[0], false)
+
+    const hidden = await app.inject({
+      method: 'GET',
+      url: `/api/v1/communities/${hiddenId}`
+    })
+    assert.equal(hidden.statusCode, 404)
+    assert.equal(hidden.json().title, 'Not Found')
+  } finally {
+    await app.close()
+  }
 })
