@@ -10,7 +10,7 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `tests/safeStorage.test.mjs` cobre parsing seguro de JSON e validação do progresso do teste de dons.
 - `tests/demoAuth.test.mjs` cobre cadastro demonstrativo, login/logout, remoção de credenciais legadas, limpeza da sessão e descarte seguro de storage inválido.
 - `tests/demoAuthGuard.test.mjs` cobre rotas públicas/privadas, redirecionamento, retorno ao destino original e validação de sessão.
-- `tests/openapi.test.mjs` valida JSON OpenAPI 3.1, referências internas, operationIds, parâmetros de rota, autenticação em operações de escrita e privacidade por padrão de pedidos de oração.
+- `tests/openapi.test.mjs` valida JSON OpenAPI 3.1, referências internas, operationIds, parâmetros de rota, autenticação em operações de escrita, privacidade por padrão de pedidos de oração e allowlist/paginação do catálogo público F-07.
 - `npm run lint` executa ESLint CLI diretamente.
 - `npm run build` executa `vite build`.
 - O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
@@ -51,7 +51,7 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: vinte e quatro testes unitários executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+Status: vinte e sete testes unitários/contrato executáveis; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
 
 
 ## Testes de segurança e autorização planejados para a API
