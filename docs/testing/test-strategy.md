@@ -71,7 +71,7 @@ O contrato OpenAPI atual é draft e não substitui testes contra a implementaç�
 ## Backend Fastify local
 
 - `npm run api:typecheck`: verifica TypeScript estrito em server/.
-- `npm run api:test`: executa quatro testes Fastify inject para health check, headers, ausência de vazamento e ausência de rotas de produto.
+- `npm run api:test`: executa seis testes Fastify inject para health check, headers, requestId não controlado pelo cliente, Problem Details para 404, sanitização de 500, JSON malformado e ausência de rotas de produto.
 - `npm run api:build`: compila o servidor para server/dist.
 - `npm run api:check`: executa typecheck, testes e build; incluído no CI.
 
