@@ -89,7 +89,8 @@ test('public catalog query filters inactive and unlisted communities and paginat
 test('public detail hides unlisted and inactive communities', async () => {
   const repository = new PostgresCommunityRepository(pool)
   assert.equal(await repository.getPublicById(hiddenId), null)
-  assert.equal(await repository.getPublicById(publicIds[0]), (await repository.getPublicById(publicIds[0]))?.id)
+  const visible = await repository.getPublicById(publicIds[0])
+  assert.equal(visible?.id, publicIds[0])
 })
 
 test('catalog rows contain only public metadata and schema has no count columns', async () => {
