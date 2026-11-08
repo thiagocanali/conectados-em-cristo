@@ -51,7 +51,7 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: trinta e quatro testes unitários/contrato executáveis, treze testes Fastify e sete testes PostgreSQL; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+Status: vinte e sete testes unitários/contrato executáveis, treze testes Fastify e sete testes PostgreSQL; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
 
 
 ## Testes de segurança e autorização planejados para a API
