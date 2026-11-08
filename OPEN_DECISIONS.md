@@ -254,7 +254,7 @@ Pedidos de oração permanecem como objetivo de produto, mas sua disponibilizaç
 - D-09: idiomas além do português brasileiro.
 - D-10: região e formato do beta.
 - D-15 a D-17: fornecedores de storage, e-mail e hospedagem; limites e orçamento.
-- D-18 a D-22: capacidade de moderação, idade mínima, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta.
+- D-18 e D-20 a D-22: capacidade de moderação, revisão jurídica, disponibilidade/orçamento e critérios operacionais de beta; D-19 está aprovada quanto à idade mínima de 18 anos, mas o mecanismo de verificação e o fluxo de suspeitas continuam pendentes.
 
 A aprovação destas decisões de produto não autoriza contratação de serviços, provisionamento de infraestrutura, migração de dados ou mudanças irreversíveis. Antes da Fase 1, fechar as decisões técnicas e operacionais bloqueadoras e registrar ADRs.
 
