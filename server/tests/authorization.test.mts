@@ -49,6 +49,7 @@ test('only the persisted owner can edit active content during the edit window', 
   assert.equal(canEditOwnedContent({ ...input, ownerAccountId: 'account-b' }).reason, 'not_owner')
   assert.equal(canEditOwnedContent({ ...input, editWindowOpen: false }).reason, 'edit_window_closed')
   assert.equal(canEditOwnedContent({ ...input, resourceStatus: 'hidden' }).reason, 'resource_unavailable')
+  assert.equal(canEditOwnedContent({ ...input, actorAccountId: '  ', ownerAccountId: '  ' }).reason, 'resource_unavailable')
 })
 
 test('direct interaction is denied when either account is inactive or a global block exists', () => {
@@ -63,6 +64,7 @@ test('direct interaction is denied when either account is inactive or a global b
   assert.equal(canInteractDirectly({ ...input, blockedEitherDirection: true }).reason, 'blocked')
   assert.equal(canInteractDirectly({ ...input, targetStatus: 'suspended' }).reason, 'account_unavailable')
   assert.equal(canInteractDirectly({ ...input, targetAccountId: 'account-a' }).allowed, false)
+  assert.equal(canInteractDirectly({ ...input, actorAccountId: '  ' }).reason, 'resource_unavailable')
 })
 
 test('moderators can access only assigned-community cases without a conflict', () => {
@@ -77,6 +79,7 @@ test('moderators can access only assigned-community cases without a conflict', (
   assert.equal(canAccessModerationCase(input).allowed, true)
   assert.equal(canAccessModerationCase({ ...input, caseCommunityId: 'community-b' }).reason, 'scope_mismatch')
   assert.equal(canAccessModerationCase({ ...input, hasConflictOfInterest: true }).reason, 'conflict_of_interest')
+  assert.equal(canAccessModerationCase({ ...input, caseCommunityId: '  ' }).reason, 'resource_unavailable')
 })
 
 test('administrators need an explicit justified purpose and cannot bypass conflicts', () => {
@@ -116,6 +119,7 @@ test('private prayer requests are visible to their owner only', () => {
   }
   assert.equal(canReadPrayerRequest(input).allowed, true)
   assert.equal(canReadPrayerRequest({ ...input, actorAccountId: 'member-b' }).reason, 'not_in_audience')
+  assert.equal(canReadPrayerRequest({ ...input, actorAccountId: '  ', ownerAccountId: '  ' }).reason, 'resource_unavailable')
 })
 
 test('selected prayer requests require explicit audience membership and do not grant moderator bypass', () => {
@@ -155,4 +159,5 @@ test('members can remove only their own reactions', () => {
   assert.equal(canRemoveReaction(input).allowed, true)
   assert.equal(canRemoveReaction({ ...input, reactionOwnerAccountId: 'member-b' }).reason, 'not_owner')
   assert.equal(canRemoveReaction({ ...input, accountStatus: 'restricted' }).reason, 'account_unavailable')
+  assert.equal(canRemoveReaction({ ...input, actorAccountId: '  ', reactionOwnerAccountId: '  ' }).reason, 'resource_unavailable')
 })
