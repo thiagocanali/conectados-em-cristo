@@ -1,7 +1,8 @@
-import type { AuthenticatedPrincipal } from './identity.mjs'
+import type { AccountStatus, AuthenticatedPrincipal } from './identity.mjs'
 import {
   canReadCommunityContent,
   canEditOwnedContent,
+  canInteractDirectly,
   canRemoveReaction,
   type OwnedContentPolicyInput,
   type AdultEligibility,
@@ -16,16 +17,6 @@ export interface CommunityAuthorizationFactsRepository {
   findAdultEligibility(accountId: string): Promise<AdultEligibility | null>
 }
 
-/**
- * Loads the minimum trusted facts required for community-content access.
- *
- * The principal must come from the server-side identity boundary. The
- * community ID is only a resource selector; membership, age eligibility and
- * community state are always loaded from trusted repositories.
- *
- * Repository failures intentionally propagate to the application boundary
- * (normally mapped to a generic 503). Missing records fail closed.
- */
 export async function evaluateCommunityContentAccess(
   repository: CommunityAuthorizationFactsRepository,
   principal: AuthenticatedPrincipal,
@@ -58,7 +49,6 @@ export async function evaluateCommunityContentAccess(
   })
 }
 
-
 export interface OwnedContentAuthorizationFacts {
   ownerAccountId: string
   resourceStatus: OwnedContentPolicyInput['resourceStatus']
@@ -71,6 +61,45 @@ export interface OwnedContentAuthorizationFactsRepository {
 
 export interface ReactionAuthorizationFactsRepository {
   findReactionOwnerAccountId(reactionId: string): Promise<string | null>
+}
+
+export interface DirectInteractionAuthorizationFactsRepository {
+  findAccountStatus(accountId: string): Promise<AccountStatus | null>
+  hasBlockEitherDirection(actorAccountId: string, targetAccountId: string): Promise<boolean>
+}
+
+/** The target ID selects a record; target status and block state come from trusted persistence. */
+export async function evaluateDirectInteractionAccess(
+  repository: DirectInteractionAuthorizationFactsRepository,
+  principal: AuthenticatedPrincipal,
+  targetAccountId: string
+): Promise<PolicyDecision> {
+  if (principal.accountStatus !== 'active') {
+    return canInteractDirectly({
+      actorStatus: principal.accountStatus,
+      targetStatus: 'deleted',
+      actorAccountId: principal.accountId,
+      targetAccountId,
+      blockedEitherDirection: true
+    })
+  }
+
+  if (!principal.accountId.trim() || !targetAccountId.trim() || principal.accountId === targetAccountId) {
+    return { allowed: false, reason: 'resource_unavailable' }
+  }
+
+  const [targetStatus, blockedEitherDirection] = await Promise.all([
+    repository.findAccountStatus(targetAccountId),
+    repository.hasBlockEitherDirection(principal.accountId, targetAccountId)
+  ])
+
+  return canInteractDirectly({
+    actorStatus: principal.accountStatus,
+    targetStatus: targetStatus ?? 'deleted',
+    actorAccountId: principal.accountId,
+    targetAccountId,
+    blockedEitherDirection
+  })
 }
 
 /**
@@ -108,10 +137,7 @@ export async function evaluateOwnedContentEditAccess(
   })
 }
 
-/**
- * Reaction ownership is always resolved from persistence; a request cannot
- * supply the owner account ID used by the policy.
- */
+/** Reaction ownership is always resolved from persistence; a request cannot supply its owner. */
 export async function evaluateReactionRemovalAccess(
   repository: ReactionAuthorizationFactsRepository,
   principal: AuthenticatedPrincipal,
