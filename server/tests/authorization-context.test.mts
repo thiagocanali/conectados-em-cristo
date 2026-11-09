@@ -212,3 +212,67 @@ test('propagates content and reaction repository failures', async () => {
     /reaction store unavailable/
   )
 })
+
+
+test('loads target account and bidirectional block facts before direct interaction', async () => {
+  const { evaluateDirectInteractionAccess } = await import('../src/auth/authorization-context.mjs')
+  const calls: string[] = []
+  const facts = {
+    async findAccountStatus(id: string) { calls.push('account:' + id); return 'active' as const },
+    async hasBlockEitherDirection(actor: string, target: string) {
+      calls.push('block:' + actor + ':' + target)
+      return false
+    }
+  }
+
+  assert.deepEqual(await evaluateDirectInteractionAccess(facts, principal, 'account-2'), {
+    allowed: true,
+    reason: 'allowed'
+  })
+  assert.deepEqual(calls.sort(), ['account:account-2', 'block:account-1:account-2'])
+})
+
+test('denies missing, unavailable, self and blocked direct-interaction targets', async () => {
+  const { evaluateDirectInteractionAccess } = await import('../src/auth/authorization-context.mjs')
+  const missing = {
+    async findAccountStatus() { return null },
+    async hasBlockEitherDirection() { return false }
+  }
+  const suspended = {
+    async findAccountStatus() { return 'suspended' as const },
+    async hasBlockEitherDirection() { return false }
+  }
+  const blocked = {
+    async findAccountStatus() { return 'active' as const },
+    async hasBlockEitherDirection() { return true }
+  }
+
+  assert.equal((await evaluateDirectInteractionAccess(missing, principal, 'account-2')).reason, 'account_unavailable')
+  assert.equal((await evaluateDirectInteractionAccess(suspended, principal, 'account-2')).reason, 'account_unavailable')
+  assert.equal((await evaluateDirectInteractionAccess(blocked, principal, 'account-2')).reason, 'blocked')
+  assert.equal((await evaluateDirectInteractionAccess(blocked, principal, 'account-1')).reason, 'resource_unavailable')
+})
+
+test('does not query direct-interaction facts for inactive principals or invalid identifiers', async () => {
+  const { evaluateDirectInteractionAccess } = await import('../src/auth/authorization-context.mjs')
+  let calls = 0
+  const facts = {
+    async findAccountStatus() { calls++; return 'active' as const },
+    async hasBlockEitherDirection() { calls++; return false }
+  }
+
+  assert.equal((await evaluateDirectInteractionAccess(facts, { ...principal, accountStatus: 'restricted' }, 'account-2')).reason, 'account_unavailable')
+  assert.equal((await evaluateDirectInteractionAccess(facts, principal, '  ')).reason, 'resource_unavailable')
+  assert.equal(calls, 0)
+})
+
+test('propagates direct-interaction repository failures', async () => {
+  const { evaluateDirectInteractionAccess } = await import('../src/auth/authorization-context.mjs')
+  await assert.rejects(
+    () => evaluateDirectInteractionAccess({
+      async findAccountStatus() { throw new Error('account store unavailable') },
+      async hasBlockEitherDirection() { return false }
+    }, principal, 'account-2'),
+    /account store unavailable/
+  )
+})
