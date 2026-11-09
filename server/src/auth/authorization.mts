@@ -71,6 +71,7 @@ export interface OwnedContentPolicyInput {
 /** Ownership is checked against the persisted owner, never a client-supplied author ID. */
 export function canEditOwnedContent(input: OwnedContentPolicyInput): PolicyDecision {
   if (input.accountStatus !== 'active') return deny('account_unavailable')
+  if (!input.actorAccountId.trim() || !input.ownerAccountId.trim()) return deny('resource_unavailable')
   if (input.actorAccountId !== input.ownerAccountId) return deny('not_owner')
   if (input.resourceStatus !== 'active') return deny('resource_unavailable')
   if (!input.editWindowOpen) return deny('edit_window_closed')
@@ -88,6 +89,7 @@ export interface DirectInteractionPolicyInput {
 /** Global blocks deny direct interaction in either direction, not community-content visibility. */
 export function canInteractDirectly(input: DirectInteractionPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active' || input.targetStatus !== 'active') return deny('account_unavailable')
+  if (!input.actorAccountId.trim() || !input.targetAccountId.trim()) return deny('resource_unavailable')
   if (input.actorAccountId === input.targetAccountId) return deny('resource_unavailable')
   if (input.blockedEitherDirection) return deny('blocked')
   return allow()
@@ -108,6 +110,7 @@ export interface ModerationPolicyInput {
 /** Moderation role and assignments must be loaded from trusted persistence. */
 export function canAccessModerationCase(input: ModerationPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active') return deny('account_unavailable')
+  if (!input.actorAccountId.trim() || !input.caseCommunityId.trim()) return deny('resource_unavailable')
   if (input.role !== 'moderator' && input.role !== 'administrator') return deny('role_required')
   if (input.hasConflictOfInterest) return deny('conflict_of_interest')
 
@@ -135,6 +138,7 @@ export interface PrayerRequestPolicyInput {
  */
 export function canReadPrayerRequest(input: PrayerRequestPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active') return deny('account_unavailable')
+  if (!input.actorAccountId.trim() || !input.ownerAccountId.trim()) return deny('resource_unavailable')
   if (input.actorAccountId === input.ownerAccountId) return allow()
   if (input.visibility === 'private') return deny('not_in_audience')
   if (input.visibility === 'public') return deny('unsupported_visibility')
@@ -151,6 +155,7 @@ export interface ReactionRemovalPolicyInput {
 /** A member can remove only their own reaction. */
 export function canRemoveReaction(input: ReactionRemovalPolicyInput): PolicyDecision {
   if (input.accountStatus !== 'active') return deny('account_unavailable')
+  if (!input.actorAccountId.trim() || !input.reactionOwnerAccountId.trim()) return deny('resource_unavailable')
   if (input.actorAccountId !== input.reactionOwnerAccountId) return deny('not_owner')
   return allow()
 }
