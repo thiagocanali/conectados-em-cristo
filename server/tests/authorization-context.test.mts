@@ -126,3 +126,89 @@ test('denies explicitly ineligible adults rather than treating the fact as unkno
     reason: 'adult_eligibility_required'
   })
 })
+
+
+test('loads persisted content ownership and edit facts before authorizing edits', async () => {
+  const calls: string[] = []
+  const facts = {
+    async findOwnedContentFacts(contentId: string) {
+      calls.push(contentId)
+      return { ownerAccountId: 'account-1', resourceStatus: 'active' as const, editWindowOpen: true }
+    }
+  }
+  const { evaluateOwnedContentEditAccess } = await import('../src/auth/authorization-context.mjs')
+
+  assert.deepEqual(await evaluateOwnedContentEditAccess(facts, principal, 'content-1'), {
+    allowed: true,
+    reason: 'allowed'
+  })
+  assert.deepEqual(calls, ['content-1'])
+})
+
+test('denies edits for non-owners, hidden content, closed windows and missing records', async () => {
+  const { evaluateOwnedContentEditAccess } = await import('../src/auth/authorization-context.mjs')
+  const owner = { async findOwnedContentFacts() {
+    return { ownerAccountId: 'account-2', resourceStatus: 'active' as const, editWindowOpen: true }
+  } }
+  const hidden = { async findOwnedContentFacts() {
+    return { ownerAccountId: 'account-1', resourceStatus: 'hidden' as const, editWindowOpen: true }
+  } }
+  const closed = { async findOwnedContentFacts() {
+    return { ownerAccountId: 'account-1', resourceStatus: 'active' as const, editWindowOpen: false }
+  } }
+  const missing = { async findOwnedContentFacts() { return null } }
+
+  assert.equal((await evaluateOwnedContentEditAccess(owner, principal, 'content-1')).reason, 'not_owner')
+  assert.equal((await evaluateOwnedContentEditAccess(hidden, principal, 'content-1')).reason, 'resource_unavailable')
+  assert.equal((await evaluateOwnedContentEditAccess(closed, principal, 'content-1')).reason, 'edit_window_closed')
+  assert.equal((await evaluateOwnedContentEditAccess(missing, principal, 'content-1')).reason, 'resource_unavailable')
+})
+
+test('does not query content facts for inactive principals or invalid identifiers', async () => {
+  const { evaluateOwnedContentEditAccess } = await import('../src/auth/authorization-context.mjs')
+  let calls = 0
+  const facts = { async findOwnedContentFacts() {
+    calls++
+    return { ownerAccountId: 'account-1', resourceStatus: 'active' as const, editWindowOpen: true }
+  } }
+
+  assert.equal((await evaluateOwnedContentEditAccess(facts, { ...principal, accountStatus: 'suspended' }, 'content-1')).reason, 'account_unavailable')
+  assert.equal((await evaluateOwnedContentEditAccess(facts, principal, '  ')).reason, 'resource_unavailable')
+  assert.equal(calls, 0)
+})
+
+test('loads reaction owner from persistence and only permits its owner to remove it', async () => {
+  const { evaluateReactionRemovalAccess } = await import('../src/auth/authorization-context.mjs')
+  const own = { async findReactionOwnerAccountId(id: string) {
+    assert.equal(id, 'reaction-1')
+    return 'account-1'
+  } }
+  const other = { async findReactionOwnerAccountId() { return 'account-2' } }
+  const missing = { async findReactionOwnerAccountId() { return null } }
+
+  assert.deepEqual(await evaluateReactionRemovalAccess(own, principal, 'reaction-1'), { allowed: true, reason: 'allowed' })
+  assert.equal((await evaluateReactionRemovalAccess(other, principal, 'reaction-1')).reason, 'not_owner')
+  assert.equal((await evaluateReactionRemovalAccess(missing, principal, 'reaction-1')).reason, 'resource_unavailable')
+})
+
+test('does not query reaction facts for inactive principals or invalid identifiers', async () => {
+  const { evaluateReactionRemovalAccess } = await import('../src/auth/authorization-context.mjs')
+  let calls = 0
+  const facts = { async findReactionOwnerAccountId() { calls++; return 'account-1' } }
+
+  assert.equal((await evaluateReactionRemovalAccess(facts, { ...principal, accountStatus: 'restricted' }, 'reaction-1')).reason, 'account_unavailable')
+  assert.equal((await evaluateReactionRemovalAccess(facts, principal, '  ')).reason, 'resource_unavailable')
+  assert.equal(calls, 0)
+})
+
+test('propagates content and reaction repository failures', async () => {
+  const { evaluateOwnedContentEditAccess, evaluateReactionRemovalAccess } = await import('../src/auth/authorization-context.mjs')
+  await assert.rejects(
+    () => evaluateOwnedContentEditAccess({ async findOwnedContentFacts() { throw new Error('content store unavailable') } }, principal, 'content-1'),
+    /content store unavailable/
+  )
+  await assert.rejects(
+    () => evaluateReactionRemovalAccess({ async findReactionOwnerAccountId() { throw new Error('reaction store unavailable') } }, principal, 'reaction-1'),
+    /reaction store unavailable/
+  )
+})
