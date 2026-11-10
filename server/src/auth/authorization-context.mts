@@ -3,6 +3,7 @@ import {
   canReadCommunityContent,
   canEditOwnedContent,
   canInteractDirectly,
+  canAccessModerationCase,
   canRemoveReaction,
   type OwnedContentPolicyInput,
   type AdultEligibility,
@@ -61,6 +62,42 @@ export interface OwnedContentAuthorizationFactsRepository {
 
 export interface ReactionAuthorizationFactsRepository {
   findReactionOwnerAccountId(reactionId: string): Promise<string | null>
+}
+
+export interface ModerationAuthorizationFactsRepository {
+  findCaseCommunityId(caseId: string): Promise<string | null>
+  findPlatformRole(accountId: string): Promise<'member' | 'moderator' | 'administrator' | null>
+  findAssignedCommunityIds(accountId: string): Promise<readonly string[]>
+  hasModerationConflict(accountId: string, caseId: string): Promise<boolean>
+}
+
+export async function evaluateModerationCaseAccess(
+  repository: ModerationAuthorizationFactsRepository,
+  principal: AuthenticatedPrincipal,
+  caseId: string,
+  justification?: string
+): Promise<PolicyDecision> {
+  if (principal.accountStatus !== 'active') {
+    return canAccessModerationCase({ actorStatus: principal.accountStatus, role: 'member', actorAccountId: principal.accountId, caseCommunityId: '', assignedCommunityIds: [], hasConflictOfInterest: false })
+  }
+  if (!principal.accountId.trim() || !caseId.trim()) return { allowed: false, reason: 'resource_unavailable' }
+  const caseCommunityId = await repository.findCaseCommunityId(caseId)
+  if (!caseCommunityId?.trim()) return { allowed: false, reason: 'resource_unavailable' }
+  const [role, assignedCommunityIds, hasConflictOfInterest] = await Promise.all([
+    repository.findPlatformRole(principal.accountId),
+    repository.findAssignedCommunityIds(principal.accountId),
+    repository.hasModerationConflict(principal.accountId, caseId)
+  ])
+  return canAccessModerationCase({
+    actorStatus: principal.accountStatus,
+    role: role ?? 'member',
+    actorAccountId: principal.accountId,
+    caseCommunityId,
+    assignedCommunityIds,
+    hasConflictOfInterest,
+    justifiedNeed: role === 'administrator',
+    justification
+  })
 }
 
 export interface DirectInteractionAuthorizationFactsRepository {

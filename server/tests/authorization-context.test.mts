@@ -276,3 +276,57 @@ test('propagates direct-interaction repository failures', async () => {
     /account store unavailable/
   )
 })
+
+
+test('loads moderation case scope, role and conflict facts before authorizing access', async () => {
+  const { evaluateModerationCaseAccess } = await import('../src/auth/authorization-context.mjs')
+  const calls: string[] = []
+  const facts = {
+    async findCaseCommunityId(id: string) { calls.push('case:' + id); return 'community-1' },
+    async findPlatformRole(id: string) { calls.push('role:' + id); return 'moderator' as const },
+    async findAssignedCommunityIds(id: string) { calls.push('assignments:' + id); return ['community-1'] },
+    async hasModerationConflict(account: string, caseId: string) { calls.push('conflict:' + account + ':' + caseId); return false }
+  }
+  assert.deepEqual(await evaluateModerationCaseAccess(facts, principal, 'case-1'), { allowed: true, reason: 'allowed' })
+  assert.deepEqual(calls.sort(), ['assignments:account-1','case:case-1','conflict:account-1:case-1','role:account-1'])
+})
+
+test('fails closed for missing cases, non-moderators, scope mismatch and conflicts', async () => {
+  const { evaluateModerationCaseAccess } = await import('../src/auth/authorization-context.mjs')
+  const base = {
+    async findCaseCommunityId() { return 'community-1' },
+    async findPlatformRole() { return 'member' as const },
+    async findAssignedCommunityIds() { return [] as string[] },
+    async hasModerationConflict() { return false }
+  }
+  assert.equal((await evaluateModerationCaseAccess({ ...base, async findCaseCommunityId() { return null } }, principal, 'case-1')).reason, 'resource_unavailable')
+  assert.equal((await evaluateModerationCaseAccess(base, principal, 'case-1')).reason, 'role_required')
+  assert.equal((await evaluateModerationCaseAccess({ ...base, async findPlatformRole() { return 'moderator' as const } }, principal, 'case-1')).reason, 'scope_mismatch')
+  assert.equal((await evaluateModerationCaseAccess({ ...base, async findPlatformRole() { return 'moderator' as const }, async findAssignedCommunityIds() { return ['community-1'] }, async hasModerationConflict() { return true } }, principal, 'case-1')).reason, 'conflict_of_interest')
+})
+
+test('administrators require explicit justification before global moderation access', async () => {
+  const { evaluateModerationCaseAccess } = await import('../src/auth/authorization-context.mjs')
+  const facts = {
+    async findCaseCommunityId() { return 'community-1' },
+    async findPlatformRole() { return 'administrator' as const },
+    async findAssignedCommunityIds() { return [] as string[] },
+    async hasModerationConflict() { return false }
+  }
+  assert.equal((await evaluateModerationCaseAccess(facts, principal, 'case-1')).reason, 'justification_required')
+  assert.deepEqual(await evaluateModerationCaseAccess(facts, principal, 'case-1', 'Auditoria de segurança'), { allowed: true, reason: 'allowed' })
+})
+
+test('does not query moderation facts for inactive principals or invalid identifiers', async () => {
+  const { evaluateModerationCaseAccess } = await import('../src/auth/authorization-context.mjs')
+  let calls = 0
+  const facts = {
+    async findCaseCommunityId() { calls++; return 'community-1' },
+    async findPlatformRole() { calls++; return 'moderator' as const },
+    async findAssignedCommunityIds() { calls++; return ['community-1'] },
+    async hasModerationConflict() { calls++; return false }
+  }
+  assert.equal((await evaluateModerationCaseAccess(facts, { ...principal, accountStatus: 'suspended' }, 'case-1')).reason, 'account_unavailable')
+  assert.equal((await evaluateModerationCaseAccess(facts, principal, '  ')).reason, 'resource_unavailable')
+  assert.equal(calls, 0)
+})
