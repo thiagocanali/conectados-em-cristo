@@ -1,3 +1,4 @@
+import { isNonBlankString } from './validation.mjs'
 import type { AccountStatus, AuthenticatedPrincipal } from './identity.mjs'
 import {
   canReadCommunityContent,
@@ -32,7 +33,7 @@ export async function evaluateCommunityContentAccess(
     })
   }
 
-  if (!principal.accountId.trim() || !communityId.trim()) {
+  if (!isNonBlankString(principal.accountId) || !isNonBlankString(communityId)) {
     return { allowed: false, reason: 'resource_unavailable' }
   }
 
@@ -80,9 +81,9 @@ export async function evaluateModerationCaseAccess(
   if (principal.accountStatus !== 'active') {
     return canAccessModerationCase({ actorStatus: principal.accountStatus, role: 'member', actorAccountId: principal.accountId, caseCommunityId: '', assignedCommunityIds: [], hasConflictOfInterest: false })
   }
-  if (!principal.accountId.trim() || !caseId.trim()) return { allowed: false, reason: 'resource_unavailable' }
+  if (!isNonBlankString(principal.accountId) || !isNonBlankString(caseId)) return { allowed: false, reason: 'resource_unavailable' }
   const caseCommunityId = await repository.findCaseCommunityId(caseId)
-  if (!caseCommunityId?.trim()) return { allowed: false, reason: 'resource_unavailable' }
+  if (!isNonBlankString(caseCommunityId)) return { allowed: false, reason: 'resource_unavailable' }
   const [role, assignedCommunityIds, hasConflictOfInterest] = await Promise.all([
     repository.findPlatformRole(principal.accountId),
     repository.findAssignedCommunityIds(principal.accountId),
@@ -121,7 +122,7 @@ export async function evaluateDirectInteractionAccess(
     })
   }
 
-  if (!principal.accountId.trim() || !targetAccountId.trim() || principal.accountId === targetAccountId) {
+  if (!isNonBlankString(principal.accountId) || !isNonBlankString(targetAccountId) || principal.accountId === targetAccountId) {
     return { allowed: false, reason: 'resource_unavailable' }
   }
 
@@ -158,7 +159,7 @@ export async function evaluateOwnedContentEditAccess(
     })
   }
 
-  if (!principal.accountId.trim() || !contentId.trim()) {
+  if (!isNonBlankString(principal.accountId) || !isNonBlankString(contentId)) {
     return { allowed: false, reason: 'resource_unavailable' }
   }
 
@@ -188,7 +189,7 @@ export async function evaluateReactionRemovalAccess(
     })
   }
 
-  if (!principal.accountId.trim() || !reactionId.trim()) {
+  if (!isNonBlankString(principal.accountId) || !isNonBlankString(reactionId)) {
     return { allowed: false, reason: 'resource_unavailable' }
   }
 

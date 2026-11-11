@@ -1,3 +1,5 @@
+import { isNonBlankString } from './validation.mjs'
+
 export const ACCOUNT_STATUSES = ['pending_verification', 'active', 'restricted', 'suspended', 'deleted'] as const
 
 export type AccountStatus = typeof ACCOUNT_STATUSES[number]
@@ -46,10 +48,15 @@ export async function resolveAuthenticatedPrincipal(
   repository: IdentityRepository,
   identity: TrustedExternalIdentity
 ): Promise<AuthenticatedPrincipal> {
-  if (!identity.provider || !identity.subject) throw new IdentityResolutionError()
+  if (!identity || !isNonBlankString(identity.provider) || !isNonBlankString(identity.subject)) {
+    throw new IdentityResolutionError()
+  }
   const account = await repository.findAccountByIdentity(identity)
   if (!account) throw new IdentityResolutionError()
   if (account.status !== 'active') throw new AccountUnavailableError()
+  if (typeof account.id !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(account.id)) {
+    throw new IdentityResolutionError()
+  }
   return {
     provider: identity.provider,
     subject: identity.subject,
