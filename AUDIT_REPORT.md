@@ -31,7 +31,7 @@ A inspeção adicional das 12 rotas em viewport móvel não encontrou erros de p
 1. **Identidade e persistência remotas:** nenhum projeto Supabase retornado pela conexão foi identificado como pertencente a esta aplicação. Nenhum projeto foi vinculado, provisionado ou alterado. Antes de dados reais, definir ambiente e provedor e implementar conta interna + adapter de identidade verificada + persistência dos fatos de autorização.
 2. **Autorização integrada:** políticas e carregadores puros existem, mas não protegem rotas de domínio nem estão ligados a repositórios persistentes. Manter operações privadas/escritas indisponíveis até integrar e testar IDOR, revogação e escopo.
 3. **Deploy:** produção Vercel READY no commit-base, mas divergência entre aliases e respostas HTTP; ver `docs/operations/deployment.md`. Fastify ainda não é servido pelo build estático. Definir a hospedagem da API e verificar contrato HTTP antes de conectá-la à interface.
-4. **Demais jornadas locais:** o tratamento de descoberta/salvos foi concluído na continuação abaixo; testes de dons e outras jornadas ainda precisam de revisão específica e cobertura de componentes.
+4. **Demais jornadas locais:** o tratamento de descoberta/salvos foi concluído na continuação abaixo; a recuperação do teste de dons e a validação do formulário de perfil foram concluídas na continuação abaixo; outras jornadas, como os resultados de compatibilidade, ainda precisam de revisão específica e cobertura de componentes.
 5. **Operação do produto:** retenção/exclusão, moderação, backups/restore e revisão de privacidade continuam pré-requisitos para um beta com pessoas reais.
 
 ## Continuação — fronteira de identidade e autorização (2026-11-11)
@@ -55,6 +55,18 @@ As telas só avançam ou atualizam a lista após confirmação de gravação. Re
 A interface de denúncia informa antes e depois da ação que o registro fica no navegador e não é enviado a moderadores.
 
 Validação: nove novos testes unitários cobrem isolamento por conta, legado sem gravação, dados corrompidos, rollback, falha de rollback e projeção de perfis. Quarenta testes unitários/contrato, lint e build passaram localmente. Chromium móvel verificou salvar/remover/interesse com falhas de quota, preservação de entrada adicionada entre leitura e remoção, restauração de denúncia quando o bloqueio falha, bloqueio após recarregar e descoberta sem cartões ao encontrar JSON de bloqueio corrompido; sem erros de página. Verificação pontual de navegador, não incorporada ao CI.
+
+## Continuação — recuperação do teste de dons e formulário de perfil (2026-11-11)
+
+Base: `7ab9bf7`, após a PR #66. O teste de dons alterava o índice/pontuação antes de gravar; uma falha de quota deixava a resposta aplicada em memória. Os botões de recuperação consultavam localStorage em computed properties sem dependência reativa, ficando desatualizados após concluir/apagar. A validação aceitava pontuações fracionárias, acima dos limites e resultados antecipados. O mapeamento dos dons dependia de um fallback no componente porque o objeto de dados usava `this` fora de contexto.
+
+Correções: transição imutável por resposta; gravação antes de alterar a tela; progresso salvo reativo; chaves por e-mail normalizado, sem importar progresso global; leitura de legado sem escrita; exclusão da chave normalizada e variante legada atual com tentativa de restauração em falha parcial. Índice, conclusão, chaves de pontuação, valores inteiros não negativos e máximos por dom/perguntas já respondidas são verificados. Dados inválidos permanecem armazenados até substituição explícita por novo teste. O mapeamento de perguntas para dons usa os índices definidos em cada dom, também usados no máximo do resultado.
+
+Foi extraído um helper de escrita/restauração compartilhado com listas demonstrativas. Continua sendo rollback de melhor esforço, sem transação real ou isolamento entre abas. A verificação do progresso detecta inconsistências de formato/limites; não comprova respostas autênticas nem torna o teste um instrumento validado.
+
+O perfil agora projeta somente campos de formulário conhecidos, normaliza tipos locais inválidos e rejeita nome em branco/idade fora de 18–99 ou fracionária antes de gravar. A leitura legada não tenta gravar uma migração durante a abertura da tela.
+
+Validação local: 49 testes unitários/contrato passaram, incluindo sete novos testes de dons e dois de perfil; lint e build passaram. Os testes anteriores de listas continuaram verdes com o helper extraído. Chromium móvel verificou 120 respostas (24/24 em todos os dons para respostas Muito), retomada após recarregar, quota sem duplicar pontuação, novo teste sem destruir resultados quando a gravação falha, falha e sucesso na exclusão e atualização imediata dos botões de recuperação. Perfil com campos de tipos inválidos foi editado/salvo sem exceção ou preservação de campos arbitrários; nome em branco foi rejeitado. Nenhum erro de página. Esta verificação de navegador permanece pontual, fora do CI.
 
 ## Snapshot original — 2026-11-04
 
