@@ -40,6 +40,8 @@ Data da decisão
 
 ## ADRs Registradas
 
+- [ADR-0008: Jesus no centro e primeira jornada útil para igrejas](0008-christ-centered-learning.md) — estudos públicos e roteiros; legado experimental separado
+
 - [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Frontend Vue 3 + Vite aceito; backend e demais camadas continuam pendentes
 - [ADR-0004: Persistência do MVP](0004-persistencia-mvp.md) — PostgreSQL aprovado como tecnologia; provedor pendente
 - [ADR-0005: Autenticação e sessões do MVP](0005-autenticacao-mvp.md) — estratégia gerenciada aprovada; provedor pendente

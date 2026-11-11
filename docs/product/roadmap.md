@@ -1,11 +1,20 @@
 # Roadmap — Conectados em Cristo
 
-> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A primeira jornada pública já oferece quatro estudos dos Evangelhos e roteiros de encontro para download/impressão. Participação remota e controles de segurança continuam dependências reais.
 > **Sem cronograma aprovado.** Este roadmap organiza dependências e evidências, não promete datas.
+
+## Prioridade de execução
+
+1. Entrega pública de estudos e roteiros: implementada, com jornada anônima e exportação verificadas.
+2. Validar material e utilidade com uma igreja/pequeno grupo piloto; incorporar revisão editorial e necessidades reais.
+3. Fechar ambiente de identidade/dados e controles de segurança/operação para uma comunidade online curada.
+4. Integrar participação, autorização, moderação e privacidade antes de abrir relatos e publicações.
+
+Matching e testes não são substitutos desses passos. Recursos legados permanecem fora da navegação principal.
 
 ## Estado atual
 
-O produto executável continua sendo um protótipo frontend local com uma prova técnica de backend. Não há autenticação real, persistência completa de domínio, autorização integrada às rotas ou operação de moderação para usuários reais.
+O produto executável oferece estudos públicos e roteiros de encontro, além de protótipos legados e uma prova técnica de backend. Não há autenticação real, persistência completa de domínio, autorização integrada às rotas ou operação de moderação para usuários reais.
 
 ## Fase 0 — Reconciliação e gates
 

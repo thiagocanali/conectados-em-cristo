@@ -126,3 +126,6 @@ Documentos e diagramas anteriores podem mencionar Express, microserviços, Redis
 Esses itens são **históricos/aspiracionais** e não devem ser implementados por referência a esse material.
 
 As decisões vigentes são registradas em OPEN_DECISIONS.md e nos ADRs correspondentes.
+## Jornada pública de aprendizado — atualização 2026-11-11
+
+A SPA oferece `/estudos`, `/estudos/:slug`, `/em-comunidade` e `/igrejas`, sem gate de identidade. Conteúdo original referenciado fica em `src/data/studies.mjs`. `meetingGuide.mjs` produz um roteiro público a partir do estudo e da duração suportada; download e impressão ocorrem no cliente, sem coletar participantes ou armazenar histórico pessoal. A nova jornada não chama a API legada nem concede permissões comunitárias. Protótipos anteriores são acessados por `/laboratorio`. Ver ADR-0008 e critérios editoriais.

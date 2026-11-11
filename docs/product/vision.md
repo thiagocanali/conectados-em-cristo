@@ -1,155 +1,26 @@
-> **Direção atual do produto:** comunidade primeiro; conexões depois; relacionamentos como consequência. A visão abaixo é aspiracional e não representa funcionalidades já implementadas nem um escopo de MVP aprovado.
+# Visão — Conectados em Cristo
 
-# Visão de Produto — Conectados em Cristo
+**Jesus no centro. Aprender juntos. Servir na vida real.**
 
-## Proposição de Valor
+Queremos ajudar pessoas a conhecer e seguir Jesus Cristo pelas Escrituras, caminhando em comunidades que praticam amor, acolhimento e serviço. Igrejas e pequenos grupos precisam encontrar utilidade concreta: materiais para aprender, conversas que aprofundem o entendimento e caminhos para cuidar das pessoas.
 
-**Para:** Pessoas cristãs que desejam construir comunidade, compartilhar a fé e desenvolver conexões significativas
-**Que:** Buscam pertencimento, amizade, convivência e conexões com propósito espiritual compartilhado
-**Conectados em Cristo é:** Uma comunidade digital cristã
-**Que:** Prioriza comunhão, participação, conhecimento mútuo, segurança e conexões genuínas
-**Diferentemente de:** Apps de encontro casual que focam em swipe e aparência
-**Nossa proposta:** criar um ambiente em que a fé e a vida comunitária sejam o centro. Amizades e relacionamentos podem surgir naturalmente, sem reduzir a experiência a encontros ou compatibilidade amorosa.
+## Problemas que queremos resolver
+- Uma pessoa quer conhecer Jesus e não sabe por onde começar a leitura.
+- Um grupo precisa preparar um encontro bíblico simples e significativo.
+- Uma comunidade quer transformar reflexão em cuidado e serviço próximos.
+- Uma igreja quer ferramentas que apoiem sua vida comunitária com clareza, respeito e responsabilidade.
 
-## Princípios de Design
+## Primeira resposta implementada
+Quatro guias dos Evangelhos com referência, contexto, perguntas e prática; roteiros de 30, 45 e 60 minutos para baixar/imprimir. Acesso público, sem cadastro ou coleta de relatos. O objetivo imediato é que uma pessoa possa estudar uma passagem e um grupo possa usar um roteiro em seu próximo encontro.
 
-### O que NÃO somos
-- ❌ Um "Tinder cristão"
-- ❌ Focado em vício do usuário
-- ❌ Interessado em retenção à custa da qualidade
-- ❌ Manipulativo com gamification artificial
-- ❌ Inseguro ou invasivo na privacidade
+## Princípios
+- Conferir o ensino no texto bíblico e no seu contexto; distinguir Escritura de material de apoio.
+- Servir à comunidade local, sem alegar uma autoridade pastoral ou aprovação divina do software.
+- Escutar dúvidas e pessoas com respeito, sem rankings de fé ou pressão para exposição pessoal.
+- Priorizar utilidade, cuidado e serviço em vez de tempo de tela, popularidade ou matching.
+- Ser verdadeiro sobre o que funciona e o que ainda depende de segurança, privacidade e operação.
 
-### O que SOMOS
-- ✅ Plataforma de conhecimento profundo
-- ✅ Focada em compatibilidade real
-- ✅ Comprometida com segurança
-- ✅ Transparente em algoritmos
-- ✅ Respeitosa com privacidade
-- ✅ Centrada em propósito cristão
+## Próximos passos
+Validar os materiais com lideranças e grupos piloto; estabelecer revisão editorial identificada; preparar identidade, autorização e moderação para participação online curada. Testes de dons/personalidade e compatibilidade são recursos legados experimentais, não o núcleo.
 
-## Valores Centrais
-
-1. **Fé** — A Bíblia é centro da identidade
-2. **Segurança** — Proteção sempre em primeiro lugar
-3. **Privacidade** — Dados pessoais são sagrados
-4. **Transparência** — Sem manipulação ou ocultação
-5. **Qualidade** — Preferência por poucos matches genuínos a muitos superficiais
-6. **Maturidade** — Comunicação e relacionamentos adultos
-7. **Responsabilidade** — Moderação ativa e justa
-8. **Propósito** — Ajudar a formar relacionamentos que apontam para Cristo
-
-## Experiência de Usuário (Alto Nível)
-
-### Jornada do Novo Usuário
-1. **Onboarding** — Apresentar valores da plataforma
-2. **Autenticação segura** — Email verificado, phone verificado
-3. **Perfil completo** — Dados básicos, fé, personalidade, objetivos
-4. **Questionário** — Avaliar compatibilidade
-5. **Descoberta** — Navegar por perfis com profundidade
-6. **Interesse** — Demonstrar interesse em pessoas específicas
-7. **Conversa** — Se mutual, iniciar diálogo
-
-### Encontrar Compatibilidade
-Não apresentar: "Vocês são 93% compatíveis"
-Apresentar:
-- Alinhamentos significativos
-- Pontos de atenção
-- Áreas ainda desconhecidas
-- Convite para conversa genuína
-
-## Foco MVP
-
-### Core Features
-- Autenticação confiável
-- Perfil detalhado
-- Questionário de compatibilidade
-- Descoberta com profundidade
-- Moderação básica
-- Segurança essencial
-
-### Não no MVP
-- Mensagens (v2)
-- Notificações avançadas (v2)
-- Análise comportamental avançada (v2)
-- Verificação de identidade avançada (v2)
-- Internacionalização (v2)
-
-## Sucesso é Medido Por
-
-### ❌ Métrica ERRADA
-- "Quanto tempo o usuário passa no app"
-- "Quantas swipes faz"
-- "Sessões por dia"
-- "Retenção sem objetivo"
-
-### ✅ Métrica CORRETA
-- "Quantas conversas significativas começam"
-- "Qualidade dos matches"
-- "Taxa de usuários que saem da plataforma para se namorar"
-- "Satisfação com a plataforma"
-- "Segurança: zero incidentes de fraude reportados"
-- "Confiança: taxa alta de denúncias resolvidas justamente"
-
-## Diferencial Competitivo
-
-### Compatibilidade Explicável
-- Algoritmo não é "caixa preta"
-- Usuário entende por que dois perfis são compatíveis
-- Sistema educativo sobre alinhamentos
-
-### Fé Central
-- Não é um "feature" adicional
-- É estrutura básica da plataforma
-- Perguntas sobre fé são tão importantes quanto sobre interesses
-
-### Segurança Radical
-- Verificações desde o início
-- Moderação ativa
-- Rate limiting
-- Detecção de fraude
-- Proteção contra catfishing
-
-### Privacidade Respeitosa
-- Dados públicos, restritos, privados, internos
-- Localização aproximada, não exata
-- Sem venda de dados
-- Usuário controla visibilidade
-
-## Comunicação da Marca
-
-### Tom de Voz
-- Respeitoso
-- Sincero
-- Simples
-- Maduro
-- Esperançoso
-- Cristão (sem ser ofensivo)
-
-### Inspiração de Comunicação
-"Hoje começa algo simples. Porque eu também sou um discípulo em constante aprendizado, sendo transformado pela Palavra de Deus dia após dia. O propósito desta plataforma é ajudar pessoas a conhecerem mais a Cristo por meio de relacionamentos genuínos e propósitos compartilhados. Se alguém encontrar um relacionamento verdadeiro aqui, terá valido a pena. Que Ele cresça, e que nós diminuamos."
-
-## Visão de Longo Prazo
-
-### 1-2 anos
-- MVP robusto em português
-- Comunidade inicial de usuários engajados
-- Moderação consistente
-- Zero incidentes de segurança
-
-### 2-3 anos
-- Expansão para EN, ES
-- Mensagens e comunicação
-- Verificação de identidade avançada
-- Análise de compatibilidade mais profunda
-- Crescimento orgânico
-
-### 3+ anos
-- Plataforma global referência para relacionamentos cristãos sérios
-- Comunidade de centenas de milhares
-- Impacto real em casamentos cristãos
-- Possivelmente expansão para outros mercados/produtos
-
-## Nota Importante
-
-Esta visão é um guia, não um dogma. Mudanças são bem-vindas quando baseadas em feedback real, dados, e alinhamento com princípios fundamentais. Toda mudança deve ser documentada em ADR.
+Referências: [ADR-0008](../decisions/0008-christ-centered-learning.md), [MVP](mvp.md), [critérios editoriais](editorial-guidelines.md), [contexto atual](../../PROJECT_CONTEXT.md).
