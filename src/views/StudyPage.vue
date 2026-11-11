@@ -10,6 +10,7 @@
         <template v-else><h2 id="step-title">Leve a leitura para a vida</h2><p>{{ study.practice }}</p><h3>Uma sugestão de oração</h3><p>{{ study.prayer }}</p><p>Use suas próprias palavras. A proposta é responder ao texto com sinceridade.</p><router-link :to="`/em-comunidade?estudo=${study.slug}`" class="btn-primary">Preparar este estudo para um grupo</router-link></template>
       </section>
       <div class="learning-actions"><button v-if="step > 0" class="btn-secondary" @click="go(step - 1)">Etapa anterior</button><button v-if="step < 2" class="btn-primary" @click="go(step + 1)">{{ step === 0 ? 'Ir para as perguntas' : 'Ir para a prática' }}</button><router-link v-else to="/estudos" class="learning-link">Escolher outro estudo →</router-link></div>
+      <aside v-if="step === 2 && pathContext" class="learning-note"><h2>Continuar em comunidade</h2><p>Este estudo é o encontro {{ pathContext.session.number }} de uma proposta de quatro encontros. Vocês podem seguir a sequência no ritmo do grupo.</p><p>{{ pathContext.session.betweenMeetings }}</p><router-link to="/caminhada" class="learning-link">Ver a caminhada e o kit completo →</router-link></aside>
       <p class="study-meta">Estude no seu ritmo e retome o texto sempre que precisar. Você não precisa criar uma conta para usar este guia.</p>
     </template>
     <template v-else><h1>Estudo não encontrado</h1><p>Escolha um dos guias disponíveis na biblioteca.</p><router-link to="/estudos" class="btn-primary">Ver estudos</router-link></template>
@@ -19,8 +20,10 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { findStudy, passageUrl } from '@/data/studies.mjs'
+import { pathSessionFor } from '@/services/learningPath.mjs'
 const route = useRoute()
 const study = computed(() => findStudy(route.params.slug))
+const pathContext = computed(() => pathSessionFor(study.value?.slug))
 const labels = ['Ler', 'Conversar', 'Praticar']
 const step = ref(0)
 const section = ref(null)

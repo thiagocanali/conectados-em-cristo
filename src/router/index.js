@@ -16,6 +16,7 @@ import StudyPage from '../views/StudyPage.vue'
 import GroupGuidePage from '../views/GroupGuidePage.vue'
 import ChurchesPage from '../views/ChurchesPage.vue'
 import LaboratoryPage from '../views/LaboratoryPage.vue'
+import LearningPathPage from '../views/LearningPathPage.vue'
 import { getDemoSession } from '@/services/demoAuth.mjs'
 import { createDemoAuthGuard } from './demoAuthGuard.mjs'
 
@@ -23,6 +24,7 @@ const routes = [
   { path: '/', component: HomePage },
   { path: '/estudos', component: StudiesPage },
   { path: '/estudos/:slug', component: StudyPage },
+  { path: '/caminhada', component: LearningPathPage },
   { path: '/em-comunidade', component: GroupGuidePage },
   { path: '/igrejas', component: ChurchesPage },
   { path: '/laboratorio', component: LaboratoryPage },

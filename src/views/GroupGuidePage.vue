@@ -44,6 +44,11 @@
       <h2 id="active-title">{{ activePart.title }}</h2>
       <p class="study-meta">Tempo sugerido para esta etapa: {{ activePart.minutes }} minutos. Ajuste à conversa.</p>
       <p class="preserve-lines">{{ activePart.text }}</p>
+      <p v-if="partIndex === 0 && pathContext"><strong>Se estiverem seguindo a caminhada:</strong> {{ pathContext.session.returnPrompt }}</p>
+      <section v-if="partIndex === 4 && pathContext" aria-labelledby="week-practice-title">
+        <h3 id="week-practice-title">Uma proposta para a semana</h3><p>{{ pathContext.session.betweenMeetings }}</p>
+        <h3>Para retomar a conversa</h3><p>{{ pathContext.session.nextConversation }}</p>
+      </section>
       <template v-if="partIndex === 1">
         <a :href="passageUrl(study)" target="_blank" rel="noopener noreferrer" class="learning-link">Abrir {{ study.reference }} (site externo, nova aba)</a>
         <details class="meeting-context"><summary>Rever o contexto da passagem</summary><p>{{ study.context }}</p></details>
@@ -71,9 +76,22 @@
       <section v-for="(part, index) in guide.sections" :key="part.title" class="meeting-part">
         <h3>{{ index + 1 }}. {{ part.title }} <span class="study-meta">· {{ part.minutes }} min sugeridos</span></h3>
         <p class="preserve-lines">{{ part.text }}</p>
+        <p v-if="index === 0 && pathContext"><strong>Se estiverem seguindo a caminhada:</strong> {{ pathContext.session.returnPrompt }}</p>
+      </section>
+      <section v-if="pathContext" class="meeting-part" aria-labelledby="between-title">
+        <h3 id="between-title">Entre os encontros</h3><p>{{ pathContext.session.betweenMeetings }}</p>
+        <h3>Para a próxima conversa</h3><p>{{ pathContext.session.nextConversation }}</p>
       </section>
       <p class="study-meta">Guia original do Conectados em Cristo. Não há cadastro de participantes, reserva de evento ou envio automático de convites.</p>
     </article>
+    <aside v-if="!conducting && pathContext" class="learning-note" aria-labelledby="path-next-title">
+      <p class="eyebrow">Encontro {{ pathContext.session.number }} da caminhada</p>
+      <h2 id="path-next-title">Dar continuidade à conversa</h2>
+      <p>Se quiserem seguir a sequência, o kit reúne os quatro encontros e as propostas para a semana. Adaptem o ritmo à comunidade.</p>
+      <router-link v-if="pathContext.next" :to="{ path: '/em-comunidade', query: meetingQuery(pathContext.next.studySlug, duration) }" class="btn-primary">Preparar próximo encontro: {{ pathContext.next.study.title }}</router-link>
+      <p v-else>Este é o último roteiro desta proposta. Conversem com a comunidade sobre como continuar aprendendo e servindo.</p>
+      <p><router-link :to="{ path: '/caminhada', query: { tempo: String(duration) } }" class="learning-link">Ver os quatro encontros e baixar o kit →</router-link></p>
+    </aside>
     <aside class="learning-note">
       <h2>Um ambiente de acolhimento</h2>
       <p>Participação livre, escuta respeitosa e cuidado com a privacidade. Não publiquem relatos de outras pessoas sem consentimento. Para questões pastorais, procurem a liderança responsável da comunidade.</p>
@@ -88,6 +106,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { studies, findStudy, passageUrl } from '@/data/studies.mjs'
 import { buildMeetingGuide, meetingDurations, meetingQuery, readMeetingSelection, publicMeetingUrl } from '@/services/meetingGuide.mjs'
 import { downloadText } from '@/utils/downloadText.mjs'
+import { pathSessionFor, buildPathMeetingGuide } from '@/services/learningPath.mjs'
 
 const route = useRoute()
 const router = useRouter()
@@ -102,7 +121,10 @@ const fullGuide = ref(null)
 const message = ref('')
 const error = ref('')
 const study = computed(() => findStudy(slug.value) ?? studies[0])
-const guide = computed(() => buildMeetingGuide(study.value, duration.value))
+const pathContext = computed(() => pathSessionFor(study.value.slug))
+const guide = computed(() => pathContext.value
+  ? buildPathMeetingGuide(study.value.slug, duration.value)
+  : buildMeetingGuide(study.value, duration.value))
 const activePart = computed(() => guide.value.sections[partIndex.value])
 const shareUrl = computed(() => publicMeetingUrl(router.resolve({ path: '/em-comunidade', query: meetingQuery(study.value.slug, duration.value) }).href, window.location.href))
 
