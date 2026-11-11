@@ -1,5 +1,39 @@
 # Relatório de Auditoria — Conectados em Cristo
 
+## Revisão incremental — 2026-11-11
+
+Base: `main` em `ea5bd28fb794cfc6974b64814c6d5e8b5b5b5f57`. Revisão de código e contratos da API, identidade/autorização, persistência demonstrativa, workflows, documentação central e evidências dos plugins GitHub/Supabase/Vercel. Não é uma revisão exaustiva de todas as jornadas nem pentest.
+
+### Correções implementadas
+
+| Problema | Comportamento corrigido | Evidência |
+|---|---|---|
+| Cursor de 512 caracteres e contagem UTF-16 não comportavam todos os nomes permitidos por `varchar(100)` | Limite 1024, contagem por ponto de código e validação de UTF-8/NUL/substitutos isolados | Paginação real com nomes de 100 emojis e entradas inválidas em PostgreSQL 17 |
+| Dois executores podiam disputar criação do histórico e aplicar a mesma migration | Advisory lock transacional antes do histórico; lote inteiro atômico | Dois executores em banco vazio; falha de DDL, rollback de esquema/histórico e retry |
+| Cadastro, perfil e questionário podiam deixar dados parcialmente salvos ao falhar a sessão | Serviço compartilhado, tentativa de rollback do cadastro e mensagem de falha; sem avançar para resultados quando não salvou | Testes unitários e injeção de `QuotaExceededError` no Chromium |
+| ESLint analisava JS minificado após um build local | Ignora `dist/` e `server/dist/` | `npm run build` seguido de `npm run lint` |
+| Auditoria npm apenas informativa | CI bloqueia vulnerabilidades altas/críticas e mantém relatórios | Auditoria local com zero vulnerabilidades reportadas |
+
+O rollback de localStorage é de melhor esforço: a API do navegador não oferece transação entre chaves. Se o navegador também bloquear a restauração, não há garantia de consistência. Isso não transforma a sessão local em autenticação.
+
+### Validação desta revisão
+
+- Node 24.22.1 e PostgreSQL 17 efêmero, sem dados remotos.
+- 31 testes unitários/contrato, 66 testes de API/identidade/autorização e 10 testes PostgreSQL passaram; typecheck, build de API, build de frontend e lint passaram.
+- Chromium, viewport 390 × 844: cadastro → perfil → salvar → recarregar; erro de quota em perfil e questionário sem sucesso falso; questionário → resultados após restaurar armazenamento. Nenhum erro de página e nenhum overflow horizontal na tela final. Verificação pontual, sem suíte E2E no CI.
+- `npm audit`: zero vulnerabilidades reportadas no lockfile consultado; resultado não garante ausência de vulnerabilidades desconhecidas.
+- Consulta HTTP com TLS validado ao domínio informado: 200. O Chromium remoto encontrou erro de confiança no certificado do proxy; a verificação interativa desta revisão foi feita no app local HTTP, sem desativar validação TLS para o site remoto.
+
+### Infraestrutura e próximos passos
+
+1. **Identidade e persistência remotas:** nenhum projeto Supabase retornado pela conexão foi identificado como pertencente a esta aplicação. Nenhum projeto foi vinculado, provisionado ou alterado. Antes de dados reais, definir ambiente e provedor e implementar conta interna + adapter de identidade verificada + persistência dos fatos de autorização.
+2. **Autorização integrada:** políticas e carregadores puros existem, mas não protegem rotas de domínio nem estão ligados a repositórios persistentes. Manter operações privadas/escritas indisponíveis até integrar e testar IDOR, revogação e escopo.
+3. **Deploy:** produção Vercel READY no commit-base, mas divergência entre aliases e respostas HTTP; ver `docs/operations/deployment.md`. Fastify ainda não é servido pelo build estático. Definir a hospedagem da API e verificar contrato HTTP antes de conectá-la à interface.
+4. **Demais jornadas locais:** descoberta, salvos e outros testes ainda têm gravações diretas no storage e precisam de tratamento equivalente de falha, validação de dados e cobertura de componentes. A correção desta revisão cobre cadastro, perfil e questionário.
+5. **Operação do produto:** retenção/exclusão, moderação, backups/restore e revisão de privacidade continuam pré-requisitos para um beta com pessoas reais.
+
+## Snapshot original — 2026-11-04
+
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.
 
 - Data da auditoria: 2026-11-04

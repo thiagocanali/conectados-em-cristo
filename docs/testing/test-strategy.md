@@ -14,7 +14,7 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `npm run lint` executa ESLint CLI diretamente.
 - `npm run build` executa `vite build`.
 - O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
-- A auditoria publica artefato JSON temporário por 14 dias; ela é informativa e não executa atualizações automáticas.
+- A auditoria publica artefato JSON temporário por 14 dias; o job falha para vulnerabilidades altas/críticas (`npm audit --audit-level=high`) e não executa atualizações automáticas.
 - A integração API/PostgreSQL agora cobre somente o catálogo público F-07 em banco efêmero. Ainda não há cobertura de autenticação, memberships, autorização de domínio, conteúdo, componentes, acessibilidade ou E2E.
 
 A suíte atual é pequena e não representa cobertura dos fluxos completos do produto. A revisão visual/manual não substitui testes automatizados.
@@ -51,7 +51,7 @@ A suíte atual é pequena e não representa cobertura dos fluxos completos do pr
 - Configurar testes de componente, integração e E2E.
 - Definir critérios de aprovação do pipeline.
 
-Status: vinte e sete testes unitários/contrato executáveis, quatorze testes Fastify e sete testes PostgreSQL; lint e build migrados para Vite/ESLint CLI; cobertura de produto ainda limitada.
+Status em 11/11/2026: 31 testes unitários/contrato, 66 testes de API/identidade/autorização e 10 testes PostgreSQL passaram localmente em Node 24/PostgreSQL 17. O CI usa Node 26. A integração cobre migrations concorrentes, rollback/retry e cursores Unicode. Lint passa também depois do build, ignorando artefatos gerados. Verificação pontual com Chromium cobriu cadastro, perfil e questionário, sucesso e falha de quota, em viewport móvel; não há suíte E2E incorporada ao CI.
 
 
 ## Testes de segurança e autorização planejados para a API
