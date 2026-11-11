@@ -6,6 +6,8 @@
       <p class="salvos-subtitle">Pessoas que você quer conhecer com calma e oração.</p>
     </div>
 
+    <p v-if="erro" role="alert">{{ erro }}</p>
+
     <div v-if="salvos.length === 0" class="salvos-empty fade-in-up">
       <div class="empty-icon" aria-hidden="true">&#9733;</div>
       <p>Você ainda não salvou nenhum perfil.</p>
@@ -28,50 +30,40 @@
 </template>
 
 <script>
-import { getDemoSession } from '@/services/demoAuth.mjs'
+import { readDemoList, updateDemoLists, normalizeDemoProfile, demoListErrorMessage } from '@/services/demoLists.mjs'
 
 export default {
   data() {
     return {
-      salvos: this.loadSavedProfiles()
+      salvos: [],
+      erro: ''
     }
   },
+  created() {
+    this.salvos = this.loadSavedProfiles()
+  },
   methods: {
-    storageKey() {
-      let user = null
-      try { user = getDemoSession() } catch { user = null }
-      return user && user.email ? `perfisSalvos:${String(user.email).trim().toLowerCase()}` : 'perfisSalvos'
-    },
     loadSavedProfiles() {
       try {
-        const key = this.storageKey()
-        const value = localStorage.getItem(key)
-        if (value !== null) {
-          const parsed = JSON.parse(value)
-          return Array.isArray(parsed) ? parsed : []
-        }
-
-        const user = getDemoSession()
-        if (user && user.email) {
-          const legacyKey = `perfisSalvos:${user.email}`
-          const legacyValue = localStorage.getItem(legacyKey)
-          if (legacyValue !== null) {
-            const parsed = JSON.parse(legacyValue)
-            if (Array.isArray(parsed)) {
-              localStorage.setItem(key, JSON.stringify(parsed))
-              return parsed
-            }
-          }
-          return []
-        }
-
-        const legacy = JSON.parse(localStorage.getItem('perfisSalvos') || '[]')
-        return Array.isArray(legacy) ? legacy : []
-      } catch { return [] }
+        return readDemoList('perfisSalvos').map(normalizeDemoProfile).filter(Boolean)
+      } catch (error) {
+        this.erro = demoListErrorMessage(error.reason)
+        return []
+      }
     },
     remover(i) {
-      this.salvos.splice(i, 1);
-      localStorage.setItem(this.storageKey(), JSON.stringify(this.salvos));
+      this.erro = ''
+      const target = this.salvos[i]
+      if (!target) return
+      const result = updateDemoLists({ perfisSalvos: items => items
+        .map(normalizeDemoProfile).filter(Boolean)
+        .filter(profile => target.email ? profile.email !== target.email : profile.email || profile.nome !== target.nome)
+      })
+      if (!result.ok) {
+        this.erro = demoListErrorMessage(result.reason)
+        return
+      }
+      this.salvos = this.loadSavedProfiles()
     }
   }
 }

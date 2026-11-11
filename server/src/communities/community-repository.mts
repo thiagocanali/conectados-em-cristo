@@ -40,7 +40,7 @@ export class InvalidCommunityCursorError extends Error {
 }
 
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const cursorPattern = /^[A-Za-z0-9_-]{1,512}$/
+const cursorPattern = /^[A-Za-z0-9_-]{1,1024}$/
 
 function encodeCursor(community: Pick<PublicCommunity, 'name' | 'id'>): string {
   return Buffer.from(JSON.stringify({ name: community.name, id: community.id })).toString('base64url')
@@ -53,7 +53,7 @@ function decodeCursor(value: string): CommunityCursor {
     const decoded = Buffer.from(value, 'base64url')
     if (decoded.toString('base64url') !== value) throw new InvalidCommunityCursorError()
 
-    const parsed: unknown = JSON.parse(decoded.toString('utf8'))
+    const parsed: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(decoded))
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
       throw new InvalidCommunityCursorError()
     }
@@ -62,8 +62,10 @@ function decodeCursor(value: string): CommunityCursor {
     if (
       Object.keys(cursor).length !== 2 ||
       typeof cursor.name !== 'string' ||
-      cursor.name.length < 1 ||
-      cursor.name.length > 100 ||
+      [...cursor.name].length < 1 ||
+      [...cursor.name].length > 100 ||
+      cursor.name.includes('\u0000') ||
+      Buffer.from(cursor.name).toString('utf8') !== cursor.name ||
       typeof cursor.id !== 'string' ||
       !uuidPattern.test(cursor.id)
     ) {

@@ -1,5 +1,6 @@
 # MVP — Conectados em Cristo
 
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
 > **Status: direção de produto aprovada; implementação ainda incompleta.** Este documento não define cronograma. O estado executável está em PROJECT_CONTEXT.md e README.md; decisões canônicas ficam em OPEN_DECISIONS.md.
 
 ## 1. Hipótese do MVP

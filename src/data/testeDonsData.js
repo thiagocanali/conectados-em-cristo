@@ -1,4 +1,4 @@
-export default {
+const testeDonsData = {
   curiosities: [
     "Os dons espirituais são concedidos pelo Espírito Santo para edificação da igreja.",
     "Nenhum dom é mais importante que outro; todos se complementam.",
@@ -232,8 +232,14 @@ export default {
       "Gosto de organizar e planejar"
     ];
     return {
-      text: texts[i % 20],
-      gift: Object.keys(this?.gifts || {})[i % 20]
+      text: texts[i % 20]
     };
   })
 };
+
+// The gift question indexes are the single source for scoring and result limits.
+for (const [key, gift] of Object.entries(testeDonsData.gifts)) {
+  for (const index of gift.questions) testeDonsData.questions[index].gift = key;
+}
+
+export default testeDonsData;

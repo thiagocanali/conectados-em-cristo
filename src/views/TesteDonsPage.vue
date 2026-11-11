@@ -1,6 +1,8 @@
 <template>
     <div id="app-container">
 
+        <p v-if="error" role="alert">{{ error }}</p>
+
         <!-- BOAS-VINDAS -->
         <transition name="fade-slide">
             <section v-if="screen === 'welcome'" class="screen active">
@@ -101,8 +103,7 @@
 
 <script>
 import testeDonsData from "@/data/testeDonsData";
-import { parseStoredJson, isValidDonsProgress } from "@/utils/safeStorage.mjs";
-import { getDemoSession } from "@/services/demoAuth.mjs";
+import { createDonsProgressStore, nextDonsAnswer } from "@/services/donsProgress.mjs";
 import "@/assets/css/testeDons.css";
 
 
@@ -116,6 +117,8 @@ export default {
             currentQuestionIndex: 0,
             scores: {},
             openGifts: {},
+            savedProgress: null,
+            error: "",
             ...testeDonsData
         };
     },
@@ -144,35 +147,34 @@ export default {
             }));
         },
         hasSavedProgress() {
-            const progress = this.readSavedProgress();
-            return Boolean(progress && !progress.finished);
+            return Boolean(this.savedProgress && !this.savedProgress.finished);
         },
         hasSavedResults() {
-            const progress = this.readSavedProgress();
-            return Boolean(progress && progress.finished);
+            return Boolean(this.savedProgress?.finished);
         },
         savedIndex() {
-            const progress = this.readSavedProgress();
-            return progress ? progress.index : 0;
+            return this.savedProgress?.index ?? 0;
         }
     },
     methods: {
-        readSavedProgress() {
-            let rawValue;
-            try {
-                rawValue = localStorage.getItem(this.storageKey());
-            } catch {
+        progressStore() {
+            return createDonsProgressStore(this.questions, Object.keys(this.gifts));
+        },
+        showStorageError(reason) {
+            if (reason === 'invalid-data') this.error = 'O progresso salvo é inválido. Inicie um novo teste para substituí-lo.';
+            else if (reason === 'no-session') this.error = 'A sessão demonstrativa não está disponível. Entre novamente.';
+            else if (reason === 'rollback-failed') this.error = 'Não foi possível restaurar todos os dados. Recarregue a página e confira o progresso.';
+            else this.error = 'Não foi possível gravar ou recuperar o progresso. Verifique o armazenamento do navegador e tente novamente.';
+        },
+        refreshProgress() {
+            const result = this.progressStore().load();
+            if (!result.ok) {
+                this.savedProgress = null;
+                this.showStorageError(result.reason);
                 return null;
             }
-
-            const progress = parseStoredJson(rawValue, null);
-            const giftKeys = Object.keys(this.gifts);
-            return isValidDonsProgress(progress, this.totalQuestions, giftKeys) ? progress : null;
-        },
-        storageKey() {
-            let user = null;
-            try { user = getDemoSession(); } catch { user = null; }
-            return user && user.email ? `testeDonsProgress:${user.email}` : "testeDonsProgress";
+            this.savedProgress = result.progress;
+            return result.progress;
         },
         initScores() {
             Object.keys(this.gifts).forEach(key => {
@@ -183,27 +185,23 @@ export default {
         toggleGift(key) {
             this.openGifts[key] = !this.openGifts[key];
         },
-        save(finished = false) {
-            localStorage.setItem(
-                this.storageKey(),
-                JSON.stringify({
-                    index: this.currentQuestionIndex,
-                    scores: this.scores,
-                    finished
-                })
-            );
-        },
         startNewGame() {
             if (!confirm("Deseja iniciar um novo teste?")) return;
-            localStorage.removeItem(this.storageKey());
+            const progress = { index: 0, scores: Object.fromEntries(Object.keys(this.gifts).map(key => [key, 0])), finished: false };
+            const result = this.progressStore().save(progress);
+            if (!result.ok) { this.showStorageError(result.reason); return; }
+            this.error = '';
+            this.savedProgress = progress;
             this.initScores();
             this.currentQuestionIndex = 0;
+            this.libraryMode = false;
             this.screen = "test";
         },
         continueGame() {
-            const progress = this.readSavedProgress();
+            this.error = '';
+            const progress = this.refreshProgress();
             if (!progress || progress.finished) {
-                alert("Não foi possível recuperar o progresso salvo. Inicie um novo teste.");
+                if (!this.error) this.error = "Não foi possível recuperar o progresso salvo. Inicie um novo teste.";
                 return;
             }
 
@@ -212,49 +210,28 @@ export default {
             this.screen = "test";
         },
         answer(value) {
-            const question = this.currentQuestion;
-            if (!question || !question.gift) {
-                this.save(true);
-                this.screen = "results";
-                return;
-            }
-
-            this.scores[question.gift] += value;
-
-            if (this.currentQuestionIndex < this.totalQuestions - 1) {
-                this.currentQuestionIndex++;
-            } else {
-                this.save(true);
-                this.screen = "results";
-                return;
-            }
-
-            this.save();
-
-            if (this.currentQuestionIndex % 10 === 0 && this.currentQuestionIndex < this.totalQuestions) {
-                this.screen = "interstitial";
-            } else {
-                this.screen = "test";
-            }
+            if (this.screen !== 'test') return;
+            const progress = nextDonsAnswer({ index: this.currentQuestionIndex, scores: this.scores, finished: false }, value, this.questions);
+            if (!progress) return;
+            const result = this.progressStore().save(progress);
+            if (!result.ok) { this.showStorageError(result.reason); return; }
+            this.error = '';
+            this.savedProgress = progress;
+            this.scores = { ...progress.scores };
+            this.currentQuestionIndex = progress.index;
+            this.screen = progress.finished ? 'results'
+                : progress.index % 10 === 0 ? 'interstitial' : 'test';
         },
         restart() {
-            if (confirm("Apagar todos os dados?")) {
-                // 1. Remove o progresso
-                localStorage.removeItem(this.storageKey());
-
-                // 2. Reinicializa o estado interno
-                this.initScores();
-                this.currentQuestionIndex = 0;
-
-                // 3. Força que a tela de boas-vindas seja exibida corretamente
-                this.libraryMode = false;
-                this.screen = "welcome";
-
-                // 4. Pequeno truque para forçar reavaliação das computed properties
-                this.$nextTick(() => {
-                    // nada específico aqui, só garantir que Vue reavalie
-                });
-            }
+            if (!confirm("Apagar todos os dados deste teste?")) return;
+            const result = this.progressStore().remove();
+            if (!result.ok) { this.showStorageError(result.reason); return; }
+            this.error = '';
+            this.savedProgress = null;
+            this.initScores();
+            this.currentQuestionIndex = 0;
+            this.libraryMode = false;
+            this.screen = "welcome";
         },
         showLibrary() {
             this.libraryMode = true;
@@ -262,9 +239,10 @@ export default {
             this.screen = "results";
         },
         viewSavedResults() {
-            const progress = this.readSavedProgress();
+            this.error = '';
+            const progress = this.refreshProgress();
             if (!progress || !progress.finished) {
-                alert("Não foi possível recuperar os resultados salvos.");
+                if (!this.error) this.error = "Não foi possível recuperar os resultados salvos.";
                 return;
             }
 
@@ -272,6 +250,8 @@ export default {
             this.screen = "results";
         },
         goToWelcome() {
+            this.error = '';
+            this.refreshProgress();
             this.libraryMode = false;
             this.screen = "welcome";
         }
@@ -279,11 +259,7 @@ export default {
     mounted() {
         this.initScores();
 
-        // Garantir que todas as perguntas tenham gift definido
-        this.questions = this.questions.map((q, idx) => ({
-            text: q.text,
-            gift: q.gift || Object.keys(this.gifts)[idx % Object.keys(this.gifts).length]
-        }));
+        this.refreshProgress();
     }
 };
 </script>

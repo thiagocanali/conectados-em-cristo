@@ -31,7 +31,7 @@ Essas ações não conectam usuários reais nem enviam denúncias a uma equipe d
 - CSS próprio
 - ESLint com parser Babel para JavaScript legado
 
-Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. A configuração inclui GitHub Pages e Vercel; o destino de produção ativo precisa ser confirmado.
+Pinia e Tailwind aparecem nas dependências, mas não há uso identificado na interface atual. A configuração inclui GitHub Pages e Vercel; a Vercel possui deploy de produção confirmado; GitHub Pages também tem workflow configurado. Consulte [Deploy](docs/operations/deployment.md) para a evidência e a divergência de aliases.
 
 ## Desenvolvimento local
 
@@ -49,13 +49,15 @@ npm run lint
 npm run build
 ```
 
-Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação, outros domínios, componentes, acessibilidade ou E2E.
+Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação remota, outros domínios, componentes ou acessibilidade. Uma verificação pontual de navegador cobriu cadastro, perfil e questionário, incluindo falha de quota; ela não é uma suíte E2E de CI.
 
 ## Antes de qualquer lançamento real
 
 O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Nenhum provedor remoto ou credencial de backend está configurado neste repositório.
 
 ## Documentação
+
+- [Revisão de engenharia de 11/11/2026](AUDIT_REPORT.md) — correções, evidências e próximos passos.
 
 - [Contexto do projeto](PROJECT_CONTEXT.md) — visão, princípios e estado real do protótipo.
 - [Arquitetura do sistema](docs/architecture/system-architecture.md) — implementação atual e histórico da proposta.

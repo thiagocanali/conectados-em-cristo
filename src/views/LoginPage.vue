@@ -44,7 +44,9 @@ const login = () => {
     const redirect = router.currentRoute.value.query.redirect
     router.push(typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '/dashboard')
   } else {
-    error.value = 'Perfil não encontrado neste navegador. Crie um perfil demonstrativo primeiro.'
+    error.value = result.reason === 'storage-unavailable'
+      ? 'Não foi possível salvar a sessão. Verifique o armazenamento do navegador e tente novamente.'
+      : 'Perfil não encontrado neste navegador. Crie um perfil demonstrativo primeiro.'
   }
 }
 </script>

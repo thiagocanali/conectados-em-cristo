@@ -29,6 +29,12 @@ A autorização deve refletir o estado atual em novas requisições. Cache pode 
 
 ## 3. Fatos confiáveis por domínio
 
+### Validação em runtime
+
+As políticas e os carregadores também verificam os tipos dos fatos relevantes: TypeScript não valida respostas de banco/adapters durante a execução. Identificadores devem ser strings não vazias; atribuições e audiências devem ser arrays de identificadores. Uma visibilidade desconhecida não concede acesso a terceiros.
+
+Janela de edição e necessidade justificada exigem o booleano `true`; ausência de bloqueio/conflito exige o booleano `false`. `null`, `undefined`, strings como `"false"`, números e outros valores não são provas suficientes. Dados incompletos negam acesso; erros de dependência continuam sendo propagados para tratamento no limite da API. Essas verificações não tornam confiáveis fatos enviados pelo cliente.
+
 | Fato | Fonte lógica confiável | Regras de integridade |
 |---|---|---|
 | Identidade interna | Mapeamento de identidade validado pelo adaptador | UUID interno; nunca inferir por e-mail; identidade externa não é ID público |

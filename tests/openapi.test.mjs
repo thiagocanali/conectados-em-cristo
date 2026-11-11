@@ -90,6 +90,6 @@ test('public community pagination has bounded limits and no total count', () => 
   assert.equal(limit.schema.minimum, 1)
   assert.equal(limit.schema.maximum, 50)
   assert.equal(limit.schema.default, 20)
-  assert.equal(cursor.schema.maxLength, 512)
+  assert.equal(cursor.schema.maxLength, 1024)
   assert.equal('total' in page.properties, false)
 })

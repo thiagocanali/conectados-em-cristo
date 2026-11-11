@@ -82,7 +82,7 @@ jobs:
         run: npm run api:db:test
 
   dependency-audit:
-    name: Dependency audit (informational)
+    name: Dependency audit
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -131,5 +131,7 @@ jobs:
             npm-audit.json
             npm-audit-production.json
           retention-days: 14
+      - name: Reject high and critical dependency vulnerabilities
+        run: npm audit --audit-level=high
 
 

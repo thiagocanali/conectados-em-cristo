@@ -67,3 +67,56 @@ test('malformed user storage is cleared safely', () => {
   assert.deepEqual(auth.getDemoUsers(), [])
   assert.equal(values.has('users'), false)
 })
+
+test('updating answers preserves profile fields and ignores attempts to change account email', () => {
+  values.clear()
+  auth.registerDemoUser({ nome: 'Ana', email: 'ana@example.com', perfil: { cidade: 'Teste' } })
+  const result = auth.updateDemoUser({ respostas: [1, 2, 3], email: 'other@example.com', senha: 'secret' })
+  assert.equal(result.ok, true)
+  assert.equal(result.user.email, 'ana@example.com')
+  assert.deepEqual(result.user.perfil, { cidade: 'Teste' })
+  assert.deepEqual(auth.getDemoSession().respostas, [1, 2, 3])
+  assert.deepEqual(auth.getDemoUsers()[0], auth.getDemoSession())
+  assert.equal(values.get('users').includes('secret'), false)
+})
+
+test('an update requires a current demo session', () => {
+  values.clear()
+  assert.equal(auth.updateDemoUser({ nome: 'Ana' }).reason, 'no-session')
+  assert.equal(values.has('users'), false)
+})
+
+test('registration rolls back the new account when saving the session fails', () => {
+  values.clear()
+  const originalSet = localStorage.setItem
+  localStorage.setItem = (key, value) => {
+    if (key === 'currentUser') throw new Error('Storage quota exceeded')
+    originalSet(key, value)
+  }
+  try {
+    assert.equal(auth.registerDemoUser({ email: 'ana@example.com' }).reason, 'storage-unavailable')
+    assert.deepEqual(auth.getDemoUsers(), [])
+    assert.equal(auth.getDemoSession(), null)
+  } finally {
+    localStorage.setItem = originalSet
+  }
+})
+
+test('failed updates retain the previous account and session', () => {
+  values.clear()
+  auth.registerDemoUser({ nome: 'Ana', email: 'ana@example.com' })
+  const previousUsers = values.get('users')
+  const previousSession = values.get('currentUser')
+  const originalSet = localStorage.setItem
+  localStorage.setItem = (key, value) => {
+    if (key === 'currentUser') throw new Error('Storage quota exceeded')
+    originalSet(key, value)
+  }
+  try {
+    assert.equal(auth.updateDemoUser({ nome: 'Novo' }).reason, 'storage-unavailable')
+    assert.equal(values.get('users'), previousUsers)
+    assert.equal(values.get('currentUser'), previousSession)
+  } finally {
+    localStorage.setItem = originalSet
+  }
+})

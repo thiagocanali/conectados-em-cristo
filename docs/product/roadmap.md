@@ -1,5 +1,6 @@
 # Roadmap — Conectados em Cristo
 
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
 > **Sem cronograma aprovado.** Este roadmap organiza dependências e evidências, não promete datas.
 
 ## Estado atual

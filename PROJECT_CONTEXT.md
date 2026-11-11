@@ -4,9 +4,11 @@
 
 ## 1. Identidade do produto
 
-**Visão:** plataforma digital cristã para aproximar pessoas por meio de comunidades, fé, interesses e experiências compartilhadas.
+**Visão:** ajudar pessoas a conhecer e seguir Jesus Cristo, aprendendo pelas Escrituras e caminhando em comunidades cristãs que praticam amor, cuidado e serviço. Igrejas e pequenos grupos são parceiros centrais dessa experiência.
 
-**Princípio central:** **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
+**Princípio central:** **Jesus no centro. Aprender juntos. Servir na vida real.** Comunidade primeiro; conexões e relacionamentos são consequências, não o produto principal.
+
+Direção reforçada pelo responsável pelo produto em 2026-11-11: estudos bíblicos, participação comunitária e utilidade concreta para igrejas têm prioridade sobre testes de dons, personalidade e compatibilidade. A implementação dessa nova jornada ainda será feita; não confundir direção aprovada com funcionalidade pronta.
 
 O produto não é um aplicativo de namoro. Relacionamentos amorosos podem existir futuramente, mas não são o núcleo nem a porta de entrada do MVP.
 
@@ -58,6 +60,15 @@ Existem políticas puras e carregadores provider-neutral testados para:
 - remoção de reação.
 
 Ainda não há adapter persistente geral nem integração dessas políticas nas rotas de domínio.
+
+### Atualização técnica após as PRs #64–#67
+- Produção Vercel confirmada; o build publicado é a SPA. A API Fastify não é servida por esse build estático.
+- Migrations locais serializadas e com rollback do lote; paginação compatível com nomes Unicode.
+- Identidade/políticas/carregadores validam fatos em runtime, negando dados incompletos ou de tipos incorretos.
+- Gravações locais de perfil, questionário, descoberta, salvos e dons tratam falhas; restauração entre chaves é de melhor esforço, sem isolamento entre abas.
+- Progresso de dons reativo, persistido antes de avançar e validado contra limites. Esses testes são recursos legados e deixam de ser prioridade de produto.
+- Validação da base: 49 testes unitários/contrato, 78 de API/identidade/autorização e 10 PostgreSQL, além de lint/build. Auditoria npm bloqueia severidade alta/crítica.
+- Nenhum projeto Supabase foi identificado como pertencente a esta aplicação; nenhum recurso de outro projeto deve ser vinculado por suposição.
 
 ## 3. O que é demonstrativo
 

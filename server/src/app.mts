@@ -50,7 +50,7 @@ const publicCommunityPageSchema = {
   additionalProperties: false,
   properties: {
     items: { type: 'array', items: publicCommunitySchema },
-    nextCursor: { type: 'string', maxLength: 512 }
+    nextCursor: { type: 'string', maxLength: 1024 }
   }
 } as const
 
@@ -157,7 +157,7 @@ export function buildApp(options: AppOptions = {}): FastifyInstance {
         type: 'object',
         additionalProperties: false,
         properties: {
-          cursor: { type: 'string', maxLength: 512, pattern: '^[A-Za-z0-9_-]+$' },
+          cursor: { type: 'string', maxLength: 1024, pattern: '^[A-Za-z0-9_-]+$' },
           limit: { type: 'integer', minimum: 1, maximum: 50, default: 20 }
         }
       },

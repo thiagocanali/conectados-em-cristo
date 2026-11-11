@@ -42,7 +42,7 @@ Listas nominais de membros e reatores permanecem privadas por padrão. Não exis
 ## Paginação e ordenação
 
 - `limit`: padrão 20, mínimo 1, máximo 50.
-- Cursor opaco, máximo 512 caracteres; não é segredo nem autorização.
+- Cursor opaco, máximo 1024 caracteres; não é segredo nem autorização.
 - Ordenação estável por `name ASC, id ASC`.
 - Não retornar total de resultados.
 - Cursor inválido deve produzir erro genérico de validação, sem revelar estado de comunidades.

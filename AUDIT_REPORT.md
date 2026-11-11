@@ -1,5 +1,75 @@
 # Relatório de Auditoria — Conectados em Cristo
 
+## Revisão incremental — 2026-11-11
+
+Base: `main` em `ea5bd28fb794cfc6974b64814c6d5e8b5b5b5f57`. Revisão de código e contratos da API, identidade/autorização, persistência demonstrativa, workflows, documentação central e evidências dos plugins GitHub/Supabase/Vercel. Não é uma revisão exaustiva de todas as jornadas nem pentest.
+
+### Correções implementadas
+
+| Problema | Comportamento corrigido | Evidência |
+|---|---|---|
+| Cursor de 512 caracteres e contagem UTF-16 não comportavam todos os nomes permitidos por `varchar(100)` | Limite 1024, contagem por ponto de código e validação de UTF-8/NUL/substitutos isolados | Paginação real com nomes de 100 emojis e entradas inválidas em PostgreSQL 17 |
+| Dois executores podiam disputar criação do histórico e aplicar a mesma migration | Advisory lock transacional antes do histórico; lote inteiro atômico | Dois executores em banco vazio; falha de DDL, rollback de esquema/histórico e retry |
+| Cadastro, perfil e questionário podiam deixar dados parcialmente salvos ao falhar a sessão | Serviço compartilhado, tentativa de rollback do cadastro e mensagem de falha; sem avançar para resultados quando não salvou | Testes unitários e injeção de `QuotaExceededError` no Chromium |
+| ESLint analisava JS minificado após um build local | Ignora `dist/` e `server/dist/` | `npm run build` seguido de `npm run lint` |
+| Auditoria npm apenas informativa | CI bloqueia vulnerabilidades altas/críticas e mantém relatórios | Auditoria local com zero vulnerabilidades reportadas |
+
+O rollback de localStorage é de melhor esforço: a API do navegador não oferece transação entre chaves. Se o navegador também bloquear a restauração, não há garantia de consistência. Isso não transforma a sessão local em autenticação.
+
+### Validação desta revisão
+
+- Node 24.22.1 e PostgreSQL 17 efêmero, sem dados remotos.
+- 31 testes unitários/contrato, 66 testes de API/identidade/autorização e 10 testes PostgreSQL passaram; typecheck, build de API, build de frontend e lint passaram.
+- Chromium, viewport 390 × 844: cadastro → perfil → salvar → recarregar; erro de quota em perfil e questionário sem sucesso falso; questionário → resultados após restaurar armazenamento. Nenhum erro de página e nenhum overflow horizontal na tela final. Verificação pontual, sem suíte E2E no CI.
+- `npm audit`: zero vulnerabilidades reportadas no lockfile consultado; resultado não garante ausência de vulnerabilidades desconhecidas.
+- Consulta HTTP com TLS validado ao domínio informado: 200. O Chromium remoto encontrou erro de confiança no certificado do proxy; a verificação interativa desta revisão foi feita no app local HTTP, sem desativar validação TLS para o site remoto.
+
+A inspeção adicional das 12 rotas em viewport móvel não encontrou erros de página ou overflow horizontal. Encontrou dois elementos `main` aninhados na home; a view agora usa um `div`, preservando o landmark único de `App.vue`. Landmark único, atalho de teclado para o conteúdo e ausência de overflow foram verificados na home em 390 e 1440 px. Isso não equivale a auditoria completa de acessibilidade.
+
+### Infraestrutura e próximos passos
+
+1. **Identidade e persistência remotas:** nenhum projeto Supabase retornado pela conexão foi identificado como pertencente a esta aplicação. Nenhum projeto foi vinculado, provisionado ou alterado. Antes de dados reais, definir ambiente e provedor e implementar conta interna + adapter de identidade verificada + persistência dos fatos de autorização.
+2. **Autorização integrada:** políticas e carregadores puros existem, mas não protegem rotas de domínio nem estão ligados a repositórios persistentes. Manter operações privadas/escritas indisponíveis até integrar e testar IDOR, revogação e escopo.
+3. **Deploy:** produção Vercel READY no commit-base, mas divergência entre aliases e respostas HTTP; ver `docs/operations/deployment.md`. Fastify ainda não é servido pelo build estático. Definir a hospedagem da API e verificar contrato HTTP antes de conectá-la à interface.
+4. **Demais jornadas locais:** o tratamento de descoberta/salvos foi concluído na continuação abaixo; a recuperação do teste de dons e a validação do formulário de perfil foram concluídas na continuação abaixo; outras jornadas, como os resultados de compatibilidade, ainda precisam de revisão específica e cobertura de componentes.
+5. **Operação do produto:** retenção/exclusão, moderação, backups/restore e revisão de privacidade continuam pré-requisitos para um beta com pessoas reais.
+
+## Continuação — fronteira de identidade e autorização (2026-11-11)
+
+Após integração da PR #64 (`dcb1f05`), foi confirmada uma falha nas políticas ainda não conectadas às rotas: valores booleanos ausentes ou com tipo incorreto podiam autorizar operações. Exemplos: ausência do resultado de bloqueio/conflito era interpretada como ausência de impedimento; `editWindowOpen: "false"` era tratado como verdadeiro; uma visibilidade de oração desconhecida podia seguir pelo caminho de audiência selecionada.
+
+Correção: booleanos explícitos, arrays de identificadores e strings não vazias são exigidos em runtime. O resolvedor rejeita conta ativa sem UUID interno válido. Carregadores não consultam repositórios quando os identificadores recebidos estão malformados. Falhas de dependência continuam propagadas. Não foram criadas tabelas, sessões ou rotas privadas.
+
+Evidência: os 12 novos testes foram executados em worktree isolada sobre a base não corrigida: 10 falharam e 2 passaram. Na versão corrigida, os 12 passaram, junto dos 66 testes anteriores da API e 31 testes unitários/contrato; typecheck, build da API, lint e build do frontend passaram localmente. A suíte inclui mudança de conta ativa para suspensa entre resoluções e respostas malformadas dos repositórios de bloqueio/conflito/edição.
+
+Infraestrutura: produção Vercel READY após merge da PR #64; metadados de ambiente do projeto retornaram lista vazia, sem solicitar descriptografia. Os projetos Supabase disponíveis continuam sem correspondência identificada para esta aplicação. A integração remota permanece dependente da identificação do ambiente e dos gates documentados de provedor, idade, privacidade e operação.
+
+## Continuação — descoberta e perfis salvos (2026-11-11)
+
+Base: `92a364f`, após a integração da PR #65. As telas podiam lançar exceções ao renderizar registros locais malformados, remover um cartão antes de confirmar sua gravação e deixar denúncia/bloqueio parcialmente persistidos em caso de quota.
+
+Foi criado um serviço de listas demonstrativas por conta. Ele não importa listas globais de outra conta; lê a variante legada de e-mail sem gravar durante a leitura; preserva JSON corrompido em vez de sobrescrevê-lo como lista vazia; lê e prepara todas as alterações antes de escrever. Uma falha posterior tenta restaurar as chaves já escritas. Falha na própria restauração tem mensagem distinta. Não há transação real nem garantia contra escritas simultâneas de outras abas.
+
+As telas só avançam ou atualizam a lista após confirmação de gravação. Remover um perfil usa a lista relida no momento da ação para preservar entradas adicionadas desde a renderização. Cartões recebem somente campos de apresentação validados, com nome textual e idade inteira entre 18 e 99; registros inválidos são ignorados. E-mail local continua sendo apenas uma chave demonstrativa, não identidade autenticada. Erro ao ler listas de bloqueios/denúncias impede a descoberta de exibir cartões até resolver o erro.
+
+A interface de denúncia informa antes e depois da ação que o registro fica no navegador e não é enviado a moderadores.
+
+Validação: nove novos testes unitários cobrem isolamento por conta, legado sem gravação, dados corrompidos, rollback, falha de rollback e projeção de perfis. Quarenta testes unitários/contrato, lint e build passaram localmente. Chromium móvel verificou salvar/remover/interesse com falhas de quota, preservação de entrada adicionada entre leitura e remoção, restauração de denúncia quando o bloqueio falha, bloqueio após recarregar e descoberta sem cartões ao encontrar JSON de bloqueio corrompido; sem erros de página. Verificação pontual de navegador, não incorporada ao CI.
+
+## Continuação — recuperação do teste de dons e formulário de perfil (2026-11-11)
+
+Base: `7ab9bf7`, após a PR #66. O teste de dons alterava o índice/pontuação antes de gravar; uma falha de quota deixava a resposta aplicada em memória. Os botões de recuperação consultavam localStorage em computed properties sem dependência reativa, ficando desatualizados após concluir/apagar. A validação aceitava pontuações fracionárias, acima dos limites e resultados antecipados. O mapeamento dos dons dependia de um fallback no componente porque o objeto de dados usava `this` fora de contexto.
+
+Correções: transição imutável por resposta; gravação antes de alterar a tela; progresso salvo reativo; chaves por e-mail normalizado, sem importar progresso global; leitura de legado sem escrita; exclusão da chave normalizada e variante legada atual com tentativa de restauração em falha parcial. Índice, conclusão, chaves de pontuação, valores inteiros não negativos e máximos por dom/perguntas já respondidas são verificados. Dados inválidos permanecem armazenados até substituição explícita por novo teste. O mapeamento de perguntas para dons usa os índices definidos em cada dom, também usados no máximo do resultado.
+
+Foi extraído um helper de escrita/restauração compartilhado com listas demonstrativas. Continua sendo rollback de melhor esforço, sem transação real ou isolamento entre abas. A verificação do progresso detecta inconsistências de formato/limites; não comprova respostas autênticas nem torna o teste um instrumento validado.
+
+O perfil agora projeta somente campos de formulário conhecidos, normaliza tipos locais inválidos e rejeita nome em branco/idade fora de 18–99 ou fracionária antes de gravar. A leitura legada não tenta gravar uma migração durante a abertura da tela.
+
+Validação local: 49 testes unitários/contrato passaram, incluindo sete novos testes de dons e dois de perfil; lint e build passaram. Os testes anteriores de listas continuaram verdes com o helper extraído. Chromium móvel verificou 120 respostas (24/24 em todos os dons para respostas Muito), retomada após recarregar, quota sem duplicar pontuação, novo teste sem destruir resultados quando a gravação falha, falha e sucesso na exclusão e atualização imediata dos botões de recuperação. Perfil com campos de tipos inválidos foi editado/salvo sem exceção ou preservação de campos arbitrários; nome em branco foi rejeitado. Nenhum erro de página. Esta verificação de navegador permanece pontual, fora do CI.
+
+## Snapshot original — 2026-11-04
+
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.
 
 - Data da auditoria: 2026-11-04

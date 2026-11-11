@@ -36,6 +36,9 @@ Estados diferentes de `active` são negados para operações protegidas. A auten
 - Não armazenar senha, access token ou refresh token no domínio.
 - Falha de resolução deve ser indistinguível de uma identidade inexistente para superfícies externas.
 - A autorização posterior deve usar `accountId` interno e o contexto do recurso.
+- Valores de `provider`/`subject` devem ser strings não vazias, validadas em runtime antes de consultar o repositório. Os valores opacos não são normalizados nem vinculados por e-mail.
+- Uma conta ativa só produz principal se o identificador interno for um UUID válido. A tipagem TypeScript não substitui a validação do retorno de adapters/banco.
+- Cada resolução consulta o repositório novamente; suspensão deve impedir a próxima resolução. Não reutilizar principal em cache entre requests.
 - Bloqueio, papel, membership, moderação e consentimento não pertencem a este contrato.
 
 ## Limites
@@ -44,4 +47,4 @@ Este contrato não cria tabelas, não seleciona Supabase/Clerk/Better Auth, não
 
 ## Testes
 
-A suíte cobre resolução de `(provider, subject)` para UUID interno, identidade inexistente, valores vazios, estados de conta não ativos e ausência de autorização por e-mail. Os testes são deliberadamente provider-neutral.
+A suíte cobre resolução de `(provider, subject)` para UUID interno, identidade inexistente, valores vazios ou de tipos inválidos, UUID interno inválido, suspensão entre resoluções, falha de dependência, estados de conta não ativos e ausência de autorização por e-mail. Os testes são deliberadamente provider-neutral; não comprovam revogação de sessões no provedor.
