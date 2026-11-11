@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { studies, findStudy, passageUrl } from '../src/data/studies.mjs'
-import { buildMeetingGuide, meetingDurations } from '../src/services/meetingGuide.mjs'
+import { buildMeetingGuide, meetingDurations, meetingQuery, readMeetingSelection, publicMeetingUrl } from '../src/services/meetingGuide.mjs'
 import { createDemoAuthGuard } from '../src/router/demoAuthGuard.mjs'
 
 test('published guides have unique stable links, gospel references and complete study material', () => {
@@ -35,11 +35,54 @@ test('meeting schedules fill every supported duration and preserve the selected 
       assert.equal(guide.sections.reduce((sum, item) => sum + item.minutes, 0), minutes)
       assert.ok(guide.sections.every(item => item.minutes > 0))
       assert.ok(guide.text.includes(study.reference))
+      assert.ok(guide.text.includes(study.context))
+      assert.ok(guide.text.includes(passageUrl(study)))
+      assert.ok(guide.preparation.every(item => guide.text.includes(item)))
       assert.ok(guide.text.includes(study.practice))
       for (const question of study.questions) assert.ok(guide.text.includes(question))
       assert.ok(guide.text.includes('opcional'))
     }
   }
+})
+
+test('shared meeting links round-trip the selected study and every supported duration', () => {
+  for (const study of studies) {
+    for (const duration of meetingDurations) {
+      const query = meetingQuery(study.slug, duration)
+      assert.deepEqual(readMeetingSelection(query), { slug: study.slug, duration, corrected: false })
+      assert.deepEqual(Object.keys(query).sort(), ['estudo', 'tempo'])
+    }
+  }
+})
+
+test('invalid meeting query values recover to known choices without arbitrary conversion', () => {
+  assert.deepEqual(readMeetingSelection(), { slug: studies[0].slug, duration: 45, corrected: false })
+  for (const invalid of [null, true, ['60'], '60.0', '999', '', {}]) {
+    const recovered = readMeetingSelection({ estudo: studies[1].slug, tempo: invalid })
+    assert.equal(recovered.slug, studies[1].slug)
+    assert.equal(recovered.duration, 45)
+    assert.equal(recovered.corrected, true)
+  }
+  for (const invalid of [null, ['o-convite-de-jesus'], 'unknown', '<script>']) {
+    const recovered = readMeetingSelection({ estudo: invalid, tempo: '60' })
+    assert.equal(recovered.slug, studies[0].slug)
+    assert.equal(recovered.duration, 60)
+    assert.equal(recovered.corrected, true)
+  }
+  assert.equal(readMeetingSelection(null).corrected, false)
+})
+
+test('meeting links whitelist only public selection fields and reject unsupported exports', () => {
+  const selected = readMeetingSelection({ estudo: studies[0].slug, tempo: '30', participante: 'private', relato: 'private' })
+  assert.deepEqual(meetingQuery(selected.slug, selected.duration), { estudo: studies[0].slug, tempo: '30' })
+  assert.throws(() => meetingQuery('unknown', 45))
+  assert.throws(() => meetingQuery(studies[0].slug, '45'))
+})
+
+test('public share URLs preserve hosted base paths without unrelated page query or URL credentials', () => {
+  const hash = '#/em-comunidade?estudo=amar-o-proximo&tempo=30'
+  assert.equal(publicMeetingUrl(`/${hash}`, 'https://example.invalid/?session=private'), `https://example.invalid/${hash}`)
+  assert.equal(publicMeetingUrl(`/conectados-em-cristo/?session=private${hash}`, 'https://user:secret@example.invalid/'), `https://example.invalid/conectados-em-cristo/${hash}`)
 })
 
 test('unsupported meeting durations fail instead of generating an incomplete schedule', () => {
