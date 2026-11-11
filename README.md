@@ -16,6 +16,7 @@ Cadastro, sessão, perfis, questionários e interações do frontend são demons
 
 - `/estudos`: quatro guias originais dos Evangelhos, com filtro por tema.
 - `/estudos/:slug`: leitura referenciada, contexto, três perguntas e uma prática para a semana.
+- `/caminhada`: sequência inicial de quatro encontros, propostas entre encontros e kit completo para download; a duração escolhida é mantida nos roteiros.
 - `/em-comunidade`: roteiro de 30, 45 ou 60 minutos, preparação/contexto bíblico, condução por etapas, link compartilhável, download em texto e impressão completa. O link preserva estudo e duração.
 - `/igrejas`: orientação para usar os materiais com a comunidade local.
 

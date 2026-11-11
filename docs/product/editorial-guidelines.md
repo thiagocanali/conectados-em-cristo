@@ -15,6 +15,14 @@ Os quatro guias em `src/data/studies.mjs` têm redação original assistida e re
 
 Nenhuma tradução bíblica foi copiada para esses guias. Os links externos abrem a referência no Bible Gateway, versão ARC, em nova aba; a pessoa pode usar sua própria Bíblia. Referência e resumo precisam ser conferidos na passagem inteira. A redação inicial não recebeu uma revisão pastoral externa identificada; não anunciar que recebeu.
 
+## Caminhada inicial em comunidade
+
+`/caminhada` organiza os mesmos quatro estudos na ordem: convite de Jesus → permanecer em Cristo → aprender a orar → amar o próximo. Não acrescenta uma tradução bíblica nem alega ser uma formação completa. Os textos de propósito, retomada, prática entre encontros e próxima conversa são originais, em `src/data/learningPath.mjs`, sujeitos aos mesmos critérios de revisão do material inicial.
+
+O ritmo é escolhido pela comunidade, sem datas obrigatórias. Perguntas de retomada podem fazer parte do acolhimento; não acrescentam minutos obrigatórios ao roteiro. Participação e relato são opcionais; não há nota, presença, sequência diária obrigatória ou marcador de conclusão. O encerramento do último roteiro não comprova que alguém participou ou concluiu algo.
+
+O kit reúne os quatro roteiros completos, contexto, perguntas e práticas. Os downloads individuais e a impressão também incluem a proposta para a semana e a próxima conversa; a condução mostra a retomada no acolhimento e a prática no encerramento. O link de cada próximo encontro mantém a duração escolhida. A seleção de duração da caminhada aparece no hash da URL (`tempo`); a aplicação não grava histórico ou dados pessoais.
+
 ## Critérios editoriais
 - Jesus e as Escrituras como referência; distinguir texto bíblico, contexto, observação, pergunta e aplicação.
 - Não atribuir ao texto o que ele não afirma; evitar retirar frases do contexto.

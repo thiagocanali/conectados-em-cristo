@@ -12,6 +12,10 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 
 Testes unitários cobrem a volta de estudo/duração entre link e seleção, entradas malformadas, lista permitida de campos no link e contexto/preparação incluídos na exportação. Chromium cobre recarga, troca de query sem remontar a página, cópia e alternativa manual, cinco etapas, foco de teclado, impressão completa durante a condução, download e ausência de escrita no armazenamento local. A duração é sugestiva; a interface não mede espiritualidade ou presença.
 
+### Caminhada de quatro encontros
+
+`tests/learningPath.test.mjs` cobre sequência e referências disponíveis, próximo encontro sem loop, kit completo e roteiros individuais em todas as durações, entradas inválidas e acesso público. Chromium verifica biblioteca → caminhada → download → quatro roteiros, conservação da duração, retomada/prática na condução, conteúdo individual, impressão, último encontro sem alegar conclusão, recuperação de duração inválida e layouts móveis/desktop. Não houve erros de página ou escritas em localStorage/sessionStorage. Verificação pontual; não é validação por uma comunidade piloto.
+
 ## Estado atual
 
 - `npm test` executa o Node.js Test Runner (`node --test`).
