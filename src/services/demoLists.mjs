@@ -1,4 +1,5 @@
 import { getDemoSession } from './demoAuth.mjs'
+import { writeLocalValues } from '../utils/localStorageWrite.mjs'
 
 const bases = new Set(['perfisSalvos', 'interesses', 'denuncias', 'bloqueados'])
 
@@ -37,8 +38,6 @@ export function readDemoList(base, user = getDemoSession()) {
 
 /** Read every list before writing; restore completed writes if a later write fails. */
 export function updateDemoLists(updates) {
-  const previous = new Map()
-  const written = []
   try {
     const user = getDemoSession()
     const pending = Object.entries(updates).map(([base, update]) => {
@@ -47,21 +46,9 @@ export function updateDemoLists(updates) {
       if (!Array.isArray(items)) throw new DemoListError('invalid-data')
       return [key, JSON.stringify(items)]
     })
-    for (const [key] of pending) previous.set(key, localStorage.getItem(key))
-    for (const [key, value] of pending) {
-      localStorage.setItem(key, value)
-      written.push(key)
-    }
-    return { ok: true }
+    return writeLocalValues(pending)
   } catch (error) {
-    let restored = true
-    for (const key of written.reverse()) {
-      try {
-        if (previous.get(key) === null) localStorage.removeItem(key)
-        else localStorage.setItem(key, previous.get(key))
-      } catch { restored = false }
-    }
-    return { ok: false, reason: restored ? (error?.reason || 'storage-unavailable') : 'rollback-failed' }
+    return { ok: false, reason: error?.reason || 'storage-unavailable' }
   }
 }
 

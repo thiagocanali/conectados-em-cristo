@@ -10,6 +10,8 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 - `tests/safeStorage.test.mjs` cobre parsing seguro de JSON e validação do progresso do teste de dons.
 - `tests/demoAuth.test.mjs` cobre cadastro demonstrativo, login/logout, remoção de credenciais legadas, limpeza da sessão e descarte seguro de storage inválido.
 - `tests/demoLists.test.mjs` cobre isolamento de listas por conta, leitura legada sem escrita, proteção contra sobrescrever JSON corrompido, rollback de denúncia/bloqueio, falha de rollback e projeção de cartões válidos.
+- `tests/donsProgress.test.mjs` cobre mapeamento completo de perguntas, transição imutável, conclusão, limites de pontuação, isolamento/legado, quota e exclusão com restauração.
+- `tests/demoProfile.test.mjs` cobre normalização de campos locais malformados e projeção/validação de idade.
 - `tests/demoAuthGuard.test.mjs` cobre rotas públicas/privadas, redirecionamento, retorno ao destino original e validação de sessão.
 - `tests/openapi.test.mjs` valida JSON OpenAPI 3.1, referências internas, operationIds, parâmetros de rota, autenticação em operações de escrita, privacidade por padrão de pedidos de oração e allowlist/paginação do catálogo público F-07.
 - `npm run lint` executa ESLint CLI diretamente.
