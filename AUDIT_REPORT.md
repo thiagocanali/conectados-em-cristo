@@ -24,6 +24,8 @@ O rollback de localStorage é de melhor esforço: a API do navegador não oferec
 - `npm audit`: zero vulnerabilidades reportadas no lockfile consultado; resultado não garante ausência de vulnerabilidades desconhecidas.
 - Consulta HTTP com TLS validado ao domínio informado: 200. O Chromium remoto encontrou erro de confiança no certificado do proxy; a verificação interativa desta revisão foi feita no app local HTTP, sem desativar validação TLS para o site remoto.
 
+A inspeção adicional das 12 rotas em viewport móvel não encontrou erros de página ou overflow horizontal. Encontrou dois elementos `main` aninhados na home; a view agora usa um `div`, preservando o landmark único de `App.vue`. Landmark único, atalho de teclado para o conteúdo e ausência de overflow foram verificados na home em 390 e 1440 px. Isso não equivale a auditoria completa de acessibilidade.
+
 ### Infraestrutura e próximos passos
 
 1. **Identidade e persistência remotas:** nenhum projeto Supabase retornado pela conexão foi identificado como pertencente a esta aplicação. Nenhum projeto foi vinculado, provisionado ou alterado. Antes de dados reais, definir ambiente e provedor e implementar conta interna + adapter de identidade verificada + persistência dos fatos de autorização.

@@ -71,7 +71,7 @@ O contrato OpenAPI atual é draft e não substitui testes contra a implementaç�
 ## Backend Fastify local
 
 - `npm run api:typecheck`: verifica TypeScript estrito em server/.
-- `npm run api:test`: executa quatorze testes Fastify inject para health check, catálogo público com repositório fake, validação de query/path, requestId não controlado pelo cliente, Problem Details e ausência de rotas de produto.
+- `npm run api:test`: executa testes Fastify inject para health check/catálogo e testes unitários de identidade, políticas e carregadores de contexto de autorização. Valida query/path, requestId não controlado pelo cliente, Problem Details e ausência de rotas de produto.
 - `npm run api:build`: compila o servidor para server/dist.
 - `npm run api:check`: executa typecheck, testes e build; incluído no CI.
 
@@ -80,7 +80,7 @@ A suíte local não testa autenticação ou autorização real. A integração P
 
 ## Testes de integração PostgreSQL
 
-- `npm run api:db:test` executa sete testes contra um PostgreSQL local/efêmero.
+- `npm run api:db:test` executa dez testes contra um PostgreSQL local/efêmero.
 - Testa migrations repetíveis, defaults seguros, constraints, filtro de comunidades públicas, paginação estável, allowlist e integração Fastify/DB.
 - Exige `DATABASE_URL` para banco local cujo nome termine em `_test`; o teste remove/recria as tabelas `communities` e `schema_migrations`. Nunca apontar para banco compartilhado ou produção.
 - O CI usa PostgreSQL efêmero em serviço de container; nenhum provedor remoto foi selecionado.

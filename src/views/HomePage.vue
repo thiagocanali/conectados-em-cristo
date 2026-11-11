@@ -1,5 +1,5 @@
 <template>
-  <main class="home">
+  <div class="home">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">✦ Fé que aproxima</p>
@@ -28,7 +28,7 @@
       </div>
     </section>
     <section class="closing"><p class="eyebrow">Há lugar para você aqui</p><h2>Vamos caminhar juntos?</h2><p>Compartilhe seus interesses, conheça pessoas e faça parte de uma comunidade que valoriza a fé e o cuidado mútuo.</p><router-link to="/cadastro" class="btn-primary">Começar minha jornada <span aria-hidden="true">→</span></router-link></section>
-  </main>
+  </div>
 </template>
 <style scoped>
 .home { color: var(--ink); background: var(--cream); overflow: hidden; }.hero { max-width: 1180px; min-height: 570px; margin: auto; padding: 80px 32px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 56px; }.hero-copy { max-width: 610px; }
