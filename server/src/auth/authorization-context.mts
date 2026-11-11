@@ -96,7 +96,7 @@ export async function evaluateModerationCaseAccess(
     assignedCommunityIds,
     hasConflictOfInterest,
     justifiedNeed: role === 'administrator',
-    justification
+    ...(justification !== undefined ? { justification } : {})
   })
 }
 
