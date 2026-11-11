@@ -34,6 +34,16 @@ A inspeção adicional das 12 rotas em viewport móvel não encontrou erros de p
 4. **Demais jornadas locais:** descoberta, salvos e outros testes ainda têm gravações diretas no storage e precisam de tratamento equivalente de falha, validação de dados e cobertura de componentes. A correção desta revisão cobre cadastro, perfil e questionário.
 5. **Operação do produto:** retenção/exclusão, moderação, backups/restore e revisão de privacidade continuam pré-requisitos para um beta com pessoas reais.
 
+## Continuação — fronteira de identidade e autorização (2026-11-11)
+
+Após integração da PR #64 (`dcb1f05`), foi confirmada uma falha nas políticas ainda não conectadas às rotas: valores booleanos ausentes ou com tipo incorreto podiam autorizar operações. Exemplos: ausência do resultado de bloqueio/conflito era interpretada como ausência de impedimento; `editWindowOpen: "false"` era tratado como verdadeiro; uma visibilidade de oração desconhecida podia seguir pelo caminho de audiência selecionada.
+
+Correção: booleanos explícitos, arrays de identificadores e strings não vazias são exigidos em runtime. O resolvedor rejeita conta ativa sem UUID interno válido. Carregadores não consultam repositórios quando os identificadores recebidos estão malformados. Falhas de dependência continuam propagadas. Não foram criadas tabelas, sessões ou rotas privadas.
+
+Evidência: os 12 novos testes foram executados em worktree isolada sobre a base não corrigida: 10 falharam e 2 passaram. Na versão corrigida, os 12 passaram, junto dos 66 testes anteriores da API e 31 testes unitários/contrato; typecheck, build da API, lint e build do frontend passaram localmente. A suíte inclui mudança de conta ativa para suspensa entre resoluções e respostas malformadas dos repositórios de bloqueio/conflito/edição.
+
+Infraestrutura: produção Vercel READY após merge da PR #64; metadados de ambiente do projeto retornaram lista vazia, sem solicitar descriptografia. Os projetos Supabase disponíveis continuam sem correspondência identificada para esta aplicação. A integração remota permanece dependente da identificação do ambiente e dos gates documentados de provedor, idade, privacidade e operação.
+
 ## Snapshot original — 2026-11-04
 
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.

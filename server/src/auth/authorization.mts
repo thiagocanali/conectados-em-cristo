@@ -1,4 +1,5 @@
 import type { AccountStatus } from './identity.mjs'
+import { isIdentifierList, isNonBlankString } from './validation.mjs'
 
 export type AdultEligibility = 'eligible' | 'unknown' | 'ineligible'
 export type MembershipStatus = 'pending' | 'active' | 'suspended' | 'left' | 'removed'
@@ -71,10 +72,10 @@ export interface OwnedContentPolicyInput {
 /** Ownership is checked against the persisted owner, never a client-supplied author ID. */
 export function canEditOwnedContent(input: OwnedContentPolicyInput): PolicyDecision {
   if (input.accountStatus !== 'active') return deny('account_unavailable')
-  if (!input.actorAccountId.trim() || !input.ownerAccountId.trim()) return deny('resource_unavailable')
+  if (!isNonBlankString(input.actorAccountId) || !isNonBlankString(input.ownerAccountId)) return deny('resource_unavailable')
   if (input.actorAccountId !== input.ownerAccountId) return deny('not_owner')
   if (input.resourceStatus !== 'active') return deny('resource_unavailable')
-  if (!input.editWindowOpen) return deny('edit_window_closed')
+  if (input.editWindowOpen !== true) return deny('edit_window_closed')
   return allow()
 }
 
@@ -89,8 +90,9 @@ export interface DirectInteractionPolicyInput {
 /** Global blocks deny direct interaction in either direction, not community-content visibility. */
 export function canInteractDirectly(input: DirectInteractionPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active' || input.targetStatus !== 'active') return deny('account_unavailable')
-  if (!input.actorAccountId.trim() || !input.targetAccountId.trim()) return deny('resource_unavailable')
+  if (!isNonBlankString(input.actorAccountId) || !isNonBlankString(input.targetAccountId)) return deny('resource_unavailable')
   if (input.actorAccountId === input.targetAccountId) return deny('resource_unavailable')
+  if (typeof input.blockedEitherDirection !== 'boolean') return deny('resource_unavailable')
   if (input.blockedEitherDirection) return deny('blocked')
   return allow()
 }
@@ -110,17 +112,18 @@ export interface ModerationPolicyInput {
 /** Moderation role and assignments must be loaded from trusted persistence. */
 export function canAccessModerationCase(input: ModerationPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active') return deny('account_unavailable')
-  if (!input.actorAccountId.trim() || !input.caseCommunityId.trim()) return deny('resource_unavailable')
+  if (!isNonBlankString(input.actorAccountId) || !isNonBlankString(input.caseCommunityId)) return deny('resource_unavailable')
   if (input.role !== 'moderator' && input.role !== 'administrator') return deny('role_required')
+  if (typeof input.hasConflictOfInterest !== 'boolean') return deny('resource_unavailable')
   if (input.hasConflictOfInterest) return deny('conflict_of_interest')
 
   if (input.role === 'moderator') {
-    return input.assignedCommunityIds.includes(input.caseCommunityId)
+    return isIdentifierList(input.assignedCommunityIds) && input.assignedCommunityIds.includes(input.caseCommunityId)
       ? allow()
       : deny('scope_mismatch')
   }
 
-  if (!input.justifiedNeed || !input.justification?.trim()) return deny('justification_required')
+  if (input.justifiedNeed !== true || !isNonBlankString(input.justification)) return deny('justification_required')
   return allow()
 }
 
@@ -138,11 +141,11 @@ export interface PrayerRequestPolicyInput {
  */
 export function canReadPrayerRequest(input: PrayerRequestPolicyInput): PolicyDecision {
   if (input.actorStatus !== 'active') return deny('account_unavailable')
-  if (!input.actorAccountId.trim() || !input.ownerAccountId.trim()) return deny('resource_unavailable')
+  if (!isNonBlankString(input.actorAccountId) || !isNonBlankString(input.ownerAccountId)) return deny('resource_unavailable')
   if (input.actorAccountId === input.ownerAccountId) return allow()
   if (input.visibility === 'private') return deny('not_in_audience')
-  if (input.visibility === 'public') return deny('unsupported_visibility')
-  if (!input.selectedAudienceAccountIds.includes(input.actorAccountId)) return deny('not_in_audience')
+  if (input.visibility !== 'selected') return deny('unsupported_visibility')
+  if (!isIdentifierList(input.selectedAudienceAccountIds) || !input.selectedAudienceAccountIds.includes(input.actorAccountId)) return deny('not_in_audience')
   return allow()
 }
 
@@ -155,7 +158,7 @@ export interface ReactionRemovalPolicyInput {
 /** A member can remove only their own reaction. */
 export function canRemoveReaction(input: ReactionRemovalPolicyInput): PolicyDecision {
   if (input.accountStatus !== 'active') return deny('account_unavailable')
-  if (!input.actorAccountId.trim() || !input.reactionOwnerAccountId.trim()) return deny('resource_unavailable')
+  if (!isNonBlankString(input.actorAccountId) || !isNonBlankString(input.reactionOwnerAccountId)) return deny('resource_unavailable')
   if (input.actorAccountId !== input.reactionOwnerAccountId) return deny('not_owner')
   return allow()
 }
