@@ -60,7 +60,7 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 - [Contexto do projeto](PROJECT_CONTEXT.md) — visão, princípios e estado real do protótipo.
 - [Arquitetura do sistema](docs/architecture/system-architecture.md) — implementação atual e histórico da proposta.
 - [Arquitetura de backend](docs/architecture/backend.md) — direção técnica aprovada e decisões de fornecedores ainda pendentes.
-- [Plano do MVP](docs/product/mvp.md) — proposta ainda não aprovada.
+- [Plano do MVP](docs/product/mvp.md) — direção comunitária aprovada; implementação e gates ainda pendentes.
 - [Roadmap](docs/product/roadmap.md) — decisões e próximos passos sem cronograma aprovado.
 - [ADRs](docs/decisions/README.md) — decisões arquiteturais e seus status, incluindo identidade interna portável.
 - [Estratégia de testes](docs/testing/test-strategy.md) — capacidades atuais e plano de validação.
