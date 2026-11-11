@@ -1,164 +1,129 @@
-# Plano do MVP — Conectados em Cristo
+# MVP — Conectados em Cristo
 
-> Status: proposta não aprovada e não implementada como produto de produção. O repositório contém um protótipo frontend local; consulte `PROJECT_CONTEXT.md` para o estado real.
+> **Status: direção de produto aprovada; implementação ainda incompleta.** Este documento não define cronograma. O estado executável está em PROJECT_CONTEXT.md e README.md; decisões canônicas ficam em OPEN_DECISIONS.md.
 
-## Decisões de produto em aberto
-- Prazo: este documento estima 8 semanas; `requirements.md` indica 6 meses. Nenhum prazo foi aprovado.
-- Idiomas: aqui consta apenas português no MVP; `requirements.md` pede português, inglês e espanhol. Escopo de idiomas não decidido.
-- Mensagens: excluídas deste MVP, mas aparecem no roadmap aspiracional de `INSTR.md`. Escopo e fase do chat não decididos.
-- Tecnologias de backend, banco, hospedagem, e-mail, storage, autenticação e moderação listadas abaixo são alternativas, não seleções aprovadas.
+## 1. Hipótese do MVP
 
-## Escopo do MVP
+Validar que pessoas cristãs adultas encontram valor em uma comunidade digital baseada em fé, interesses e experiências compartilhadas, mesmo sem buscar relacionamento amoroso.
 
-O MVP (Minimum Viable Product), caso aprovado, deverá validar a hipótese central do produto: pessoas cristãs encontram valor em uma comunidade digital baseada em fé, interesses e propósito. A experiência deve apoiar amizades, participação comunitária e outras conexões significativas; relacionamentos amorosos são uma possibilidade, não o objetivo exclusivo.
+**Princípio:** Comunidade primeiro. Conexões depois. Relacionamentos como consequência.
 
-## Features Incluídas no MVP
+O MVP não deve transformar descoberta romântica, compatibilidade ou chat em requisito de entrada.
 
-### Sprint 1: Fundação
-- [ ] Setup inicial do projeto (backend, frontend, banco)
-- [ ] Autenticação com email/senha
-- [ ] Verificação de email
-- [ ] Gestão de sessão
-- [ ] Admin panel básico
+## 2. Escopo funcional inicial
 
-### Sprint 2: Perfil e Onboarding
-- [ ] Criação de perfil
-- [ ] Upload de fotos
-- [ ] Preenchimento de dados básicos
-- [ ] Preenchimento de dados de fé
-- [ ] Preview do perfil
-- [ ] Edição de perfil
+### Conta e sessão
+- Cadastro real.
+- Login e logout.
+- Verificação de e-mail.
+- Recuperação de acesso.
+- Sessão segura e revogável.
+- Proteção server-side de rotas e recursos.
 
-### Sprint 3: Questionário
-- [ ] Questionário de compatibilidade
-- [ ] Salvamento progressivo
-- [ ] Resumo de respostas
-- [ ] Atualização de respostas
+### Perfil
+- Perfil mínimo e progressivo.
+- Nome de exibição, bio e interesses.
+- Informações públicas configuráveis.
+- Privacidade por campo quando aplicável.
+- Exclusão, correção e exportação conforme requisitos jurídicos definidos.
+- Dados religiosos somente quando houver finalidade e proteção adequadas.
 
-### Sprint 4: Descoberta
-- [ ] Lista de perfis
-- [ ] Filtros básicos (idade, localização, fé)
-- [ ] Visualização de perfil completo
-- [ ] Ordenação por compatibilidade
+### Comunidades
+- Comunidades inicialmente criadas e curadas pela administração.
+- Categorias e regras próprias.
+- Comunidades públicas descobertas no catálogo.
+- Comunidades privadas ou por aprovação com entrada controlada.
+- Entrada, saída, solicitação e aprovação conforme a regra da comunidade.
+- Administrador global, moderadores atribuídos e membros com permissões distintas.
+- Criação livre de comunidades por usuários fica fora do primeiro beta.
 
-### Sprint 5: Interações
-- [ ] Demonstrar interesse
-- [ ] Passar perfil
-- [ ] Salvar perfil
-- [ ] Bloquear perfil
-- [ ] Denunciar perfil
+### Participação
+- Publicações inicialmente em texto.
+- Comentários.
+- Reação única “Apoiar”, removível pelo próprio autor.
+- Edição própria por janela curta.
+- Exclusão lógica conforme as regras de privacidade/moderação.
+- Paginação e controles de abuso.
 
-### Sprint 6: Compatibilidade e Match
-- [ ] Cálculo de compatibilidade
-- [ ] Exibição de compatibilidade
-- [ ] Notificação de mutual interest
-- [ ] Histórico de interações
+### Segurança e moderação
+- Bloqueio global entre contas para descoberta/interações diretas.
+- Denúncia de usuários e conteúdo.
+- Fila central restrita de denúncias.
+- Moderação com ações proporcionais, justificativa e auditoria.
+- Conflito de interesse de moderadores tratado server-side.
+- Apelação e SLAs somente após definição operacional.
 
-### Sprint 7: Moderação Básica
-- [ ] Painel de denúncias
-- [ ] Revisão de perfis denunciados
-- [ ] Ação: avisar, suspender, banir
-- [ ] Logs de moderação
+### Administração
+- Gestão de usuários e comunidades.
+- Gestão de denúncias.
+- Designação de moderadores.
+- Categorias e regras.
+- Auditoria de ações administrativas.
+- Autorização administrativa sempre no servidor.
 
-### Sprint 8: Polish e QA
-- [ ] Testes de segurança
-- [ ] Testes de usabilidade
-- [ ] Otimizações de performance
-- [ ] Documentação final
+## 3. Fora do primeiro MVP
 
-## Features NÃO no MVP
+- Chat e mensagens privadas.
+- Descoberta romântica individual como porta de entrada.
+- Compatibilidade algorítmica/score.
+- Interesse romântico e matching.
+- Criação livre de comunidades por usuários.
+- Eventos.
+- Notificações avançadas/push.
+- Upload de mídia, enquanto storage, moderação e privacidade não estiverem prontos.
+- Recursos de monetização.
+- Internacionalização além do português brasileiro inicial.
+- Gamificação de popularidade.
 
-- ❌ Mensagens entre usuários
-- ❌ Notificações push
-- ❌ Análise comportamental avançada
-- ❌ Verificação de identidade avançada (foto + documento)
-- ❌ Internacionalização (apenas PT)
-- ❌ Moderação com IA
-- ❌ Recomendações algoritmos
-- ❌ Pagamentos/Freemium
-- ❌ Social features (seguir, comentar)
-- ❌ Stories ou feed
-- ❌ Video chat
-- ❌ Badges ou gamification
+Esses itens podem permanecer no backlog e só devem ser promovidos mediante nova decisão de produto e segurança.
 
-## User Stories Prioritárias
+## 4. Oração e conteúdo de fé
 
-### Como novo usuário, quero...
-- Registrar-me com email e senha (10 pontos)
-- Verificar meu email (5 pontos)
-- Criar meu perfil completo (13 pontos)
-- Ver como meu perfil aparece para outros (5 pontos)
-- Responder questionário de compatibilidade (13 pontos)
-- Descobrir pessoas compatíveis (13 pontos)
-- Demonstrar interesse em alguém (3 pontos)
-- Ver quem demonstrou interesse em mim (5 pontos)
-- Saber por que sou compatível com alguém (8 pontos)
-- Bloquear ou denunciar perfil suspeito (5 pontos)
+Conteúdo editorial cristão pode evoluir de forma controlada, com referências e licenças adequadas.
 
-### Como usuário voltando, quero...
-- Fazer login facilmente (3 pontos)
-- Atualizar meu perfil (5 pontos)
-- Ver meu histórico de interações (5 pontos)
-- Receber notificação de novo interesse (8 pontos)
-- Deletar minha conta (5 pontos)
+Pedidos de oração são dados potencialmente sensíveis e **não devem receber dados reais no protótipo**. A funcionalidade só deve ser habilitada após controles de público/audiência, consentimento, autorização server-side, denúncia, moderação, exclusão e retenção estarem operacionais.
 
-### Como moderador/admin, quero...
-- Ver todas as denúncias (5 pontos)
-- Revisar perfil denunciado (5 pontos)
-- Tomar ação: avisar, suspender, banir (8 pontos)
-- Ver logs de moderação (5 pontos)
-- Desativar contas fraudulentas (3 pontos)
+## 5. Modelo de participação do beta
 
-## Critérios de Sucesso do MVP
+- Visitantes: somente metadados públicos de apresentação/catálogo.
+- Membros autenticados: participação apenas nos espaços em que possuem vínculo válido.
+- Moderadores: atuação somente nas comunidades atribuídas, com impedimento em conflitos.
+- Administradores: poderes globais conforme justificativa e auditoria.
+- Comunidades não listadas: acesso somente por convite/autorização.
+- Conteúdo e interações não são públicos para a internet.
 
-### Funcional
-- [ ] 100% das features core funcionam sem crashes
-- [ ] Zero vulnerabilidades críticas de segurança
-- [ ] Taxa de erro < 0.1%
+## 6. Critérios de aceite do MVP
 
-### Experiência
-- [ ] Onboarding completo em < 10 minutos
-- [ ] Primeira descoberta em < 2 minutos após onboarding
-- [ ] Interface responsiva em desktop e mobile
-- [ ] Sem lentidão aparente em ações comuns
+O MVP não será considerado pronto apenas por possuir telas ou builds verdes. Em homologação deverá existir evidência de:
 
-### Negócio
-- [ ] 100+ beta testes
-- [ ] NPS > 40
-- [ ] Taxa de conclusão de onboarding > 70%
-- [ ] Taxa de preenchimento de perfil > 80%
+1. autenticação e sessão reais;
+2. perfil persistente com privacidade;
+3. comunidades e memberships persistentes;
+4. publicações, comentários e reações persistentes;
+5. autorização server-side por recurso;
+6. bloqueios e denúncias persistentes;
+7. moderação com fila, ações e auditoria;
+8. direitos de privacidade operacionais;
+9. backup/restore testado;
+10. monitoramento e resposta a incidentes;
+11. testes automatizados dos fluxos críticos;
+12. acessibilidade revisada.
 
-## Timeline Estimada
+## 7. Gates antes de dados reais
 
-- Sprint 1-2: 2 semanas (fundação + perfil)
-- Sprint 3-4: 2 semanas (questionário + descoberta)
-- Sprint 5-6: 2 semanas (interações + compatibilidade)
-- Sprint 7-8: 2 semanas (moderação + polish)
+Não coletar dados reais enquanto estiverem pendentes os gates aplicáveis de:
 
-**Total: 8 semanas (2 meses)**
+- fornecedor/região de identidade e PostgreSQL;
+- sessão, recuperação e MFA administrativo;
+- privacidade/LGPD, bases legais e retenção;
+- capacidade humana de moderação;
+- verificação de idade 18+;
+- backup/restore;
+- observabilidade e resposta a incidentes;
+- revisão jurídica.
 
-## Alternativas técnicas para avaliação (não aprovadas)
+## 8. Cronograma
 
-- Backend: Node.js + Express/TypeScript ou outra opção a decidir
-- Frontend: Vue 3 + Vue Router 4 + Vite 6 implementado no protótipo; migração Vue CLI → Vite concluída na PR #23
-- Banco, hospedagem, e-mail, armazenamento, autenticação e moderação: sem escolha
-- Ver ADRs 0003–0005; o protótipo atual não implementa esses serviços
+**Não aprovado.**
 
-## Riscos e Mitigações
-
-| Risco | Probabilidade | Impacto | Mitigação |
-|-------|---------------|--------|-----------|
-| Vulnerabilidade de segurança descoberta | Média | Alto | Teste de penetração early, security review |
-| Performance suficiente não atingida | Baixa | Médio | Load testing desde early, otimizações |
-| Usuários não entendem compatibilidade | Média | Médio | UX testing, design intuitivo |
-| Taxa de abandono alta | Média | Alto | Analytics, feedback, iterações rápidas |
-| Mudança de escopo | Alta | Alto | Planejamento claro, frozen scope |
-
-## Próximos Passos
-
-1. [ ] Resolver os conflitos de prazo, idiomas e chat com o responsável pelo produto
-2. [ ] Aprovar o escopo MVP
-3. [ ] Definir tecnologias exatas
-4. [ ] Criar mockups de design
-5. [ ] Configurar o repositório do backend
-6. [ ] Iniciar o desenvolvimento dos sprints aprovados
+Estimativas anteriores de 8 semanas ou 6 meses são históricas e não devem orientar implementação. O cronograma só deve ser estimado após escopo fechado, disponibilidade de desenvolvimento, orçamento, capacidade de moderação e requisitos legais conhecidos.
