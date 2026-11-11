@@ -142,7 +142,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "maxLength": 512
+              "maxLength": 1024
             }
           },
           {
@@ -872,7 +872,7 @@
           },
           "nextCursor": {
             "type": "string",
-            "maxLength": 512,
+            "maxLength": 1024,
             "description": "Cursor opaco de paginação; não é segredo nem autorização."
           }
         }

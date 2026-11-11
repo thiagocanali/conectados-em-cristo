@@ -1,6 +1,9 @@
 import test, { before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { Pool } from 'pg'
+import { mkdtemp, writeFile, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { applyMigrations } from '../src/db/migrate.mjs'
 import { PostgresCommunityRepository } from '../src/communities/community-repository.mjs'
 import { buildApp } from '../src/app.mjs'
@@ -20,8 +23,8 @@ let hiddenId = ''
 before(async () => {
   await pool.query('DROP TABLE IF EXISTS schema_migrations CASCADE')
   await pool.query('DROP TABLE IF EXISTS communities CASCADE')
-  const applied = await applyMigrations(pool)
-  assert.deepEqual(applied, ['0001_create_communities'])
+  const results = await Promise.all([applyMigrations(pool), applyMigrations(pool)])
+  assert.deepEqual(results.flat(), ['0001_create_communities'])
 
   const fixtures = [
     ['alpha', 'Alpha', 'Estudo', 'active', 'listed', 'open'],
@@ -50,6 +53,25 @@ after(async () => {
 test('migration runner is repeatable and does not reapply an existing migration', async () => {
   const applied = await applyMigrations(pool)
   assert.deepEqual(applied, [])
+})
+
+test('failed migration batch rolls back schema and history and can be retried', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'conectados-migrations-'))
+  try {
+    await writeFile(join(directory, '9001_test.up.sql'), 'CREATE TABLE migration_atomicity_probe (id integer);')
+    await writeFile(join(directory, '9002_test.up.sql'), 'SELECT intentionally_invalid_sql;')
+    await assert.rejects(applyMigrations(pool, directory))
+    const table = await pool.query("SELECT to_regclass('migration_atomicity_probe') AS name")
+    assert.equal(table.rows[0].name, null)
+    const history = await pool.query("SELECT version FROM schema_migrations WHERE version LIKE '900%'")
+    assert.equal(history.rowCount, 0)
+    await writeFile(join(directory, '9002_test.up.sql'), 'ALTER TABLE migration_atomicity_probe ADD COLUMN value text;')
+    assert.deepEqual(await applyMigrations(pool, directory), ['9001_test', '9002_test'])
+  } finally {
+    await pool.query('DROP TABLE IF EXISTS migration_atomicity_probe')
+    await pool.query("DELETE FROM schema_migrations WHERE version IN ('9001_test', '9002_test')")
+    await rm(directory, { recursive: true, force: true })
+  }
 })
 
 test('database defaults keep new communities draft, unlisted and approval-only', async () => {
@@ -133,6 +155,46 @@ test('Fastify catalog endpoints read only public PostgreSQL rows', async () => {
     })
     assert.equal(hidden.statusCode, 404)
     assert.equal(hidden.json().title, 'Not Found')
+  } finally {
+    await app.close()
+  }
+})
+
+test('catalog pagination round-trips names with 100 supplementary Unicode characters', async () => {
+  const ids: string[] = []
+  const app = buildApp({ communityRepository: new PostgresCommunityRepository(pool) })
+  try {
+    for (const [slug, name] of [['unicode-one', '😀'.repeat(100)], ['unicode-two', '😁'.repeat(100)]]) {
+      const result = await pool.query<{ id: string }>(
+        `INSERT INTO communities (slug, name, category, status, catalog_visibility)
+         VALUES ($1, $2, 'Teste', 'active', 'listed') RETURNING id`, [slug, name]
+      )
+      ids.push(result.rows[0].id)
+    }
+    const startCursor = Buffer.from(JSON.stringify({ name: 'Z', id: publicIds[0] })).toString('base64url')
+    const first = await app.inject(`/api/v1/communities?limit=1&cursor=${startCursor}`)
+    assert.equal(first.statusCode, 200)
+    assert.equal(first.json().items[0].id, ids[0])
+    assert.ok(first.json().nextCursor.length > 512)
+    const second = await app.inject(`/api/v1/communities?limit=1&cursor=${first.json().nextCursor}`)
+    assert.equal(second.statusCode, 200)
+    assert.equal(second.json().items[0].id, ids[1])
+    assert.equal(second.json().nextCursor, undefined)
+  } finally {
+    await pool.query('DELETE FROM communities WHERE id = ANY($1::uuid[])', [ids])
+    await app.close()
+  }
+})
+
+test('cursor names PostgreSQL cannot represent are rejected as client errors', async () => {
+  const app = buildApp({ communityRepository: new PostgresCommunityRepository(pool) })
+  try {
+    for (const name of ['bad\u0000name', '\ud800', 'a'.repeat(101)]) {
+      const cursor = Buffer.from(JSON.stringify({ name, id: publicIds[0] })).toString('base64url')
+      const response = await app.inject(`/api/v1/communities?cursor=${cursor}`)
+      assert.equal(response.statusCode, 400)
+      assert.equal(response.json().detail, 'The request could not be processed.')
+    }
   } finally {
     await app.close()
   }
