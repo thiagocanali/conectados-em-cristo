@@ -1,6 +1,7 @@
 <template>
   <div class="learning-page page-wrapper">
     <header class="learning-header"><p class="eyebrow">Jesus no centro</p><h1>Conhecer Jesus. Caminhar com ele.</h1><p>Abra a Bíblia, observe o texto e leve uma resposta concreta para a vida. Guias gratuitos para estudar sozinho, com amigos ou com sua igreja.</p></header>
+    <aside class="learning-note" aria-labelledby="path-intro-title"><p class="eyebrow">Por onde começar com seu grupo</p><h2 id="path-intro-title">Uma caminhada de quatro encontros</h2><p>Do convite de Jesus ao amor ao próximo: uma sequência para ler, conversar e praticar, com propostas para a semana e um kit completo para quem conduz.</p><router-link to="/caminhada" class="btn-primary">Conhecer a caminhada</router-link></aside>
     <div class="learning-filters" role="group" aria-label="Filtrar estudos por tema">
       <button v-for="item in themes" :key="item" class="btn-secondary" :aria-pressed="theme === item" @click="theme = item">{{ item }}</button>
     </div>

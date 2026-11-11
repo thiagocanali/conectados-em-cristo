@@ -88,6 +88,14 @@ A impressão mostra o roteiro completo mesmo com a condução ativa; o título d
 
 Validação local: 58 testes unitários/contrato, lint e build passaram. Chromium verificou compartilhamento/recarga, cópia e falha de permissão com seleção manual, cinco etapas e foco, impressão, arquivo com contexto/preparação, troca de query sem remount, recuperação de link inválido e layouts 390/1440 px sem overflow. Nenhum erro de página e nenhuma escrita em localStorage/sessionStorage. Verificação pontual de navegador, sem validação de uso por uma igreja real ou revisão pastoral externa.
 
+## Continuação — continuidade entre encontros (2026-11-11)
+
+Base: `beee92c`, após a PR #69. Os estudos eram encontros avulsos, sem uma sequência inicial ou material para retomar as práticas. Foi criada `/caminhada`, uma proposta de quatro encontros na ordem convite de Jesus, permanência em Cristo, oração e amor ao próximo. Reutiliza as referências e os guias existentes, com propósitos, perguntas de retomada e propostas para a semana de redação original.
+
+O kit baixável reúne os quatro roteiros completos. Downloads individuais, impressão e condução também incluem os pontos de continuidade. Links para o próximo encontro seguem a sequência e preservam a duração; o último não reinicia a sequência nem registra/alega conclusão. A biblioteca e a página para igrejas dão acesso à caminhada, e o estudo individual oferece o caminho ao grupo. Não há registro de grupo, participantes, notas, presença, histórico ou pontuação espiritual.
+
+Validação local: 63 testes unitários/contrato, lint e build passaram. Chromium verificou entrada pública pela biblioteca, ordem dos quatro encontros, seleção/recarga de duração e links, kit com quatro contextos/roteiros, retomada e prática na condução, navegação completa até o último encontro, download/impressão individual com continuidade, duração inválida e layouts 390/1440 px sem overflow. Sem erros de página ou gravações em localStorage/sessionStorage. Captura móvel inspecionada. Não é uma formação completa, validação por igreja piloto ou revisão pastoral externa; esses passos continuam pendentes.
+
 ## Snapshot original — 2026-11-04
 
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.

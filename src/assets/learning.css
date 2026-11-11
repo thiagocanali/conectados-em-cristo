@@ -35,6 +35,9 @@
 .meeting-context p { margin-top: 16px; }
 .meeting-preparation > * + * { margin-top: 18px; }
 .meeting-advice { padding: 14px; background: var(--cream-dark); border-radius: var(--radius-sm); }
+.path-session-list { list-style: none; padding: 0; margin: 32px 0; }
+.path-session { margin: 28px 0; }
+.path-session h3 { font-size: 1.08rem; }
 @media (max-width: 650px) { .learning-grid { grid-template-columns: 1fr; }.learning-note { padding: 24px; } }
 @media print {
   .navbar, .footer, .skip-link, .guide-controls, .learning-note, .learning-filters, .learning-actions,
