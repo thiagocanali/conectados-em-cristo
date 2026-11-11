@@ -1,27 +1,101 @@
-# Roadmap
+# Roadmap — Conectados em Cristo
 
-## Objetivo
-Organizar a evolução do produto sem comprometer segurança, privacidade e propósito.
+> **Sem cronograma aprovado.** Este roadmap organiza dependências e evidências, não promete datas.
 
 ## Estado atual
-O produto executável é um protótipo de frontend local em Vue 3/Vite, sem API ou serviços remotos. O fluxo de acesso local é demonstrativo e não constitui autenticação. Não existe cronograma aprovado para um MVP de produção.
 
-## Próxima fase proposta
-1. Concluir o saneamento do protótipo: remover credenciais locais, centralizar sessão demonstrativa e ampliar testes de jornadas críticas.
-2. Auditar dependências após a migração para Vite e corrigir vulnerabilidades sem atualizações destrutivas.
-3. Revisar documentação e decisões pendentes para remover propostas antigas conflitantes.
-4. Definir escopo de MVP com critérios de segurança, privacidade e acessibilidade.
-5. Planejar backend, persistência e autenticação real somente após decisões de arquitetura, orçamento e operação.
+O produto executável continua sendo um protótipo frontend local com uma prova técnica de backend. Não há autenticação real, persistência completa de domínio, autorização integrada às rotas ou operação de moderação para usuários reais.
 
-## Perguntas em aberto
-- Ordem definitiva das funcionalidades.
-- Critérios de sucesso por fase.
-- Fase e escopo de conversa/chat, idiomas e prazo.
+## Fase 0 — Reconciliação e gates
 
-## Decisões pendentes
-- Priorização após validação com usuários.
+- [x] Alinhar visão para “Comunidade primeiro. Conexões depois. Relacionamentos como consequência.”
+- [x] Registrar arquitetura vigente: Vue/Vite + Fastify + PostgreSQL + monólito modular.
+- [x] Documentar identidade interna provider-agnostic.
+- [x] Implementar políticas e carregadores provider-neutral de autorização.
+- [x] Detalhar contrato de persistência de autorização.
+- [x] Reconciliar documentação de produto, requisitos, contexto e arquitetura.
+- [ ] Fechar inventário de dados, bases legais, retenção e revisão jurídica.
+- [ ] Fechar capacidade, horários, SLOs e escalonamento de moderação.
+- [ ] Fechar mecanismo operacional de verificação de idade.
+- [ ] Fechar orçamento, região e critérios do beta.
+- [ ] Selecionar fornecedores somente após os gates correspondentes.
 
-## TODOs
-- Atualizar com marcos aprovados pelo produto.
+## Fase 1 — Identidade e fundação persistente
 
-Status: rascunho.
+- [ ] Selecionar e provar o provedor de autenticação.
+- [ ] Implementar accounts/auth_identities/profile mínimo.
+- [ ] Implementar sessão, verificação, recuperação, logout e revogação.
+- [ ] Integrar identidade confiável às rotas Fastify.
+- [ ] Implementar adapters persistentes dos fatos de autorização.
+- [ ] Cobrir isolamento entre contas, enumeração e sessão revogada.
+
+**Gate:** nenhum dado real até privacidade, segurança, operação e revisão jurídica aplicáveis estarem fechadas.
+
+## Fase 2 — Perfil e privacidade
+
+- [ ] Perfil persistente e progressivo.
+- [ ] Visibilidade configurável.
+- [ ] Consentimentos versionados quando aplicáveis.
+- [ ] Correção, exportação e exclusão.
+- [ ] Testes de autorização e privacidade.
+
+## Fase 3 — Comunidades e participação
+
+- [ ] Comunidades curadas pela administração.
+- [ ] Membership, entrada, saída e aprovação.
+- [ ] Regras e categorias.
+- [ ] Publicações de texto.
+- [ ] Comentários.
+- [ ] Reação “Apoiar”.
+- [ ] Bloqueio server-side.
+- [ ] Paginação, limites e antiabuso.
+
+**Gate:** autorização server-side, persistência, moderação e auditoria funcionais antes de abrir conteúdo a usuários externos.
+
+## Fase 4 — Moderação e administração
+
+- [ ] Fila central de denúncias.
+- [ ] Severidade, SLA e escalonamento.
+- [ ] Sanções proporcionais e apelação.
+- [ ] RBAC admin/moderador.
+- [ ] Audit log.
+- [ ] Operação de suporte e incidentes.
+
+## Fase 5 — Fé e oração
+
+- [ ] Conteúdo editorial revisado.
+- [ ] Referências/licenças.
+- [ ] Pedidos de oração com audiência explícita.
+- [ ] Remoção, denúncia e retenção.
+
+**Gate:** nenhum pedido de oração real antes dos controles de privacidade, autorização, moderação e exclusão.
+
+## Fase 6 — Beta fechado
+
+Somente após:
+- auth e sessão reais;
+- perfis/comunidades/conteúdo persistentes;
+- autorização negativa testada;
+- denúncia/moderação operacional;
+- backup/restore;
+- monitoramento/alertas;
+- acessibilidade;
+- revisão jurídica;
+- suporte e capacidade de moderação.
+
+## Fase 7 — Evolução
+
+Somente após validação do MVP:
+- descoberta de pessoas;
+- eventos;
+- mensagens;
+- notificações avançadas;
+- compatibilidade;
+- novos idiomas;
+- criação aberta de comunidades.
+
+Cada item exige nova avaliação de produto, segurança e operação.
+
+## Regra de progresso
+
+Uma tarefa só é concluída quando houver evidência de código/documentação/teste e, quando aplicável, CI. Não tratar telas demonstrativas, endpoints isolados ou documentação aspiracional como funcionalidade pronta.
