@@ -10,6 +10,28 @@ function withoutCredentials(user) {
   return profile
 }
 
+function saveDemoState(users, user) {
+  let previousUsers
+  let usersWritten = false
+  try {
+    previousUsers = localStorage.getItem(USERS_KEY)
+    localStorage.setItem(USERS_KEY, JSON.stringify(users))
+    usersWritten = true
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user))
+    return true
+  } catch {
+    // Each storage write is atomic, but the pair is not. Undo the first write
+    // when the session cannot be saved; never report success for partial state.
+    if (usersWritten) {
+      try {
+        if (previousUsers === null) localStorage.removeItem(USERS_KEY)
+        else localStorage.setItem(USERS_KEY, previousUsers)
+      } catch { /* Storage can also become unavailable during rollback. */ }
+    }
+    return false
+  }
+}
+
 export function getDemoUsers() {
   let stored
   try {
@@ -51,12 +73,20 @@ export function registerDemoUser(profile) {
   })
 
   users.push(user)
-  try {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users))
-  } catch {
-    return { ok: false, reason: 'storage-unavailable' }
-  }
-  if (!setDemoSession(user)) return { ok: false, reason: 'storage-unavailable' }
+  if (!saveDemoState(users, user)) return { ok: false, reason: 'storage-unavailable' }
+  return { ok: true, user }
+}
+
+export function updateDemoUser(changes) {
+  const current = getDemoSession()
+  if (!current) return { ok: false, reason: 'no-session' }
+  const email = String(current.email).trim().toLowerCase()
+  const users = getDemoUsers()
+  const index = users.findIndex(user => String(user.email).trim().toLowerCase() === email)
+  const user = withoutCredentials({ ...(index >= 0 ? users[index] : current), ...changes, email })
+  if (index >= 0) users[index] = user
+  else users.push(user)
+  if (!saveDemoState(users, user)) return { ok: false, reason: 'storage-unavailable' }
   return { ok: true, user }
 }
 

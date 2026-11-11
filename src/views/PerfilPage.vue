@@ -68,6 +68,7 @@
       <p v-if="salvo" class="perfil-ok" role="status" aria-live="polite">
         <span aria-hidden="true">&#10003;</span> Perfil salvo com sucesso!
       </p>
+      <p v-if="erro" role="alert">{{ erro }}</p>
     </form>
 
     <router-link to="/dashboard" class="back-link">&larr; Voltar ao painel</router-link>
@@ -75,12 +76,13 @@
 </template>
 
 <script>
-import { getDemoSession, getDemoUsers, setDemoSession } from '@/services/demoAuth.mjs'
+import { getDemoSession, updateDemoUser } from '@/services/demoAuth.mjs'
 
 export default {
   data() {
     return {
       salvo: false,
+      erro: '',
       perfil: this.loadProfile()
     }
   },
@@ -91,6 +93,9 @@ export default {
       const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
       const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
       const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', objetivo: '', sobre: '' }
+      if (currentUser?.perfil && typeof currentUser.perfil === 'object' && !Array.isArray(currentUser.perfil)) {
+        return { ...emptyProfile, ...currentUser.perfil }
+      }
       try {
         let stored = localStorage.getItem(key)
         if (stored === null && legacyKey !== key) {
@@ -101,18 +106,16 @@ export default {
       } catch { return emptyProfile }
     },
     salvar() {
+      this.salvo = false
+      this.erro = ''
       const currentUser = getDemoSession()
       if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
       const normalizedProfile = { ...this.perfil, nome: this.perfil.nome.trim(), email: currentUser.email }
-      const profileKey = `perfil:${String(currentUser.email).trim().toLowerCase()}`
-      localStorage.setItem(profileKey, JSON.stringify(normalizedProfile))
-      const users = getDemoUsers()
-      const index = users.findIndex(user => String(user.email || '').trim().toLowerCase() === String(currentUser.email).trim().toLowerCase())
-      const updatedUser = { ...currentUser, username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
-      if (index >= 0) users[index] = { ...users[index], username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile }
-      else users.push(updatedUser)
-      localStorage.setItem('users', JSON.stringify(users))
-      setDemoSession(updatedUser)
+      const result = updateDemoUser({ username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile })
+      if (!result.ok) {
+        this.erro = 'Não foi possível salvar. Verifique o armazenamento do navegador e tente novamente.'
+        return
+      }
       this.salvo = true;
       setTimeout(() => { this.salvo = false; }, 3000);
     }

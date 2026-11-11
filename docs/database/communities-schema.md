@@ -30,7 +30,8 @@ Restrições de banco garantem slug, unicidade, valores de estado e campos obrig
 ## Migrações
 
 - `npm run api:migrate` aplica migrations `.up.sql` em ordem e registra versões em `schema_migrations`.
-- Cada migration e seu registro são executados em transação.
+- O lote pendente e seus registros são executados em uma única transação. Uma falha reverte o lote inteiro e permite nova tentativa após corrigir o arquivo que falhou.
+- Um advisory lock transacional serializa os executores antes da criação de `schema_migrations`, inclusive em banco vazio. O lock é liberado automaticamente ao encerrar a transação. Não executar DDL manual concorrente ao executor.
 - `server/migrations/*.down.sql` documenta rollback manual; o executor não roda down automaticamente.
 - O executor exige `DATABASE_URL` e não imprime a connection string.
 - O teste de integração remove/recria as tabelas do domínio; só pode rodar contra host local e nome de banco terminado em `_test`.
@@ -38,6 +39,8 @@ Restrições de banco garantem slug, unicidade, valores de estado e campos obrig
 ## Repositório e API
 
 `PostgresCommunityRepository` consulta somente campos da allowlist F-07, sempre filtrando `status = 'active'` e `catalog_visibility = 'listed'`. A ordenação é estável por nome e UUID; cursor base64url contém apenas o último nome/ID público e não é token de autorização.
+
+O limite do cursor é 1024 caracteres para acomodar nomes de até 100 caracteres Unicode, incluindo caracteres suplementares e escapes JSON. O decoder rejeita UTF-8 inválido, NUL e substitutos Unicode isolados antes de enviar parâmetros ao PostgreSQL.
 
 - Sem `DATABASE_URL`, health check continua disponível e as rotas do catálogo retornam 503, nunca uma lista vazia simulada.
 - Comunidade inexistente, não listada, pausada ou arquivada retorna o mesmo 404 público.

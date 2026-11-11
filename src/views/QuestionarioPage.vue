@@ -26,6 +26,7 @@
         </select>
       </div>
 
+      <p v-if="erro" role="alert">{{ erro }}</p>
       <button type="submit" class="btn-primary quest-submit">
         Salvar e Ver Combinações <span aria-hidden="true">&rarr;</span>
       </button>
@@ -34,11 +35,12 @@
 </template>
 
 <script>
-import { getDemoSession, getDemoUsers, setDemoSession } from '@/services/demoAuth.mjs'
+import { getDemoSession, updateDemoUser } from '@/services/demoAuth.mjs'
 
 export default {
   data() {
     return {
+      erro: '',
       respostas: this.loadAnswers(),
       perguntas: [
         { texto: "Como você descreve sua fé cristã?", opcoes: [
@@ -87,23 +89,15 @@ export default {
       } catch { return Array(10).fill('') }
     },
     salvarRespostas() {
-      let current = null
-      let users = []
-      try {
-        current = getDemoSession()
-        users = getDemoUsers()
-      } catch { current = null; users = [] }
+      this.erro = ''
+      const current = getDemoSession()
       if (!current || !current.email) { this.$router.push('/login'); return }
       const answers = this.respostas.map(value => Number(value))
       if (answers.length !== 10 || answers.some(value => ![1, 2, 3].includes(value))) return
-      const index = users.findIndex(u => u.email === current.email);
-      if (index !== -1) {
-        users[index].respostas = answers;
-        localStorage.setItem("users", JSON.stringify(users));
-        setDemoSession(users[index]);
-      } else {
-        current.respostas = answers;
-        setDemoSession(current);
+      const result = updateDemoUser({ respostas: answers })
+      if (!result.ok) {
+        this.erro = 'Não foi possível salvar as respostas. Verifique o armazenamento do navegador e tente novamente.'
+        return
       }
       this.$router.push("/resultados");
     }
