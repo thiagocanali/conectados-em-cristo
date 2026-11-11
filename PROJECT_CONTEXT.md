@@ -20,7 +20,7 @@ O repositório contém um protótipo frontend local, não um MVP de produção.
 - Cadastro de perfil sem senha e acesso demonstrativo por e-mail local (não autentica identidade).
 - Edição de perfil e respostas de questionário.
 - Descoberta baseada em perfis de demonstração e dados locais.
-- Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador.
+- Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador. Descoberta/salvos validam cartões, exibem falhas de armazenamento e só avançam após gravar; denúncia/bloqueio têm tentativa de restauração em caso de falha parcial. Não há envio para moderadores nem atomicidade real entre chaves/abas.
 - Testes locais de dons e personalidade.
 
 Os fluxos não representam uma comunidade online real: ações locais não são compartilhadas com outras pessoas nem encaminhadas a moderadores.

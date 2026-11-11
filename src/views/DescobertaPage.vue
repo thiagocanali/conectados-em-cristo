@@ -7,6 +7,9 @@
         <p class="desc-subtitle">Conheça com calma, com propósito e com oração.</p>
       </div>
 
+      <p v-if="erro" role="alert">{{ erro }}</p>
+      <p v-if="mensagem" role="status">{{ mensagem }}</p>
+
       <div v-if="!atual" class="desc-empty fade-in-up">
         <div class="empty-icon" aria-hidden="true">&#9825;</div>
         <p>{{ totalPerfis === 0 ? 'Ainda não há outros perfis completos disponíveis.' : 'Você viu todos os perfis disponíveis por enquanto.' }}</p>
@@ -49,49 +52,20 @@
 
 <script>
 import { getDemoSession, getDemoUsers } from '@/services/demoAuth.mjs'
+import { readDemoList, updateDemoLists, normalizeDemoProfile, demoListErrorMessage } from '@/services/demoLists.mjs'
 
 export default {
   data() {
-    const perfis = this.loadProfiles()
-    return {
-      indice: 0,
-      perfis,
-      totalPerfis: perfis.length
-    }
+    return { indice: 0, perfis: [], totalPerfis: 0, erro: '', mensagem: '' }
+  },
+  created() {
+    this.perfis = this.loadProfiles()
+    this.totalPerfis = this.perfis.length
   },
   computed: {
     atual() { return this.perfis[this.indice] || null; }
   },
   methods: {
-    storageKey(base) {
-      let user = null
-      try { user = getDemoSession() } catch { user = null }
-      return user && user.email ? `${base}:${String(user.email).trim().toLowerCase()}` : base
-    },
-    readList(base) {
-      try {
-        const key = this.storageKey(base)
-        const value = localStorage.getItem(key)
-        if (value !== null) {
-          const parsed = JSON.parse(value)
-          return Array.isArray(parsed) ? parsed : []
-        }
-
-        const user = getDemoSession()
-        if (user && user.email) {
-          const legacyKey = `${base}:${user.email}`
-          const legacyValue = localStorage.getItem(legacyKey)
-          if (legacyValue !== null) {
-            const parsed = JSON.parse(legacyValue)
-            if (Array.isArray(parsed)) {
-              localStorage.setItem(key, JSON.stringify(parsed))
-              return parsed
-            }
-          }
-        }
-        return []
-      } catch { return [] }
-    },
     loadProfiles() {
       let current = null
       let users = []
@@ -100,58 +74,66 @@ export default {
         users = getDemoUsers()
       } catch { return [] }
       if (!current || !current.email) return []
-      const blocked = this.readList('bloqueados')
-      const reports = this.readList('denuncias')
-      const currentEmail = String(current.email).trim().toLowerCase()
-      const excluded = new Set(blocked.map(item => String(item.email || '').trim().toLowerCase()).filter(Boolean))
-      reports.forEach(item => { if (item.bloqueado && item.email) excluded.add(String(item.email).trim().toLowerCase()) })
-      return users
-        .filter(user => {
-          const email = String(user.email || '').trim().toLowerCase()
-          return email && email !== currentEmail && !excluded.has(email) && user.perfil && user.perfil.nome && Number(user.perfil.idade) >= 18
-        })
-        .map(user => ({ ...user.perfil, email: user.email, nome: user.perfil.nome || user.nome || user.username }))
-        .filter(profile => profile.nome)
+      try {
+        const blocked = readDemoList('bloqueados')
+        const reports = readDemoList('denuncias')
+        const currentEmail = String(current.email).trim().toLowerCase()
+        const excluded = new Set(blocked.map(item => String(item?.email || '').trim().toLowerCase()).filter(Boolean))
+        reports.forEach(item => { if (item?.bloqueado === true && item.email) excluded.add(String(item.email).trim().toLowerCase()) })
+        return users
+          .filter(user => typeof user.email === 'string' && user.email.trim())
+          .map(user => normalizeDemoProfile({ ...user.perfil, email: user.email }))
+          .filter(profile => profile && profile.email !== currentEmail && !excluded.has(profile.email))
+      } catch (error) {
+        this.erro = demoListErrorMessage(error.reason)
+        return []
+      }
     },
     proximo() { if (this.indice < this.perfis.length) this.indice++; },
     passar() { this.proximo(); },
-    salvarPerfil() {
-      if (!this.atual) return;
-      const salvos = this.readList('perfisSalvos');
-      if (!salvos.find(p => (p.email && String(p.email).trim().toLowerCase() === String(this.atual.email || '').trim().toLowerCase()) || (!p.email && p.nome === this.atual.nome))) {
-        salvos.push(this.atual);
-        localStorage.setItem(this.storageKey('perfisSalvos'), JSON.stringify(salvos));
+    applyUpdates(updates, message = '') {
+      this.erro = ''
+      this.mensagem = ''
+      const result = updateDemoLists(updates)
+      if (!result.ok) {
+        this.erro = demoListErrorMessage(result.reason)
+        return
       }
-      this.proximo();
+      this.mensagem = message
+      this.proximo()
+    },
+    salvarPerfil() {
+      if (!this.atual) return
+      const target = this.atual
+      this.applyUpdates({ perfisSalvos: items => {
+        const profiles = items.map(normalizeDemoProfile).filter(Boolean)
+        if (!profiles.some(p => p.email === target.email || (!p.email && p.nome === target.nome))) profiles.push(target)
+        return profiles
+      } })
     },
     demonstrarInteresse() {
-      if (!this.atual) return;
-      const interesses = this.readList('interesses');
-      const email = String(this.atual.email || '').trim().toLowerCase()
-      const jaRegistrado = interesses.some(item => {
-        if (item && typeof item === 'object') return String(item.email || '').trim().toLowerCase() === email
-        return item === this.atual.nome
-      })
-      if (!jaRegistrado) interesses.push({ email, nome: this.atual.nome, data: new Date().toISOString() });
-      localStorage.setItem(this.storageKey('interesses'), JSON.stringify(interesses));
-      this.proximo();
+      if (!this.atual) return
+      const target = this.atual
+      this.applyUpdates({ interesses: items => {
+        const exists = items.some(item => item && typeof item === 'object'
+          ? String(item.email || '').trim().toLowerCase() === target.email : item === target.nome)
+        return exists ? items : [...items, { email: target.email, nome: target.nome, data: new Date().toISOString() }]
+      } })
     },
     denunciar() {
-      if (!this.atual) return;
-      const motivo = prompt('Descreva o motivo da denúncia. Para bloquear, comece com a palavra bloquear:');
-      if (motivo) {
-        const denuncias = this.readList('denuncias');
-        const bloquear = motivo.trim().toLowerCase().startsWith('bloquear')
-        const descricao = motivo.trim().replace(/^bloquear\s*:*/i, '').trim()
-        denuncias.push({ email: this.atual.email, perfil: this.atual.nome, motivo: bloquear ? (descricao || 'Bloqueio solicitado') : motivo, bloqueado: bloquear, data: new Date().toISOString() })
-        localStorage.setItem(this.storageKey('denuncias'), JSON.stringify(denuncias))
-        if (bloquear && this.atual.email) {
-          const bloqueados = this.readList('bloqueados')
-          if (!bloqueados.some(item => String(item.email || '').trim().toLowerCase() === String(this.atual.email).trim().toLowerCase())) bloqueados.push({ email: String(this.atual.email).trim().toLowerCase(), nome: this.atual.nome, data: new Date().toISOString() })
-          localStorage.setItem(this.storageKey('bloqueados'), JSON.stringify(bloqueados))
-        }
-        this.proximo();
+      if (!this.atual) return
+      const motivo = prompt('Registro apenas neste navegador, sem envio à moderação. Descreva o motivo; para bloquear, comece com bloquear:')
+      if (!motivo?.trim()) return
+      const target = this.atual
+      const bloquear = /^bloquear(?:\s|:|$)/i.test(motivo.trim())
+      const descricao = motivo.trim().replace(/^bloquear\s*:*/i, '').trim()
+      const data = new Date().toISOString()
+      const updates = {
+        denuncias: items => [...items, { email: target.email, perfil: target.nome, motivo: bloquear ? (descricao || 'Bloqueio solicitado') : motivo.trim(), bloqueado: bloquear, data }]
       }
+      if (bloquear) updates.bloqueados = items => items.some(item => String(item?.email || '').trim().toLowerCase() === target.email)
+        ? items : [...items, { email: target.email, nome: target.nome, data }]
+      this.applyUpdates(updates, 'Registro salvo apenas neste navegador. Nenhuma denúncia foi enviada a uma equipe de moderação.')
     }
   }
 }
