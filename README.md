@@ -1,18 +1,29 @@
 # Conectados em Cristo
 
-**Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
+**Jesus no centro. Aprender juntos. Servir na vida real.**
 
-O Conectados em Cristo é uma comunidade digital cristã pensada para aproximar pessoas por meio da fé, interesses, propósito e experiências compartilhadas. Amizades e relacionamentos amorosos podem surgir, mas ninguém precisa estar procurando namoro para encontrar valor na plataforma.
+O Conectados em Cristo ajuda pessoas e comunidades cristãs a conhecer Jesus pelas Escrituras e levar o aprendizado para o cuidado e o serviço. A primeira jornada útil oferece estudos públicos e roteiros para igrejas, pequenos grupos e amigos.
 
 ## Estado atual do projeto
 
-Este repositório contém um **protótipo frontend**, não um MVP de produção. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
+Este repositório oferece **estudos bíblicos públicos e preparação de roteiros de encontro**, além de protótipos locais legados e uma prova técnica de API. Ainda não é uma comunidade online operacional. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
 Cadastro, sessão, perfis, questionários e interações do frontend são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. Há um backend Fastify local com health check e catálogo público somente leitura ligado a PostgreSQL quando `DATABASE_URL` está configurada; não há autenticação de servidor, administração de comunidades, memberships, conteúdo compartilhado ou moderação remota.
 
 > **Aviso:** não use o protótipo para armazenar dados sensíveis ou informações pessoais reais. A sessão local pode ser falsificada e não protege rotas nem dados; ela existe apenas para experimentar a interface. Não reutilize senhas.
 
-## O que o protótipo permite experimentar
+## O que já pode ser usado
+
+- `/estudos`: quatro guias originais dos Evangelhos, com filtro por tema.
+- `/estudos/:slug`: leitura referenciada, contexto, três perguntas e uma prática para a semana.
+- `/em-comunidade`: roteiro do estudo escolhido para 30, 45 ou 60 minutos; download em texto e impressão.
+- `/igrejas`: orientação para usar os materiais com a comunidade local.
+
+Essa jornada é pública e não exige cadastro. Não grava histórico pessoal nem coleta participantes, relatos ou notas. As passagens são referências para ler na própria Bíblia ou em um site externo; os textos de apoio são originais. Veja os [critérios editoriais](docs/product/editorial-guidelines.md).
+
+## Área experimental preservada
+
+Os recursos abaixo ficam acessíveis por `/laboratorio` e não são o núcleo do produto:
 
 - Criar um perfil demonstrativo sem senha e entrar/sair por e-mail local (não é autenticação).
 - Criar e editar perfil local.
@@ -49,9 +60,9 @@ npm run lint
 npm run build
 ```
 
-Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação remota, outros domínios, componentes ou acessibilidade. Uma verificação pontual de navegador cobriu cadastro, perfil e questionário, incluindo falha de quota; ela não é uma suíte E2E de CI.
+Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação remota, outros domínios, componentes ou acessibilidade. A verificação pontual de navegador cobre também a jornada pública de estudo, filtro, roteiro, download e impressão em celular/desktop; não é uma suíte E2E de CI.
 
-## Antes de qualquer lançamento real
+## Antes de participação online com dados reais
 
 O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Nenhum provedor remoto ou credencial de backend está configurado neste repositório.
 

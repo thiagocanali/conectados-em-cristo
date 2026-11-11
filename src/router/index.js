@@ -11,11 +11,21 @@ import PerfilPage from '@/views/PerfilPage.vue'
 import DescobertaPage from '@/views/DescobertaPage.vue'
 import SalvosPage from '@/views/SalvosPage.vue'
 import PrayerRequestsPage from '../views/PrayerRequestsPage.vue'
+import StudiesPage from '../views/StudiesPage.vue'
+import StudyPage from '../views/StudyPage.vue'
+import GroupGuidePage from '../views/GroupGuidePage.vue'
+import ChurchesPage from '../views/ChurchesPage.vue'
+import LaboratoryPage from '../views/LaboratoryPage.vue'
 import { getDemoSession } from '@/services/demoAuth.mjs'
 import { createDemoAuthGuard } from './demoAuthGuard.mjs'
 
 const routes = [
   { path: '/', component: HomePage },
+  { path: '/estudos', component: StudiesPage },
+  { path: '/estudos/:slug', component: StudyPage },
+  { path: '/em-comunidade', component: GroupGuidePage },
+  { path: '/igrejas', component: ChurchesPage },
+  { path: '/laboratorio', component: LaboratoryPage },
   { path: '/login', component: LoginPage },
   { path: '/cadastro', component: CadastroPage },
   { path: '/questionario', component: QuestionarioPage },

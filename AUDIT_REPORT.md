@@ -68,6 +68,16 @@ O perfil agora projeta somente campos de formulário conhecidos, normaliza tipos
 
 Validação local: 49 testes unitários/contrato passaram, incluindo sete novos testes de dons e dois de perfil; lint e build passaram. Os testes anteriores de listas continuaram verdes com o helper extraído. Chromium móvel verificou 120 respostas (24/24 em todos os dons para respostas Muito), retomada após recarregar, quota sem duplicar pontuação, novo teste sem destruir resultados quando a gravação falha, falha e sucesso na exclusão e atualização imediata dos botões de recuperação. Perfil com campos de tipos inválidos foi editado/salvo sem exceção ou preservação de campos arbitrários; nome em branco foi rejeitado. Nenhum erro de página. Esta verificação de navegador permanece pontual, fora do CI.
 
+## Continuação — Jesus no centro e resolução da PR #63 (2026-11-11)
+
+A PR #63 foi atualizada com a main, teve o conflito de PROJECT_CONTEXT.md resolvido preservando a reconciliação documental e os avanços das PRs #64–#67, passou nos checks e foi integrada em `c213c38`.
+
+A pedido do responsável pelo produto, o núcleo passou de testes/descoberta para aprendizado bíblico, comunidade e serviço. Implementados quatro guias dos Evangelhos, filtro por tema, etapas de leitura/conversa/prática e roteiros de 30/45/60 minutos com download e impressão. Home, navegação e painel foram reorganizados; recursos antigos permanecem em uma área experimental e os dados locais não foram apagados. ADR-0008, visão, MVP, contexto e critérios editoriais registram a direção e os limites reais.
+
+Validação local: 54 testes unitários/contrato, lint e build passaram. Chromium verificou a jornada anônima da home até download do roteiro escolhido, conteúdo do arquivo, impressão sem controles/navegação, quatro estudos, filtro, rota inexistente, query inválida, menu móvel e layouts 390/1440 px sem overflow. Nenhum erro de página e nenhuma escrita em localStorage/sessionStorage na jornada pública. Capturas de tela foram inspecionadas. Verificação de navegador pontual, não incorporada ao CI.
+
+Limites: materiais originais de apoio com referências externas, sem tradução bíblica hospedada nem revisão pastoral externa alegada. Comunidades online, contas reais, membros, publicações e moderação continuam pendentes. A exportação prepara um encontro para os canais existentes do grupo; não cria eventos nem envia convites. A tarefa anterior de compatibilidade foi suspensa e preservada em stash local, sem integração, pela nova prioridade de produto.
+
 ## Snapshot original — 2026-11-04
 
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.

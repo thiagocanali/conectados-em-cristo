@@ -1,9 +1,9 @@
 <template>
   <footer class="footer"><div class="footer-inner">
-    <div class="footer-brand"><span class="footer-mark" aria-hidden="true">✦</span><div><p class="footer-name">Conectados em Cristo</p><p class="footer-tag">Fé, oração e conexões que acolhem.</p></div></div>
-    <nav class="footer-links" aria-label="Links do rodapé"><router-link to="/oracoes">Orações</router-link><router-link to="/descoberta">Conexões</router-link><router-link to="/testedons">Dons espirituais</router-link><router-link to="/perfil">Meu perfil</router-link></nav>
+    <div class="footer-brand"><span class="footer-mark" aria-hidden="true">✦</span><div><p class="footer-name">Conectados em Cristo</p><p class="footer-tag">Jesus no centro. Aprender juntos. Servir na vida real.</p></div></div>
+    <nav class="footer-links" aria-label="Links do rodapé"><router-link to="/estudos">Estudos bíblicos</router-link><router-link to="/em-comunidade">Estudar em grupo</router-link><router-link to="/igrejas">Para igrejas</router-link><router-link to="/laboratorio">Área experimental</router-link></nav>
     <p class="footer-verse">"Levai as cargas uns dos outros e assim cumprireis a lei de Cristo."<span>— Gálatas 6:2</span></p>
-    <div class="footer-bottom"><p>© {{ year }} Conectados em Cristo. Uma comunidade de fé.</p><p class="footer-note">Compartilhe apenas o que se sentir confortável em compartilhar.</p></div>
+    <div class="footer-bottom"><p>© {{ year }} Conectados em Cristo. Uma comunidade de fé.</p><p class="footer-note">Guias de apoio para a caminhada com Cristo e sua comunidade.</p></div>
   </div></footer>
 </template>
 <script setup>

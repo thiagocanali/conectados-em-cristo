@@ -8,13 +8,13 @@
 
 **Princípio central:** **Jesus no centro. Aprender juntos. Servir na vida real.** Comunidade primeiro; conexões e relacionamentos são consequências, não o produto principal.
 
-Direção reforçada pelo responsável pelo produto em 2026-11-11: estudos bíblicos, participação comunitária e utilidade concreta para igrejas têm prioridade sobre testes de dons, personalidade e compatibilidade. A implementação dessa nova jornada ainda será feita; não confundir direção aprovada com funcionalidade pronta.
+Direção reforçada pelo responsável pelo produto em 2026-11-11: estudos bíblicos, participação comunitária e utilidade concreta para igrejas têm prioridade sobre testes de dons, personalidade e compatibilidade. A primeira jornada pública foi implementada: biblioteca de quatro estudos dos Evangelhos, etapas de leitura/conversa/prática e roteiros de encontro para baixar/imprimir. A participação em comunidades online continua pendente.
 
 O produto não é um aplicativo de namoro. Relacionamentos amorosos podem existir futuramente, mas não são o núcleo nem a porta de entrada do MVP.
 
 ## 2. Estado técnico real
 
-O repositório contém um **protótipo frontend local e uma prova técnica de backend**, não um MVP de produção.
+O repositório contém uma **jornada pública de estudos bíblicos e preparação de encontros**, protótipos locais legados e uma prova técnica de backend. Ainda não é uma comunidade online operacional.
 
 ### Frontend
 - Vue 3.
@@ -70,7 +70,17 @@ Ainda não há adapter persistente geral nem integração dessas políticas nas 
 - Validação da base: 49 testes unitários/contrato, 78 de API/identidade/autorização e 10 PostgreSQL, além de lint/build. Auditoria npm bloqueia severidade alta/crítica.
 - Nenhum projeto Supabase foi identificado como pertencente a esta aplicação; nenhum recurso de outro projeto deve ser vinculado por suposição.
 
-## 3. O que é demonstrativo
+## 3. Jornada pública e recursos legados
+
+### Implementado sem cadastro
+- `/estudos`: quatro guias originais dos Evangelhos, com filtro por tema.
+- `/estudos/:slug`: referência bíblica externa, contexto, observação, perguntas e prática.
+- `/em-comunidade`: roteiros de 30/45/60 minutos, download em texto e impressão.
+- `/igrejas`: uso dos materiais pela comunidade local, com limites atuais claros.
+- Home, navegação e painel promovem aprendizado, comunidade e serviço. `/laboratorio` preserva recursos anteriores, com aviso demonstrativo.
+- Nenhum histórico de estudo, nota, participante ou relato é coletado/persistido nessa jornada. Materiais são originais e as referências podem ser conferidas; ver ADR-0008 e critérios editoriais.
+
+### O que permanece demonstrativo
 
 Os fluxos locais podem experimentar:
 - criação/edição de perfil;

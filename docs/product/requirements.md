@@ -1,6 +1,6 @@
 # Requisitos de Produto — Conectados em Cristo
 
-> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A primeira jornada pública já oferece quatro estudos dos Evangelhos e roteiros de encontro para download/impressão. Participação remota e controles de segurança continuam dependências reais.
 > **Status: requisitos de trabalho, não inventário de implementação.** Este documento foi reconciliado com a direção aprovada em 2026-11. O produto segue “Comunidade primeiro. Conexões depois. Relacionamentos como consequência.” Requisitos antigos de namoro, matching, prazos, equipe e orçamento não constituem compromisso.
 
 ## 1. Conta e identidade

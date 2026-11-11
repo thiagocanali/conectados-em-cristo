@@ -1,6 +1,6 @@
 # MVP — Conectados em Cristo
 
-> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A primeira jornada pública já oferece quatro estudos dos Evangelhos e roteiros de encontro para download/impressão. Participação remota e controles de segurança continuam dependências reais.
 > **Status: direção de produto aprovada; implementação ainda incompleta.** Este documento não define cronograma. O estado executável está em PROJECT_CONTEXT.md e README.md; decisões canônicas ficam em OPEN_DECISIONS.md.
 
 ## 1. Hipótese do MVP
@@ -11,7 +11,13 @@ Validar que pessoas cristãs adultas encontram valor em uma comunidade digital b
 
 O MVP não deve transformar descoberta romântica, compatibilidade ou chat em requisito de entrada.
 
-## 2. Escopo funcional inicial
+## 2. Primeira entrega útil, já implementada
+
+Biblioteca pública de quatro estudos centrados nos Evangelhos, com contexto, referência, perguntas e prática. Preparador de roteiros de 30, 45 e 60 minutos, download em texto e impressão. O fluxo funciona sem cadastro e pode ser usado por uma igreja/grupo pelos seus canais existentes. Não cria eventos, membros, igrejas verificadas ou conteúdo compartilhado online.
+
+Critério de valor: uma pessoa consegue estudar uma passagem e uma liderança consegue levar um roteiro ao próximo encontro. Validação com comunidades reais e revisão editorial identificada são o próximo passo de produto.
+
+## 3. Escopo da participação comunitária online, ainda pendente
 
 ### Conta e sessão
 - Cadastro real.
@@ -62,7 +68,7 @@ O MVP não deve transformar descoberta romântica, compatibilidade ou chat em re
 - Auditoria de ações administrativas.
 - Autorização administrativa sempre no servidor.
 
-## 3. Fora do primeiro MVP
+## 4. Fora do primeiro MVP
 
 - Chat e mensagens privadas.
 - Descoberta romântica individual como porta de entrada.
@@ -78,13 +84,13 @@ O MVP não deve transformar descoberta romântica, compatibilidade ou chat em re
 
 Esses itens podem permanecer no backlog e só devem ser promovidos mediante nova decisão de produto e segurança.
 
-## 4. Oração e conteúdo de fé
+## 5. Oração e conteúdo de fé
 
 Conteúdo editorial cristão pode evoluir de forma controlada, com referências e licenças adequadas.
 
 Pedidos de oração são dados potencialmente sensíveis e **não devem receber dados reais no protótipo**. A funcionalidade só deve ser habilitada após controles de público/audiência, consentimento, autorização server-side, denúncia, moderação, exclusão e retenção estarem operacionais.
 
-## 5. Modelo de participação do beta
+## 6. Modelo de participação do beta
 
 - Visitantes: somente metadados públicos de apresentação/catálogo.
 - Membros autenticados: participação apenas nos espaços em que possuem vínculo válido.
@@ -93,7 +99,7 @@ Pedidos de oração são dados potencialmente sensíveis e **não devem receber 
 - Comunidades não listadas: acesso somente por convite/autorização.
 - Conteúdo e interações não são públicos para a internet.
 
-## 6. Critérios de aceite do MVP
+## 7. Critérios de aceite do MVP
 
 O MVP não será considerado pronto apenas por possuir telas ou builds verdes. Em homologação deverá existir evidência de:
 
@@ -110,7 +116,7 @@ O MVP não será considerado pronto apenas por possuir telas ou builds verdes. E
 11. testes automatizados dos fluxos críticos;
 12. acessibilidade revisada.
 
-## 7. Gates antes de dados reais
+## 8. Gates antes de dados reais
 
 Não coletar dados reais enquanto estiverem pendentes os gates aplicáveis de:
 
@@ -123,7 +129,7 @@ Não coletar dados reais enquanto estiverem pendentes os gates aplicáveis de:
 - observabilidade e resposta a incidentes;
 - revisão jurídica.
 
-## 8. Cronograma
+## 9. Cronograma
 
 **Não aprovado.**
 

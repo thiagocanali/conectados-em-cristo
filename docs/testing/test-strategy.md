@@ -4,6 +4,10 @@
 
 Definir como validar comportamento, segurança e qualidade da plataforma.
 
+## Jornada pública de aprendizado
+
+`tests/learning.test.mjs` verifica links/estrutura dos guias, cronogramas para todas as durações suportadas, entradas inválidas, acesso público e o foco da navegação principal. Chromium validou home → estudo → perguntas → prática → encontro → download, conteúdo do arquivo, mídia de impressão, filtro, estudo inexistente, menu móvel e layouts 390/1440 px. A jornada não escreveu em localStorage/sessionStorage nem gerou erros de página. Verificação pontual, sem suíte de navegador no CI.
+
 ## Estado atual
 
 - `npm test` executa o Node.js Test Runner (`node --test`).

@@ -1,5 +1,7 @@
 # Roadmap de Execução — Conectados em Cristo
 
+> Este documento conserva fases históricas. A prioridade vigente é Jesus no centro, aprendizado bíblico e serviço, conforme [ADR-0008](docs/decisions/0008-christ-centered-learning.md) e [roadmap de produto](docs/product/roadmap.md). Estudos públicos e roteiros já estão implementados; testes/compatibilidade saíram da navegação principal. Contagens de testes e marcos datados abaixo são históricos.
+
 - Data: 2026-11-05
 - Status: proposta de fases e critérios revisada; sem cronograma aprovado.
 - Princípio: cada fase termina com evidência, testes, documentação e revisão de segurança.
