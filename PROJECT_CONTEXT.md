@@ -75,7 +75,7 @@ Ainda não há adapter persistente geral nem integração dessas políticas nas 
 ### Implementado sem cadastro
 - `/estudos`: quatro guias originais dos Evangelhos, com filtro por tema.
 - `/estudos/:slug`: referência bíblica externa, contexto, observação, perguntas e prática.
-- `/em-comunidade`: roteiros de 30/45/60 minutos, download em texto e impressão.
+- `/em-comunidade`: roteiros de 30/45/60 minutos com preparação/contexto, condução por cinco etapas, link que preserva estudo/duração, download em texto e impressão completa. Etapas são temporárias, sem controle de presença ou registro de relatos.
 - `/igrejas`: uso dos materiais pela comunidade local, com limites atuais claros.
 - Home, navegação e painel promovem aprendizado, comunidade e serviço. `/laboratorio` preserva recursos anteriores, com aviso demonstrativo.
 - Nenhum histórico de estudo, nota, participante ou relato é coletado/persistido nessa jornada. Materiais são originais e as referências podem ser conferidas; ver ADR-0008 e critérios editoriais.

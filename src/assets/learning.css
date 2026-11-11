@@ -25,10 +25,21 @@
 .preserve-lines { white-space: pre-line; }
 .guide-controls { max-width: 750px; }
 .guide-controls .field-group + .field-group { margin-top: 20px; }
+.meeting-share { display: grid; gap: 12px; border-top: 1px solid var(--border); padding-top: 24px; }
+.meeting-share .field-input { min-width: 0; width: 100%; }
+.meeting-share .btn-secondary { justify-self: start; }
+.meeting-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+.meeting-back { border: 0; background: transparent; font: inherit; cursor: pointer; text-align: left; }
+.meeting-context { padding: 18px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.meeting-context summary { cursor: pointer; font-weight: 700; color: var(--green-deep); }
+.meeting-context p { margin-top: 16px; }
+.meeting-preparation > * + * { margin-top: 18px; }
+.meeting-advice { padding: 14px; background: var(--cream-dark); border-radius: var(--radius-sm); }
 @media (max-width: 650px) { .learning-grid { grid-template-columns: 1fr; }.learning-note { padding: 24px; } }
 @media print {
-  .navbar, .footer, .skip-link, .guide-controls, .learning-header, .learning-note { display: none !important; }
-  .meeting-print { border: none; padding: 0; margin: 0; }
+  .navbar, .footer, .skip-link, .guide-controls, .learning-note, .learning-filters, .learning-actions,
+  .meeting-page .learning-header, .meeting-conductor { display: none !important; }
+  .meeting-print { display: block !important; border: none; padding: 0; margin: 0; }
   .learning-page { padding: 0; }
   .meeting-part { break-inside: avoid; }
   body { background: white; color: black; }

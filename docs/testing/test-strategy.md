@@ -8,6 +8,10 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 
 `tests/learning.test.mjs` verifica links/estrutura dos guias, cronogramas para todas as durações suportadas, entradas inválidas, acesso público e o foco da navegação principal. Chromium validou home → estudo → perguntas → prática → encontro → download, conteúdo do arquivo, mídia de impressão, filtro, estudo inexistente, menu móvel e layouts 390/1440 px. A jornada não escreveu em localStorage/sessionStorage nem gerou erros de página. Verificação pontual, sem suíte de navegador no CI.
 
+### Condução e compartilhamento de encontros
+
+Testes unitários cobrem a volta de estudo/duração entre link e seleção, entradas malformadas, lista permitida de campos no link e contexto/preparação incluídos na exportação. Chromium cobre recarga, troca de query sem remontar a página, cópia e alternativa manual, cinco etapas, foco de teclado, impressão completa durante a condução, download e ausência de escrita no armazenamento local. A duração é sugestiva; a interface não mede espiritualidade ou presença.
+
 ## Estado atual
 
 - `npm test` executa o Node.js Test Runner (`node --test`).
