@@ -31,7 +31,7 @@ A inspeção adicional das 12 rotas em viewport móvel não encontrou erros de p
 1. **Identidade e persistência remotas:** nenhum projeto Supabase retornado pela conexão foi identificado como pertencente a esta aplicação. Nenhum projeto foi vinculado, provisionado ou alterado. Antes de dados reais, definir ambiente e provedor e implementar conta interna + adapter de identidade verificada + persistência dos fatos de autorização.
 2. **Autorização integrada:** políticas e carregadores puros existem, mas não protegem rotas de domínio nem estão ligados a repositórios persistentes. Manter operações privadas/escritas indisponíveis até integrar e testar IDOR, revogação e escopo.
 3. **Deploy:** produção Vercel READY no commit-base, mas divergência entre aliases e respostas HTTP; ver `docs/operations/deployment.md`. Fastify ainda não é servido pelo build estático. Definir a hospedagem da API e verificar contrato HTTP antes de conectá-la à interface.
-4. **Demais jornadas locais:** descoberta, salvos e outros testes ainda têm gravações diretas no storage e precisam de tratamento equivalente de falha, validação de dados e cobertura de componentes. A correção desta revisão cobre cadastro, perfil e questionário.
+4. **Demais jornadas locais:** o tratamento de descoberta/salvos foi concluído na continuação abaixo; testes de dons e outras jornadas ainda precisam de revisão específica e cobertura de componentes.
 5. **Operação do produto:** retenção/exclusão, moderação, backups/restore e revisão de privacidade continuam pré-requisitos para um beta com pessoas reais.
 
 ## Continuação — fronteira de identidade e autorização (2026-11-11)
@@ -43,6 +43,18 @@ Correção: booleanos explícitos, arrays de identificadores e strings não vazi
 Evidência: os 12 novos testes foram executados em worktree isolada sobre a base não corrigida: 10 falharam e 2 passaram. Na versão corrigida, os 12 passaram, junto dos 66 testes anteriores da API e 31 testes unitários/contrato; typecheck, build da API, lint e build do frontend passaram localmente. A suíte inclui mudança de conta ativa para suspensa entre resoluções e respostas malformadas dos repositórios de bloqueio/conflito/edição.
 
 Infraestrutura: produção Vercel READY após merge da PR #64; metadados de ambiente do projeto retornaram lista vazia, sem solicitar descriptografia. Os projetos Supabase disponíveis continuam sem correspondência identificada para esta aplicação. A integração remota permanece dependente da identificação do ambiente e dos gates documentados de provedor, idade, privacidade e operação.
+
+## Continuação — descoberta e perfis salvos (2026-11-11)
+
+Base: `92a364f`, após a integração da PR #65. As telas podiam lançar exceções ao renderizar registros locais malformados, remover um cartão antes de confirmar sua gravação e deixar denúncia/bloqueio parcialmente persistidos em caso de quota.
+
+Foi criado um serviço de listas demonstrativas por conta. Ele não importa listas globais de outra conta; lê a variante legada de e-mail sem gravar durante a leitura; preserva JSON corrompido em vez de sobrescrevê-lo como lista vazia; lê e prepara todas as alterações antes de escrever. Uma falha posterior tenta restaurar as chaves já escritas. Falha na própria restauração tem mensagem distinta. Não há transação real nem garantia contra escritas simultâneas de outras abas.
+
+As telas só avançam ou atualizam a lista após confirmação de gravação. Remover um perfil usa a lista relida no momento da ação para preservar entradas adicionadas desde a renderização. Cartões recebem somente campos de apresentação validados, com nome textual e idade inteira entre 18 e 99; registros inválidos são ignorados. E-mail local continua sendo apenas uma chave demonstrativa, não identidade autenticada. Erro ao ler listas de bloqueios/denúncias impede a descoberta de exibir cartões até resolver o erro.
+
+A interface de denúncia informa antes e depois da ação que o registro fica no navegador e não é enviado a moderadores.
+
+Validação: nove novos testes unitários cobrem isolamento por conta, legado sem gravação, dados corrompidos, rollback, falha de rollback e projeção de perfis. Quarenta testes unitários/contrato, lint e build passaram localmente. Chromium móvel verificou salvar/remover/interesse com falhas de quota, preservação de entrada adicionada entre leitura e remoção, restauração de denúncia quando o bloqueio falha, bloqueio após recarregar e descoberta sem cartões ao encontrar JSON de bloqueio corrompido; sem erros de página. Verificação pontual de navegador, não incorporada ao CI.
 
 ## Snapshot original — 2026-11-04
 
