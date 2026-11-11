@@ -1,33 +1,13 @@
 <template>
   <div class="home">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow">✦ Fé que aproxima</p>
-        <h1 id="hero-title">Ninguém precisa <em>caminhar só.</em></h1>
-        <p class="hero-text">Um espaço para cristãos construírem amizades, compartilharem a caminhada de fé e encontrarem apoio em oração.</p>
-        <div class="actions"><router-link to="/cadastro" class="btn-primary">Faça parte da comunidade <span aria-hidden="true">→</span></router-link><router-link to="/oracoes" class="text-link">Conheça o espaço de oração</router-link></div>
-        <p class="hero-note">Conexões reais. Comunhão. Oração mútua.</p>
-      </div>
-      <div class="hero-visual" aria-label="Mensagem de fé">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="scripture-card"><span class="quote-mark" aria-hidden="true">“</span><p>Levai as cargas uns dos outros e assim cumprireis a lei de Cristo.</p><small>GÁLATAS 6:2</small></div>
-        <span class="floating-note note-one">♡ Amizade</span><span class="floating-note note-two">✦ Esperança</span>
-      </div>
+      <div class="hero-copy"><p class="eyebrow">Jesus no centro da nossa caminhada</p><h1 id="hero-title">Conhecer Jesus.<br /><em>Caminhar juntos.</em></h1><p class="hero-text">Um espaço para abrir a Bíblia, aprender em comunidade e transformar o amor de Cristo em cuidado e serviço na vida real.</p><div class="actions"><router-link to="/estudos/o-convite-de-jesus" class="btn-primary">Começar pelo convite de Jesus <span aria-hidden="true">→</span></router-link><router-link to="/igrejas" class="text-link">Para minha igreja ou pequeno grupo</router-link></div><p class="hero-note">Estudos gratuitos. Sem cadastro. Com referências para conferir na Bíblia.</p></div>
+      <div class="hero-visual" aria-label="Uma passagem para começar"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="scripture-card"><span class="quote-mark" aria-hidden="true">✦</span><p>O convite de Jesus encontra pessoas no meio da vida.</p><small>ESTUDE MARCOS 1:14–20</small></div><span class="floating-note note-one">Ler e compreender</span><span class="floating-note note-two">Amar e servir</span></div>
     </section>
-    <section class="mission-strip" aria-label="Propósito da comunidade"><p>Mais do que encontrar pessoas,</p><span aria-hidden="true">✦</span><p>conectar vidas por meio da fé.</p></section>
-    <section class="section prayer-section" aria-labelledby="prayer-title">
-      <div class="section-copy"><p class="eyebrow">Cuidar uns dos outros</p><h2 id="prayer-title">A oração também nos conecta.</h2><p>Há momentos em que tudo o que precisamos é saber que alguém se lembra de nós em oração. Queremos cultivar uma comunidade que escuta, acolhe e caminha junto — sem julgamentos e sem promessas fáceis.</p><router-link to="/oracoes" class="btn-primary">Conheça os pedidos de oração <span aria-hidden="true">→</span></router-link></div>
-      <div class="prayer-card"><span class="prayer-icon" aria-hidden="true">♡</span><p class="prayer-label">UM LUGAR DE ACOLHIMENTO</p><h3>Você não precisa ter todas as respostas para estar ao lado de alguém.</h3><p>Ouvir com carinho, oferecer apoio e orar juntos também são formas de comunhão.</p></div>
-    </section>
-    <section class="section community-section" aria-labelledby="community-title">
-      <div class="section-heading"><p class="eyebrow">Uma comunidade para a vida real</p><h2 id="community-title">Conexões que vão além da primeira impressão.</h2><p>Conheça pessoas com interesses em comum, compartilhe o que faz parte da sua jornada e descubra novas maneiras de servir e crescer.</p></div>
-      <div class="value-grid">
-        <article class="value-card"><span class="value-icon" aria-hidden="true">♡</span><h3>Amizades com propósito</h3><p>Crie laços com pessoas que também valorizam respeito, cuidado e fé.</p><router-link to="/descoberta">Conhecer pessoas →</router-link></article>
-        <article class="value-card"><span class="value-icon" aria-hidden="true">✧</span><h3>Crescimento espiritual</h3><p>Explore dons, personalidade e interesses para compreender melhor como você pode contribuir.</p><router-link to="/testedons">Descobrir meus dons →</router-link></article>
-        <article class="value-card"><span class="value-icon" aria-hidden="true">⌂</span><h3>Uma caminhada compartilhada</h3><p>Construa conexões no seu tempo, com liberdade para decidir o que deseja compartilhar.</p><router-link to="/cadastro">Criar meu perfil →</router-link></article>
-      </div>
-    </section>
-    <section class="closing"><p class="eyebrow">Há lugar para você aqui</p><h2>Vamos caminhar juntos?</h2><p>Compartilhe seus interesses, conheça pessoas e faça parte de uma comunidade que valoriza a fé e o cuidado mútuo.</p><router-link to="/cadastro" class="btn-primary">Começar minha jornada <span aria-hidden="true">→</span></router-link></section>
+    <section class="mission-strip" aria-label="Nossa direção"><p>Jesus no centro.</p><span aria-hidden="true">✦</span><p>Aprender juntos. Servir na vida real.</p></section>
+    <section class="section prayer-section" aria-labelledby="first-title"><div class="section-copy"><p class="eyebrow">Um primeiro passo possível</p><h2 id="first-title">Da leitura à vida.</h2><p>Escolha uma passagem dos Evangelhos. Observe o que Jesus ensina, converse sobre suas perguntas e encontre uma resposta concreta para a semana. Você pode começar sozinho e levar a conversa para sua comunidade.</p><router-link to="/estudos" class="btn-primary">Explorar os quatro estudos iniciais →</router-link></div><div class="prayer-card"><p class="prayer-label">UMA JORNADA SIMPLES</p><h3>Ler. Conversar. Praticar.</h3><p>Contexto bíblico, perguntas abertas e uma sugestão de ação para aprender com Jesus e cuidar de quem está perto.</p></div></section>
+    <section class="section community-section" aria-labelledby="community-title"><div class="section-heading"><p class="eyebrow">A serviço da comunidade local</p><h2 id="community-title">Algo que seu grupo pode usar no próximo encontro.</h2><p>Escolha um estudo, ajuste a duração e prepare um roteiro para acolher, ler, conversar, agir e orar juntos.</p></div><div class="value-grid"><article class="value-card"><h3>Conhecer a Cristo</h3><p>Comece pelos Evangelhos, com referências para ler no seu contexto e perguntas para aprofundar a conversa.</p><router-link to="/estudos">Abrir os estudos →</router-link></article><article class="value-card"><h3>Aprender em comunidade</h3><p>Um roteiro de 30, 45 ou 60 minutos, pronto para baixar, imprimir e levar ao seu pequeno grupo.</p><router-link to="/em-comunidade">Preparar um encontro →</router-link></article><article class="value-card"><h3>Servir com amor</h3><p>Escute necessidades próximas e descubra com seu grupo uma forma concreta de agir com misericórdia.</p><router-link to="/estudos/amar-o-proximo">Estudar o cuidado com o próximo →</router-link></article></div></section>
+    <section class="closing"><p class="eyebrow">Comece com quem já caminha com você</p><h2>Sua igreja tem lugar nessa construção.</h2><p>Os estudos e roteiros já podem apoiar encontros presenciais ou pelos canais que vocês usam. Comunidades online e gestão de membros ainda estão em preparação.</p><router-link to="/igrejas" class="btn-primary">Conhecer a proposta para igrejas →</router-link></section>
   </div>
 </template>
 <style scoped>

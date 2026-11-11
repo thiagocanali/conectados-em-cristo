@@ -6,16 +6,12 @@
       <p class="dash-subtitle">Um espaço para fortalecer sua fé, cultivar amizades e caminhar com outras pessoas.</p>
     </div>
     <div class="dash-grid fade-in-up">
-      <router-link to="/oracoes" class="dash-card prayer-card"><div class="dash-icon" aria-hidden="true">♡</div><h3>Pedidos de oração</h3><p>Conheça o espaço de oração e os princípios de cuidado mútuo.</p></router-link>
-      <router-link to="/perfil" class="dash-card"><div class="dash-icon" aria-hidden="true">◎</div><h3>Meu perfil</h3><p>Compartilhe seus interesses e aquilo que deseja contar sobre você.</p></router-link>
-      <router-link to="/descoberta" class="dash-card"><div class="dash-icon" aria-hidden="true">♧</div><h3>Conhecer pessoas</h3><p>Encontre pessoas com interesses em comum e abra espaço para novas amizades.</p></router-link>
-      <router-link to="/salvos" class="dash-card"><div class="dash-icon" aria-hidden="true">☆</div><h3>Conexões salvas</h3><p>Revisite perfis que deseja conhecer melhor.</p></router-link>
-      <router-link to="/testedons" class="dash-card"><div class="dash-icon" aria-hidden="true">✧</div><h3>Dons espirituais</h3><p>Explore maneiras de servir e contribuir com a comunidade.</p></router-link>
-      <router-link to="/testepersonalidade" class="dash-card"><div class="dash-icon" aria-hidden="true">◈</div><h3>Autoconhecimento</h3><p>Reflita sobre sua personalidade e a forma como se relaciona.</p></router-link>
-      <router-link to="/questionario" class="dash-card"><div class="dash-icon" aria-hidden="true">⌁</div><h3>Questionário</h3><p>Organize suas preferências e interesses de conexão.</p></router-link>
-      <router-link to="/resultados" class="dash-card"><div class="dash-icon" aria-hidden="true">≋</div><h3>Sugestões de conexão</h3><p>Consulte os resultados com base nas respostas disponíveis.</p></router-link>
-      <button @click="logout" class="dash-card dash-card-exit"><div class="dash-icon" aria-hidden="true">←</div><h3>Sair</h3><p>Encerrar sua sessão.</p></button>
+      <router-link to="/estudos" class="dash-card prayer-card"><h3>Conhecer Jesus</h3><p>Abra os Evangelhos com um guia de leitura, perguntas e uma prática para a semana.</p></router-link>
+      <router-link to="/em-comunidade" class="dash-card"><h3>Preparar um encontro</h3><p>Leve um roteiro de estudo e conversa para sua comunidade.</p></router-link>
+      <router-link to="/igrejas" class="dash-card"><h3>Caminhar com minha igreja</h3><p>Conheça como usar os materiais com seu grupo e o que está disponível hoje.</p></router-link>
     </div>
+    <p class="study-meta">Esta sessão é demonstrativa. Os estudos e roteiros são públicos e não exigem cadastro.</p>
+    <router-link to="/laboratorio" class="learning-link">Consultar protótipos anteriores</router-link>
   </div>
 </template>
 <script>
@@ -23,7 +19,7 @@ import { clearDemoSession, getDemoSession } from '@/services/demoAuth.mjs'
 
 export default {
   data() { return { currentUser: null } },
-  computed: { userName() { return this.currentUser?.username || 'amigo(a)' } },
+  computed: { userName() { return [this.currentUser?.nome, this.currentUser?.username].find(value => typeof value === 'string' && value.trim()) || 'amigo(a)' } },
   mounted() {
     this.currentUser = getDemoSession()
     if (!this.currentUser) this.$router.push('/login')
