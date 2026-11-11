@@ -78,6 +78,16 @@ Validação local: 54 testes unitários/contrato, lint e build passaram. Chromiu
 
 Limites: materiais originais de apoio com referências externas, sem tradução bíblica hospedada nem revisão pastoral externa alegada. Comunidades online, contas reais, membros, publicações e moderação continuam pendentes. A exportação prepara um encontro para os canais existentes do grupo; não cria eventos nem envia convites. A tarefa anterior de compatibilidade foi suspensa e preservada em stash local, sem integração, pela nova prioridade de produto.
 
+## Continuação — condução de encontros por líderes (2026-11-11)
+
+Base: `75d3210`, após a PR #68. O roteiro exportado omitia o contexto bíblico do estudo e a duração não era preservada ao compartilhar/recarregar. A página passou a incluir preparação de quem conduz, contexto completo, referência externa e cronograma sugerido na tela e no arquivo.
+
+Adicionado modo de condução pelas cinco etapas, com retorno à anterior, foco de teclado e retorno ao roteiro completo. Tempos continuam sugestões, sem cronômetro obrigatório, controle de presença ou registro de relatos. O link permite somente estudo conhecido e duração 30/45/60; opções inválidas são recuperadas com aviso, e parâmetros estranhos não entram no link gerado. Trocas de query na mesma página atualizam o roteiro e saem do modo de condução. A cópia de link tem alternativa manual e não envia mensagens. A URL preserva a subpasta de hospedagem, mas exclui parâmetros externos à rota e credenciais de URL.
+
+A impressão mostra o roteiro completo mesmo com a condução ativa; o título do estudo individual é preservado ao imprimir. A preparação é separada dos minutos do encontro.
+
+Validação local: 58 testes unitários/contrato, lint e build passaram. Chromium verificou compartilhamento/recarga, cópia e falha de permissão com seleção manual, cinco etapas e foco, impressão, arquivo com contexto/preparação, troca de query sem remount, recuperação de link inválido e layouts 390/1440 px sem overflow. Nenhum erro de página e nenhuma escrita em localStorage/sessionStorage. Verificação pontual de navegador, sem validação de uso por uma igreja real ou revisão pastoral externa.
+
 ## Snapshot original — 2026-11-04
 
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.

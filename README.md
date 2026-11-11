@@ -16,7 +16,7 @@ Cadastro, sessão, perfis, questionários e interações do frontend são demons
 
 - `/estudos`: quatro guias originais dos Evangelhos, com filtro por tema.
 - `/estudos/:slug`: leitura referenciada, contexto, três perguntas e uma prática para a semana.
-- `/em-comunidade`: roteiro do estudo escolhido para 30, 45 ou 60 minutos; download em texto e impressão.
+- `/em-comunidade`: roteiro de 30, 45 ou 60 minutos, preparação/contexto bíblico, condução por etapas, link compartilhável, download em texto e impressão completa. O link preserva estudo e duração.
 - `/igrejas`: orientação para usar os materiais com a comunidade local.
 
 Essa jornada é pública e não exige cadastro. Não grava histórico pessoal nem coleta participantes, relatos ou notas. As passagens são referências para ler na própria Bíblia ou em um site externo; os textos de apoio são originais. Veja os [critérios editoriais](docs/product/editorial-guidelines.md).

@@ -5,7 +5,7 @@
 
 ## Prioridade de execução
 
-1. Entrega pública de estudos e roteiros: implementada, com jornada anônima e exportação verificadas.
+1. Entrega pública de estudos e roteiros: implementada, com jornada anônima, preparação/contexto, condução por etapas, compartilhamento de estudo/duração e exportação/impressão verificadas.
 2. Validar material e utilidade com uma igreja/pequeno grupo piloto; incorporar revisão editorial e necessidades reais.
 3. Fechar ambiente de identidade/dados e controles de segurança/operação para uma comunidade online curada.
 4. Integrar participação, autorização, moderação e privacidade antes de abrir relatos e publicações.
