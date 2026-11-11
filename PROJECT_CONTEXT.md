@@ -1,491 +1,196 @@
 # Conectados em Cristo — Contexto do Projeto
 
-> **Estado do documento:** a visão e os princípios abaixo descrevem o produto pretendido. Eles não significam que as funcionalidades estejam implementadas. Para o estado técnico executável, consulte esta seção e o [README](README.md).
-
-## Estado atual da aplicação
-
-O repositório contém um protótipo frontend local, não um MVP de produção.
-
-- **Frontend:** Vue 3, Vue Router 4, Vite 6, CSS próprio e navegação com hash; Node.js 26 LTS recomendado (`.nvmrc`), com Node 22/24 também suportados.
-- **Persistência:** dados demonstrativos no `localStorage` e `sessionStorage` do navegador.
-- **Implementado no backend:** prova Fastify local com health check, catálogo público PostgreSQL somente leitura, Problem Details sanitizados, request IDs, 13 testes via inject e 7 testes de integração PostgreSQL.
-- **Não implementado:** autenticação segura de servidor, administração de comunidades, memberships, conteúdo compartilhado, autorização de domínio integrada às rotas, sincronização entre dispositivos, chat e moderação operacional. PostgreSQL existe somente como esquema local/CI, sem provedor remoto.
-- **Backend:** Fastify/TypeScript aprovado; health check e catálogo público local implementados com PostgreSQL; autenticação gerenciada aprovada como estratégia, comparação Supabase Auth/Clerk documentada, provedor pendente; identidade interna independente do provedor proposta em ADR-0007. Threat model STRIDE, classificação, matriz de autorização e OpenAPI draft documentados; funções puras de política e um carregador provider-neutral de contexto para leitura comunitária estão implementados e testados (PRs #48, #51 e #52). Os contratos lógico de fatos confiáveis e de persistência para autorização estão documentados (PRs #50 e #54); ainda sem adapter persistente ou integração em rotas. APIs de domínio ainda não implementadas.
-- **Segurança:** o fluxo de demonstração não solicita nem persiste senhas; a sessão por e-mail é local, falsificável e não é autenticação/autorização. O serviço remove credenciais legadas quando os perfis são lidos. Não armazenar dados sensíveis nem informações pessoais reais.
-- **Validação:** o CI executa lint, vinte e sete testes unitários/contrato (`npm test`), quatorze testes locais da API (`npm run api:test`) e sete testes PostgreSQL (`npm run api:db:test`), build e auditoria de dependências em Node.js 26 LTS. A integração PostgreSQL cobre somente o catálogo público; ainda não há cobertura de autenticação, outros domínios, componentes, acessibilidade ou E2E.
-- **Deploy:** há configurações para GitHub Pages e Vercel; o destino de produção ativo ainda precisa ser confirmado.
-
-### Fluxos demonstrativos existentes
-
-- Cadastro de perfil sem senha e acesso demonstrativo por e-mail local (não autentica identidade).
-- Edição de perfil e respostas de questionário.
-- Descoberta baseada em perfis de demonstração e dados locais.
-- Interesses, bloqueios, denúncias e perfis salvos registrados apenas no navegador.
-- Testes locais de dons e personalidade.
-
-Os fluxos não representam uma comunidade online real: ações locais não são compartilhadas com outras pessoas nem encaminhadas a moderadores.
-
-### Decisões que continuam abertas
-
-- Escopo e critérios de aceite do primeiro MVP de produção.
-- Confirmar o destino de deploy ativo e manter a stack Vue 3/Vite; a migração Vue CLI → Vite já foi concluída na PR #23.
-- Direções técnicas aprovadas: Fastify + TypeScript, PostgreSQL como tecnologia e autenticação gerenciada. Provedores de banco/auth/storage/e-mail/hospedagem e custos continuam pendentes.
-- Modelo de privacidade, autorização e moderação.
-- Prazo, idiomas e momento de funcionalidades como mensagens.
-- Framework e cobertura dos testes automatizados.
-
-Não tratar tecnologias, diagramas, endpoints, tabelas, prazos ou funcionalidades descritos como propostas como decisões aprovadas. Consulte os ADRs 0003–0006 e os documentos de produto.
-
----
-
-Conectados em Cristo
-1. Visão
-
-Conectados em Cristo é uma comunidade digital cristã criada para aproximar pessoas por meio da fé, interesses, propósito e experiências compartilhadas.
-
-A plataforma não é um aplicativo de namoro cristão.
-
-Relacionamentos amorosos são uma das possibilidades da plataforma, mas não seu objetivo exclusivo.
-
-O usuário pode entrar para:
-
-conhecer pessoas;
-
-fazer amizades;
-
-participar de comunidades;
-
-compartilhar hobbies;
-
-participar de atividades;
-
-jogar;
-
-estudar a Bíblia;
-
-acompanhar devocionais;
-
-compartilhar pedidos de oração;
-
-participar de eventos;
-
-conversar sobre interesses;
-
-desenvolver relacionamentos com propósito.
-
-A ideia central é:
-
-Comunidade primeiro. Conexões depois. Relacionamentos como consequência.
-
-2. Princípios do produto
-2.1 Pessoas antes de métricas
-
-O produto deve otimizar para experiências humanas saudáveis, não para maximizar:
-
-tempo de tela;
-
-quantidade de matches;
-
-curtidas;
-
-notificações;
-
-mensagens;
-
-usuários conectados simultaneamente.
-
-2.2 Segurança antes de crescimento
-
-Nenhuma funcionalidade deve ser implementada sem considerar:
-
-privacidade;
-
-abuso;
-
-fraude;
-
-assédio;
-
-spam;
-
-catfishing;
-
-exposição indevida;
-
-segurança em encontros presenciais.
-
-2.3 Comunidade antes de namoro
-
-O usuário não deve precisar estar procurando relacionamento para encontrar valor na plataforma.
-
-2.4 Fé sem superficialidade
-
-"Ser cristão" não deve ser tratado apenas como um campo no perfil.
-
-A plataforma deve permitir que usuários expressem:
-
-crenças;
-
-valores;
-
-práticas;
-
-interesses;
-
-objetivos;
-
-visão de relacionamento;
-
-participação comunitária.
-
-2.5 Compatibilidade não é destino
-
-Qualquer mecanismo de compatibilidade deve ser apresentado como uma ferramenta de descoberta, nunca como uma afirmação de que duas pessoas "foram feitas uma para a outra".
-
-2.6 Verificação não significa caráter
-
-Uma pessoa verificada é uma pessoa cuja informação foi verificada em determinado aspecto.
-
-Verificação de identidade não significa:
-
-boa intenção;
-
-maturidade;
-
-caráter;
-
-compatibilidade;
-
-segurança absoluta.
-
-2.7 Privacidade por padrão
-
-Informações pessoais devem ser minimizadas e protegidas.
-
-Nunca expor publicamente por padrão:
-
-telefone;
-
-e-mail;
-
-endereço;
-
-localização exata;
-
-informações sensíveis;
-
-dados de autenticação.
-
-3. Pilares
-
-O produto possui cinco pilares:
-
-COMUNIDADE
-
-Pessoas encontram grupos, interesses e atividades.
-
-FÉ
-
-A experiência possui identidade cristã real.
-
-PROPÓSITO
-
-A plataforma incentiva conexões significativas e intencionais.
-
-CONEXÃO
-
-Usuários podem construir amizades e relacionamentos.
-
-SEGURANÇA
-
-Privacidade, moderação e proteção contra abuso fazem parte da experiência desde o início.
-
-4. Experiência principal
-
-A experiência ideal é:
-
-ENTRAR
-  ↓
-CRIAR PERFIL
-  ↓
-ESCOLHER INTERESSES
-  ↓
-DESCOBRIR COMUNIDADES
-  ↓
-PARTICIPAR
-  ↓
-CONHECER PESSOAS
-  ↓
-CRIAR AMIZADES
-  ↓
-CONSTRUIR CONFIANÇA
-  ↓
-EVENTUALMENTE DESENVOLVER UM RELACIONAMENTO
-
-
-O relacionamento não deve ser necessário para justificar a existência do usuário na plataforma.
-
-5. O que o usuário pode fazer
-Comunidade
-
-participar de comunidades;
-
-criar comunidades quando autorizado;
-
-publicar;
-
-comentar;
-
-reagir;
-
-participar de discussões.
-
-Atividades
-
-quizzes;
-
-jogos;
-
-estudos;
-
-desafios;
-
-grupos de oração;
-
-atividades relacionadas a hobbies;
-
-encontros.
-
-Fé
-
-devocionais;
-
-planos de leitura;
-
-estudos;
-
-pedidos de oração;
-
-conteúdo cristão.
-
-Pessoas
-
-descobrir usuários;
-
-encontrar pessoas com interesses semelhantes;
-
-fazer amizades;
-
-demonstrar interesse romântico;
-
-conversar.
-
-Eventos
-
-descobrir eventos;
-
-participar;
-
-criar eventos quando autorizado;
-
-encontrar comunidades locais.
-
-6. Home
-
-A página inicial não deve ser uma lista de possíveis parceiros.
-
-A experiência deve começar com:
-
-O que você gostaria de fazer hoje?
-
-Possíveis entradas:
-
-📖 Continuar devocional
-
-🧠 Jogar quiz
-
-👥 Ver comunidades
-
-🎯 Ver atividades
-
-🙏 Pedidos de oração
-
-🎵 Explorar hobbies
-
-📍 Eventos
-
-👤 Conhecer pessoas
-
-❤️ Conhecer alguém com intenção de relacionamento
-
-7. Descoberta de pessoas
-
-A descoberta deve considerar diferentes tipos de conexão:
-
-amizade;
-
-interesses;
-
-comunidade;
-
-fé;
-
-atividades;
-
-localização aproximada;
-
-relacionamento.
-
-O sistema deve explicar por que determinada pessoa foi sugerida.
-
-Exemplo:
-
-Vocês têm 5 interesses em comum.
-
-Participam de 2 comunidades semelhantes.
-
-Ambos demonstraram interesse em estudos bíblicos.
-
-Evitar apresentar uma porcentagem como:
-
-"87% compatível"
-
-sem contexto.
-
-8. Segurança
-
-A segurança é uma parte estrutural da plataforma.
-
-O sistema deve considerar:
-
-autenticação segura;
-
-confirmação de e-mail;
-
-confirmação de telefone;
-
-MFA;
-
-proteção contra bots;
-
-rate limiting;
-
-prevenção contra spam;
-
-detecção de contas duplicadas;
-
-análise de comportamento;
-
-denúncias;
-
-bloqueios;
-
-moderação;
-
-auditoria;
-
-proteção de sessão;
-
-verificação de identidade opcional;
-
-sistema de apelação.
-
-A segurança deve possuir uma interface própria:
-
-Minha Segurança
-
-9. Filosofia de gamificação
-
-Evitar:
-
-ranking de popularidade;
-
-ranking de beleza;
-
-número público de curtidas;
-
-competição por seguidores;
-
-mecanismos projetados para gerar dependência.
-
-Priorizar:
-
-participação;
-
-aprendizado;
-
-colaboração;
-
-leitura;
-
-oração;
-
-atividades;
-
-contribuição comunitária.
-
-Exemplos:
-
-🏅 Participou de 5 atividades
-
-🏅 Completou um plano de leitura
-
-🏅 Participou de uma comunidade
-
-🏅 Completou 10 quizzes
-
-As conquistas não devem representar valor moral ou espiritual da pessoa.
-
-10. Segurança em encontros presenciais
-
-Eventos presenciais devem considerar:
-
-localização aproximada;
-
-organizador identificado;
-
-limites de participantes;
-
-denúncias;
-
-regras da comunidade;
-
-informações de emergência;
-
-possibilidade de bloquear participantes;
-
-proteção de dados pessoais.
-
-A plataforma nunca deve divulgar automaticamente a localização exata dos usuários.
-
-11. Arquitetura conceitual
-USER
- ├── PROFILE
- ├── FAITH
- ├── INTERESTS
- ├── COMMUNITIES
- ├── ACTIVITIES
- ├── EVENTS
- ├── FRIENDSHIPS
- ├── RELATIONSHIPS
- ├── MESSAGES
- ├── PRAYER
- └── CONTENT
-
-                    ↓
-
-              SAFETY LAYER
-
- ├── VERIFICATION
- ├── REPORTS
- ├── BLOCKS
- ├── MODERATION
- ├── RISK SIGNALS
- ├── SECURITY EVENTS
- └── AUDIT LOGS
-
-12. Regra de ouro
-
-O Conectados em Cristo deve continuar sendo útil mesmo para uma pessoa que nunca queira namorar ninguém.
-
-Essa é uma das principais métricas conceituais do produto.
+> **Fonte de verdade operacional e de produto.** Atualizado em 2026-11-11. Este documento distingue explicitamente o que existe, o que é direção aprovada e o que continua pendente.
+
+## 1. Identidade do produto
+
+**Visão:** plataforma digital cristã para aproximar pessoas por meio de comunidades, fé, interesses e experiências compartilhadas.
+
+**Princípio central:** **Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
+
+O produto não é um aplicativo de namoro. Relacionamentos amorosos podem existir futuramente, mas não são o núcleo nem a porta de entrada do MVP.
+
+## 2. Estado técnico real
+
+O repositório contém um **protótipo frontend local e uma prova técnica de backend**, não um MVP de produção.
+
+### Frontend
+- Vue 3.
+- Vue Router 4.
+- Vite 6.
+- CSS próprio.
+- Fluxos demonstrativos em localStorage/sessionStorage.
+- Cadastro/login local por e-mail é falsificável e não autentica identidade.
+- Não há sincronização de contas/produto com backend real.
+
+### Backend
+- Node.js 26 LTS recomendado.
+- TypeScript.
+- Fastify.
+- Monólito modular.
+- API REST versionada em /api/v1.
+- Health check.
+- Catálogo público de comunidades com PostgreSQL local.
+- Problem Details sanitizados e request IDs.
+- Migrations locais.
+- Testes Fastify e integração PostgreSQL.
+
+### Banco
+- PostgreSQL é a tecnologia aprovada.
+- A migration executável atual cobre comunidades do catálogo.
+- Não existe banco remoto provisionado.
+- O schema físico completo de contas, identidades, perfis, memberships, blocos, conteúdo, oração e moderação ainda não foi implementado.
+
+### Autenticação e identidade
+- Estratégia de autenticação gerenciada aprovada.
+- Supabase Auth e Clerk são a shortlist documentada; nenhum provedor foi selecionado.
+- Conta interna UUID e vínculo externo provider/subject são a direção aprovada.
+- Não há login real, sessão real, recuperação, verificação de e-mail ou MFA operacional.
+
+### Autorização
+Existem políticas puras e carregadores provider-neutral testados para:
+- conteúdo comunitário;
+- criação de conteúdo;
+- edição própria;
+- interação direta/bloqueio;
+- moderação por papel/escopo/conflito;
+- leitura de pedidos de oração;
+- remoção de reação.
+
+Ainda não há adapter persistente geral nem integração dessas políticas nas rotas de domínio.
+
+## 3. O que é demonstrativo
+
+Os fluxos locais podem experimentar:
+- criação/edição de perfil;
+- sessão demonstrativa;
+- questionários;
+- descoberta local;
+- interesses, bloqueios, denúncias e perfis salvos locais.
+
+Nada disso representa comunicação entre usuários reais ou operação de moderação.
+
+**Não usar o protótipo para dados pessoais, religiosos, pedidos de oração, senhas ou qualquer informação real.**
+
+## 4. MVP aprovado como direção
+
+### Núcleo
+1. Conta e sessão reais.
+2. Perfil mínimo e privacidade.
+3. Comunidades curadas pela administração.
+4. Membership, entrada, saída e aprovação.
+5. Publicações de texto.
+6. Comentários.
+7. Reação “Apoiar”.
+8. Bloqueio.
+9. Denúncias persistentes.
+10. Moderação e auditoria.
+11. Administração server-side.
+
+### Fora do primeiro MVP
+- chat privado;
+- descoberta romântica;
+- matching/compatibilidade algorítmica;
+- criação livre de comunidades por usuários;
+- eventos;
+- notificações avançadas;
+- mídia, enquanto storage/moderação não estiverem prontos;
+- internacionalização além do português brasileiro inicial.
+
+Pedidos de oração só poderão receber dados reais quando os controles de privacidade, audiência, consentimento, autorização, denúncia, moderação, exclusão e retenção estiverem operacionais.
+
+## 5. Modelo de acesso
+
+- Visitante: somente metadados públicos de apresentação/catálogo.
+- Membro: participa apenas onde possui vínculo válido.
+- Moderador: escopo limitado às comunidades atribuídas e impedimento em conflito.
+- Administrador: poder global conforme política e justificativa/auditoria quando exigidas.
+- Comunidade não listada: somente por convite/autorização.
+- Publicações, comentários e interações não são públicos para a internet.
+
+## 6. Segurança e privacidade
+
+O projeto trata potencialmente dados pessoais sensíveis, incluindo informações relacionadas à convicção religiosa.
+
+Princípios obrigatórios:
+- minimização;
+- finalidade;
+- privacidade por padrão;
+- autorização server-side;
+- deny-by-default;
+- validação de entrada;
+- proteção de sessão;
+- bloqueio server-side;
+- denúncias persistentes e auditáveis;
+- logs sem segredos ou PII desnecessária;
+- retenção e exclusão definidas antes de dados reais;
+- revisão jurídica LGPD antes do beta.
+
+Idade mínima aprovada para o beta: **18 anos**. O mecanismo concreto de verificação e tratamento de suspeitas ainda está pendente.
+
+## 7. Decisões técnicas vigentes
+
+- Frontend: Vue 3 + Vue Router + Vite.
+- Backend: Node.js 26 LTS + TypeScript + Fastify em monólito modular.
+- Banco: PostgreSQL.
+- Autenticação: estratégia gerenciada, fornecedor pendente.
+- Identidade: UUID interno separado do provider/subject.
+- API: REST versionada em /api/v1.
+- OpenAPI: contrato draft.
+- Não provisionar serviços pagos ou coletar dados reais sem aprovação dos gates correspondentes.
+
+Consultar OPEN_DECISIONS.md e os ADRs para decisões formais.
+
+## 8. Pendências bloqueadoras
+
+- D-13: fornecedor/região/custo do PostgreSQL.
+- D-14: fornecedor de autenticação e detalhes de sessão.
+- D-15: storage.
+- D-16: e-mail.
+- D-17: hospedagem.
+- D-18: capacidade e operação de moderação.
+- D-19: verificação de idade.
+- D-20: revisão jurídica.
+- D-21: orçamento/disponibilidade.
+- D-22: critérios finais de beta.
+- Inventário de dados, bases legais, retenção, backups/restore e resposta a incidentes.
+
+## 9. Documentação canônica
+
+- README.md — entrada e estado resumido.
+- OPEN_DECISIONS.md — registro canônico de decisões e pendências.
+- EXECUTION_ROADMAP.md — fases e evidências de execução, sem cronograma aprovado.
+- docs/product/mvp.md — escopo comunitário vigente.
+- docs/product/requirements.md — requisitos de trabalho reconciliados.
+- docs/architecture/system-architecture.md — arquitetura vigente e histórico explicitamente marcado.
+- docs/security/* — contratos, threat model e autorização.
+- docs/database/* — contratos e schema físico conforme cada etapa.
+
+Documentos históricos podem conter ideias antigas. Quando houver conflito, prevalecem as decisões aprovadas em OPEN_DECISIONS.md e os ADRs correspondentes.
+
+## 10. Próxima ordem de execução
+
+1. Fechar o bloqueador atual de validação/documentação.
+2. Implementar contexto de autorização para oração e consolidar contratos de fatos confiáveis.
+3. Preparar persistência física de identidade/contas somente após gates de fornecedor, privacidade e operação.
+4. Integrar identidade → contexto confiável → política → rota.
+5. Construir perfil e membership persistentes.
+6. Construir conteúdo comunitário com autorização e testes negativos.
+7. Operacionalizar denúncias, bloqueios, moderação e auditoria.
+8. Só então preparar beta fechado com evidência de backup, observabilidade, acessibilidade e revisão jurídica.
+
+## 11. Regra de desenvolvimento
+
+Para cada tarefa:
+1. ler AGENTS.md e documentação relevante;
+2. inspecionar implementação atual;
+3. identificar dependências;
+4. definir escopo;
+5. implementar em mudança pequena e reversível;
+6. testar;
+7. revisar segurança/privacidade;
+8. atualizar documentação;
+9. validar CI;
+10. relatar implementação, arquivos, testes, resultados, problemas, pendências e próximo passo.
+
+Não marcar uma funcionalidade como pronta apenas porque existe uma tela, endpoint ou teste isolado.
