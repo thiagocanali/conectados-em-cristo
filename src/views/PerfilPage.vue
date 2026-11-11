@@ -77,6 +77,7 @@
 
 <script>
 import { getDemoSession, updateDemoUser } from '@/services/demoAuth.mjs'
+import { normalizeDemoProfileForm } from '@/utils/demoProfile.mjs'
 
 export default {
   data() {
@@ -89,20 +90,21 @@ export default {
   methods: {
     loadProfile() {
       const currentUser = getDemoSession()
-      const normalizedEmail = currentUser?.email ? String(currentUser.email).trim().toLowerCase() : ''
-      const key = normalizedEmail ? `perfil:${normalizedEmail}` : 'perfil'
+      const normalizedEmail = typeof currentUser?.email === 'string' ? currentUser.email.trim().toLowerCase() : ''
+      const key = `perfil:${normalizedEmail}`
       const legacyKey = currentUser?.email ? `perfil:${currentUser.email}` : key
-      const emptyProfile = { nome: currentUser?.nome || currentUser?.username || '', idade: null, cidade: '', denominacao: '', tempoFe: '', objetivo: '', sobre: '' }
+      const defaultName = typeof currentUser?.nome === 'string' ? currentUser.nome : currentUser?.username
+      const emptyProfile = normalizeDemoProfileForm(null, defaultName)
+      if (!normalizedEmail) return emptyProfile
       if (currentUser?.perfil && typeof currentUser.perfil === 'object' && !Array.isArray(currentUser.perfil)) {
-        return { ...emptyProfile, ...currentUser.perfil }
+        return normalizeDemoProfileForm(currentUser.perfil, defaultName)
       }
       try {
         let stored = localStorage.getItem(key)
         if (stored === null && legacyKey !== key) {
           stored = localStorage.getItem(legacyKey)
-          if (stored !== null) localStorage.setItem(key, stored)
         }
-        return { ...emptyProfile, ...(JSON.parse(stored || 'null') || {}) }
+        return normalizeDemoProfileForm(JSON.parse(stored || 'null'), defaultName)
       } catch { return emptyProfile }
     },
     salvar() {
@@ -110,7 +112,13 @@ export default {
       this.erro = ''
       const currentUser = getDemoSession()
       if (!currentUser || !currentUser.email) { this.$router.push('/login'); return }
-      const normalizedProfile = { ...this.perfil, nome: this.perfil.nome.trim(), email: currentUser.email }
+      const fields = normalizeDemoProfileForm(this.perfil)
+      fields.nome = fields.nome.trim()
+      if (!fields.nome || fields.idade === null) {
+        this.erro = 'Informe um nome e uma idade inteira entre 18 e 99 anos.'
+        return
+      }
+      const normalizedProfile = { ...fields, email: currentUser.email }
       const result = updateDemoUser({ username: normalizedProfile.nome, nome: normalizedProfile.nome, perfil: normalizedProfile })
       if (!result.ok) {
         this.erro = 'Não foi possível salvar. Verifique o armazenamento do navegador e tente novamente.'
