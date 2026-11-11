@@ -1,158 +1,124 @@
-> **Status:** documento de requisitos aspiracionais, não aprovado. Os itens abaixo não indicam funcionalidades existentes nem compromisso de entrega. A direção atual do produto é comunidade primeiro; conexões depois; relacionamentos como consequência. Requisitos de namoro, compatibilidade e descoberta devem ser reavaliados dentro desse escopo mais amplo antes de priorização.
-
 # Requisitos de Produto — Conectados em Cristo
 
-## Requisitos Funcionais do MVP
+> **Prioridade reforçada em 2026-11-11:** Jesus Cristo no centro; aprendizado bíblico, vida comunitária e serviço, com utilidade concreta para igrejas e pequenos grupos. Testes de dons/personalidade e compatibilidade não são a porta de entrada nem o núcleo. A nova jornada ainda está em implementação; serviços remotos e controles de segurança continuam dependências reais.
+> **Status: requisitos de trabalho, não inventário de implementação.** Este documento foi reconciliado com a direção aprovada em 2026-11. O produto segue “Comunidade primeiro. Conexões depois. Relacionamentos como consequência.” Requisitos antigos de namoro, matching, prazos, equipe e orçamento não constituem compromisso.
 
-### REQ-AUTH: Autenticação
-- **REQ-AUTH-001:** Usuário pode se registrar com email e senha
-- **REQ-AUTH-002:** Email deve ser verificado via OTP antes de usar a plataforma
-- **REQ-AUTH-003:** Usuário pode fazer login com email e senha
-- **REQ-AUTH-004:** Sessão expira após 24h de inatividade
-- **REQ-AUTH-005:** Usuário pode fazer logout
-- **REQ-AUTH-006:** Usuário pode resetar senha via email
-- **REQ-AUTH-007:** Senha deve ter mínimo 12 caracteres com maiúscula, minúscula, número e caractere especial
-- **REQ-AUTH-008:** CAPTCHA em registro para evitar bots
-- **REQ-AUTH-009:** Rate limit: 5 tentativas de login por hora por IP
-- **REQ-AUTH-010:** Detecção de contas duplicadas (mesmo email/phone)
+## 1. Conta e identidade
 
-### REQ-PROFILE: Perfil de Usuário
-- **REQ-PROFILE-001:** Usuário pode preencher dados básicos: nome, idade, cidade, país, profissão, escolaridade
-- **REQ-PROFILE-002:** Usuário pode preencher dados de fé: denominação, frequência, importância da fé
-- **REQ-PROFILE-003:** Usuário pode preencher dados de personalidade: introversão/extroversão, comunicação
-- **REQ-PROFILE-004:** Usuário pode preencher objetivos de relacionamento: namoro, casamento, filhos
-- **REQ-PROFILE-005:** Usuário pode preencher estilo de vida: trabalho, hobbies, exercícios
-- **REQ-PROFILE-006:** Usuário pode adicionar múltiplas fotos (máx 6)
-- **REQ-PROFILE-007:** Fotos são verificadas contra conteúdo explícito
-- **REQ-PROFILE-008:** Bio/descrição de até 500 caracteres
-- **REQ-PROFILE-009:** Perfil é privado até 100% preenchido
-- **REQ-PROFILE-010:** Usuário pode editar qualquer dado a qualquer momento
-- **REQ-PROFILE-011:** Usuário pode ver preview do seu próprio perfil como outros veriam
-- **REQ-PROFILE-012:** Localização é aproximada (cidade), não exata (coordenadas)
+- **REQ-AUTH-001:** cadastro real deve usar provedor de autenticação aprovado.
+- **REQ-AUTH-002:** e-mail deve poder ser verificado antes do uso das funcionalidades protegidas.
+- **REQ-AUTH-003:** login e logout devem criar/encerrar sessão real.
+- **REQ-AUTH-004:** sessões devem ser revogáveis e protegidas contra roubo/reuso.
+- **REQ-AUTH-005:** recuperação de acesso deve ser segura.
+- **REQ-AUTH-006:** a API deve resolver a identidade externa para uma conta interna UUID.
+- **REQ-AUTH-007:** estado da conta deve ser considerado em cada operação protegida.
+- **REQ-AUTH-008:** nenhuma credencial ou token de aplicação deve ser persistido em localStorage/sessionStorage.
 
-### REQ-QUESTIONNAIRE: Questionário
-- **REQ-QUESTIONNAIRE-001:** Questionário divide-se em seções: fé, valores, relacionamento, família, estilo de vida
-- **REQ-QUESTIONNAIRE-002:** Perguntas usam múltipla escolha, escala, seleção múltipla
-- **REQ-QUESTIONNAIRE-003:** Usuário pode salvar e continuar depois
-- **REQ-QUESTIONNAIRE-004:** Respostas são usadas para cálculo de compatibilidade
-- **REQ-QUESTIONNAIRE-005:** Recomendação: 15-20 minutos de tempo total
-- **REQ-QUESTIONNAIRE-006:** Respostas não são visíveis em perfil, apenas usadas internamente
-- **REQ-QUESTIONNAIRE-007:** Usuário pode atualizar respostas a qualquer momento
+## 2. Perfil e privacidade
 
-### REQ-DISCOVERY: Sistema de Descoberta
-- **REQ-DISCOVERY-001:** Usuário pode navegar por perfis de pessoas interessadas no mesmo gênero
-- **REQ-DISCOVERY-002:** Filtros: idade, localização (raio), fé, objetivos
-- **REQ-DISCOVERY-003:** Ordenação: compatibilidade, recentemente ativo, novo
-- **REQ-DISCOVERY-004:** Perfil deve mostrar foto, nome, idade, cidade, fé, objetivo de relacionamento
-- **REQ-DISCOVERY-005:** Perfil deve mostrar score de compatibilidade (não como número, como descrição)
-- **REQ-DISCOVERY-006:** Usuário pode clicar em perfil para ver detalhes completos
-- **REQ-DISCOVERY-007:** Não é swipe para os lados - é descoberta deliberada
-- **REQ-DISCOVERY-008:** Cada perfil pode ter: visualizar, demonstrar interesse, passar, salvar, bloquear, denunciar
+- **REQ-PROFILE-001:** usuário deve possuir perfil mínimo persistente.
+- **REQ-PROFILE-002:** campos opcionais devem ter finalidade definida.
+- **REQ-PROFILE-003:** visibilidade de informações pessoais deve ser controlável.
+- **REQ-PROFILE-004:** informações religiosas não devem ser públicas por padrão.
+- **REQ-PROFILE-005:** localização exata, telefone e e-mail devem permanecer privados por padrão.
+- **REQ-PROFILE-006:** edição, correção, exportação e exclusão devem respeitar os requisitos jurídicos aprovados.
+- **REQ-PROFILE-007:** o servidor deve validar autorização para leitura e alteração de perfil.
 
-### REQ-INTERACTION: Interações
-- **REQ-INTERACTION-001:** Usuário pode demonstrar interesse em outro perfil
-- **REQ-INTERACTION-002:** Usuário pode passar em outro perfil
-- **REQ-INTERACTION-003:** Usuário pode salvar perfil para depois
-- **REQ-INTERACTION-004:** Usuário pode bloquear perfil (esse perfil não o vê mais)
-- **REQ-INTERACTION-005:** Usuário pode denunciar perfil (para moderação)
-- **REQ-INTERACTION-006:** Usuário vê histórico de suas interações
-- **REQ-INTERACTION-007:** Se mutual interest, notificação é enviada (ou disponível em app)
-- **REQ-INTERACTION-008:** Usuário pode ver quem demonstrou interesse nele
+## 3. Comunidades e memberships
 
-### REQ-COMPATIBILITY: Sistema de Compatibilidade
-- **REQ-COMPATIBILITY-001:** Compatibilidade é calculada baseada em: fé, objetivos, estilo de vida, valores
-- **REQ-COMPATIBILITY-002:** Compatibilidade é explicada: "Vocês demonstram alinhamento em fé, objetivos e localização"
-- **REQ-COMPATIBILITY-003:** Nunca dizer "X% compatíveis" ou "Vocês devem ficar juntos"
-- **REQ-COMPATIBILITY-004:** Mostrar: pontos de alinhamento, pontos de atenção, informações ainda desconhecidas
-- **REQ-COMPATIBILITY-005:** Score interno (0-100) usado apenas para ordenação, não mostrado ao usuário
-- **REQ-COMPATIBILITY-006:** Compatibilidade recalculada se usuário atualizar respostas
+- **REQ-COMMUNITY-001:** comunidades do beta devem ser criadas/curadas pela administração.
+- **REQ-COMMUNITY-002:** comunidades devem possuir estado, categoria, regras e modo de entrada.
+- **REQ-COMMUNITY-003:** catálogo público deve expor somente a allowlist aprovada de metadados.
+- **REQ-COMMUNITY-004:** comunidades não listadas não devem ser enumeráveis por usuários não autorizados.
+- **REQ-COMMUNITY-005:** entrada, saída, solicitação e aprovação devem ser persistentes.
+- **REQ-COMMUNITY-006:** memberships devem ser verificados server-side antes de conteúdo/interação.
+- **REQ-COMMUNITY-007:** moderadores devem possuir escopo explícito de comunidade.
 
-### REQ-MODERATION: Moderação
-- **REQ-MODERATION-001:** Sistema de denúncia para: fraude, fake profile, conteúdo sexual, abuso
-- **REQ-MODERATION-002:** Admin pode revisar denúncias em painel
-- **REQ-MODERATION-003:** Admin pode avisar usuário, suspender, ou banir
-- **REQ-MODERATION-004:** Usuário banido não pode se registrar novamente com mesmo email/phone
-- **REQ-MODERATION-005:** Logs de moderação mantidos para auditoria
-- **REQ-MODERATION-006:** Ações de moderação levam em consideração contexto
-- **REQ-MODERATION-007:** Usuário pode apelar banimento
+## 4. Conteúdo e interação
 
-### REQ-SAFETY: Segurança de Dados
-- **REQ-SAFETY-001:** Todos os dados transmitidos via HTTPS
-- **REQ-SAFETY-002:** Senhas armazenadas com hash bcrypt/Argon2
-- **REQ-SAFETY-003:** Sessão com token JWT assinado
-- **REQ-SAFETY-004:** Cookie httpOnly, Secure, SameSite=Strict
-- **REQ-SAFETY-005:** Usuário pode pedir download de seus dados
-- **REQ-SAFETY-006:** Usuário pode deletar sua conta (soft delete, com retenção mínima para logs)
-- **REQ-SAFETY-007:** Conformidade LGPD: consentimento explícito, direito de acesso, direito ao esquecimento
-- **REQ-SAFETY-008:** Backup criptografado diário
+- **REQ-CONTENT-001:** publicações iniciais serão predominantemente texto.
+- **REQ-CONTENT-002:** autor pode criar, editar dentro de janela definida e excluir conforme política aprovada.
+- **REQ-CONTENT-003:** comentários exigem autenticação e autorização.
+- **REQ-CONTENT-004:** reação “Apoiar” deve ser única por membro/publicação e removível pelo próprio autor.
+- **REQ-CONTENT-005:** conteúdo não deve ser público para a internet por padrão.
+- **REQ-CONTENT-006:** paginação e limites de entrada devem existir no servidor.
+- **REQ-CONTENT-007:** bloqueios devem ser aplicados a interações relevantes no servidor.
 
-### REQ-PRIVACY: Privacidade
-- **REQ-PRIVACY-001:** Dados público: nome, foto, idade, cidade (aprox), profissão
-- **REQ-PRIVACY-002:** Dados restrito: fé, personalidade, objetivos (visível apenas após mútuo interesse)
-- **REQ-PRIVACY-003:** Dados privado: email, phone, localização exata (apenas o usuário)
-- **REQ-PRIVACY-004:** Dados interno: score compatibilidade, flags de segurança (sistema)
-- **REQ-PRIVACY-005:** Usuário pode controlar visibilidade de cada campo
-- **REQ-PRIVACY-006:** Nenhum compartilhamento de dados com terceiros sem consentimento explícito
+## 5. Segurança e moderação
 
-## Requisitos Não-Funcionais
+- **REQ-SAFETY-001:** autorização deve ser deny-by-default.
+- **REQ-SAFETY-002:** IDs enviados pelo cliente nunca são prova de identidade ou ownership.
+- **REQ-SAFETY-003:** operações protegidas devem carregar fatos confiáveis do servidor.
+- **REQ-SAFETY-004:** denúncias devem ser persistentes, restritas e auditáveis.
+- **REQ-SAFETY-005:** ações de moderação devem respeitar papel, escopo, conflito de interesse e justificativa quando exigida.
+- **REQ-SAFETY-006:** sanções devem ser proporcionais e auditáveis.
+- **REQ-SAFETY-007:** rate limiting e controles antiabuso devem existir antes do beta.
+- **REQ-SAFETY-008:** logs não devem registrar segredos, tokens ou dados privados desnecessários.
 
-### Performance
-- **REQ-PERF-001:** Carregamento de página < 3 segundos (p95)
-- **REQ-PERF-002:** API responde < 200ms (p95)
-- **REQ-PERF-003:** Discovery carrega com scroll infinito sem lag
-- **REQ-PERF-004:** Suporta 10.000 requisições/min sem degradação
+## 6. Administração
 
-### Escalabilidade
-- **REQ-SCALE-001:** Arquitetura permite crescimento para 1M usuários
-- **REQ-SCALE-002:** Banco de dados suporta sharding se necessário
-- **REQ-SCALE-003:** Cache em múltiplas camadas (CDN, Redis, browser)
+- **REQ-ADMIN-001:** administração deve ser protegida por autorização server-side.
+- **REQ-ADMIN-002:** administradores devem poder gerenciar comunidades, categorias e moderadores conforme escopo aprovado.
+- **REQ-ADMIN-003:** denúncias devem possuir fila central restrita.
+- **REQ-ADMIN-004:** ações administrativas relevantes devem gerar trilha de auditoria.
+- **REQ-ADMIN-005:** acesso de administrador a dados sensíveis deve ter necessidade e justificativa quando aplicável.
 
-### Confiabilidade
-- **REQ-RELIABILITY-001:** Uptime 99.5%
-- **REQ-RELIABILITY-002:** Recovery Time Objective (RTO): 1 hora
-- **REQ-RELIABILITY-003:** Recovery Point Objective (RPO): 1 hora
-- **REQ-RELIABILITY-004:** Backup testado mensalmente
+## 7. Fé e pedidos de oração
 
-### Usabilidade
-- **REQ-USABILITY-001:** Interface compatível com desktop e mobile
-- **REQ-USABILITY-002:** Acessibilidade WCAG 2.1 AA
-- **REQ-USABILITY-003:** Tempo para completar onboarding < 10 minutos
-- **REQ-USABILITY-004:** Sem jargão técnico, linguagem simples
+- **REQ-FAITH-001:** conteúdo editorial deve possuir autoria/referência e requisitos de licença quando aplicável.
+- **REQ-FAITH-002:** pedidos de oração devem possuir controle explícito de audiência.
+- **REQ-FAITH-003:** pedidos de oração não devem receber dados reais antes de privacidade, consentimento, autorização, denúncia, moderação e exclusão estarem operacionais.
+- **REQ-FAITH-004:** acesso a oração deve ser negado por padrão quando fatos de audiência forem ausentes ou desconhecidos.
 
-### Manutenibilidade
-- **REQ-MAINTAIN-001:** Código com testes unitários (>80% coverage)
-- **REQ-MAINTAIN-001:** Documentação atualizada
-- **REQ-MAINTAIN-001:** Código review obrigatório antes de merge
+## 8. Requisitos não funcionais
 
-## Restrições
+### Segurança
+- HTTPS em ambientes reais.
+- Segredos fora do Git.
+- Ambientes separados.
+- Validação server-side.
+- Proteção de sessão.
+- Dependências auditadas continuamente.
+- Testes negativos de autorização, enumeração, revogação e concorrência.
 
-- **CONST-001:** MVP deve ser completado em 6 meses
-- **CONST-002:** Budget MVP: $XXX (a definir)
-- **CONST-003:** Time: 3 devs + 1 PM + 1 designer
-- **CONST-004:** Suportar português, inglês, espanhol
-- **CONST-005:** Conformidade LGPD obrigatória
+### Privacidade
+- Minimização de dados.
+- Finalidade e retenção documentadas.
+- Direitos do titular operacionalizados.
+- Dados potencialmente sensíveis tratados com proteção adequada.
+- Backups e evidências com acesso restrito.
 
-## Métricas de Sucesso
+### Qualidade
+- Testes unitários, integração e E2E para fluxos críticos antes do beta.
+- CI obrigatório.
+- Acessibilidade revisada.
+- Builds reproduzíveis e migrations versionadas.
 
-- Taxa de conclusão do onboarding: >70%
-- Taxa de preenchimento completo de perfil: >80%
-- Taxa de demonstração de interesse: >30%
-- Taxa de mutual interest conversão em conversas: >50% (v2)
-- Taxa de usuário que sai da plataforma para namorar: >20%
-- NPS score: >50
-- Zero incidentes de segurança crítica
-- Taxa de usuários reportando satisfação: >75%
+### Operação
+- Backup/restore testado.
+- Monitoramento e alertas.
+- Runbooks e resposta a incidentes.
+- Rollback documentado.
+- Capacidade de moderação conhecida antes de abrir o beta.
 
-## Status
+## 9. Fora do primeiro MVP
 
-- Requisitos são rascunho
-- Sujeitos a mudanças baseadas em feedback
-- Priorização em MVP será feita em próxima fase
-- Estimativas a fazer após priorização
+Não são requisitos de lançamento inicial:
+- chat privado;
+- descoberta romântica;
+- matching/compatibilidade algorítmica;
+- interesse romântico;
+- criação livre de comunidades;
+- eventos;
+- notificações avançadas;
+- internacionalização além do português brasileiro inicial.
 
-## Próximos Passos
+Esses recursos permanecem no backlog e exigem nova decisão antes de promoção.
 
-1. [ ] Priorizar requisitos para MVP
-2. [ ] Estimar esforço
-3. [ ] Definir timeline
-4. [ ] Assignar tasks
+## 10. Metas e restrições
+
+Não existem metas numéricas aprovadas para prazo, equipe, orçamento, cobertura de usuários, latência ou escala máxima.
+
+Não usar os valores antigos de “8 semanas”, “6 meses”, “3 devs + PM + designer”, “100+ beta testers”, NPS ou metas de matching como requisitos.
+
+Metas operacionais devem ser definidas depois de escopo, orçamento, capacidade de moderação e critérios jurídicos estarem fechados.

@@ -1,329 +1,128 @@
 # Arquitetura do Sistema — Conectados em Cristo
 
-> **Atualização 2026-11-07:** as direções técnicas atuais aprovadas são Node.js 26 LTS + TypeScript + Fastify em monólito modular, PostgreSQL como tecnologia relacional e autenticação gerenciada. Provedores permanecem pendentes. O diagrama e os detalhes de microserviços/Express/Redis abaixo são uma proposta histórica, não uma decisão vigente. Consulte [`backend.md`](backend.md), ADRs 0004–0006 e `OPEN_DECISIONS.md`.
+> **Fonte de verdade arquitetural atual.** Estado executável e direção técnica vigente em 2026-11-11. Propostas antigas de microserviços, Express, Redis, Cloudflare/AWS, S3/Glacier, SendGrid/Resend, Datadog etc. são históricas e não constituem decisões.
 
-## Estado implementado
+## 1. Estado atual
 
-O repositório executa uma SPA Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash. Os dados de conta e produto ficam em `localStorage`/`sessionStorage`. O serviço `src/services/demoAuth.mjs` centraliza cadastro/perfil, sessão local e logout do protótipo; não solicita nem persiste senhas e remove campos de credenciais legadas ao ler perfis. A sessão permanece falsificável e não é autenticação nem autorização. Não há API, backend, gateway, cache Redis, PostgreSQL, armazenamento de objetos, serviço de e-mail, autenticação remota ou monitoramento de aplicação implementados. GitHub Pages e Vercel têm configuração de deploy; o destino de produção ativo não está confirmado.
+O projeto ainda é um **protótipo local**, não um MVP de produção.
 
-## Arquitetura alvo — proposta histórica supersedida em 2026-11-07
+- Frontend: Vue 3 + Vue Router 4 + Vite 6 + TypeScript/CSS próprio.
+- Backend: Fastify + TypeScript, monólito modular, API REST versionada em /api/v1.
+- Banco: PostgreSQL como tecnologia aprovada; somente o catálogo público de comunidades possui persistência local executável neste momento.
+- Autenticação: estratégia gerenciada aprovada, mas provedor ainda não selecionado/provisionado.
+- Identidade: fronteira interna provider-agnostic aprovada (UUID interno + identidade externa provider/subject), ainda sem schema físico/login real.
+- Autorização: políticas puras e carregadores provider-neutral implementados/testados; ainda sem adapter persistente geral e sem integração nas rotas de domínio.
+- Deploy: configurações para Vercel/GitHub Pages existem; ambiente de produção ativo ainda precisa ser confirmado.
+- Dados reais: não autorizados nesta etapa.
 
-O diagrama e os componentes a seguir representam uma hipótese de arquitetura futura. A direção de backend, tecnologia de banco e estratégia de autenticação foi aprovada nos ADRs 0004–0006; provedores e provisionamento permanecem pendentes.
+## 2. Arquitetura vigente
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         CDN (Cloudflare)                     │
-│               Cache de assets estáticos                      │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    Frontend (Vue.js 3)                       │
-│           Single Page Application com Router                 │
-│              Hospedado em Vercel/GitHub Pages                │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    API Gateway / WAF                         │
-│              Rate Limiting, CORS, Security                   │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    Backend (Node.js)                         │
-│              Express/TypeScript microserviços                │
-│           Autenticação, Negócio, Moderação                   │
-└─────────────────────────────────────────────────────────────┘
-       ↓            ↓           ↓           ↓
-    Auth        Profile     Discovery    Moderation
-    Service     Service      Service      Service
-       │            │           │           │
-       └────────────┴───────────┴───────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  Cache Layer (Redis)                         │
-│          Sessões, Cache, Rate Limiting                       │
-└─────────────────────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────────┐
-│              Database Layer (PostgreSQL)                     │
-│          Primary (master) + Replica (read-only)              │
-└─────────────────────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  Storage Services                            │
-│         S3 (Fotos, Docs) | Email (SendGrid/Resend)          │
-│        Backup (Glacier) | Monitoring (Datadog)              │
-└─────────────────────────────────────────────────────────────┘
+Usuário
+  │
+  ▼
+Vue 3 + Vue Router + Vite
+  │ HTTPS / API REST
+  ▼
+Fastify + TypeScript
+  ├── Identity & Accounts
+  ├── Profiles & Privacy
+  ├── Communities & Memberships
+  ├── Content & Interactions
+  ├── Prayer & Faith Content
+  ├── Reports & Moderation
+  └── Administration & Audit
+  │
+  ▼
+PostgreSQL
 ```
 
-## Componentes da arquitetura alvo
+O backend é um **monólito modular**, não uma arquitetura de microserviços. Cada módulo deve manter separação de responsabilidades sem criar serviços distribuídos prematuramente.
 
-### 1. Frontend
-- **Implementado:** Vue 3, Vue Router 4, Vite 6, CSS próprio e hash routing.
-- **Dependências sem uso identificado:** Pinia e Tailwind CSS.
-- **Deploy configurado:** GitHub Pages e Vercel; ambiente ativo não confirmado.
-- **Implementado no protótipo:** serviço local `demoAuth.mjs` para perfil/sessão demonstrativos, sem credenciais.
-- **Não implementado:** cliente de API, autenticação/autorização de servidor ou sincronização remota.
-- **Decisão:** manter Vue 3 + Vue Router 4 + Vite 6; migração concluída na PR #23 (ADR-0003).
+### 2.1 Frontend
 
-### 2. API Gateway / WAF
-- **Tecnologia:** Cloudflare Workers ou AWS WAF
-- **Responsabilidades:**
-  - Rate limiting global
-  - CORS policy
-  - Detecção de bot/DDoS
-  - HTTPS enforcement
-  - Compressão de responses
-  - Logging de requisições
+Implementado: Vue 3, Vue Router 4, Vite 6, CSS próprio e fluxo demonstrativo local por localStorage/sessionStorage.
+O fluxo demonstrativo não é autenticação e não pode ser usado como mecanismo de segurança. Ainda falta cliente de API de domínio e sincronização com identidade/persistência reais.
 
-### 3. Backend Services
-Arquitetura modular com serviços específicos.
+### 2.2 Backend
 
-#### 3.1 Auth Service
-- **Responsabilidades:**
-  - Registro de usuário
-  - Verificação de email
-  - Login / Logout
-  - Reset de senha
-  - Geração de JWT
-  - Refresh token
-  - MFA (futuro)
-- **Endpoints:**
-  - POST /auth/register
-  - POST /auth/verify-email
-  - POST /auth/login
-  - POST /auth/logout
-  - POST /auth/refresh-token
-  - POST /auth/forgot-password
-  - POST /auth/reset-password
+Implementado: Fastify/TypeScript, health check, Problem Details sanitizados, request IDs, catálogo público de comunidades, repositório PostgreSQL local, migrations locais e testes Fastify/PostgreSQL.
 
-#### 3.2 Profile Service
-- **Responsabilidades:**
-  - CRUD de perfil
-  - Upload de fotos
-  - Validação de dados
-  - Edição de campo individual
-  - Recuperação de perfil completo
-- **Endpoints:**
-  - GET /profiles/:userId
-  - POST /profiles
-  - PATCH /profiles/:userId
-  - PUT /profiles/:userId/photos
-  - DELETE /profiles/:userId/photos/:photoId
-  - GET /profiles/:userId/preview
+Ainda pendente: sessão real; contas/perfis persistentes; memberships; conteúdo; denúncias/moderação; integração das políticas de autorização com rotas; rate limiting e controles antiabuso de produção.
 
-#### 3.3 Discovery Service
-- **Responsabilidades:**
-  - Busca de perfis
-  - Filtros avançados
-  - Ordenação (compatibilidade, recente, novo)
-  - Paginação
-  - Cálculo de compatibilidade em tempo real
-- **Endpoints:**
-  - GET /discovery/profiles?filters=...&sort=...
-  - GET /discovery/profiles/:userId/compatibility
+### 2.3 Identidade e autenticação
 
-#### 3.4 Interaction Service
-- **Responsabilidades:**
-  - Registrar interesse
-  - Registrar pass
-  - Registrar save
-  - Registrar bloco
-  - Registrar denúncia
-  - Histórico de interações
-  - Notificação de mutual interest
-- **Endpoints:**
-  - POST /interactions/interest
-  - POST /interactions/pass
-  - POST /interactions/save
-  - POST /interactions/block
-  - POST /interactions/report
-  - GET /interactions/history
-  - GET /interactions/interested-in-me
+A direção aprovada é: provedor gerenciado valida a sessão; a API valida identidade em cada operação protegida; provider/subject é resolvido para uma conta interna UUID; o estado da conta é consultado antes da autorização; a autorização usa fatos carregados do servidor.
 
-#### 3.5 Compatibility Service
-- **Responsabilidades:**
-  - Cálculo de score de compatibilidade
-  - Análise de alinhamentos
-  - Identificação de pontos de atenção
-  - Recomendações (futuro)
-- **Endpoints:**
-  - GET /compatibility/:userId/:otherUserId
-  - POST /compatibility/recalculate/:userId
+O provedor final continua pendente conforme D-14. Não armazenar senha, access token ou refresh token da aplicação em localStorage/sessionStorage.
 
-#### 3.6 Moderation Service
-- **Responsabilidades:**
-  - Gestão de denúncias
-  - Revisão de conteúdo
-  - Ações: avisar, suspender, banir
-  - Logs de moderação
-  - Detecção de padrão de fraude
-- **Endpoints:**
-  - POST /moderation/reports
-  - GET /moderation/reports
-  - PATCH /moderation/reports/:reportId/action
-  - GET /moderation/logs
+### 2.4 Autorização
 
-### 4. Cache Layer (Redis)
-- **Responsabilidades:**
-  - Sessões de usuário
-  - Cache de perfis
-  - Cache de compatibilidade
-  - Rate limiting storage
-  - Fila de jobs (futuro)
-- **TTL Strategy:**
-  - Sessão: 24h
-  - Perfil cache: 1h
-  - Compatibilidade: 24h
+A autorização segue deny-by-default.
 
-### 5. Database (PostgreSQL)
-- **Estratégia:**
-  - Primary (escrita)
-  - Read Replica (leitura)
-  - Backup diário
-- **Tabelas principais:**
-  - users
-  - profiles
-  - faith_data
-  - personality_data
-  - relationship_goals
-  - lifestyle_data
-  - interactions
-  - compatibility_scores
-  - moderation_reports
-  - logs
-- **Indices:**
-  - PK em todas as tabelas
-  - FK com integridade referencial
-  - Índices em colunas de filtro/busca
+Já implementado/testado: acesso a conteúdo comunitário, criação de conteúdo, edição própria, interação direta e bloqueio bidirecional, acesso a casos de moderação por papel/escopo/conflito, leitura de pedidos de oração por proprietário/audiência e remoção da própria reação.
 
-### 6. Storage Services
+Ainda não implementado: adapters persistentes para todos os fatos, middleware/route hooks de autorização e transações/locks necessários aos fluxos de escrita reais.
 
-#### 6.1 Object Storage (S3 / Vercel Blob)
-- **Responsabilidades:**
-  - Armazenamento de fotos
-  - Backup de dados críticos
-- **Estrutura:**
-  - /photos/{userId}/{photoId}.jpg
-  - /backups/{date}/database.sql.gz
-  - Versionamento habilitado
-  - Replicação para múltiplas regiões
+A existência de uma política não significa que um endpoint esteja protegido até que ela seja integrada a fatos confiáveis e à rota.
 
-#### 6.2 Email Service (SendGrid / Resend)
-- **Responsabilidades:**
-  - OTP para verificação
-  - Reset de senha
-  - Notificações (futuro)
-  - Marketing (futuro)
-- **Templates:**
-  - Verificação de email
-  - Reset de senha
-  - Bem-vindo ao Conectados em Cristo
-  - Novo interesse (futuro)
+### 2.5 PostgreSQL
 
-#### 6.3 Backup Service
-- **Frequência:** Diário
-- **Retenção:** 30 dias
-- **Estratégia:** Incremental
-- **Armazenamento:** AWS Glacier
-- **Teste:** Mensal
+PostgreSQL é a tecnologia relacional aprovada. A migration executável atual cobre o catálogo de comunidades. O contrato lógico de persistência para autorização já está documentado, mas o schema físico completo de contas, identidades, perfis, memberships, blocos, sanções, conteúdo, reações, oração e moderação ainda depende dos gates de identidade, privacidade/LGPD, operação e fornecedor.
 
-### 7. Monitoring e Observabilidade
-- **Logs:** ELK Stack ou Datadog
-- **Métricas:** Prometheus + Grafana
-- **Tracing:** Jaeger ou Datadog APM
-- **Alertas:** PagerDuty
-- **Uptime:** UptimeRobot
-- **Performance:** New Relic
+Não há provedor PostgreSQL remoto selecionado ou provisionado.
 
-## Fluxos alvo (não implementados)
+## 3. Fluxo de segurança alvo
 
-### Fluxo de Autenticação
 ```
-1. Usuário submete email/senha
-2. Frontend valida localmente
-3. POST /auth/register
-4. Backend valida, cria usuário, envia OTP
-5. Usuário recebe email
-6. Usuário clica link ou insere código
-7. POST /auth/verify-email
-8. Backend marca email como verificado
-9. Frontend recebe token JWT
-10. Token de sessão é entregue em cookie `HttpOnly`, `Secure` e `SameSite` (proposta; não implementado).
-11. Todas as requisições posteriores incluem token
+Request
+  ↓
+Validação de entrada
+  ↓
+Identidade/sessão confiável
+  ↓
+Conta interna + estado
+  ↓
+Fatos confiáveis mínimos
+  ↓
+Política de autorização
+  ↓
+Operação transacional
+  ↓
+Resposta sanitizada + auditoria quando aplicável
 ```
 
-### Fluxo de Descoberta
-```
-1. Usuário abre Discovery
-2. Frontend requisita GET /discovery/profiles?filters=...
-3. Backend consulta cache (Redis)
-4. Se miss: consulta DB, calcula compatibilidade, armazena em cache
-5. Backend retorna lista de perfis + compatibilidade
-6. Frontend renderiza lista
-7. Usuário clica em perfil
-8. Frontend requisita GET /discovery/profiles/:userId/compatibility
-9. Backend retorna dados detalhados
-10. Frontend exibe compatibilidade explicada
-```
+O frontend melhora UX, mas nunca substitui autorização server-side.
 
-### Fluxo de Interesse
-```
-1. Usuário visualiza perfil
-2. Clica "Demonstrar interesse"
-3. Frontend POST /interactions/interest {from, to}
-4. Backend registra interesse
-5. Backend verifica se há mutual interest
-6. Se sim:
-   - Armazena match em DB
-   - Enfileira notificação
-   - Retorna {mutual: true}
-7. Se não:
-   - Retorna {mutual: false}
-8. Frontend exibe resultado
-```
+## 4. MVP comunitário vigente
 
-### Fluxo de Moderação
-```
-1. Usuário clica "Denunciar"
-2. Frontend POST /moderation/reports {from, target, reason}
-3. Backend cria registro de denúncia
-4. Admin vê painel de denúncias
-5. Admin clica para revisar
-6. Admin vê perfil denunciado + histórico
-7. Admin escolhe ação: avisar, suspender, banir
-8. Backend executa ação:
-   - Se banir: marca user como deleted, bloqueia login
-   - Se suspender: marca como suspended, com data de retorno
-   - Se avisar: envia email
-9. Logs são registrados
-```
+**Comunidade primeiro. Conexões depois. Relacionamentos como consequência.**
 
-## Decisões Arquiteturais Pendentes
+O MVP inicial deve concentrar-se em conta/autenticação real, perfil mínimo e privacidade, comunidades curadas pela administração, membership/entrada/saída/aprovação, publicações de texto, comentários, reação Apoiar, bloqueio, denúncias/moderação operacional e administração/auditoria.
 
-- [x] Frontend: Vue 3 preservado e migração Vue CLI → Vite concluída em PR isolada. Não há migração aprovada para Next.js.
-- [ ] Backend: Express → Fastify/Nest.js?
-- [ ] Banco: Neon, Supabase, ou AWS Aurora?
-- [ ] Cache: Redis self-hosted ou managed?
-- [ ] Storage: S3 vs Vercel Blob vs Supabase Storage?
-- [ ] Email: SendGrid vs Resend?
-- [ ] Observabilidade: ELK vs Datadog vs New Relic?
-- [ ] Infraestrutura: Vercel, AWS, ou híbrido?
+Ficam fora do primeiro MVP: chat privado, descoberta romântica, compatibilidade algorítmica, criação livre de comunidades por usuários, notificações avançadas e eventos.
 
-## Princípios de Arquitetura
+Pedidos de oração só recebem dados reais depois de privacidade, consentimento, autorização, denúncia, moderação e exclusão estarem operacionais.
 
-1. **Separação de Responsabilidades:** Cada serviço tem responsabilidade única
-2. **Stateless:** Serviços não armazenam estado (exceto cache)
-3. **Escalabilidade:** Poder escalar horizontalmente
-4. **Segurança:** Security first em design
-5. **Observabilidade:** Logs, métricas, traces em tudo
-6. **Testabilidade:** Código testável em múltiplas camadas
-7. **Documentação:** APIs bem documentadas
-8. **Versionamento:** APIs versionadas para backward compatibility
+## 5. Decisões ainda pendentes
 
-## Próximos Passos
+Consultar OPEN_DECISIONS.md como registro canônico. Principais gates: D-14 autenticação; D-13 PostgreSQL; D-15 storage; D-16 e-mail; D-17 hospedagem; D-18 moderação; D-19 idade; D-20 revisão jurídica; D-21 orçamento/disponibilidade; D-22 critérios de beta.
 
-1. [ ] Aprovar ou rejeitar explicitamente as propostas nos ADRs 0003–0005
-2. [ ] Resolver conflitos do MVP em `docs/product/mvp.md` e `docs/product/requirements.md`
-3. [ ] Definir modelo de dados e classificação de privacidade após escolha da persistência
-4. [ ] Definir sessão e autorização após escolha da autenticação
-5. [ ] Especificar contratos de API depois de aprovar os fluxos do MVP
+Nenhuma decisão é presumida por nomes de fornecedores presentes em documentos históricos.
+
+## 6. Critério para novas implementações
+
+1. Verificar se já existe módulo/contrato equivalente.
+2. Preservar a separação entre identidade, domínio, persistência e autorização.
+3. Preferir solução local e reversível quando o requisito ainda estiver em validação.
+4. Não introduzir serviço distribuído, cache ou fila sem necessidade demonstrada.
+5. Atualizar ADR/documentação quando a decisão for arquitetural.
+6. Validar segurança, privacidade, concorrência e testes antes de concluir a tarefa.
+
+## 7. Histórico arquitetural
+
+Documentos e diagramas anteriores podem mencionar Express, microserviços, Redis, API Gateway/WAF específico, Cloudflare/AWS, S3/Vercel Blob, SendGrid/Resend, Datadog/ELK/New Relic, réplicas de leitura, compatibilidade e descoberta romântica como núcleo.
+
+Esses itens são **históricos/aspiracionais** e não devem ser implementados por referência a esse material.
+
+As decisões vigentes são registradas em OPEN_DECISIONS.md e nos ADRs correspondentes.
