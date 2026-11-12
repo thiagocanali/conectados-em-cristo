@@ -59,9 +59,11 @@ npm run dev
 ```sh
 npm run lint
 npm run build
+npx playwright install --with-deps chromium
+npm run test:e2e
 ```
 
-Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação remota, outros domínios, componentes ou acessibilidade. A verificação pontual de navegador cobre também a jornada pública de estudo, filtro, roteiro, download e impressão em celular/desktop; não é uma suíte E2E de CI.
+Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:test` e integração PostgreSQL do catálogo em `npm run api:db:test`. Ainda não há cobertura de autenticação remota, outros domínios, componentes ou acessibilidade. A jornada pública tem testes Playwright no CI sobre builds de produção, em Chromium desktop/móvel e nas bases Vercel/GitHub Pages. Veja [execução e limites E2E](docs/testing/e2e-testing.md).
 
 ## Antes de participação online com dados reais
 

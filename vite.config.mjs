@@ -2,9 +2,9 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'node:url';
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ command, isPreview }) => ({
   plugins: [vue()],
-  base: command === 'serve'
+  base: command === 'serve' && !isPreview
     ? '/'
     : process.env.VERCEL
       ? '/'

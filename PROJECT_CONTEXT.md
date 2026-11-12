@@ -70,6 +70,10 @@ Ainda não há adapter persistente geral nem integração dessas políticas nas 
 - Validação da base: 49 testes unitários/contrato, 78 de API/identidade/autorização e 10 PostgreSQL, além de lint/build. Auditoria npm bloqueia severidade alta/crítica.
 - Nenhum projeto Supabase foi identificado como pertencente a esta aplicação; nenhum recurso de outro projeto deve ser vinculado por suposição.
 
+### Proteção E2E do núcleo público — 2026-11-12
+
+O CI executa Playwright sobre build/prévia de produção, em Chromium desktop e móvel, com bases Vercel e GitHub Pages. Cobre seis jornadas por perfil/base (24 execuções): estudos, encontro, caminhada, download, impressão, recuperação de links e navegação. Erros de página e escritas no armazenamento são observados pela fixture. Não usa identidade/banco reais nem valida provedores externos. Ver ADR-0009.
+
 ## 3. Jornada pública e recursos legados
 
 ### Implementado sem cadastro
