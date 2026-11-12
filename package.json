@@ -18,21 +18,24 @@
     "api:build": "tsc -p server/tsconfig.build.json",
     "api:check": "npm run api:typecheck && npm run api:test && npm run api:build",
     "api:migrate": "tsx server/src/db/migrate.mts",
-    "api:db:test": "node --import=tsx --test server/tests/*.db.mts"
+    "api:db:test": "node --import=tsx --test server/tests/*.db.mts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "core-js": "^3.8.3",
     "fastify": "^5.12.8",
+    "pg": "^8.16.3",
     "pinia": "^3.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.6.3",
-    "pg": "^8.16.3"
+    "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@playwright/test": "1.65.0",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^26.6.6",
+    "@types/pg": "^8.15.6",
     "@vitejs/plugin-vue": "^5.2.4",
     "autoprefixer": "^10.4.22",
     "eslint": "^7.32.0",
@@ -42,8 +45,7 @@
     "tailwindcss": "^4.1.17",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vite": "^6.4.5",
-    "@types/pg": "^8.15.6"
+    "vite": "^6.4.5"
   },
   "eslintConfig": {
     "root": true,

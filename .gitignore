@@ -2,6 +2,8 @@
 node_modules
 /dist
 /server/dist/
+/playwright-report/
+/test-results/
 
 
 # local env files

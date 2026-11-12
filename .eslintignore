@@ -1,2 +1,4 @@
 dist/
 server/dist/
+playwright-report/
+test-results/

@@ -81,6 +81,40 @@ jobs:
       - name: Validate PostgreSQL migrations and repository
         run: npm run api:db:test
 
+  public-e2e:
+    name: Public browser journeys (${{ matrix.hosting }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        hosting: [vercel, github-pages]
+    env:
+      E2E_BASE_PATH: ${{ matrix.hosting == 'vercel' && '/' || '/conectados-em-cristo/' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium and runtime dependencies
+        run: npx playwright install --with-deps chromium
+      - name: Validate public journeys against the production build
+        run: npm run test:e2e
+      - name: Keep browser report and failure diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: public-e2e-${{ matrix.hosting }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
   dependency-audit:
     name: Dependency audit
     runs-on: ubuntu-latest
