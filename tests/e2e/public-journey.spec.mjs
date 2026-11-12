@@ -20,11 +20,33 @@ test('a visitor can move from the home to Scripture, questions, practice and a m
   expect(url.searchParams.get('search')).toBe('Marcos 1:14-20')
   await expect(passage).toHaveAttribute('target', '_blank')
   await page.getByRole('button', { name: 'Ir para as perguntas', exact: true }).click()
-  await expect(page.locator('.learning-questions li')).toHaveCount(3)
+  await expect(page.locator('.study-interactive .learning-questions li')).toHaveCount(3)
   await expect(page.locator('section[aria-labelledby="step-title"]')).toBeFocused()
   await page.getByRole('button', { name: 'Ir para a prática', exact: true }).click()
   await page.getByRole('link', { name: 'Preparar este estudo para um grupo', exact: true }).click()
   await expect(page.locator('#guide-study')).toHaveValue('o-convite-de-jesus')
+})
+
+test('participants can download and print the complete study from any step', async ({ page }) => {
+  await openRoute(page, '/estudos/o-convite-de-jesus')
+  const sheet = await downloadedText(page, page.getByRole('button', { name: 'Baixar folha de estudo', exact: true }))
+  expect(sheet.filename).toBe('estudo-o-convite-de-jesus.txt')
+  for (const text of ['Marcos 1:14–20', 'LEIA A PASSAGEM', 'OBSERVE, PERGUNTE', 'LEVE A LEITURA', 'UMA SUGESTÃO DE ORAÇÃO']) expect(sheet.text).toContain(text)
+  await expect(page.getByRole('status')).toContainText('Folha preparada')
+  for (const step of ['1. Ler', '2. Conversar', '3. Praticar']) {
+    await page.getByRole('button', { name: step, exact: true }).click()
+    await page.emulateMedia({ media: 'print' })
+    await expect(page.locator('.study-interactive')).toBeHidden()
+    await expect(page.locator('.study-tools')).toBeHidden()
+    await expect(page.locator('.study-print')).toBeVisible()
+    await expect(page.locator('.study-print .learning-questions li')).toHaveCount(3)
+    await expect(page.locator('.study-print')).toContainText('Uma sugestão de oração')
+    await page.emulateMedia({ media: 'screen' })
+    await expect(page.locator('.study-print')).toBeHidden()
+  }
+  await page.evaluate(() => { URL.createObjectURL = () => { throw new Error('Download unavailable') } })
+  await page.getByRole('button', { name: 'Baixar folha de estudo', exact: true }).click()
+  await expect(page.getByRole('alert')).toContainText('imprimir o estudo completo')
 })
 
 test('meeting selections survive reload and the share link has a manual-copy fallback', async ({ page }) => {

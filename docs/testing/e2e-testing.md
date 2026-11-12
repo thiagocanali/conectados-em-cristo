@@ -27,6 +27,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 4. Condução por etapas, foco de teclado e impressão do roteiro completo durante a condução.
 5. Filtro de estudos, referência inexistente e recuperação de links inválidos.
 6. Atalho para o conteúdo e navegação responsiva para estudos.
+7. Folha do participante: download completo, impressão a partir das três etapas e recuperação quando o download falha.
 
 Cada cenário usa contexto novo e sem sessão. A fixture identifica erros não capturados da página, chamadas de escrita em localStorage/sessionStorage e overflow horizontal ao final. Downloads são realmente produzidos pelo app e lidos no teste. A impressão verifica a apresentação CSS, não o diálogo nativo de uma impressora.
 
@@ -34,7 +35,7 @@ A aplicação só pode carregar recursos da origem local durante os testes; font
 
 ## CI e diagnóstico
 
-O workflow `Validate application` inclui dois jobs `Public browser journeys`: Vercel e GitHub Pages. Cada job instala Chromium e roda os dois perfis, totalizando 24 execuções de cenário por workflow. Lint, unitários/API/PostgreSQL, build e auditoria continuam presentes.
+O workflow `Validate application` inclui dois jobs `Public browser journeys`: Vercel e GitHub Pages. Cada job instala Chromium e roda os dois perfis, totalizando 28 execuções de cenário por workflow. Inclui download da folha do participante, impressão integral nas três etapas e falha de download. Lint, unitários/API/PostgreSQL, build e auditoria continuam presentes.
 
 Relatório HTML, screenshot e trace de falha ficam em `playwright-report/` e `test-results/`, ignorados pelo Git e pelo lint. Os artefatos do CI são retidos por sete dias. Para abrir um relatório local:
 

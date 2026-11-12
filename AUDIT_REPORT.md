@@ -1,5 +1,9 @@
 # Relatório de Auditoria — Conectados em Cristo
 
+## Entrega incremental — 2026-11-12: folha do participante
+
+Os estudos públicos oferecem exportação TXT e impressão integral a partir de qualquer etapa. O conteúdo usa os mesmos dados dos guias existentes, sem respostas pessoais, cadastro ou persistência. A folha orienta usar a própria Bíblia; não inclui a tradução integral nem promete tornar o site disponível offline. Cenário Playwright cobre o arquivo baixado, impressão nas três etapas e recuperação de falha de download. Veja [escopo e uso](docs/participant-study-sheet.md).
+
 ## Revisão incremental — 2026-11-11
 
 Base: `main` em `ea5bd28fb794cfc6974b64814c6d5e8b5b5b5f57`. Revisão de código e contratos da API, identidade/autorização, persistência demonstrativa, workflows, documentação central e evidências dos plugins GitHub/Supabase/Vercel. Não é uma revisão exaustiva de todas as jornadas nem pentest.
