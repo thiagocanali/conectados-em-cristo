@@ -96,6 +96,18 @@ O kit baixável reúne os quatro roteiros completos. Downloads individuais, impr
 
 Validação local: 63 testes unitários/contrato, lint e build passaram. Chromium verificou entrada pública pela biblioteca, ordem dos quatro encontros, seleção/recarga de duração e links, kit com quatro contextos/roteiros, retomada e prática na condução, navegação completa até o último encontro, download/impressão individual com continuidade, duração inválida e layouts 390/1440 px sem overflow. Sem erros de página ou gravações em localStorage/sessionStorage. Captura móvel inspecionada. Não é uma formação completa, validação por igreja piloto ou revisão pastoral externa; esses passos continuam pendentes.
 
+## Continuação — regressões de navegador no CI (2026-11-12)
+
+Base: `ce2ed0e`, após a PR #70. As verificações de navegador do núcleo eram pontuais e não faziam parte dos checks. Foi adicionada suíte Playwright fixada no lockfile, com seis jornadas em Chromium desktop/móvel e dois jobs de hospedagem, sobre build e prévia de produção.
+
+A primeira execução em subpasta falhou porque o preview usava `/`, embora os assets fossem gerados com `/conectados-em-cristo/`. A configuração Vite agora distingue desenvolvimento e prévia com `isPreview`; o preview preserva a base do build. A matriz controla `VERCEL` no subprocesso e usa os comandos normais, sem sobrescrever a base para mascarar esse problema.
+
+A suíte verifica passagem referenciada, perguntas/prática, recarga e links, fallback de cópia, caminhada, arquivos de download, impressão completa, recuperação de entradas inválidas, menu e foco. Observa erros de página e escritas em Storage, sem registrar valores. Recursos de origens externas são bloqueados para que o CI teste o app de forma isolada; referências bíblicas são verificadas como links. Relatórios e diagnósticos ficam sete dias nos artefatos, fora do Git/lint.
+
+Validação local final: 63 testes unitários/contrato e 24 execuções E2E passaram (12 por base, entre desktop e móvel), usando Chromium instalado no ambiente. Lint após gerar relatórios e auditoria npm passaram, sem vulnerabilidades reportadas. O CI usa a instalação de Chromium correspondente à versão fixada do Playwright.
+
+Não é auditoria completa de acessibilidade, teste de dispositivos físicos, validação editorial, autenticação remota ou comunidade real. Framework e critérios estão em ADR-0009 e `docs/testing/e2e-testing.md`.
+
 ## Snapshot original — 2026-11-04
 
 > **Snapshot histórico:** este relatório descreve o commit `5c64e0c3349c35a5b2dab4d1ee93a0e09d033998` em 2026-11-04. Achados sobre senha em texto puro, Vue CLI e vulnerabilidades de dependências foram mitigados em etapas posteriores (PRs #23, #25, #26, #29 e #31). Para o estado atual, consulte `PROJECT_CONTEXT.md`, `README.md` e `SECURITY_GAP_ANALYSIS.md`. O protótipo continua sem autenticação/autorização server-side e não está pronto para dados reais.

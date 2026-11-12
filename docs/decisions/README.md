@@ -40,6 +40,8 @@ Data da decisão
 
 ## ADRs Registradas
 
+- [ADR-0009: Testes de navegador da jornada pública](0009-public-journey-browser-tests.md) — Playwright no CI, Chromium desktop/móvel e bases Vercel/GitHub Pages
+
 - [ADR-0008: Jesus no centro e primeira jornada útil para igrejas](0008-christ-centered-learning.md) — estudos públicos e roteiros; legado experimental separado
 
 - [ADR-0003: Stack técnica do MVP](0003-stack-mvp.md) — Frontend Vue 3 + Vite aceito; backend e demais camadas continuam pendentes

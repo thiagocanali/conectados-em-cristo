@@ -6,7 +6,7 @@ Definir como validar comportamento, segurança e qualidade da plataforma.
 
 ## Jornada pública de aprendizado
 
-`tests/learning.test.mjs` verifica links/estrutura dos guias, cronogramas para todas as durações suportadas, entradas inválidas, acesso público e o foco da navegação principal. Chromium validou home → estudo → perguntas → prática → encontro → download, conteúdo do arquivo, mídia de impressão, filtro, estudo inexistente, menu móvel e layouts 390/1440 px. A jornada não escreveu em localStorage/sessionStorage nem gerou erros de página. Verificação pontual, sem suíte de navegador no CI.
+`tests/learning.test.mjs` verifica links/estrutura dos guias, cronogramas para todas as durações suportadas, entradas inválidas, acesso público e o foco da navegação principal. Chromium validou home → estudo → perguntas → prática → encontro → download, conteúdo do arquivo, mídia de impressão, filtro, estudo inexistente, menu móvel e layouts 390/1440 px. A jornada não escreveu em localStorage/sessionStorage nem gerou erros de página. A jornada pública agora também tem suíte Playwright no CI; ver `e2e-testing.md`.
 
 ### Condução e compartilhamento de encontros
 
@@ -28,9 +28,9 @@ Testes unitários cobrem a volta de estudo/duração entre link e seleção, ent
 - `tests/openapi.test.mjs` valida JSON OpenAPI 3.1, referências internas, operationIds, parâmetros de rota, autenticação em operações de escrita, privacidade por padrão de pedidos de oração e allowlist/paginação do catálogo público F-07.
 - `npm run lint` executa ESLint CLI diretamente.
 - `npm run build` executa `vite build`.
-- O CI executa lint, testes unitários, build de produção e auditoria npm completa/de produção em jobs separados.
+- O CI executa lint, unitários/API/PostgreSQL, build, auditoria npm e testes Playwright públicos em jobs separados. Os jobs E2E cobrem Chromium desktop/móvel sobre duas bases de hospedagem.
 - A auditoria publica artefato JSON temporário por 14 dias; o job falha para vulnerabilidades altas/críticas (`npm audit --audit-level=high`) e não executa atualizações automáticas.
-- A integração API/PostgreSQL agora cobre somente o catálogo público F-07 em banco efêmero. Ainda não há cobertura de autenticação, memberships, autorização de domínio, conteúdo, componentes, acessibilidade ou E2E.
+- A integração API/PostgreSQL agora cobre somente o catálogo público F-07 em banco efêmero. Ainda não há integração de autenticação remota, memberships e outros domínios persistentes. Há políticas/carregadores unitários e E2E públicos; isso não equivale a cobertura de autorização real ou acessibilidade completa.
 
 A suíte atual é pequena e não representa cobertura dos fluxos completos do produto. A revisão visual/manual não substitui testes automatizados.
 
