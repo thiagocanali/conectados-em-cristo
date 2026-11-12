@@ -35,11 +35,17 @@
 .meeting-context p { margin-top: 16px; }
 .meeting-preparation > * + * { margin-top: 18px; }
 .meeting-advice { padding: 14px; background: var(--cream-dark); border-radius: var(--radius-sm); }
+.study-print { display: none; }
 .path-session-list { list-style: none; padding: 0; margin: 32px 0; }
 .path-session { margin: 28px 0; }
 .path-session h3 { font-size: 1.08rem; }
 @media (max-width: 650px) { .learning-grid { grid-template-columns: 1fr; }.learning-note { padding: 24px; } }
 @media print {
+  .study-back, .study-tools, .study-interactive { display: none !important; }
+  .study-print { display: block; }
+  .study-print h2 { margin: 24px 0 12px; break-after: avoid; }
+  .study-print p { line-height: 1.6; margin: 12px 0; }
+  .study-print li { break-inside: avoid; }
   .navbar, .footer, .skip-link, .guide-controls, .learning-note, .learning-filters, .learning-actions,
   .meeting-page .learning-header, .meeting-conductor { display: none !important; }
   .meeting-print { display: block !important; border: none; padding: 0; margin: 0; }

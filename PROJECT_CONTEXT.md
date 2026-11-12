@@ -4,6 +4,8 @@
 
 ## 1. Identidade do produto
 
+Entrega de 2026-11-12: os estudos agora oferecem uma [folha completa para participantes](docs/participant-study-sheet.md), baixável em TXT e imprimível a partir de qualquer etapa, sem cadastro ou coleta de respostas. A leitura bíblica sem conexão depende da Bíblia de cada participante.
+
 **Visão:** ajudar pessoas a conhecer e seguir Jesus Cristo, aprendendo pelas Escrituras e caminhando em comunidades cristãs que praticam amor, cuidado e serviço. Igrejas e pequenos grupos são parceiros centrais dessa experiência.
 
 **Princípio central:** **Jesus no centro. Aprender juntos. Servir na vida real.** Comunidade primeiro; conexões e relacionamentos são consequências, não o produto principal.
