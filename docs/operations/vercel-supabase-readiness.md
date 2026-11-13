@@ -1,8 +1,17 @@
 # Preparação de API Vercel e PostgreSQL Supabase
 
-Data da inspeção: 2026-11-13. Status: proposta técnica; nenhuma implantação de API, migration remota ou contratação executada.
+Data da inspeção: 2026-11-13. Status: API validada em preview e banco de homologação provisionado; conexão Vercel → PostgreSQL pendente.
 
-Implementação preparada nesta revisão: Function `api/index.mjs`, runtime compartilhado com o servidor local, build TypeScript no deploy e rewrite dedicado para `/api`. Os testes exercitam o adaptador via HTTP real e o entrypoint compilado sem banco. Isso não conclui a integração Supabase: provisionamento, isolamento de schema, credenciais e validação remota continuam pendentes. As evidências abaixo descrevem o baseline anterior a esta revisão.
+Implementação preparada nesta revisão: Function `api/index.mjs`, runtime compartilhado com o servidor local, build TypeScript no deploy e rewrite dedicado para `/api`. A preview do commit `407e2e4` foi validada por HTTP e todo o CI passou. As evidências da próxima seção descrevem o baseline anterior a esta revisão.
+
+## Ambiente Supabase preparado
+
+- Projeto dedicado `conectados-em-cristo`, referência `lsffipvkdpvnwgvdvtni`, organização `thiagocanali's projects`, plano gratuito, São Paulo (`sa-east-1`). Ambiente inicial de homologação, sem dados reais. O usuário autorizou pausar `taskDesk` para liberar a vaga gratuita; sua pausa foi confirmada como `INACTIVE`.
+- Aplicada a migration Supabase `bootstrap_public_catalog_with_restricted_reader`, composta pelo SQL de `server/migrations/0001_create_communities.up.sql` e `server/deployment/supabase-catalog-security.sql`. O histórico remoto é mantido pelo Supabase; não executar o runner local `api:migrate` nesse ambiente sem uma reconciliação explícita dos históricos.
+- Escolhido `public.communities` com RLS habilitada e forçada, sem permissões de tabela para `PUBLIC`, `anon` ou `authenticated`. A Data API não é a interface do produto. O papel `cec_catalog_reader` só pode consultar as colunas necessárias e as linhas ativas/listadas. Não é superusuário, não tem BYPASSRLS nem permissão de escrita; seu LOGIN permanece desativado até o provisionamento da credencial.
+- Teste remoto transacional inseriu três fixtures sintéticas e verificou que o papel da API vê somente a ativa/listada. Escrita e leitura de `created_at` foram recusadas; `anon` e `authenticated` também não puderam ler. A transação foi desfeita e a tabela voltou a zero linhas. O advisor de segurança não retornou avisos após a alteração.
+- A Vercel ainda não tem `DATABASE_URL`. Falta confirmar o hostname/porta do Transaction pooler no painel Supabase autenticado, provisionar uma senha exclusiva para esse papel fora das migrations e salvar a URL como Secret somente na preview desta branch. Nunca solicitar a senha no chat. Não compartilhar essa credencial de homologação com produção.
+- Depois da configuração, gerar nova preview e exigir `GET /api/v1/communities` com 200 JSON e `items: []`, além dos testes de validação/404 e preservação do frontend. Até essa evidência, a integração ponta a ponta permanece incompleta.
 
 ## Evidências
 
@@ -42,7 +51,7 @@ Publicar apenas health check e catálogo público existente, inicialmente com da
 
 ## Decisões que esta preparação não toma
 
-Não seleciona provedor de autenticação, não abre participação online e não altera os gates de privacidade, segurança e operação registrados em `backend.md` e no roadmap. Região, orçamento e destino Supabase ainda precisam ser definidos antes de provisionar.
+Não seleciona provedor de autenticação, não abre participação online e não altera os gates de privacidade, segurança e operação registrados em `backend.md` e no roadmap. O ambiente de homologação foi autorizado no plano gratuito em São Paulo; ambiente e orçamento de produção continuam pendentes.
 
 ## Referências
 

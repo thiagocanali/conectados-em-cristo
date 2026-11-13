@@ -67,7 +67,7 @@ Há testes unitários/contrato em `npm test`, testes Fastify em `npm run api:tes
 
 ## Antes de participação online com dados reais
 
-O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Nenhum provedor remoto ou credencial de backend está configurado neste repositório.
+O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitetura, autenticação segura, backend e persistência, autorização por usuário, privacidade e LGPD, moderação operacional, backups, observabilidade, testes automatizados e processos de resposta a incidentes. Foi provisionado um Supabase gratuito em São Paulo para homologação do catálogo, com RLS e papel restrito; a conexão da API com esse banco ainda está pendente. Veja [estado e verificações da integração](docs/operations/vercel-supabase-readiness.md). Nenhuma credencial deve ser gravada no repositório.
 
 ## Documentação
 
