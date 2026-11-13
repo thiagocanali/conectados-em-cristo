@@ -15,7 +15,7 @@ export function buildRuntimeApp(databaseUrl = process.env.DATABASE_URL, poolMax 
     : undefined
 
   const app = buildApp({
-    ...(pool ? { communityRepository: new PostgresCommunityRepository(pool) } : {})
+    ...(pool ? { communityRepository: new PostgresCommunityRepository(pool), databaseReadinessCheck: async () => { await pool.query('SELECT 1') } } : {})
   })
 
   if (pool) {
