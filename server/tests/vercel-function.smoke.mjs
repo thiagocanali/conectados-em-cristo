@@ -25,14 +25,14 @@ test('built Vercel entrypoint imports and serves JSON without listening or conne
   const catalog = await fetch(`${origin}/api/v1/communities`)
   assert.equal(catalog.status, 503)
   assert.equal((await catalog.json()).status, 503)
-  assert.ok(catalog.headers.get('content-type') ?? ''.includes('application/problem+json'))
+  assert.ok(catalog.headers.get('content-type')?.includes('application/problem+json') === true)
   assert.equal(catalog.headers.get('cache-control'), 'no-store')
   assert.equal(catalog.headers.get('x-content-type-options'), 'nosniff')
   assert.match(catalog.headers.get('x-request-id') ?? '', /^[0-9a-f-]{36}$/i)
 
   const apiRoot = await fetch(`${origin}/api`)
   assert.equal(apiRoot.status, 404)
-  assert.ok(apiRoot.headers.get('content-type') ?? ''.includes('application/problem+json'))
+  assert.ok(apiRoot.headers.get('content-type')?.includes('application/problem+json') === true)
   assert.equal((await apiRoot.json()).status, 404)
 
   const unknown = await fetch(`${origin}/api/v1/inexistente`)
