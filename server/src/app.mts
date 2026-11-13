@@ -61,6 +61,7 @@ interface CommunityListQuery {
 
 export interface AppOptions {
   communityRepository?: CommunityRepository
+  databaseReadinessCheck?: () => Promise<void>
 }
 
 function problemTitle(statusCode: number): string {
@@ -150,6 +151,24 @@ export function buildApp(options: AppOptions = {}): FastifyInstance {
       }
     }
   }, async () => ({ status: 'ok' as const }))
+
+  app.get('/api/v1/health/ready', {
+    schema: {
+      response: {
+        200: liveResponseSchema,
+        503: problemResponseSchema
+      }
+    }
+  }, async (request, reply) => {
+    if (!options.databaseReadinessCheck) return sendProblem(request, reply, 503)
+
+    try {
+      await options.databaseReadinessCheck()
+      return { status: 'ok' as const }
+    } catch {
+      return sendProblem(request, reply, 503)
+    }
+  })
 
   app.get<{ Querystring: CommunityListQuery }>('/api/v1/communities', {
     schema: {

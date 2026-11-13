@@ -14,8 +14,13 @@ export function buildRuntimeApp(databaseUrl = process.env.DATABASE_URL, poolMax 
       })
     : undefined
 
+  const communityRepository = pool ? new PostgresCommunityRepository(pool) : undefined
   const app = buildApp({
-    ...(pool ? { communityRepository: new PostgresCommunityRepository(pool) } : {})
+    ...(communityRepository ? {
+      communityRepository,
+      // Check the exact public catalog query and its column grants, not just SELECT 1.
+      databaseReadinessCheck: async () => { await communityRepository.listPublic({ limit: 1 }) }
+    } : {})
   })
 
   if (pool) {
