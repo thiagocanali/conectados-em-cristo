@@ -2,6 +2,8 @@
 
 Data da inspeção: 2026-11-13. Status: proposta técnica; nenhuma implantação de API, migration remota ou contratação executada.
 
+Implementação preparada nesta revisão: Function `api/index.mjs`, runtime compartilhado com o servidor local, build TypeScript no deploy e rewrite dedicado para `/api`. Os testes exercitam o adaptador via HTTP real e o entrypoint compilado sem banco. Isso não conclui a integração Supabase: provisionamento, isolamento de schema, credenciais e validação remota continuam pendentes. As evidências abaixo descrevem o baseline anterior a esta revisão.
+
 ## Evidências
 
 - O frontend Vue/Vite publica `dist/`. `vercel.json` não publica o backend e seu rewrite abrangente pode responder HTML a `/api/...`.
