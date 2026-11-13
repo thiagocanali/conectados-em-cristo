@@ -16,7 +16,8 @@
     "api:typecheck": "tsc --noEmit -p server/tsconfig.json",
     "api:test": "node --import=tsx --test server/tests/*.test.mts",
     "api:build": "tsc -p server/tsconfig.build.json",
-    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build",
+    "api:check": "npm run api:typecheck && npm run api:test && npm run api:build && npm run api:deployment:test",
+    "api:deployment:test": "node --test server/tests/vercel-function.smoke.mjs",
     "api:migrate": "tsx server/src/db/migrate.mts",
     "api:db:test": "node --import=tsx --test server/tests/*.db.mts",
     "test:e2e": "playwright test"
