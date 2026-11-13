@@ -65,7 +65,7 @@ Não seleciona provedor de autenticação, não abre participação online e nã
 
 ## Atualização de homologação — 2026-11-13 (PR #75)
 
-- A API oferece `GET /api/v1/health/live` para liveness e, após a PR #75, `GET /api/v1/health/ready` para verificar `SELECT 1` no PostgreSQL. O readiness retorna 503 sanitizado se não houver conexão; **200 não substitui** a validação de permissões/RLS do catálogo.
+- A API oferece `GET /api/v1/health/live` para liveness e, após a PR #75, `GET /api/v1/health/ready` para executar a consulta pública real do catálogo no PostgreSQL. O readiness retorna 503 sanitizado se não houver conexão; **200 confirma a consulta e os grants necessários, mas não substitui** a validação de permissões/RLS do catálogo.
 - A inspeção das variáveis na Vercel encontrou `DATABASE_URL` e `DATABASE_SSL_CA` **apenas para preview da branch `docs/vercel-supabase-readiness`**. Portanto, previews de `feat/api-database-readiness` e `test/vercel-api-http-contract` não herdam automaticamente essas variáveis. Não presumir conexão por status READY do deploy.
 - Antes de testar a integração, configurar uma credencial de banco exclusiva, de leitura mínima, no escopo correto de **preview/homologação**. Fazer isso no painel seguro da Vercel, sem copiar o valor para documentação, commits, logs ou frontend. Não reutilizar uma credencial administrativa ou service_role.
 - Validar no preview com escopo correto: `/api/v1/health/live` → 200; `/api/v1/health/ready` → 200; `/api/v1/communities` → 200 JSON `items` (possivelmente vazio); entradas inválidas → 400; IDs desconhecidos → 404. Confirmar que o catálogo não revela linhas não listadas e que o papel do banco não pode escrever.
