@@ -1,6 +1,6 @@
 # Preparação de API Vercel e PostgreSQL Supabase
 
-Data da inspeção: 2026-11-13. Status: API validada em preview e banco de homologação provisionado; conexão Vercel → PostgreSQL pendente.
+Data da inspeção: 2026-11-13. Status: API em preview, banco de homologação e credenciais configurados. Consulte o PR #73 para a evidência HTTP do deployment que contém esta revisão.
 
 Implementação preparada nesta revisão: Function `api/index.mjs`, runtime compartilhado com o servidor local, build TypeScript no deploy e rewrite dedicado para `/api`. A preview do commit `407e2e4` foi validada por HTTP e todo o CI passou. As evidências da próxima seção descrevem o baseline anterior a esta revisão.
 
@@ -8,10 +8,12 @@ Implementação preparada nesta revisão: Function `api/index.mjs`, runtime comp
 
 - Projeto dedicado `conectados-em-cristo`, referência `lsffipvkdpvnwgvdvtni`, organização `thiagocanali's projects`, plano gratuito, São Paulo (`sa-east-1`). Ambiente inicial de homologação, sem dados reais. O usuário autorizou pausar `taskDesk` para liberar a vaga gratuita; sua pausa foi confirmada como `INACTIVE`.
 - Aplicada a migration Supabase `bootstrap_public_catalog_with_restricted_reader`, composta pelo SQL de `server/migrations/0001_create_communities.up.sql` e `server/deployment/supabase-catalog-security.sql`. O histórico remoto é mantido pelo Supabase; não executar o runner local `api:migrate` nesse ambiente sem uma reconciliação explícita dos históricos.
-- Escolhido `public.communities` com RLS habilitada e forçada, sem permissões de tabela para `PUBLIC`, `anon` ou `authenticated`. A Data API não é a interface do produto. O papel `cec_catalog_reader` só pode consultar as colunas necessárias e as linhas ativas/listadas. Não é superusuário, não tem BYPASSRLS nem permissão de escrita; seu LOGIN permanece desativado até o provisionamento da credencial.
+- Escolhido `public.communities` com RLS habilitada e forçada, sem permissões de tabela para `PUBLIC`, `anon` ou `authenticated`. A Data API não é a interface do produto. O papel `cec_catalog_reader` só pode consultar as colunas necessárias e as linhas ativas/listadas. Não é superusuário, não tem BYPASSRLS nem permissão de escrita. O LOGIN foi habilitado em uma operação separada de credencial; nenhuma senha foi registrada em migrations ou no Git.
 - Teste remoto transacional inseriu três fixtures sintéticas e verificou que o papel da API vê somente a ativa/listada. Escrita e leitura de `created_at` foram recusadas; `anon` e `authenticated` também não puderam ler. A transação foi desfeita e a tabela voltou a zero linhas. O advisor de segurança não retornou avisos após a alteração.
-- A Vercel ainda não tem `DATABASE_URL`. Falta confirmar o hostname/porta do Transaction pooler no painel Supabase autenticado, provisionar uma senha exclusiva para esse papel fora das migrations e salvar a URL como Secret somente na preview desta branch. Nunca solicitar a senha no chat. Não compartilhar essa credencial de homologação com produção.
-- Depois da configuração, gerar nova preview e exigir `GET /api/v1/communities` com 200 JSON e `items: []`, além dos testes de validação/404 e preservação do frontend. Até essa evidência, a integração ponta a ponta permanece incompleta.
+- O painel autenticado confirmou `aws-0-sa-east-1.pooler.supabase.com:6543`, banco `postgres`, modo Transaction pooler. Foi configurada uma `DATABASE_URL` Secret, exclusiva da preview da branch `docs/vercel-supabase-readiness`, com senha exclusiva do papel de leitura. Não compartilhar essa credencial de homologação com produção.
+- O Node recusou a cadeia TLS padrão (`SELF_SIGNED_CERT_IN_CHAIN`). O runtime agora aceita `DATABASE_SSL_CA`, com CA oficial obtida no painel em [prod-ca-2021.crt](https://supabase-downloads.s3-ap-southeast-1.amazonaws.com/prod/ssl/prod-ca-2021.crt), e mantém `rejectUnauthorized: true`. Essa CA pública também foi configurada somente na mesma branch. A conexão local ao pooler foi comprovada como `cec_catalog_reader`, com tabela vazia.
+- Quando `DATABASE_SSL_CA` estiver definida, remover parâmetros SSL da URL (incluindo `sslmode`): o driver `pg` pode substituir a configuração SSL inteira ao lê-los. O código rejeita essa combinação para preservar a CA e a validação do certificado; há testes para opções que poderiam desabilitar TLS.
+- Para aceitar cada nova preview, exigir `GET /api/v1/communities` com 200 JSON e `items: []` no banco vazio, além dos testes de validação/404 e preservação do frontend. Registrar commit e URL no PR; não promover produção com credenciais de homologação.
 
 ## Evidências
 
