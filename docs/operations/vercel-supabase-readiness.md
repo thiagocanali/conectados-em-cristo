@@ -1,5 +1,7 @@
 # Preparação de API Vercel e PostgreSQL Supabase
 
+> Atualização de 13/11/2026: o banco antes usado para homologação foi promovido a uso exclusivo de produção. A credencial da preview foi revogada e as variáveis da antiga branch foram esvaziadas. A API de produção foi validada com catálogo 200 JSON. As seções de homologação abaixo documentam a etapa anterior; o estado operacional vigente está em [production-catalog.md](production-catalog.md).
+
 Data da inspeção: 2026-11-13. Status: API em preview, banco de homologação e credenciais configurados. Consulte o PR #73 para a evidência HTTP do deployment que contém esta revisão.
 
 Implementação preparada nesta revisão: Function `api/index.mjs`, runtime compartilhado com o servidor local, build TypeScript no deploy e rewrite dedicado para `/api`. A preview do commit `407e2e4` foi validada por HTTP e todo o CI passou. As evidências da próxima seção descrevem o baseline anterior a esta revisão.
