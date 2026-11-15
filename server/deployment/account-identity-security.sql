@@ -34,6 +34,12 @@ REVOKE ALL ON TABLE public.accounts, public.account_identities
 REVOKE ALL ON TABLE public.accounts, public.account_identities
   FROM cec_catalog_reader;
 
+-- REVOKE ALL ON TABLE does not remove pre-existing column-level grants.
+REVOKE SELECT (id, status, created_at, updated_at) ON public.accounts
+  FROM PUBLIC, anon, authenticated, cec_catalog_reader;
+REVOKE SELECT (provider, subject, account_id, created_at) ON public.account_identities
+  FROM PUBLIC, anon, authenticated, cec_catalog_reader;
+
 -- Provision this NOLOGIN role separately from credentials. It is intentionally
 -- not a BYPASSRLS role and receives read-only column-level grants.
 DO $$
