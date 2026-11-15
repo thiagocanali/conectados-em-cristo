@@ -18,7 +18,7 @@
 
 ## Next controlled stages
 
-1. Create a least-privilege Neon runtime role and versioned security migration; verify privileges with a non-owner connection.
+1. Review and explicitly apply `server/deployment/0002_neon_catalog_security.sql` as a separate security rollout; verify privileges with a non-owner connection. It is intentionally excluded from automatic `api:migrate` runs because the current database integration tests exercise owner writes and require a dedicated RLS test harness.
 2. Prepare Neon-based authentication with a reviewed migration and integration tests, replacing Supabase Auth assumptions.
 3. Configure **branch-scoped preview** `DATABASE_URL` in Vercel secret settings, with SSL verification. Never commit or print a connection string. Keep production settings untouched.
 4. Validate readiness 200, catalog 200, authorization and complete user journeys in a deliberate `[preview]` build only after CI passes.
