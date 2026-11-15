@@ -50,9 +50,10 @@ export async function applyMigrations(pool: Pool, migrationsDirectory = defaultM
 }
 
 async function runCli(): Promise<void> {
-  const connectionString = process.env.DATABASE_URL
+  // Prefer a direct Neon connection for schema migrations; the application may use PgBouncer.
+  const connectionString = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL
   if (!connectionString) {
-    throw new Error('DATABASE_URL is required to run database migrations')
+    throw new Error('DATABASE_URL_UNPOOLED or DATABASE_URL is required to run database migrations')
   }
 
   const pool = new Pool({ connectionString, max: 1, connectionTimeoutMillis: 5000 })
