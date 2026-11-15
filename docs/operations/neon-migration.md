@@ -54,3 +54,11 @@ Executed `server/deployment/verify-neon-baseline.sql` against Neon project `autu
 ### Detailed schema audit (2026-11-15)
 
 Executed `server/deployment/verify-neon-baseline-details.sql` read-only against `conectados`: all **11** full column types (including VARCHAR length limits) and defaults matched the expected baseline, and the partial catalog index predicate/ordering check passed (**12/12 true**). Separately inspected all eight constraint definitions via `pg_get_constraintdef`: primary key, slug uniqueness, slug regex, nonblank name/category and status/visibility/join-mode checks correspond to migration 0001. This does not yet record `schema_migrations`; the baseline guard remains active. Before a baseline write, ensure a reviewed transaction checks schema drift and inserts the history row atomically.
+
+## Batch execution 2026-11-15
+
+1. **Validated:** commit `6c76164a` had six successful GitHub Actions jobs, including Unit tests / API typecheck and build.
+2. **Prepared, not applied:** `server/deployment/reconcile-neon-baseline.sql` is a transactional, fail-closed baseline history procedure. It is intentionally **not** run against Neon yet. First perform complete definition-level comparison of every constraint and default and verify no concurrent schema changes; its current count-based guard alone is insufficient to prove schema equivalence.
+3. **Decision recorded:** `docs/decisions/0015-neon-better-auth.md` supersedes historical D-14 provider preference. Auth integration, email verification, MFA, CSRF and session tests remain pending.
+4. **Next:** add executable baseline definition checks, test reconciliation on disposable PostgreSQL, then run it only in the isolated Neon project after verification. Do not apply against production.
+5. **Next:** implement Better Auth schema and Fastify session adapter with tests. Do not claim registration/login is available before end-to-end verification.
