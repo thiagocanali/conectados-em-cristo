@@ -24,7 +24,7 @@ export async function applyMigrations(pool: Pool, migrationsDirectory = defaultM
       )
     `)
 
-    for (const file of files) {
+    // Reject untracked pre-existing schemas instead of attempting a destructive or\n    // partially conflicting bootstrap migration. Neon was provisioned separately.\n    const history = await client.query('SELECT count(*)::int AS count FROM schema_migrations')\n    if (history.rows[0].count === 0 && files.includes('0001_create_communities.up.sql')) {\n      const existingCatalog = await client.query("SELECT to_regclass('public.communities') AS name")\n      if (existingCatalog.rows[0].name !== null) {\n        throw new Error('Existing communities schema has no migration history; reconcile baseline before running migrations')\n      }\n    }\n\n    for (const file of files) {
       const version = file.slice(0, -'.up.sql'.length)
       const existing = await client.query(
         'SELECT version FROM schema_migrations WHERE version = $1',
