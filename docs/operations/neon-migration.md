@@ -77,3 +77,15 @@ Executed `server/deployment/verify-neon-baseline-details.sql` read-only against 
 3. Establish an isolated Neon development branch and reconcile only that branch after schema validation.
 4. Implement versioned Better Auth tables and secure server session integration with tests.
 5. Validate RLS using a restricted database role; keep preview traffic disabled until verified.
+
+## Isolated Neon validation branch results (2026-11-15)
+
+Created Neon child branch `validation/auth-migration` (`br-soft-rain-b62fnq1z`) from the project's default branch. All following writes were confined to this disposable validation branch; the project's default `main` branch was not modified.
+
+- Reconciled `0001_create_communities` baseline in one transaction using `server/deployment/reconcile-neon-baseline-v2.sql`. The first two script iterations exposed real SQL defects (nested dollar-quote delimiters and index predicate matching); the final v2 script was corrected and executed successfully. Verified `schema_migrations` contains exactly `0001_create_communities`.
+- Applied catalog grants and RLS to the validation branch only. Enabled and forced RLS, created `cec_catalog_reader` as NOLOGIN/NOBYPASSRLS, revoked PUBLIC table privileges, and granted read-only column access.
+- Seeded one listed and one unlisted test community in the validation branch. Under `SET ROLE cec_catalog_reader`, the SELECT returned only `rls-listed`; privilege checks returned `can_insert=false`, `can_update=false`, `can_delete=false`.
+- Important: the Neon database owner `conectados_owner` has `rolbypassrls=true`. **The application must never connect as the owner.** A dedicated LOGIN role without BYPASSRLS, granted membership in the reader role, must be provisioned securely before preview integration. The membership grant used to test `SET ROLE` exists only on the validation branch.
+- The validation branch was created with a compute endpoint. Remove it only after retaining evidence and explicit cleanup authorization; no cleanup was performed in this run.
+
+The original Neon default branch remains unchanged: baseline history absent and RLS disabled. No production/Supabase changes were made.
