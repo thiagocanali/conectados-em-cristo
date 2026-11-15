@@ -95,3 +95,10 @@ The original Neon default branch remains unchanged: baseline history absent and 
 After the child-branch experiment, a separate read-only query against Neon default branch `main` confirmed `communities` still has `relrowsecurity=false`, `relforcerowsecurity=false`, and `to_regclass('public.schema_migrations') IS NULL`. This matches the pre-test state and proves the baseline/RLS experiment did not mutate the default branch.
 
 Canonical baseline script for future disposable branches: `server/deployment/reconcile-neon-baseline-v2.sql`. Earlier `reconcile-neon-baseline.sql`, `reconcile-neon-baseline-validated.sql`, and `reconcile-neon-baseline-final.sql` are superseded experiments and must not be used.
+
+## Cleanup and current checkpoint (2026-11-15)
+
+- Removed three superseded experimental baseline scripts; `server/deployment/reconcile-neon-baseline-v2.sql` is the only canonical reconciliation script retained.
+- Isolated Neon child branch baseline and RLS tests succeeded. Default Neon branch remains untouched, verified separately.
+- PR #83 latest HEAD at checkpoint: `ce9b6a759ae636b5bb15bb58520e33955b842444`; mergeable=true. GitHub returned no check-runs for this exact SHA yet, so current CI is pending/unavailable, not passed.
+- Remaining external gate: provision a dedicated Neon LOGIN role and store its credential as a branch-scoped Vercel secret. Never configure the app with `conectados_owner` (BYPASSRLS). No connection string/password is committed or printed.
