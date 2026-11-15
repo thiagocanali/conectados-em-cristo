@@ -43,3 +43,43 @@ test('readiness does not disclose connection errors or secrets', async () => {
     await app.close()
   }
 })
+
+test('readiness rejects SQL permission failures without leaking query details', async () => {
+  const app = buildApp({
+    databaseReadinessCheck: async () => {
+      const error = new Error('permission denied for relation communities: private-schema')
+      Object.assign(error, { code: '42501' })
+      throw error
+    }
+  })
+  try {
+    const response = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.equal(response.statusCode, 503)
+    assert.equal(response.json().status, 503)
+    assert.equal(response.body.includes('private-schema'), false)
+    assert.equal(response.body.includes('communities'), false)
+  } finally {
+    await app.close()
+  }
+})
+
+test('readiness checks the database again on every request', async () => {
+  let attempts = 0
+  const app = buildApp({
+    databaseReadinessCheck: async () => {
+      attempts += 1
+      if (attempts === 2) throw new Error('temporary outage')
+    }
+  })
+  try {
+    const first = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    const second = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    const third = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.deepEqual([first.statusCode, second.statusCode, third.statusCode], [200, 503, 200])
+    assert.equal(attempts, 3)
+    assert.equal(first.headers['cache-control'], 'no-store')
+    assert.equal(second.headers['cache-control'], 'no-store')
+  } finally {
+    await app.close()
+  }
+})
