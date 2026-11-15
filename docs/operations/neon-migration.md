@@ -62,3 +62,18 @@ Executed `server/deployment/verify-neon-baseline-details.sql` read-only against 
 3. **Decision recorded:** `docs/decisions/0015-neon-better-auth.md` supersedes historical D-14 provider preference. Auth integration, email verification, MFA, CSRF and session tests remain pending.
 4. **Next:** add executable baseline definition checks, test reconciliation on disposable PostgreSQL, then run it only in the isolated Neon project after verification. Do not apply against production.
 5. **Next:** implement Better Auth schema and Fastify session adapter with tests. Do not claim registration/login is available before end-to-end verification.
+
+## Batch follow-up: migration guard and RLS audit (2026-11-15)
+
+- Fixed migration guard to check for the specific `0001_create_communities` history version rather than merely an empty history table. Regression test now inserts an unrelated migration version and asserts that an existing catalog still blocks bootstrap.
+- Neon read-only RLS inspection found `communities.relrowsecurity=false`, `relforcerowsecurity=false`, and **zero policies**. This is an **unresolved security gate**, not evidence that public catalog access is safe. The deployment SQL `server/deployment/0002_neon_catalog_security.sql` remains unapplied; do not expose the database to preview traffic until least-privilege grants and non-owner integration tests pass.
+- Added `server/deployment/audit-neon-rls.sql` for repeatable read-only diagnostics.
+- Do not apply baseline reconciliation to Neon until the current SQL script is strengthened to compare exact definitions and tested on disposable PostgreSQL. No production changes authorized.
+
+### Next five executable tasks
+
+1. Confirm CI of the current PR HEAD and fix failures.
+2. Add exact definition-level fail-closed validation to the baseline reconciliation SQL and test on disposable PostgreSQL.
+3. Establish an isolated Neon development branch and reconcile only that branch after schema validation.
+4. Implement versioned Better Auth tables and secure server session integration with tests.
+5. Validate RLS using a restricted database role; keep preview traffic disabled until verified.
