@@ -93,6 +93,8 @@ function isDatabaseUnavailable(error: unknown): boolean {
 
   return error.code.startsWith('08') ||
     error.code === '57P01' ||
+    error.code === '42501' || // missing runtime grants: service is not ready
+    error.code === '42P01' || // missing catalog table / unapplied migration
     ['ECONNREFUSED', 'ETIMEDOUT', 'EHOSTUNREACH'].includes(error.code)
 }
 
