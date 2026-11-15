@@ -32,7 +32,8 @@ export async function applyMigrations(pool: Pool, migrationsDirectory = defaultM
       if (existingCatalog.rows[0].name !== null) {
         throw new Error('Existing communities schema has no migration history; reconcile baseline before running migrations')
       }
-    }\n
+    }
+
     for (const file of files) {
       const version = file.slice(0, -'.up.sql'.length)
       const existing = await client.query(
