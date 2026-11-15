@@ -199,3 +199,37 @@ test('cursor names PostgreSQL cannot represent are rejected as client errors', a
     await app.close()
   }
 })
+
+test('readiness executes the actual PostgreSQL catalog query through Fastify', async () => {
+  const repository = new PostgresCommunityRepository(pool)
+  const app = buildApp({
+    communityRepository: repository,
+    databaseReadinessCheck: async () => { await repository.listPublic({ limit: 1 }) }
+  })
+  try {
+    const ready = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.equal(ready.statusCode, 200)
+    assert.deepEqual(ready.json(), { status: 'ok' })
+    const catalog = await app.inject({ method: 'GET', url: '/api/v1/communities?limit=1' })
+    assert.equal(catalog.statusCode, 200)
+    assert.equal(catalog.json().items.length, 1)
+  } finally {
+    await app.close()
+  }
+})
+
+test('readiness reports 503 when PostgreSQL catalog query cannot execute', async () => {
+  const app = buildApp({
+    databaseReadinessCheck: async () => {
+      await pool.query('SELECT missing_readiness_relation FROM nonexistent_readiness_table')
+    }
+  })
+  try {
+    const response = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.equal(response.statusCode, 503)
+    assert.equal(response.json().status, 503)
+    assert.equal(response.body.includes('nonexistent_readiness_table'), false)
+  } finally {
+    await app.close()
+  }
+})
