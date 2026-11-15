@@ -50,3 +50,7 @@ Executed `server/deployment/verify-neon-baseline.sql` against Neon project `autu
 | P0 | Neon preview connection | Blocked | Configure dedicated scoped secrets without touching production; run hosted readiness and catalog checks |
 | P1 | Remove Supabase dependencies | Pending | Audit remaining PRs/docs and replace only after functional parity |
 | P1 | Full regression and rollout | Pending | Validate latest CI SHA, preview journeys and rollback; production requires separate approval |
+
+### Detailed schema audit (2026-11-15)
+
+Executed `server/deployment/verify-neon-baseline-details.sql` read-only against `conectados`: all **11** full column types (including VARCHAR length limits) and defaults matched the expected baseline, and the partial catalog index predicate/ordering check passed (**12/12 true**). Separately inspected all eight constraint definitions via `pg_get_constraintdef`: primary key, slug uniqueness, slug regex, nonblank name/category and status/visibility/join-mode checks correspond to migration 0001. This does not yet record `schema_migrations`; the baseline guard remains active. Before a baseline write, ensure a reviewed transaction checks schema drift and inserts the history row atomically.
