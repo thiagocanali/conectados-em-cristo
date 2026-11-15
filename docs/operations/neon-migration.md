@@ -89,3 +89,9 @@ Created Neon child branch `validation/auth-migration` (`br-soft-rain-b62fnq1z`) 
 - The validation branch was created with a compute endpoint. Remove it only after retaining evidence and explicit cleanup authorization; no cleanup was performed in this run.
 
 The original Neon default branch remains unchanged: baseline history absent and RLS disabled. No production/Supabase changes were made.
+
+### Main-branch isolation check
+
+After the child-branch experiment, a separate read-only query against Neon default branch `main` confirmed `communities` still has `relrowsecurity=false`, `relforcerowsecurity=false`, and `to_regclass('public.schema_migrations') IS NULL`. This matches the pre-test state and proves the baseline/RLS experiment did not mutate the default branch.
+
+Canonical baseline script for future disposable branches: `server/deployment/reconcile-neon-baseline-v2.sql`. Earlier `reconcile-neon-baseline.sql`, `reconcile-neon-baseline-validated.sql`, and `reconcile-neon-baseline-final.sql` are superseded experiments and must not be used.
