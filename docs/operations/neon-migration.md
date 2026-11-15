@@ -31,3 +31,7 @@ The database schema was provisioned via the Neon SQL API. Its versioned migratio
 After the reviewed security script is applied, run `server/deployment/verify-neon-catalog-security.sql` as an administrative read-only query. All returned booleans must be true. This verifies role attributes, forced RLS, the catalog SELECT policy, and absence of write privileges. Separately test that a dedicated non-owner login can read listed communities but cannot access draft/unlisted rows or perform writes; a role grant audit alone does not prove end-to-end row isolation.
 
 **CI evidence:** PR #83 commit `b3a70455` passed all six GitHub Actions checks. Later commits require their own checks before they can be marked validated.
+
+## Bootstrap migration safety
+
+The CLI now rejects a database where `public.communities` already exists but the migration history is empty. This applies to the Neon project created during this migration: **do not execute `npm run api:migrate` against its main branch yet**. Reconcile the baseline only after verifying the live schema against `0001_create_communities.up.sql` and recording `0001_create_communities` in `schema_migrations` through a reviewed, transactional administrative procedure. Never drop the existing table to make migrations pass. This safeguard does not replace a complete schema-drift audit.
