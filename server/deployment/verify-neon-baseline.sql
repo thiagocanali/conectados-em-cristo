@@ -40,6 +40,6 @@ UNION ALL
 SELECT 'index', 'communities_public_catalog_order_idx',
        to_regclass('public.communities_public_catalog_order_idx') IS NOT NULL
 UNION ALL
-SELECT 'migration_history', '0001_create_communities',
+SELECT 'history_table_present', 'schema_migrations',
        EXISTS (SELECT 1 FROM information_schema.tables
                WHERE table_schema='public' AND table_name='schema_migrations');
