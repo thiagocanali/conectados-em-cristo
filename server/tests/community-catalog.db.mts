@@ -54,16 +54,18 @@ test('migration runner refuses existing catalog without baseline history', async
   const existing = await pool.query("SELECT version FROM schema_migrations WHERE version = '0001_create_communities'")
   assert.equal(existing.rowCount, 1)
   await pool.query("DELETE FROM schema_migrations WHERE version = '0001_create_communities'")
+  await pool.query("INSERT INTO schema_migrations(version) VALUES ('9999_unrelated_history')")
   try {
     await assert.rejects(
       applyMigrations(pool),
       /Existing communities schema has no migration history/
     )
     const history = await pool.query("SELECT count(*)::int AS count FROM schema_migrations")
-    assert.equal(history.rows[0].count, 0)
+    assert.equal(history.rows[0].count, 1)
     const catalog = await pool.query("SELECT to_regclass('public.communities') AS name")
     assert.equal(catalog.rows[0].name, 'communities')
   } finally {
+    await pool.query("DELETE FROM schema_migrations WHERE version = '9999_unrelated_history'")
     await pool.query("INSERT INTO schema_migrations (version) VALUES ('0001_create_communities') ON CONFLICT DO NOTHING")
   }
 })
