@@ -83,3 +83,26 @@ test('readiness checks the database again on every request', async () => {
     await app.close()
   }
 })
+
+test('catalog fails with 503 for missing grants or unapplied schema', async () => {
+  for (const code of ['42501', '42P01']) {
+    const app = buildApp({
+      communityRepository: {
+        listPublic: async () => {
+          const error = new Error('private database detail')
+          Object.assign(error, { code })
+          throw error
+        },
+        getPublicById: async () => null
+      }
+    })
+    try {
+      const response = await app.inject({ method: 'GET', url: '/api/v1/communities' })
+      assert.equal(response.statusCode, 503)
+      assert.equal(response.json().status, 503)
+      assert.equal(response.body.includes('private database detail'), false)
+    } finally {
+      await app.close()
+    }
+  }
+})
