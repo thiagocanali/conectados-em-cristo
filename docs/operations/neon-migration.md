@@ -25,3 +25,9 @@
 5. Audit old Supabase dependencies, rollback plan, backup/restore and data ownership before requesting any production cutover.
 
 The database schema was provisioned via the Neon SQL API. Its versioned migration file already exists in Git, but Neon does not yet contain the app migration runner's `schema_migrations` history. Reconcile that history before running `npm run api:migrate` against Neon. Never run destructive local test migrations against this project.
+
+## Security validation gate
+
+After the reviewed security script is applied, run `server/deployment/verify-neon-catalog-security.sql` as an administrative read-only query. All returned booleans must be true. This verifies role attributes, forced RLS, the catalog SELECT policy, and absence of write privileges. Separately test that a dedicated non-owner login can read listed communities but cannot access draft/unlisted rows or perform writes; a role grant audit alone does not prove end-to-end row isolation.
+
+**CI evidence:** PR #83 commit `b3a70455` passed all six GitHub Actions checks. Later commits require their own checks before they can be marked validated.
