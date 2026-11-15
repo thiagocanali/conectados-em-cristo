@@ -26,12 +26,13 @@ export function databasePoolConfig(databaseUrl: string, poolMax: number, sslCa?:
 export function buildRuntimeApp(databaseUrl = process.env.DATABASE_URL, poolMax = 10, sslCa = process.env.DATABASE_SSL_CA) {
   const pool = databaseUrl ? new Pool(databasePoolConfig(databaseUrl, poolMax, sslCa)) : undefined
 
+  const communityRepository = pool ? new PostgresCommunityRepository(pool) : undefined
   const app = buildApp({
-    ...(pool ? {
-      communityRepository: new PostgresCommunityRepository(pool),
+    ...(communityRepository ? {
+      communityRepository,
       databaseReadinessCheck: async () => {
         // Exercise the actual catalog query and its column-level grants.
-        await new PostgresCommunityRepository(pool).listPublic({ limit: 1 })
+        await communityRepository.listPublic({ limit: 1 })
       }
     } : {})
   })
