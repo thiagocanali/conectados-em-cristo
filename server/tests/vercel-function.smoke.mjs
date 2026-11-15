@@ -28,7 +28,7 @@ test('built Vercel entrypoint imports and serves JSON without listening or conne
   assert.equal(readinessProblem.status, 503)
   assert.equal(readinessProblem.title, 'Service Unavailable')
   assert.equal(readinessProblem.instance, '/api/v1/health/ready')
-  assert.match(readiness.headers.get('content-type') ?? '', /^application\\/problem\\+json/)
+  assert.equal(readiness.headers.get('content-type')?.startsWith('application/problem+json'), true)
   assert.equal(readiness.headers.get('cache-control'), 'no-store')
   assert.ok(readiness.headers.get('x-request-id'))
   const secondReadiness = await fetch(`${origin}/api/v1/health/ready`)
