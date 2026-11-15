@@ -19,6 +19,17 @@ WHERE n.nspname = 'public'
     OR has_table_privilege('cec_catalog_reader', c.oid, 'SELECT')
   )
 UNION ALL
+-- Table-level SELECT checks alone miss column-level grants.
+SELECT 'public_column_grant', c.table_name || '.' || c.column_name
+FROM information_schema.columns AS c
+WHERE c.table_schema = 'public'
+  AND c.table_name IN ('accounts', 'account_identities')
+  AND (
+    has_column_privilege('anon', format('%I.%I', c.table_schema, c.table_name), c.column_name, 'SELECT')
+    OR has_column_privilege('authenticated', format('%I.%I', c.table_schema, c.table_name), c.column_name, 'SELECT')
+    OR has_column_privilege('cec_catalog_reader', format('%I.%I', c.table_schema, c.table_name), c.column_name, 'SELECT')
+  )
+UNION ALL
 SELECT 'missing_identity_reader', 'cec_identity_reader'
 WHERE NOT EXISTS (
   SELECT 1 FROM pg_roles
