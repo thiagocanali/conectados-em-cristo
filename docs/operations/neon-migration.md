@@ -35,3 +35,18 @@ After the reviewed security script is applied, run `server/deployment/verify-neo
 ## Bootstrap migration safety
 
 The CLI now rejects a database where `public.communities` already exists but the migration history is empty. This applies to the Neon project created during this migration: **do not execute `npm run api:migrate` against its main branch yet**. Reconcile the baseline only after verifying the live schema against `0001_create_communities.up.sql` and recording `0001_create_communities` in `schema_migrations` through a reviewed, transactional administrative procedure. Never drop the existing table to make migrations pass. This safeguard does not replace a complete schema-drift audit.
+
+## Baseline audit evidence (2026-11-15)
+
+Executed `server/deployment/verify-neon-baseline.sql` against Neon project `autumn-wildflower-26404631`, database `conectados` using read-only SQL. All 11 expected column names/types/nullability, eight expected named constraints, and the catalog index returned `valid=true`. `history_table_present` returned `false`, as expected before migration history reconciliation. The query checks *existence*, not full constraint/index expressions or column length/defaults; compare full `pg_get_constraintdef`, `pg_get_indexdef`, defaults and character limits before recording the baseline. No schema or data was modified during this audit.
+
+### Living work queue
+
+| Priority | Task | Status | Evidence / next action |
+|---|---|---|---|
+| P0 | Neon baseline reconciliation | In progress | Columns, named constraints and index verified; audit expressions/defaults and then record history transactionally |
+| P0 | Independent authentication | Pending | Choose and implement Better Auth + PostgreSQL, secure sessions, password reset and verification; test end to end |
+| P0 | Per-user authorization | Pending | Build identity schema and non-owner integration tests before activating RLS |
+| P0 | Neon preview connection | Blocked | Configure dedicated scoped secrets without touching production; run hosted readiness and catalog checks |
+| P1 | Remove Supabase dependencies | Pending | Audit remaining PRs/docs and replace only after functional parity |
+| P1 | Full regression and rollout | Pending | Validate latest CI SHA, preview journeys and rollback; production requires separate approval |
