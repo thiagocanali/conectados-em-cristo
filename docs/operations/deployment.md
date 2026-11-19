@@ -1,5 +1,11 @@
 # Deploy
 
+## Catálogo em produção — atualização de 13/11/2026
+
+O PR #80 foi integrado em `618ece68cf4553b14b33eb9cc8dfa30175d70491`. O deployment `dpl_4tVSVH3wYJoFGGJpwnjQBoLXuXuk` ficou READY e o domínio `conectados-em-cristo.vercel.app` respondeu catálogo 200 JSON com `items: []`, health 200, parâmetros inválidos 400 e rota de API desconhecida 404 JSON. A página inicial respondeu 200 HTML. O Supabase agora é exclusivo de produção, com credencial própria; o papel da preview foi revogado. Consulte [operação e rollback do catálogo](production-catalog.md).
+
+As observações abaixo sobre ausência de backend remoto são o histórico anterior a essa publicação.
+
 ## Configuração atual do repositório
 - `npm run build` usa Vite 6 e gera `dist/`.
 - `.github/workflows/deploy.yml` configura publicação do `dist/` no branch `gh-pages` quando há push em `main`.
