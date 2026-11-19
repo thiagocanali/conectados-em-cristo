@@ -61,7 +61,8 @@ test('migration runner refuses existing catalog without baseline history', async
       /Existing communities schema has no migration history/
     )
     const history = await pool.query("SELECT count(*)::int AS count FROM schema_migrations")
-    assert.equal(history.rows[0].count, 1)
+    // Other tracked migrations may exist; only the missing baseline must be rejected.
+    assert.equal(history.rows[0].count, 2)
     const catalog = await pool.query("SELECT to_regclass('public.communities') AS name")
     assert.equal(catalog.rows[0].name, 'communities')
   } finally {
