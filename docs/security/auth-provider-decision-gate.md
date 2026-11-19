@@ -1,3 +1,5 @@
+> **Atualização 2026-11-15:** a diretriz de migração para Neon e retirada do Supabase substitui a shortlist histórica deste documento. A decisão de implementação está em `docs/decisions/0015-neon-better-auth.md`. Os gates de segurança, e-mail, MFA, privacidade e testes continuam obrigatórios; esta página é preservada como registro histórico.
+
 # D-14 — Gate de seleção do provedor de autenticação
 
 - Revisão: 2026-11-08
