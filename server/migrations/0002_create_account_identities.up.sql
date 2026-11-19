@@ -32,8 +32,23 @@ ALTER TABLE public.account_identities FORCE ROW LEVEL SECURITY;
 
 -- Supabase projects may have default privileges on newly created public tables.
 -- Explicitly remove direct public access before any identity records exist.
-REVOKE ALL ON TABLE public.accounts, public.account_identities
-  FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON TABLE public.accounts, public.account_identities FROM PUBLIC;
+
+-- Standalone PostgreSQL does not define Supabase's anon/authenticated roles.
+-- Revoke those grants when the roles exist, without creating privileged roles.
+DO $
+DECLARE role_name text;
+BEGIN
+  FOREACH role_name IN ARRAY ARRAY['anon', 'authenticated'] LOOP
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = role_name) THEN
+      EXECUTE format(
+        'REVOKE ALL ON TABLE public.accounts, public.account_identities FROM %I',
+        role_name
+      );
+    END IF;
+  END LOOP;
+END
+$;
 
 -- No SELECT policies are installed by this migration: deny by default.
 -- Apply and verify dedicated reader grants only after security review.
