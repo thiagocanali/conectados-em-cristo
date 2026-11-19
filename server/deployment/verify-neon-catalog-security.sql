@@ -16,7 +16,6 @@ SELECT
      'id', 'slug', 'name', 'category', 'description', 'rules_summary',
      'join_mode', 'status', 'catalog_visibility'
    ]) AS permitted(column_name)) AS reader_can_select_catalog_columns,
-  NOT has_column_privilege('cec_catalog_reader', 'public.communities', 'owner_id', 'SELECT') AS reader_cannot_select_owner_id,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'INSERT') AS reader_cannot_insert,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'UPDATE') AS reader_cannot_update,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'DELETE') AS reader_cannot_delete;
