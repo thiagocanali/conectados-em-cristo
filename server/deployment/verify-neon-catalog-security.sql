@@ -9,7 +9,14 @@ SELECT
           WHERE schemaname = 'public' AND tablename = 'communities'
             AND policyname = 'communities_catalog_read'
             AND cmd = 'SELECT' AND 'cec_catalog_reader' = ANY(roles)) AS catalog_select_policy_present,
-  has_table_privilege('cec_catalog_reader', 'public.communities', 'SELECT') AS reader_can_select,
+  -- SELECT is granted per column, so has_table_privilege(..., 'SELECT')
+  -- is false even when the intended catalog projection is readable.
+  (SELECT bool_and(has_column_privilege('cec_catalog_reader', 'public.communities', column_name, 'SELECT'))
+   FROM unnest(ARRAY[
+     'id', 'slug', 'name', 'category', 'description', 'rules_summary',
+     'join_mode', 'status', 'catalog_visibility'
+   ]) AS permitted(column_name)) AS reader_can_select_catalog_columns,
+  NOT has_column_privilege('cec_catalog_reader', 'public.communities', 'owner_id', 'SELECT') AS reader_cannot_select_owner_id,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'INSERT') AS reader_cannot_insert,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'UPDATE') AS reader_cannot_update,
   NOT has_table_privilege('cec_catalog_reader', 'public.communities', 'DELETE') AS reader_cannot_delete;
