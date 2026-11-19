@@ -24,7 +24,7 @@ before(async () => {
   await pool.query('DROP TABLE IF EXISTS schema_migrations CASCADE')
   await pool.query('DROP TABLE IF EXISTS communities CASCADE')
   const results = await Promise.all([applyMigrations(pool), applyMigrations(pool)])
-  assert.deepEqual(results.flat(), ['0001_create_communities'])
+  assert.deepEqual(results.flat(), ['0001_create_communities', '0002_create_account_identities'])
 
   const fixtures = [
     ['alpha', 'Alpha', 'Estudo', 'active', 'listed', 'open'],
