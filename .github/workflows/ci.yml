@@ -82,8 +82,10 @@ jobs:
         run: npm test
       - name: Validate local API
         run: npm run api:check
-      - name: Validate PostgreSQL migrations and repository
-        run: npm run api:db:test
+      - name: Validate PostgreSQL migrations, repositories and repeatable test setup
+        run: |
+          npm run api:db:test
+          npm run api:db:test
 
   public-e2e:
     name: Public browser journeys (${{ matrix.hosting }})
