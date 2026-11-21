@@ -8,7 +8,7 @@ O Conectados em Cristo ajuda pessoas e comunidades cristãs a conhecer Jesus pel
 
 Este repositório oferece **estudos bíblicos públicos e preparação de roteiros de encontro**, além de protótipos locais legados e uma prova técnica de API. Ainda não é uma comunidade online operacional. A aplicação é uma SPA em Vue 3 com Vue Router 4, Vite 6, CSS próprio e rotas em hash.
 
-Cadastro, sessão, perfis, questionários e interações do frontend são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. Há um backend Fastify local com health check e catálogo público somente leitura ligado a PostgreSQL quando `DATABASE_URL` está configurada; não há autenticação de servidor, administração de comunidades, memberships, conteúdo compartilhado ou moderação remota.
+Cadastro, sessão, perfis, questionários e interações do frontend são demonstrativos e ficam no navegador, principalmente em `localStorage` e `sessionStorage`. O acesso demonstrativo identifica um perfil local por e-mail e **não autentica a identidade do usuário**. Senhas não são solicitadas nem persistidas. O backend Fastify roda localmente e como Function Vercel, com health checks e catálogo público somente leitura ligado a PostgreSQL. Existem componentes de validação de identidade e consulta de conta, mas não estão ligados ao runtime ou a rotas protegidas. Não há login remoto operacional, administração de comunidades, memberships, conteúdo compartilhado ou moderação remota.
 
 > **Aviso:** não use o protótipo para armazenar dados sensíveis ou informações pessoais reais. A sessão local pode ser falsificada e não protege rotas nem dados; ela existe apenas para experimentar a interface. Não reutilize senhas.
 
@@ -91,6 +91,8 @@ O produto precisará, no mínimo, de decisões aprovadas sobre escopo e arquitet
 
 ## API e catálogo local
 
+O catálogo também está [publicado em produção](docs/operations/production-catalog.md). O baseline de contas/identidades e seus adapters existem, mas não há login remoto ou rotas protegidas integradas. Consulte a [revisão de continuidade de 21/11](docs/operations/resumption-review-2026-11-21.md).
+
 O backend Fastify oferece health check e leitura pública do catálogo de comunidades. O catálogo exige PostgreSQL local; sem `DATABASE_URL`, as rotas de catálogo retornam 503 em vez de fingir uma lista vazia.
 
 1. Instale dependências: `npm ci`.
@@ -112,4 +114,4 @@ O banco começa vazio; ainda não existe endpoint administrativo para cadastrar 
 
 ### Testes PostgreSQL
 
-`npm run api:db:test` executa testes destrutivos de migration/schema e exige um banco local separado cujo nome termine em `_test` (por exemplo, `conectados_test`). O teste remove e recria as tabelas `communities` e `schema_migrations`; nunca aponte essa variável para banco de desenvolvimento ou produção. O CI usa um serviço PostgreSQL efêmero.
+`npm run api:db:test` executa testes destrutivos de migration/schema e exige um banco local separado cujo nome termine em `_test` (por exemplo, `conectados_test`). O teste remove e recria `communities`, `accounts`, `account_identities` e `schema_migrations`; nunca aponte essa variável para banco de desenvolvimento ou produção. O CI usa um serviço PostgreSQL efêmero. A suíte deve poder ser executada duas vezes consecutivas no mesmo banco. Os cenários de identidade usam transações revertidas, dados sintéticos e papéis locais sem credenciais; verificam os scripts reais de grants/auditoria e a consulta do adapter com permissões restritas.
