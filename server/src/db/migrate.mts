@@ -24,6 +24,21 @@ export async function applyMigrations(pool: Pool, migrationsDirectory = defaultM
       )
     `)
 
+    // Reject untracked pre-existing schemas instead of attempting a destructive or
+    // partially conflicting bootstrap migration. Neon was provisioned separately.
+    if (files.includes('0001_create_communities.up.sql')) {
+      const baseline = await client.query(
+        'SELECT version FROM schema_migrations WHERE version = $1',
+        ['0001_create_communities']
+      )
+      if (baseline.rowCount === 0) {
+        const existingCatalog = await client.query("SELECT to_regclass('public.communities') AS name")
+        if (existingCatalog.rows[0].name !== null) {
+          throw new Error('Existing communities schema has no migration history; reconcile baseline before running migrations')
+        }
+      }
+    }
+
     for (const file of files) {
       const version = file.slice(0, -'.up.sql'.length)
       const existing = await client.query(
@@ -50,9 +65,10 @@ export async function applyMigrations(pool: Pool, migrationsDirectory = defaultM
 }
 
 async function runCli(): Promise<void> {
-  const connectionString = process.env.DATABASE_URL
+  // Prefer a direct Neon connection for schema migrations; the application may use PgBouncer.
+  const connectionString = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL
   if (!connectionString) {
-    throw new Error('DATABASE_URL is required to run database migrations')
+    throw new Error('DATABASE_URL_UNPOOLED or DATABASE_URL is required to run database migrations')
   }
 
   const pool = new Pool({ connectionString, max: 1, connectionTimeoutMillis: 5000 })
