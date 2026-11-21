@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-**Prova local de API implementada.** Fastify oferece GET /api/v1/health/live e catálogo público somente leitura (`GET /api/v1/communities` e `GET /api/v1/communities/{communityId}`) com PostgreSQL quando `DATABASE_URL` está configurada. Há migration inicial de comunidades e testes com PostgreSQL efêmero no CI. Não há provedor remoto, autenticação real, gestão administrativa, membership, conteúdo compartilhado ou autorização de domínio.
+**API de leitura publicada.** Fastify oferece health/live, health/ready e catálogo público somente leitura (`GET /api/v1/communities` e `GET /api/v1/communities/{communityId}`), com runtime compartilhado entre servidor local e Function Vercel. O catálogo de produção usa Supabase/PostgreSQL, papel restrito e TLS validado. Migrations versionam comunidades e o baseline de contas/identidades; testes usam PostgreSQL efêmero. Verificador Supabase, gateway de principal e adapter de identidade existem separadamente, sem integração no runtime/rotas. Não há login remoto operacional, gestão administrativa, membership, conteúdo compartilhado ou autorização de domínio integrada. Ver [revisão de continuidade](../operations/resumption-review-2026-11-21.md).
 
 ## Direção técnica aprovada
 
