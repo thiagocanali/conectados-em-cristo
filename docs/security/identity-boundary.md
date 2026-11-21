@@ -1,7 +1,7 @@
 # Fronteira interna de identidade e contas
 
-- Revisão: 2026-11-07
-- Estado: proposta arquitetural; não implementada.
+- Revisão: 2026-11-21
+- Estado: baseline parcialmente implementado; sem login operacional ou integração nas rotas.
 - Dependências: ADR-0005/D-14 (provedor de autenticação), F-05 (privacidade), F-06 (18+) e matriz de autorização.
 
 ## Objetivo
@@ -9,6 +9,14 @@
 Separar a identidade autenticada pelo provedor da conta interna do Conectados em Cristo. A aplicação precisa manter IDs próprios e regras de domínio portáveis, sem usar e-mail ou ID externo como chave de autorização.
 
 ## Modelo recomendado
+
+### Baseline executável confirmado
+
+A migration `0002_create_account_identities` cria `accounts` (UUID, status e timestamps) e `account_identities` (chave provider/subject, vínculo único provider/account e FK com exclusão restrita). O provider aceito neste baseline é `supabase`. RLS é habilitada e forçada; nenhuma política de leitura é criada pela migration. O script de preparação separado concede somente as colunas necessárias a `cec_identity_reader`, sem LOGIN ou BYPASSRLS.
+
+`supabase-verifier.mts`, `principal-gateway.mts` e `postgres-identity-repository.mts` implementam peças separadas da resolução. O runtime atual publica apenas health/catalog e não as conecta a rotas protegidas. Os testes PostgreSQL cobrem consulta real, estados inativos, vínculo removido, negação por RLS, permissões mínimas e auditoria de grants. O verificador do provedor é simulado nesses cenários; eles não comprovam sessão remota ou revogação no provedor.
+
+O modelo abaixo descreve a direção mais ampla. `auth_identities` é o nome conceitual usado originalmente; o nome físico versionado é `account_identities`. Campos adicionais de ciclo de vida, perfis, consentimentos e migração entre provedores não estão implementados. Nenhuma aplicação remota de identidade foi confirmada nesta revisão.
 
 ### `accounts`
 
@@ -80,4 +88,4 @@ O provedor autentica. A API e o banco do produto autorizam.
 - Esquema final de accounts, auth_identities e consent_records.
 - Webhooks e reconciliação de contas apagadas/desativadas pelo provedor.
 
-Nenhuma migration dessas tabelas deve ser criada antes da seleção do provedor, revisão de privacidade/jurídica e definição do ciclo de vida.
+O baseline já está versionado. Sua existência não autoriza cadastro, coleta de dados reais ou implantação de identidade em produção: seleção operacional, revisão de privacidade/jurídica, ciclo de vida e validação isolada continuam gates para essa integração.

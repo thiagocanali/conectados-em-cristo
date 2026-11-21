@@ -1,12 +1,15 @@
 import test, { before, after } from 'node:test'
 import assert from 'node:assert/strict'
-import { Pool } from 'pg'
-import { mkdtemp, writeFile, rm } from 'node:fs/promises'
+import { Pool, type PoolClient } from 'pg'
+import { mkdtemp, writeFile, rm, readFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { applyMigrations } from '../src/db/migrate.mjs'
 import { PostgresCommunityRepository } from '../src/communities/community-repository.mjs'
 import { buildApp } from '../src/app.mjs'
+import { PostgresIdentityRepository } from '../src/auth/postgres-identity-repository.mjs'
+import { createAuthenticatedPrincipalResolver } from '../src/auth/principal-gateway.mjs'
+import { ACCOUNT_STATUSES, AccountUnavailableError, IdentityResolutionError } from '../src/auth/identity.mjs'
 
 const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) throw new Error('DATABASE_URL is required for database integration tests')
@@ -21,10 +24,13 @@ let publicIds: string[] = []
 let hiddenId = ''
 
 before(async () => {
+  // Reset dependent identity tables too: migration 0002 must run on each invocation.
+  await pool.query('DROP TABLE IF EXISTS account_identities')
+  await pool.query('DROP TABLE IF EXISTS accounts')
   await pool.query('DROP TABLE IF EXISTS schema_migrations CASCADE')
   await pool.query('DROP TABLE IF EXISTS communities CASCADE')
   const results = await Promise.all([applyMigrations(pool), applyMigrations(pool)])
-  assert.deepEqual(results.flat(), ['0001_create_communities'])
+  assert.deepEqual(results.flat(), ['0001_create_communities', '0002_create_account_identities'])
 
   const fixtures = [
     ['alpha', 'Alpha', 'Estudo', 'active', 'listed', 'open'],
@@ -70,6 +76,176 @@ test('migration runner refuses existing catalog without baseline history', async
     await pool.query("DELETE FROM schema_migrations WHERE version = '9999_unrelated_history'")
     await pool.query("INSERT INTO schema_migrations (version) VALUES ('0001_create_communities') ON CONFLICT DO NOTHING")
   }
+})
+
+// Keep identity checks in this runner: two destructive suites must not reset
+// the same database concurrently. Every identity fixture/role/policy rolls back.
+async function withIdentityTransaction(run: (client: PoolClient) => Promise<void>) {
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    await run(client)
+  } finally {
+    await client.query('ROLLBACK')
+    client.release()
+  }
+}
+
+async function expectSqlError(client: PoolClient, sql: string, code: string) {
+  await client.query('SAVEPOINT expected_error')
+  try {
+    await assert.rejects(client.query(sql), { code })
+  } finally {
+    await client.query('ROLLBACK TO SAVEPOINT expected_error')
+    await client.query('RELEASE SAVEPOINT expected_error')
+  }
+}
+
+async function prepareIdentityReader(client: PoolClient) {
+  // Supabase role names, without credentials or Supabase services. All changes
+  // live inside the surrounding transaction on the guarded local test DB.
+  await client.query(`DO $$ BEGIN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'anon') THEN CREATE ROLE anon NOLOGIN; END IF;
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'authenticated') THEN CREATE ROLE authenticated NOLOGIN; END IF;
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'cec_catalog_reader') THEN CREATE ROLE cec_catalog_reader NOLOGIN; END IF;
+  END $$`)
+  const sql = await readFile(new URL('../deployment/account-identity-security.sql', import.meta.url), 'utf8')
+  // Execute the actual deployment body, preserving DO blocks; the test owns
+  // BEGIN/ROLLBACK so the script cannot commit fixtures or roles.
+  await client.query(sql.replace(/^(?:BEGIN|COMMIT);\r?$/gm, ''))
+}
+
+test('account migration enforces pending defaults, lifecycle states and identity constraints', async () => {
+  await withIdentityTransaction(async client => {
+    const result = await client.query('INSERT INTO accounts DEFAULT VALUES RETURNING id, status')
+    const accountId = result.rows[0].id
+    assert.equal(result.rows[0].status, 'pending_verification')
+    for (const status of ACCOUNT_STATUSES) {
+      await client.query('UPDATE accounts SET status = $1 WHERE id = $2', [status, accountId])
+    }
+    await expectSqlError(client, "INSERT INTO accounts (status) VALUES ('unknown')", '23514')
+    await expectSqlError(client, "INSERT INTO account_identities VALUES ('other', 'subject', gen_random_uuid(), now())", '23514')
+    await expectSqlError(client, "INSERT INTO account_identities VALUES ('supabase', '', gen_random_uuid(), now())", '23514')
+    await expectSqlError(client, "INSERT INTO account_identities VALUES ('supabase', repeat('a', 256), gen_random_uuid(), now())", '23514')
+    await expectSqlError(client, "INSERT INTO account_identities VALUES ('supabase', 'orphan', gen_random_uuid(), now())", '23503')
+    await client.query("INSERT INTO account_identities (provider, subject, account_id) VALUES ('supabase', 'original', $1)", [accountId])
+    await expectSqlError(client, "INSERT INTO account_identities (provider, subject, account_id) SELECT provider, subject, account_id FROM account_identities", '23505')
+    await expectSqlError(client, "INSERT INTO account_identities (provider, subject, account_id) SELECT provider, 'another-subject', account_id FROM account_identities", '23505')
+    await expectSqlError(client, 'DELETE FROM accounts', '23503')
+  })
+})
+
+test('migration enables forced RLS and denies rows even after a SELECT grant without a policy', async () => {
+  await withIdentityTransaction(async client => {
+    const flags = await client.query("SELECT relrowsecurity, relforcerowsecurity FROM pg_class WHERE oid IN ('accounts'::regclass, 'account_identities'::regclass)")
+    assert.equal(flags.rowCount, 2)
+    assert.ok(flags.rows.every(row => row.relrowsecurity && row.relforcerowsecurity))
+    const policies = await client.query("SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename IN ('accounts', 'account_identities')")
+    assert.equal(policies.rowCount, 0)
+    await client.query('INSERT INTO accounts DEFAULT VALUES')
+    await client.query('CREATE ROLE cec_identity_denied_probe NOLOGIN NOSUPERUSER NOBYPASSRLS')
+    await client.query('GRANT USAGE ON SCHEMA public TO cec_identity_denied_probe')
+    await client.query('GRANT SELECT ON accounts, account_identities TO cec_identity_denied_probe')
+    await client.query('SET LOCAL ROLE cec_identity_denied_probe')
+    assert.equal((await client.query('SELECT * FROM accounts')).rowCount, 0)
+    await expectSqlError(client, 'INSERT INTO accounts DEFAULT VALUES', '42501')
+  })
+})
+
+test('real identity lookup resolves only the exact mapping and never creates an unmapped account', async () => {
+  await withIdentityTransaction(async client => {
+    await prepareIdentityReader(client)
+    const result = await client.query("INSERT INTO accounts (status) VALUES ('active'), ('active') RETURNING id")
+    const [first, second] = result.rows.map(row => row.id)
+    await client.query("INSERT INTO account_identities (provider, subject, account_id) VALUES ('supabase', 'first', $1), ('supabase', 'second', $2)", [first, second])
+    await client.query('SET LOCAL ROLE cec_identity_reader')
+    const repository = new PostgresIdentityRepository(client)
+    assert.deepEqual(await repository.findAccountByIdentity({ provider: 'supabase', subject: 'first' }), { id: first, status: 'active' })
+    assert.deepEqual(await repository.findAccountByIdentity({ provider: 'supabase', subject: 'second' }), { id: second, status: 'active' })
+    for (const identity of [{ provider: 'other', subject: 'first' }, { provider: 'supabase', subject: "first' OR true --" }, { provider: 'supabase', subject: 'unknown' }]) {
+      assert.equal(await repository.findAccountByIdentity(identity), null)
+    }
+    assert.equal((await client.query('SELECT id FROM accounts')).rowCount, 2)
+  })
+})
+
+test('principal resolver rechecks persisted lifecycle and deleted mappings on every call', async () => {
+  await withIdentityTransaction(async client => {
+    await prepareIdentityReader(client)
+    const accountId = (await client.query("INSERT INTO accounts (status) VALUES ('active') RETURNING id")).rows[0].id
+    await client.query("INSERT INTO account_identities (provider, subject, account_id) VALUES ('supabase', 'verified-subject', $1)", [accountId])
+    const identity = { provider: 'supabase', subject: 'verified-subject' }
+    // Provider is deliberately stubbed: these are DB integration tests, not an
+    // assertion of remote token/session verification or an operational login.
+    const resolve = createAuthenticatedPrincipalResolver(async () => identity, new PostgresIdentityRepository(client))
+    await client.query('SET LOCAL ROLE cec_identity_reader')
+    assert.equal((await resolve('Bearer synthetic')).accountId, accountId)
+    for (const status of ACCOUNT_STATUSES.filter(value => value !== 'active')) {
+      await client.query('RESET ROLE')
+      await client.query('UPDATE accounts SET status = $1 WHERE id = $2', [status, accountId])
+      await client.query('SET LOCAL ROLE cec_identity_reader')
+      await assert.rejects(resolve('Bearer synthetic'), AccountUnavailableError)
+    }
+    await client.query('RESET ROLE')
+    await client.query("UPDATE accounts SET status = 'active' WHERE id = $1", [accountId])
+    await client.query('SET LOCAL ROLE cec_identity_reader')
+    assert.equal((await resolve('Bearer synthetic')).accountId, accountId)
+    await client.query('RESET ROLE')
+    await client.query('DELETE FROM account_identities WHERE account_id = $1', [accountId])
+    await client.query('SET LOCAL ROLE cec_identity_reader')
+    await assert.rejects(resolve('Bearer synthetic'), IdentityResolutionError)
+  })
+})
+
+test('deployment script revokes legacy table and column grants and restricts the identity reader', async () => {
+  await withIdentityTransaction(async client => {
+    await client.query('CREATE ROLE anon NOLOGIN')
+    await client.query('GRANT SELECT (id) ON accounts TO anon')
+    await client.query('GRANT SELECT ON account_identities TO PUBLIC')
+    await prepareIdentityReader(client)
+    const audit = await readFile(new URL('../deployment/verify-account-identity-security.sql', import.meta.url), 'utf8')
+    assert.deepEqual((await client.query(audit)).rows, [])
+    for (const role of ['anon', 'authenticated', 'cec_catalog_reader']) {
+      await client.query(`SET LOCAL ROLE ${role}`)
+      await expectSqlError(client, 'SELECT id FROM accounts', '42501')
+      await expectSqlError(client, 'SELECT subject FROM account_identities', '42501')
+      await client.query('RESET ROLE')
+    }
+    await client.query('SET LOCAL ROLE cec_identity_reader')
+    await client.query('SELECT id, status FROM accounts')
+    await client.query('SELECT provider, subject, account_id FROM account_identities')
+    for (const sql of ['SELECT * FROM accounts', 'SELECT created_at FROM account_identities', 'INSERT INTO accounts DEFAULT VALUES', "UPDATE accounts SET status = 'active'", 'DELETE FROM accounts', 'TRUNCATE accounts CASCADE']) {
+      await expectSqlError(client, sql, '42501')
+    }
+  })
+})
+
+test('security audit detects a leaked column grant and removal of forced RLS', async () => {
+  await withIdentityTransaction(async client => {
+    await prepareIdentityReader(client)
+    const audit = await readFile(new URL('../deployment/verify-account-identity-security.sql', import.meta.url), 'utf8')
+    await client.query('GRANT SELECT (subject) ON account_identities TO anon')
+    await client.query('ALTER TABLE accounts NO FORCE ROW LEVEL SECURITY')
+    const issues = (await client.query(audit)).rows
+    assert.ok(issues.some(row => row.issue === 'forbidden_column_privilege' && row.object_name === 'account_identities.subject:anon:SELECT'))
+    assert.ok(issues.some(row => row.issue === 'missing_rls' && row.object_name === 'accounts'))
+    await client.query('DROP TABLE account_identities, accounts')
+    const missing = (await client.query(audit)).rows.filter(row => row.issue === 'missing_table')
+    assert.deepEqual(missing.map(row => row.object_name).sort(), ['account_identities', 'accounts'])
+  })
+})
+
+test('identity baseline down/up scripts are reversible in an isolated empty schema', async () => {
+  await withIdentityTransaction(async client => {
+    const down = await readFile(new URL('../migrations/0002_create_account_identities.down.sql', import.meta.url), 'utf8')
+    const up = await readFile(new URL('../migrations/0002_create_account_identities.up.sql', import.meta.url), 'utf8')
+    await client.query(down)
+    assert.equal((await client.query("SELECT to_regclass('accounts') AS relation")).rows[0].relation, null)
+    await client.query(up)
+    assert.equal((await client.query('SELECT count(*)::integer AS total FROM accounts')).rows[0].total, 0)
+    assert.equal((await client.query('SELECT count(*)::integer AS total FROM account_identities')).rows[0].total, 0)
+    assert.notEqual((await client.query("SELECT to_regclass('communities') AS relation")).rows[0].relation, null)
+  })
 })
 
 test('migration runner is repeatable and does not reapply an existing migration', async () => {
@@ -217,6 +393,40 @@ test('cursor names PostgreSQL cannot represent are rejected as client errors', a
       assert.equal(response.statusCode, 400)
       assert.equal(response.json().detail, 'The request could not be processed.')
     }
+  } finally {
+    await app.close()
+  }
+})
+
+test('readiness executes the actual PostgreSQL catalog query through Fastify', async () => {
+  const repository = new PostgresCommunityRepository(pool)
+  const app = buildApp({
+    communityRepository: repository,
+    databaseReadinessCheck: async () => { await repository.listPublic({ limit: 1 }) }
+  })
+  try {
+    const ready = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.equal(ready.statusCode, 200)
+    assert.deepEqual(ready.json(), { status: 'ok' })
+    const catalog = await app.inject({ method: 'GET', url: '/api/v1/communities?limit=1' })
+    assert.equal(catalog.statusCode, 200)
+    assert.equal(catalog.json().items.length, 1)
+  } finally {
+    await app.close()
+  }
+})
+
+test('readiness reports 503 when PostgreSQL catalog query cannot execute', async () => {
+  const app = buildApp({
+    databaseReadinessCheck: async () => {
+      await pool.query('SELECT missing_readiness_relation FROM nonexistent_readiness_table')
+    }
+  })
+  try {
+    const response = await app.inject({ method: 'GET', url: '/api/v1/health/ready' })
+    assert.equal(response.statusCode, 503)
+    assert.equal(response.json().status, 503)
+    assert.equal(response.body.includes('nonexistent_readiness_table'), false)
   } finally {
     await app.close()
   }

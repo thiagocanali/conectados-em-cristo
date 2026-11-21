@@ -30,7 +30,7 @@ Testes unitários cobrem a volta de estudo/duração entre link e seleção, ent
 - `npm run build` executa `vite build`.
 - O CI executa lint, unitários/API/PostgreSQL, build, auditoria npm e testes Playwright públicos em jobs separados. Os jobs E2E cobrem Chromium desktop/móvel sobre duas bases de hospedagem.
 - A auditoria publica artefato JSON temporário por 14 dias; o job falha para vulnerabilidades altas/críticas (`npm audit --audit-level=high`) e não executa atualizações automáticas.
-- A integração API/PostgreSQL agora cobre somente o catálogo público F-07 em banco efêmero. Ainda não há integração de autenticação remota, memberships e outros domínios persistentes. Há políticas/carregadores unitários e E2E públicos; isso não equivale a cobertura de autorização real ou acessibilidade completa.
+- A integração PostgreSQL cobre catálogo F-07 e o baseline de contas/identidades em banco efêmero. A suíte verifica constraints, RLS forçada sem políticas, scripts reais de grants/auditoria, lookup por identidade e recusa de contas inativas/vínculos removidos com leitor restrito. Rode duas vezes no mesmo banco para validar a limpeza das tabelas. Não execute duas instâncias simultaneamente contra o mesmo banco. Os testes de identidade simulam o verificador externo; não há integração de autenticação remota, memberships ou outros domínios persistentes. Isso não equivale a cobertura de login operacional ou acessibilidade completa.
 
 A suíte atual é pequena e não representa cobertura dos fluxos completos do produto. A revisão visual/manual não substitui testes automatizados.
 

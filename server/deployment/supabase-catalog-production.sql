@@ -1,0 +1,11 @@
+CREATE ROLE cec_catalog_production_reader NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS CONNECTION LIMIT 10;
+ALTER ROLE cec_catalog_production_reader SET search_path = public, pg_catalog;
+ALTER ROLE cec_catalog_production_reader SET statement_timeout = '5s';
+ALTER ROLE cec_catalog_production_reader SET default_transaction_read_only = on;
+GRANT USAGE ON SCHEMA public TO cec_catalog_production_reader;
+GRANT SELECT (id, slug, name, category, description, rules_summary, join_mode, status, catalog_visibility) ON public.communities TO cec_catalog_production_reader;
+ALTER POLICY catalog_reader_public_communities ON public.communities TO cec_catalog_production_reader;
+ALTER POLICY catalog_reader_public_communities ON public.communities RENAME TO catalog_production_reader_public_communities;
+GRANT cec_catalog_production_reader TO postgres;
+REVOKE SELECT (id, slug, name, category, description, rules_summary, join_mode, status, catalog_visibility) ON public.communities FROM cec_catalog_reader;
+ALTER ROLE cec_catalog_reader NOLOGIN PASSWORD NULL;

@@ -1,6 +1,6 @@
 # Conectados em Cristo — Contexto do Projeto
 
-> **Fonte de verdade operacional e de produto.** Atualizado em 2026-11-11. Este documento distingue explicitamente o que existe, o que é direção aprovada e o que continua pendente.
+> **Fonte de verdade operacional e de produto.** Reconciliado em 2026-11-21 com o código da main até `af65f54` e os testes de integração desta revisão. Este documento distingue o que existe, o que é direção aprovada e o que continua pendente.
 
 ## 1. Identidade do produto
 
@@ -34,21 +34,23 @@ O repositório contém uma **jornada pública de estudos bíblicos e preparaçã
 - Monólito modular.
 - API REST versionada em /api/v1.
 - Health check.
-- Catálogo público de comunidades com PostgreSQL local.
+- Catálogo público de comunidades com PostgreSQL local e Supabase de produção.
 - Problem Details sanitizados e request IDs.
-- Migrations locais.
+- Function Vercel e runtime compartilhado; readiness executa a consulta real do catálogo. Migrations são explícitas, fora do build/requisições.
 - Testes Fastify e integração PostgreSQL.
 
 ### Banco
 - PostgreSQL é a tecnologia aprovada.
-- A migration executável atual cobre comunidades do catálogo.
-- Não existe banco remoto provisionado.
-- O schema físico completo de contas, identidades, perfis, memberships, blocos, conteúdo, oração e moderação ainda não foi implementado.
+- Migrations versionadas cobrem comunidades e o baseline de `accounts`/`account_identities`, com RLS forçada e sem políticas de acesso por padrão nas tabelas de identidade.
+- Supabase de produção em São Paulo identificado em [production-catalog.md](docs/operations/production-catalog.md); catálogo somente leitura, com TLS validado e credenciais exclusivas de produção. Previews não têm acesso remoto.
+- Não foi verificado nesta revisão que o baseline de identidade tenha sido aplicado remotamente. Perfis, memberships, blocos, conteúdo, oração e moderação persistentes continuam pendentes.
 
 ### Autenticação e identidade
 - Estratégia de autenticação gerenciada aprovada.
 - Supabase Auth e Clerk são a shortlist documentada; nenhum provedor foi selecionado.
 - Conta interna UUID e vínculo externo provider/subject são a direção aprovada.
+- Implementados separadamente: verificador Supabase por consulta ao servidor, composição de principal e adapter PostgreSQL. Não estão ligados a `buildRuntimeApp` ou às rotas de `buildApp`; não implicam seleção operacional completa do provedor.
+- Testes PostgreSQL executam a consulta real com leitor restrito e verificam estados de conta, perda de vínculo, RLS e grants. A verificação remota de token é simulada nesses testes.
 - Não há login real, sessão real, recuperação, verificação de e-mail ou MFA operacional.
 
 ### Autorização
@@ -63,7 +65,9 @@ Existem políticas puras e carregadores provider-neutral testados para:
 
 Ainda não há adapter persistente geral nem integração dessas políticas nas rotas de domínio.
 
-### Atualização técnica após as PRs #64–#67
+### Histórico técnico após as PRs #64–#67 (superado onde indicado acima)
+
+Os itens abaixo registram a situação de 11/11, antes da implantação Fastify/Supabase. Não descrevem a produção atual nem a contagem atual de testes.
 - Produção Vercel confirmada; o build publicado é a SPA. A API Fastify não é servida por esse build estático.
 - Migrations locais serializadas e com rollback do lote; paginação compatível com nomes Unicode.
 - Identidade/políticas/carregadores validam fatos em runtime, negando dados incompletos ou de tipos incorretos.
@@ -74,7 +78,7 @@ Ainda não há adapter persistente geral nem integração dessas políticas nas 
 
 ### Proteção E2E do núcleo público — 2026-11-12
 
-O CI executa Playwright sobre build/prévia de produção, em Chromium desktop e móvel, com bases Vercel e GitHub Pages. Cobre seis jornadas por perfil/base (24 execuções): estudos, encontro, caminhada, download, impressão, recuperação de links e navegação. Erros de página e escritas no armazenamento são observados pela fixture. Não usa identidade/banco reais nem valida provedores externos. Ver ADR-0009.
+O CI executa Playwright sobre build/prévia de produção, em Chromium desktop e móvel, com bases Vercel e GitHub Pages. Após a PR #72, cobre sete jornadas por perfil/base (28 execuções): estudos, folha do participante, encontro, caminhada, download, impressão, recuperação de links e navegação. Erros de página e escritas no armazenamento são observados pela fixture. Não usa identidade/banco reais nem valida provedores externos. Ver ADR-0009.
 
 ## 3. Jornada pública e recursos legados
 
@@ -171,11 +175,11 @@ Consultar OPEN_DECISIONS.md e os ADRs para decisões formais.
 
 ## 8. Pendências bloqueadoras
 
-- D-13: fornecedor/região/custo do PostgreSQL.
+- D-13: Supabase gratuito em São Paulo já utilizado para o catálogo; requisitos de backup, disponibilidade e evolução para participação real permanecem pendentes.
 - D-14: fornecedor de autenticação e detalhes de sessão.
 - D-15: storage.
 - D-16: e-mail.
-- D-17: hospedagem.
+- D-17: SPA/API publicadas na Vercel; requisitos operacionais para participação real continuam pendentes.
 - D-18: capacidade e operação de moderação.
 - D-19: verificação de idade.
 - D-20: revisão jurídica.
@@ -198,10 +202,10 @@ Documentos históricos podem conter ideias antigas. Quando houver conflito, prev
 
 ## 10. Próxima ordem de execução
 
-1. Fechar o bloqueador atual de validação/documentação.
-2. Implementar contexto de autorização para oração e consolidar contratos de fatos confiáveis.
-3. Preparar persistência física de identidade/contas somente após gates de fornecedor, privacidade e operação.
-4. Integrar identidade → contexto confiável → política → rota.
+1. Consolidar a validação isolada do baseline de identidade e reconciliar a documentação; ver [revisão de retomada](docs/operations/resumption-review-2026-11-21.md).
+2. Revisar os gates de autenticação, ambiente isolado, credenciais específicas e ciclo de vida antes de conectar os adapters existentes.
+3. Integrar identidade confiável e consulta de conta às rotas protegidas com testes HTTP negativos; não reaproveitar o leitor público do catálogo para identidades.
+4. Integrar contexto confiável → política → rota. Validar revogação e isolamento entre contas.
 5. Construir perfil e membership persistentes.
 6. Construir conteúdo comunitário com autorização e testes negativos.
 7. Operacionalizar denúncias, bloqueios, moderação e auditoria.

@@ -5,6 +5,10 @@ on:
     branches:
       - main   # roda sempre que fizer push no main
 
+concurrency:
+  group: github-pages-production
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
